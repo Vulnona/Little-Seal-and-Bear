@@ -1,5 +1,7 @@
 from math import pow, sqrt
 
+surface = pygame.image.load('beispiel.png').convert()
+
 class clsRechteck(object):
     def __init__(self, a, b):
         self.kanteA = a
