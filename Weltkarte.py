@@ -1,0 +1,9 @@
+GRASS=0
+HIGHGRASS=1
+WATER=3
+
+titlemap=[
+    [GRASS, GRASS, HIGHGRASS]
+    [WATER, GRASS, GRASS]
+    [WATER, ]
+]
