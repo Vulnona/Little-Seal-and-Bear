@@ -7,7 +7,7 @@ import Weltkarte
 
 
 pygame.init()
-surfacemap=pygame.display.set_mode((Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE))
+SURFACE=pygame.display.set_mode((Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE))
 
 
 # surface = pygame.image.load('beispiel.png').convert()
@@ -19,7 +19,7 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    for column in range(Weltkarte.MAPWIDTH):
-        for row in range(Weltkarte.MAPHEIGHT):
-            pygame.draw.rect(surfacemap, Weltkarte.colours[Weltkarte.titlemap[row][column]], column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE)
+    for row in range(Weltkarte.MAPHEIGHT):
+        for column in range(Weltkarte.MAPWIDTH):
+            pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
     pygame.display.update()

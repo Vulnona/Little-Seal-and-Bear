@@ -14,7 +14,7 @@ colours={
 }
 
 TILESIZE=20
-MAPWIDTH=4
+MAPWIDTH=3
 MAPHEIGHT=4
 
 titlemap=[
