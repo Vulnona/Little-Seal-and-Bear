@@ -1,6 +1,8 @@
-import pygame
-import sys
-#sys brauchen wir um später wieder rauszukommen...
+import pygame, sys 
 
+
+pygame.init()
 surface = pygame.image.load('beispiel.png').convert()
+
+pygame.display.set_caption("Beispiel")
 
