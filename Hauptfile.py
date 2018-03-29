@@ -3,6 +3,7 @@ from pygame.locals import *
 import Weltkarte
 import CharakterForm
 import Interaktion
+import LevelupForm
 
 
 #colour resource: https://www.rapidtables.com/web/color/RGB_Color.html
@@ -41,8 +42,10 @@ while True:
                 else:
                     Weltkarte.inventory[currentTile]+=1
                     Weltkarte.tilemap[CharakterForm.POSITION[1]][CharakterForm.POSITION[0]]=Weltkarte.DIRT
-            if(event.key==K_KP_ENTER):
-                Interaktion.Agieren()
+            if(event.key==K_e):
+                #Interaktion.Agieren()
+                varstern = LevelupForm.STAR
+                SURFACE.blit(varstern, (CharakterForm.POSITION[0],CharakterForm.POSITION[1]))
     for row in range(Weltkarte.MAPHEIGHT):
         for column in range(Weltkarte.MAPWIDTH):
             #pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
