@@ -20,8 +20,28 @@ INVENTARFONT=pygame.font.Font('customfont.ttf',18)
 # surface = pygame.image.load('beispiel.png').convert()
 
 pygame.display.set_caption("Beispiel")
+blackbar=pygame.Rect(0,400,Weltkarte.MAPWIDTH*Weltkarte.TILESIZE,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE)
+interagierenbutton = pygame.Rect(480, 420, 80, 20)
 
 while True:
+    for row in range(Weltkarte.MAPHEIGHT):
+        for column in range(Weltkarte.MAPWIDTH):
+            #pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+            SURFACE.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE))
+            pygame.draw.rect(SURFACE, [0, 0, 0], blackbar)
+    SURFACE.blit(CharakterForm.CHARACTER,(CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
+    placePosition=50
+    #SURFACE.blit(XXX)
+    #https://stackoverflow.com/questions/37800894/what-is-surface-blit-function-in-python-what-does-it-do-how-it-works
+    for item in Weltkarte.collectableres:
+        SURFACE.blit(Weltkarte.snippets[item],(placePosition,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+20))
+        placePosition+=30
+        textObjekt=INVENTARFONT.render(str(Weltkarte.inventory[item]),True,WHITE,BLACK)
+        SURFACE.blit(textObjekt,(placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+        placePosition+=50
+
+    pygame.draw.rect(SURFACE, [255, 0, 0], interagierenbutton)
+
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -46,18 +66,5 @@ while True:
                 #Interaktion.Agieren()
                 varstern = LevelupForm.STAR
                 SURFACE.blit(varstern, (CharakterForm.POSITION[0],CharakterForm.POSITION[1]))
-    for row in range(Weltkarte.MAPHEIGHT):
-        for column in range(Weltkarte.MAPWIDTH):
-            #pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-            SURFACE.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE))
-    SURFACE.blit(CharakterForm.CHARACTER,(CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
-    placePosition=50
-    #SURFACE.blit(XXX)
-    #https://stackoverflow.com/questions/37800894/what-is-surface-blit-function-in-python-what-does-it-do-how-it-works
-    for item in Weltkarte.collectableres:
-        SURFACE.blit(Weltkarte.snippets[item],(placePosition,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+20))
-        placePosition+=30
-        textObjekt=INVENTARFONT.render(str(Weltkarte.inventory[item]),True,WHITE,BLACK)
-        SURFACE.blit(textObjekt,(placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-        placePosition+=50
+
     pygame.display.update()
