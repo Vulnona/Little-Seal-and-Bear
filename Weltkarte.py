@@ -1,9 +1,11 @@
+#robbie is working
 import pygame
 from pygame.locals import *
+import random
+
 
 pygame.init()
 
-#robbie is working
 GRASS=0
 HIGHGRASS=1
 WATER=3
@@ -24,13 +26,17 @@ textures={
     WATER : pygame.image.load('watertexture.png')
 }
 
-TILESIZE=20
-MAPWIDTH=3
-MAPHEIGHT=4
+TILESIZE=50
+MAPWIDTH=20
+MAPHEIGHT=15
 
-titlemap=[
-    [GRASS, GRASS, HIGHGRASS],
-    [WATER, GRASS, GRASS],
-    [WATER, WATER, GRASS],
-    [WATER, HIGHGRASS, GRASS]
-]
+resources=[GRASS,HIGHGRASS,WATER]
+
+#titlemap=[
+#    [GRASS, GRASS, HIGHGRASS],
+#    [WATER, GRASS, GRASS],
+#    [WATER, WATER, GRASS],
+#    [WATER, HIGHGRASS, GRASS]
+#]
+
+tilemap=[[GRASS for w in range(MAPWIDTH)]for h in range(MAPHEIGHT)]

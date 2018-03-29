@@ -22,5 +22,5 @@ while True:
     for row in range(Weltkarte.MAPHEIGHT):
         for column in range(Weltkarte.MAPWIDTH):
             #pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-            SURFACE.blit(Weltkarte.textures[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE))
+            SURFACE.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE))
     pygame.display.update()
