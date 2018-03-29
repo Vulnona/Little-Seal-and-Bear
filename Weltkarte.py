@@ -8,11 +8,13 @@ pygame.init()
 
 GRASS=0
 HIGHGRASS=1
+DIRT=2
 WATER=3
 
 GREEN=(0,255,0)
 DARKGREEN=(34,139,34)
 BLUE=(0,0,255)
+BROWN=(139,69,19)
 
 #colours={
 #    GRASS : GREEN,
@@ -23,14 +25,27 @@ BLUE=(0,0,255)
 textures={
     GRASS : pygame.image.load('grasstexture.png'),
     HIGHGRASS : pygame.image.load('highgrasstexture.png'),
+    DIRT : pygame.image.load('dirttexture.jpg'),
     WATER : pygame.image.load('watertexture.png')
 }
 
-TILESIZE=60
-MAPWIDTH=20
-MAPHEIGHT=15
+grasssnippet=pygame.image.load('grasstexture.png')
+grasssnippet=pygame.transform.scale(grasssnippet,(20,20))
+highgrasssnippet=pygame.image.load('highgrasstexture.png')
+highgrasssnippet=pygame.transform.scale(highgrasssnippet,(20,20))
 
-resources=[GRASS,HIGHGRASS,WATER]
+snippets=(grasssnippet,highgrasssnippet)
+
+TILESIZE=20
+MAPWIDTH=30
+MAPHEIGHT=20
+
+resources=[GRASS,HIGHGRASS,DIRT,WATER]
+collectableres=[GRASS,HIGHGRASS]
+inventory={
+    GRASS:0,
+    HIGHGRASS:0
+}
 
 #titlemap=[
 #    [GRASS, GRASS, HIGHGRASS],
