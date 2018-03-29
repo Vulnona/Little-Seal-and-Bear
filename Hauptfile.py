@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 import Weltkarte
+import LevelupForm
 
 
 #colour resource: https://www.rapidtables.com/web/color/RGB_Color.html

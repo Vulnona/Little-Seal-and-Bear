@@ -24,7 +24,7 @@ textures={
     WATER : pygame.image.load('watertexture.png')
 }
 
-TILESIZE=20
+TILESIZE=50
 MAPWIDTH=3
 MAPHEIGHT=4
 
