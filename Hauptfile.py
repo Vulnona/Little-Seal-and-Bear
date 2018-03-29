@@ -20,6 +20,15 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        elif event.type==KEYDOWN:
+            if(event.key==K_RIGHT and CharakterForm.POSITION[0]<Weltkarte.MAPWIDTH-1):
+                CharakterForm.POSITION[0]+=1
+            if(event.key==K_LEFT and CharakterForm.POSITION[0]>0):
+                CharakterForm.POSITION[0]-=1
+            if(event.key==K_DOWN and CharakterForm.POSITION[1]<Weltkarte.MAPHEIGHT-1):
+                CharakterForm.POSITION[1]+=1
+            if(event.key==K_UP and CharakterForm.POSITION[1]>0):
+                CharakterForm.POSITION[1]-=1
     for row in range(Weltkarte.MAPHEIGHT):
         for column in range(Weltkarte.MAPWIDTH):
             #pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
