@@ -12,6 +12,9 @@ DARK=(105,105,105)
 BRIGHT=(255,248,220)
 WHITE=(255,255,255)
 BLACK=(0,0,0)
+GOLD = (255, 215,   0)
+DARKRED = (139, 0, 0)
+LevelupForm_pointlist = [(55, 20), (75, 80), (20, 40), (80, 40), (35, 80)]
 
 pygame.init()
 SURFACE=pygame.display.set_mode((Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50))
