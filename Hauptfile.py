@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 import Weltkarte
+import CharakterForm
 
 
 #colour resource: https://www.rapidtables.com/web/color/RGB_Color.html
@@ -23,4 +24,5 @@ while True:
         for column in range(Weltkarte.MAPWIDTH):
             #pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
             SURFACE.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE))
+    SURFACE.blit(CharakterForm.CHARACTER,(CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
     pygame.display.update()
