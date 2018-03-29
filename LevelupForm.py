@@ -11,7 +11,7 @@ darkred = (139, 0, 0)
 
 pygame.display.set_caption("Screentitle")
 
-# six 
+# six
 pointlist = [(55, 20), (75, 80), (20, 40), (80, 40), (35, 80)]
 pygame.draw.lines(screen, gold, 1, pointlist, 3)
 
