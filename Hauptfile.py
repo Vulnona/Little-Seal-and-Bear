@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 import Weltkarte
 import CharakterForm
+import Interaktion
 
 
 #colour resource: https://www.rapidtables.com/web/color/RGB_Color.html
@@ -40,6 +41,8 @@ while True:
                 else:
                     Weltkarte.inventory[currentTile]+=1
                     Weltkarte.tilemap[CharakterForm.POSITION[1]][CharakterForm.POSITION[0]]=Weltkarte.DIRT
+            if(event.key==K_KP_ENTER):
+                Interaktion.Agieren()
     for row in range(Weltkarte.MAPHEIGHT):
         for column in range(Weltkarte.MAPWIDTH):
             #pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
