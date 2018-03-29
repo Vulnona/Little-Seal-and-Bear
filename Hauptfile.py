@@ -47,6 +47,7 @@ while True:
     SURFACE.blit(CharakterForm.CHARACTER,(CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
     placePosition=50
     #SURFACE.blit(XXX)
+    #https://stackoverflow.com/questions/37800894/what-is-surface-blit-function-in-python-what-does-it-do-how-it-works
     for item in Weltkarte.collectableres:
         SURFACE.blit(Weltkarte.snippets[item],(placePosition,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+20))
         placePosition+=30
