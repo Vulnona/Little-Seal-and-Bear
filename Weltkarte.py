@@ -39,4 +39,16 @@ resources=[GRASS,HIGHGRASS,WATER]
 #    [WATER, HIGHGRASS, GRASS]
 #]
 
-tilemap=[[GRASS for w in range(MAPWIDTH)]for h in range(MAPHEIGHT)]
+tilemap=[[GRASS for i in range(MAPWIDTH)]for j in range(MAPHEIGHT)]
+
+for k in range(MAPHEIGHT):
+    for l in range(MAPWIDTH):
+        randomint=random.randint(0,20)
+        if randomint==0:
+            tile=WATER
+        elif randomint>=0 and randomint<=5:
+            tile=HIGHGRASS
+        else:
+            tile=GRASS
+
+        tilemap[k][l]=tile
