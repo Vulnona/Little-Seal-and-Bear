@@ -66,7 +66,7 @@ while True:
                     Weltkarte.inventory[currentTile]+=1
                     Weltkarte.tilemap[CharakterForm.POSITION[1]][CharakterForm.POSITION[0]]=Weltkarte.DIRT
             if(event.key==K_e):
-                varstern = LevelupForm.STAR
-                SURFACE.blit(varstern, (CharakterForm.POSITION[0],CharakterForm.POSITION[1]))
-
+                STAR = pygame.draw.lines(SURFACE, (0,0,0), 1, [(55, 20), (75, 80), (20, 40), (80, 40), (35, 80)], 3)
+                #SURFACE.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
+                pygame.draw.rect(SURFACE, (0,0,0), STAR)
     pygame.display.update()

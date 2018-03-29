@@ -4,7 +4,7 @@
     <list default="true" id="1d8c0ac9-8354-48f5-a847-1dbff08da979" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Hauptfile.py" afterPath="$PROJECT_DIR$/Hauptfile.py" />
-      <change beforePath="$PROJECT_DIR$/Interaktion.py" afterPath="$PROJECT_DIR$/Interaktion.py" />
+      <change beforePath="$PROJECT_DIR$/LevelupForm.py" afterPath="$PROJECT_DIR$/LevelupForm.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1522332195401" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1522333131271" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -42,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Hauptfile.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Hauptfile.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Hauptfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="49" column="49" lean-forward="false" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
+            <state relative-caret-position="201">
+              <caret line="70" column="51" lean-forward="false" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -54,12 +54,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interaktion.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Interaktion.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Interaktion.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="100">
               <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LevelupForm.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LevelupForm.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="15" column="62" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="62" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -88,8 +100,8 @@
       <list>
         <option value="$PROJECT_DIR$/Weltkarte.py" />
         <option value="$PROJECT_DIR$/CharakterForm.py" />
-        <option value="$PROJECT_DIR$/LevelupForm.py" />
         <option value="$PROJECT_DIR$/Interaktion.py" />
+        <option value="$PROJECT_DIR$/LevelupForm.py" />
         <option value="$PROJECT_DIR$/Hauptfile.py" />
       </list>
     </option>
@@ -301,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522330265781</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="working button">
+      <created>1522332226407</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1522332226407</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -350,7 +369,8 @@
     <MESSAGE value="agieren class added" />
     <MESSAGE value="levelupform abstrakter" />
     <MESSAGE value="button and blackbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="button and blackbar" />
+    <MESSAGE value="working button" />
+    <option name="LAST_COMMIT_MESSAGE" value="working button" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -418,26 +438,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sexy.PNG" />
-    <entry file="file://$PROJECT_DIR$/Weltkarte.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="68" column="26" lean-forward="true" selection-start-line="68" selection-start-column="26" selection-end-line="68" selection-end-column="26" />
-          <folding>
-            <element signature="e#19#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LevelupForm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CharakterForm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -448,12 +448,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Hauptfile.py">
+    <entry file="file://$PROJECT_DIR$/Weltkarte.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="49" column="49" lean-forward="false" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
+        <state relative-caret-position="328">
+          <caret line="68" column="26" lean-forward="true" selection-start-line="68" selection-start-column="26" selection-end-line="68" selection-end-column="26" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#19#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -463,6 +463,26 @@
         <state relative-caret-position="100">
           <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LevelupForm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="15" column="62" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Hauptfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="70" column="51" lean-forward="false" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
