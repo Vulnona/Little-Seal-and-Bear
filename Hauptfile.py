@@ -42,6 +42,8 @@ while True:
         placePosition+=50
 
     pygame.draw.rect(SURFACE, [255, 0, 0], interagierenbutton)
+    label = INVENTARFONT.render("Charakter", 1, (0, 0, 0))
+    SURFACE.blit(label, (495, 420))
 
     for event in pygame.event.get():
         if event.type == QUIT:
