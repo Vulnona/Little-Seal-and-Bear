@@ -37,10 +37,13 @@ class Menu(object):
                 pygame.display.update()
 
     def draw(self, screen, charakter):
+        # Rect(left, top, width, height)
+        buttonwidth = 80
+        buttonheigth = 20
         INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         BG = pygame.Rect(45, 75, 500, 500)
-        exitbutton = pygame.Rect(480, 420, 80, 20)
-        feedbutton = pygame.Rect(280, 400, 80, 20)
+        exitbutton = pygame.Rect(480, 420, buttonwidth, buttonheigth)
+        feedbutton = pygame.Rect(280, 400, buttonwidth, buttonheigth)
         label = INVENTARFONT.render("Zurück", 1, Farben.clsFarben.WHITE)
         feedlabel= INVENTARFONT.render("Füttern", 1, Farben.clsFarben.WHITE)
         proceed = True
