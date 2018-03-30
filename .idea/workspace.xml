@@ -516,7 +516,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522438849899</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="koordinaten ausgelagert in koordinaten.py">
+      <created>1522439003623</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1522439003623</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="ToolWindowManager">
