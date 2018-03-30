@@ -68,7 +68,7 @@ class Menu(object):
                     if charakter.animaltype == "baer":
                         image = pygame.image.load('bearbig.png').convert()
                         image = pygame.transform.scale(image, (300,300))
-                        self.screen.blit(image, (150,100))
+                        self.screen.blit(image, (200,100))
                     else:
                         pass
 

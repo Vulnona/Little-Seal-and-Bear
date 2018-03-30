@@ -41,11 +41,11 @@ highgrasssnippet=pygame.image.load('highgrasstexture.png').convert()
 highgrasssnippet=pygame.transform.scale(highgrasssnippet,(20,20))
 
 
-wiesensnacksnippet=pygame.image.load('wiesensnack.png').convert()
+wiesensnacksnippet=pygame.image.load('wiesensnack.png')
 wiesensnacksnippet=pygame.transform.scale(wiesensnacksnippet,(40,40))
-blättermischungsnippet=pygame.image.load('blaettermischung.png').convert()
+blättermischungsnippet=pygame.image.load('blattermischung.png')
 blättermischungsnippet=pygame.transform.scale(blättermischungsnippet,(40,40))
-pusteblumendessertsnippet=pygame.image.load('dandelions.png').convert()
+pusteblumendessertsnippet=pygame.image.load('dandelions.png')
 pusteblumendessertsnippet=pygame.transform.scale(pusteblumendessertsnippet,(40,40))
 
 

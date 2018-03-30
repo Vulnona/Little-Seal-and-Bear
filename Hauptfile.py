@@ -4,7 +4,7 @@ import Weltkarte
 import CharakterForm
 import CharakterWerte
 import Interaktion
-import LevelupForm
+#import LevelupForm
 import Farben
 
 
