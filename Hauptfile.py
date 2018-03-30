@@ -52,7 +52,9 @@ while True:
         elif event.type==MOUSEBUTTONDOWN:
             mousepos=event.pos
             if interagierenbutton.collidepoint(mousepos):
-                Interaktion.Agieren.hauptauswahl()
+                #Interaktion.AgierenMenu(SURFACE,Weltkarte.MAPHEIGHT,Weltkarte.MAPWIDTH)
+                Charaktermenu=Interaktion.Menu(SURFACE)
+                Charaktermenu.draw(SURFACE)
 
         elif event.type==KEYDOWN:
             if(event.key==K_RIGHT and CharakterForm.POSITION[0]<Weltkarte.MAPWIDTH-1):
