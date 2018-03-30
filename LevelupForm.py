@@ -1,7 +1,5 @@
 import Hauptfile
-# maybe a star?
-# pygame.draw.polygon
-# for Andre
+import Weltkarte
 
 
 class Star(object):
@@ -10,22 +8,30 @@ class Star(object):
         self.Farbe = farbe
         self.Groesse = groesse
 
-    def getZackenanzahl(self):
+    def get_zackenanzahl(self):
         pass
 
-    def setZackenanzahl(self):
+    def set_zackenanzahl(self):
         pass
 
-    def setKoordinaten(self):
-        pass
+    def get_koordinaten(self):
+        loc = Hauptfile.currentTile
 
-    def getKoordinaten(self):
-        pass
+    def set_koordinaten(self):
+        loc
 
-    penta = [(55, 20), (75, 80), (20, 40), (80, 40), (35, 80)]
+    centerptx = Weltkarte.TILESIZE / 2
+    centerpty = Weltkarte.TILESIZE / 2
+    startpunktx = centerptx + (centerptx / 2)
+    startpunkty = centerpty + (centerpty / 2)
+    winkel = zackenzahl / 360                       # wtf to get zackenzahl?
 
-    GOLD = (255, 215, 0)
-    DARKRED = (139, 0, 0)
+    for i <= zackenzahl
+
+        i++
+
+
+    pointlist = [(startpunktx, startpunkty), ()]
 
 # pygame.display.set_caption("Screentitle")
 
