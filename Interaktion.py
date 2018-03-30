@@ -24,8 +24,8 @@ class Menu(object):
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
                     self.screen.blit(label, (100, 125))
                     placePosition=150
-                    for item in Weltkarte.allcraftables:
-                        self.screen.blit(Weltkarte.crafts[item],(120, placePosition))
+                    for item in Weltkarte.craftables:
+                        self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
                         placePosition += 60
                         textObjekt = INVENTARFONT.render(str(Weltkarte.inventorycrafts.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
                         self.screen.blit(textObjekt, (100, placePosition-40))

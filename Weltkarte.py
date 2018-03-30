@@ -41,16 +41,16 @@ highgrasssnippet=pygame.image.load('highgrasstexture.png').convert()
 highgrasssnippet=pygame.transform.scale(highgrasssnippet,(20,20))
 
 
-WIESENSNACK=pygame.image.load('wiesensnack.png').convert()
-WIESENSNACK=pygame.transform.scale(WIESENSNACK,(40,40))
-BLÄTTERMISCHUNG=pygame.image.load('blaettermischung.png').convert()
-BLÄTTERMISCHUNG=pygame.transform.scale(BLÄTTERMISCHUNG,(40,40))
-PUSTEBLUMENDESSERT=pygame.image.load('dandelions.png').convert()
-PUSTEBLUMENDESSERT=pygame.transform.scale(PUSTEBLUMENDESSERT,(40,40))
+wiesensnacksnippet=pygame.image.load('wiesensnack.png').convert()
+wiesensnacksnippet=pygame.transform.scale(wiesensnacksnippet,(40,40))
+blättermischungsnippet=pygame.image.load('blaettermischung.png').convert()
+blättermischungsnippet=pygame.transform.scale(blättermischungsnippet,(40,40))
+pusteblumendessertsnippet=pygame.image.load('dandelions.png').convert()
+pusteblumendessertsnippet=pygame.transform.scale(pusteblumendessertsnippet,(40,40))
 
 
 snippets=(grasssnippet,highgrasssnippet)
-crafts=(WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT)
+craftsnippets=(wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
 
 resources=[GRASS,HIGHGRASS,DIRT,WATER]
 collectableres=[GRASS,HIGHGRASS]
