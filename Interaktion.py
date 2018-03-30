@@ -3,6 +3,7 @@ import tkinter
 import pygame
 import sys
 from pygame.locals import *
+import Farben
 import Weltkarte
 
 class Menu(object):
@@ -16,9 +17,9 @@ class Menu(object):
         BG = pygame.Rect(45, 75, 500, 500)
         exitbutton = pygame.Rect(480, 420, 80, 20)
         feedbutton = pygame.Rect(280, 400, 80, 20)
-        INVENTARFONT = pygame.font.Font('customfont.ttf', 18)
-        label = INVENTARFONT.render("Zurück", 1, (0, 0, 0))
-        feedlabel= INVENTARFONT.render("Füttern", 1, (0, 0, 0))
+        INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
+        label = INVENTARFONT.render("Zurück", 1, Farben.clsFarben.WHITE)
+        feedlabel= INVENTARFONT.render("Füttern", 1, Farben.clsFarben.WHITE)
         proceed = True
         while proceed:
             for event in pygame.event.get():
@@ -26,12 +27,12 @@ class Menu(object):
                     pygame.quit()
                     sys.exit()
                 else:
-                    pygame.draw.rect(self.screen, (0, 0, 0), BG)
-                    pygame.draw.rect(self.screen, [255, 0, 0], exitbutton)
+                    pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, BG)
+                    pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
                     self.screen.blit(label, (495, 420))
                     actuallevel=INVENTARFONT.render("Level: " + str(charakter.getlevel()), 1, (255, 255, 255))
                     self.screen.blit(actuallevel,(100,100))
-                    pygame.draw.rect(self.screen, [255, 0, 0], feedbutton)
+                    pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, feedbutton)
                     self.screen.blit(feedlabel, (300, 400))
                     placePosition = 50
                     for item in Weltkarte.collectableres:
