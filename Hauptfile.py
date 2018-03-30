@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 import Weltkarte
 import CharakterForm
+import CharakterWerte
 import Interaktion
 import LevelupForm
 
@@ -25,6 +26,8 @@ INVENTARFONT=pygame.font.Font('customfont.ttf',18)
 pygame.display.set_caption("Bärenspiel")
 blackbar=pygame.Rect(0,400,Weltkarte.MAPWIDTH*Weltkarte.TILESIZE,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE)
 interagierenbutton = pygame.Rect(480, 420, 80, 20)
+
+Baer1=CharakterWerte.Charakter("baer",0)
 
 while True:
     for row in range(Weltkarte.MAPHEIGHT):
@@ -53,8 +56,8 @@ while True:
             mousepos=event.pos
             if interagierenbutton.collidepoint(mousepos):
                 #Interaktion.AgierenMenu(SURFACE,Weltkarte.MAPHEIGHT,Weltkarte.MAPWIDTH)
-                Charaktermenu=Interaktion.Menu(SURFACE)
-                Charaktermenu.draw(SURFACE)
+                Charaktermenu=Interaktion.Menu(SURFACE, Weltkarte.inventory, Baer1)
+                Charaktermenu.draw(SURFACE, Baer1)
                 #Charaktermenu = Interaktion.Menu(SURFACE)
 
                 #Charaktermenu.draw(SURFACE)
