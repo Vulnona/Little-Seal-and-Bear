@@ -5,10 +5,11 @@ import sys
 from pygame.locals import *
 
 class Menu(object):
-    def __init__(self, screen, inventar):
+    def __init__(self, screen, inventar, charakter):
         self.screen=screen
         self.inventar=inventar
-    def draw(self, screen):
+        self.charakter=charakter
+    def draw(self, screen, charakter):
         BG = pygame.Rect(45, 75, 500, 500)
         exitbutton = pygame.Rect(480, 420, 80, 20)
         INVENTARFONT = pygame.font.Font('customfont.ttf', 18)
@@ -27,8 +28,15 @@ class Menu(object):
                     pygame.draw.rect(self.screen, (0, 0, 0), BG)
                     pygame.draw.rect(self.screen, [255, 0, 0], exitbutton)
                     self.screen.blit(label, (495, 420))
+                    if charakter.animaltype == "baer":
+                        image = pygame.image.load('characterbear.png').convert()
+                        image=pygame.transform.scale(image, (300,300))
+                        self.screen.blit(image, (150,100))
+                    else:
+                        pass
+
                 pygame.display.update()
 
-        def interaktionen(self, inventar):
+        def interaktionen(self, inventar, charakter):
             pass
 
