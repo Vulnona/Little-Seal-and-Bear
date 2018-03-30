@@ -69,9 +69,19 @@ class Menu(object):
                         self.screen.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                         placePosition += 50
                     if charakter.animaltype == "baer":
-                        image = pygame.image.load('bearbig.png').convert()
-                        image = pygame.transform.scale(image, (300,300))
-                        self.screen.blit(image, (200,100))
+                        if charakter.level<4:
+                            image = pygame.image.load('babybear.png').convert()
+                            image = pygame.transform.scale(image, (300, 300))
+                            self.screen.blit(image, (200, 100))
+                        elif charakter.level>=4 and charakter.level<=8:
+                            image = pygame.image.load('bearbig.png').convert()
+                            image = pygame.transform.scale(image, (300,300))
+                            self.screen.blit(image, (200,100))
+                        elif charakter.level>8:
+                            image = pygame.image.load('bearfinallevel.png').convert()
+                            image = pygame.transform.scale(image, (300, 300))
+                            self.screen.blit(image, (200, 100))
+
                     else:
                         pass
 
