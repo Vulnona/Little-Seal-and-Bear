@@ -19,7 +19,7 @@ INVENTARFONT=pygame.font.Font('customfont.ttf',18)
 
 # surface = pygame.image.load('beispiel.png').convert()
 
-pygame.display.set_caption("Beispiel")
+pygame.display.set_caption("Bärenspiel")
 blackbar=pygame.Rect(0,400,Weltkarte.MAPWIDTH*Weltkarte.TILESIZE,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE)
 interagierenbutton = pygame.Rect(480, 420, 80, 20)
 
@@ -52,6 +52,10 @@ while True:
                 #Interaktion.AgierenMenu(SURFACE,Weltkarte.MAPHEIGHT,Weltkarte.MAPWIDTH)
                 Charaktermenu=Interaktion.Menu(SURFACE)
                 Charaktermenu.draw(SURFACE)
+                #Charaktermenu = Interaktion.Menu(SURFACE)
+
+                #Charaktermenu.draw(SURFACE)
+                #pygame.display.update()
 
         elif event.type==KEYDOWN:
             if(event.key==K_RIGHT and CharakterForm.POSITION[0]<Weltkarte.MAPWIDTH-1):
