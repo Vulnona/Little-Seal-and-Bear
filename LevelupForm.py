@@ -1,7 +1,4 @@
 import Hauptfile
-# maybe a star?
-# pygame.draw.polygon
-# for Andre
 
 
 class Star(object):
@@ -22,10 +19,8 @@ class Star(object):
     def getKoordinaten(self):
         pass
 
-    penta = [(55, 20), (75, 80), (20, 40), (80, 40), (35, 80)]
+    winkel = zackenzahl / 360 
 
-    GOLD = (255, 215, 0)
-    DARKRED = (139, 0, 0)
 
 # pygame.display.set_caption("Screentitle")
 

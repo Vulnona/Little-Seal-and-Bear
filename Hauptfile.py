@@ -80,7 +80,7 @@ while True:
                     Weltkarte.inventory[currentTile]+=1
                     Weltkarte.tilemap[CharakterForm.POSITION[1]][CharakterForm.POSITION[0]]=Weltkarte.DIRT
             if(event.key==K_e):
-                STAR = pygame.draw.lines(SURFACE, GOLD, 1, LevelupForm.Star, 3)
+                STAR = pygame.draw.lines(SURFACE, GOLD, 0, LevelupForm.Star, 3)
                 #SURFACE.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
                 pygame.draw.rect(SURFACE, (0,0,0), STAR, 2)
     pygame.display.update()
