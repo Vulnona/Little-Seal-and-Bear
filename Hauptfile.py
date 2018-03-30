@@ -6,17 +6,20 @@ import CharakterWerte
 import Interaktion
 #import LevelupForm
 import Farben
+import Koordinaten
+
+SCHRIFTGROESSE = 19
 
 
 pygame.init()
 SURFACE=pygame.display.set_mode((Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50))
-INVENTARFONT=pygame.font.Font('customfont.ttf',19)
+INVENTARFONT=pygame.font.Font('customfont.ttf', SCHRIFTGROESSE)
 
 pygame.display.set_caption("Bärenspiel")
-blackbar=pygame.Rect(0,400,Weltkarte.MAPWIDTH*Weltkarte.TILESIZE,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE)
-interagierenbutton = pygame.Rect(480, 420, 80, 20)
+blackbar=pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND, Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
+interagierenbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
 
-Baer1=CharakterWerte.Charakter("baer",0)
+Baer1=CharakterWerte.Charakter("baer", 0)
 
 while True:
     for row in range(Weltkarte.MAPHEIGHT):
@@ -35,7 +38,7 @@ while True:
 
     pygame.draw.rect(SURFACE, Farben.clsFarben.DARKRED, interagierenbutton)
     label = INVENTARFONT.render("Charakter", 1, Farben.clsFarben.WHITE)
-    SURFACE.blit(label, (495, 420))
+    SURFACE.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
 
     for event in pygame.event.get():
         if event.type == QUIT:
