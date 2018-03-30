@@ -5,6 +5,11 @@ import random
 
 
 pygame.init()
+TILESIZE=20
+MAPWIDTH=30
+MAPHEIGHT=20
+SURFACE=pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE+50))
+
 
 GRASS=0
 HIGHGRASS=1
@@ -23,22 +28,18 @@ BROWN=(139,69,19)
 #}
 
 textures={
-    GRASS : pygame.image.load('grasstexture.png'),
-    HIGHGRASS : pygame.image.load('highgrasstexture.png'),
-    DIRT : pygame.image.load('dirttexture.jpg'),
-    WATER : pygame.image.load('watertexture.png')
+    GRASS : pygame.image.load('grasstexture.png').convert(),
+    HIGHGRASS : pygame.image.load('highgrasstexture.png').convert(),
+    DIRT : pygame.image.load('dirttexture.jpg').convert(),
+    WATER : pygame.image.load('watertexture.png').convert()
 }
 
-grasssnippet=pygame.image.load('grasstexture.png')
+grasssnippet=pygame.image.load('grasstexture.png').convert()
 grasssnippet=pygame.transform.scale(grasssnippet,(20,20))
-highgrasssnippet=pygame.image.load('highgrasstexture.png')
+highgrasssnippet=pygame.image.load('highgrasstexture.png').convert()
 highgrasssnippet=pygame.transform.scale(highgrasssnippet,(20,20))
 
 snippets=(grasssnippet,highgrasssnippet)
-
-TILESIZE=20
-MAPWIDTH=30
-MAPHEIGHT=20
 
 resources=[GRASS,HIGHGRASS,DIRT,WATER]
 collectableres=[GRASS,HIGHGRASS]
