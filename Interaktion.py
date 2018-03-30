@@ -7,17 +7,40 @@ import Farben
 import Weltkarte
 
 class Menu(object):
-    def __init__(self, screen, inventar, charakter):
+    def __init__(self, screen, charakter):
         self.screen=screen
-        self.inventar=inventar
         self.charakter=charakter
-    def interaktionen(self, inventar, charakter):
-        pass
+    def interaktionen(self, charakter):
+        INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
+        proceed=True
+        while proceed:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                else:
+                    label = INVENTARFONT.render("Craftables: ", 0, Farben.clsFarben.WHITE)
+                    exitbutton = pygame.Rect(480, 420, 80, 20)
+                    pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
+                    self.screen.blit(label, (100, 125))
+                    placePosition=150
+                    for item in Weltkarte.allcraftables:
+                        self.screen.blit(Weltkarte.crafts[item],(120, placePosition))
+                        placePosition += 60
+                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventorycrafts.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
+                        self.screen.blit(textObjekt, (100, placePosition-40))
+                        placePosition += 40
+                    if event.type == MOUSEBUTTONDOWN:
+                        mousepos = event.pos
+                        if exitbutton.collidepoint(mousepos):
+                            proceed = False
+                pygame.display.update()
+
     def draw(self, screen, charakter):
+        INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         BG = pygame.Rect(45, 75, 500, 500)
         exitbutton = pygame.Rect(480, 420, 80, 20)
         feedbutton = pygame.Rect(280, 400, 80, 20)
-        INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         label = INVENTARFONT.render("Zurück", 1, Farben.clsFarben.WHITE)
         feedlabel= INVENTARFONT.render("Füttern", 1, Farben.clsFarben.WHITE)
         proceed = True
@@ -54,7 +77,7 @@ class Menu(object):
                         if exitbutton.collidepoint(mousepos):
                             proceed = False
                         if feedbutton.collidepoint(mousepos):
-                            self.interaktionen(Weltkarte.inventory, charakter)
+                            self.interaktionen(charakter)
 
                 pygame.display.update()
 

@@ -45,7 +45,7 @@ while True:
             mousepos=event.pos
             if interagierenbutton.collidepoint(mousepos):
                 #Interaktion.AgierenMenu(SURFACE,Weltkarte.MAPHEIGHT,Weltkarte.MAPWIDTH)
-                Charaktermenu=Interaktion.Menu(SURFACE, Weltkarte.inventory, Baer1)
+                Charaktermenu=Interaktion.Menu(SURFACE, Baer1)
                 Charaktermenu.draw(SURFACE, Baer1)
                 #Charaktermenu = Interaktion.Menu(SURFACE)
 
