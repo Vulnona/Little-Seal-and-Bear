@@ -14,7 +14,7 @@ WHITE=(255,255,255)
 BLACK=(0,0,0)
 GOLD = (255, 215,   0)
 DARKRED = (139, 0, 0)
-LevelupForm_pointlist = [(55, 20), (75, 80), (20, 40), (80, 40), (35, 80)]
+
 
 pygame.init()
 SURFACE=pygame.display.set_mode((Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50))
@@ -71,7 +71,7 @@ while True:
                     Weltkarte.inventory[currentTile]+=1
                     Weltkarte.tilemap[CharakterForm.POSITION[1]][CharakterForm.POSITION[0]]=Weltkarte.DIRT
             if(event.key==K_e):
-                STAR = pygame.draw.lines(SURFACE, (0,0,0), 1, [(55, 20), (75, 80), (20, 40), (80, 40), (35, 80)], 3)
+                STAR = pygame.draw.lines(SURFACE, GOLD, 1, LevelupForm.Star, 3)
                 #SURFACE.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
                 pygame.draw.rect(SURFACE, (0,0,0), STAR, 2)
     pygame.display.update()
