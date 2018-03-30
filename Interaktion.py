@@ -10,6 +10,8 @@ class Menu(object):
         self.screen=screen
         self.inventar=inventar
         self.charakter=charakter
+    def interaktionen(self, inventar, charakter):
+        pass
     def draw(self, screen, charakter):
         BG = pygame.Rect(45, 75, 500, 500)
         exitbutton = pygame.Rect(480, 420, 80, 20)
@@ -23,10 +25,6 @@ class Menu(object):
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-                elif event.type == MOUSEBUTTONDOWN:
-                    mousepos = event.pos
-                    if exitbutton.collidepoint(mousepos):
-                        proceed=False
                 else:
                     pygame.draw.rect(self.screen, (0, 0, 0), BG)
                     pygame.draw.rect(self.screen, [255, 0, 0], exitbutton)
@@ -50,8 +48,13 @@ class Menu(object):
                     else:
                         pass
 
+                    if event.type == MOUSEBUTTONDOWN:
+                        mousepos = event.pos
+                        if exitbutton.collidepoint(mousepos):
+                            proceed = False
+                        if feedbutton.collidepoint(mousepos):
+                            self.interaktionen(Weltkarte.inventory, charakter)
+
                 pygame.display.update()
 
-        def interaktionen(self, inventar, charakter):
-            pass
 
