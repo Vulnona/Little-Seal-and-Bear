@@ -3,6 +3,7 @@ import tkinter
 import pygame
 import sys
 from pygame.locals import *
+import Weltkarte
 
 class Menu(object):
     def __init__(self, screen, inventar, charakter):
@@ -30,8 +31,16 @@ class Menu(object):
                     self.screen.blit(label, (495, 420))
                     actuallevel=INVENTARFONT.render("Level: " + str(charakter.getlevel()), 1, (255, 255, 255))
                     self.screen.blit(actuallevel,(100,100))
+                    placePosition = 50
+                    for item in Weltkarte.collectableres:
+                        self.screen.blit(Weltkarte.snippets[item],
+                                     (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                        placePosition += 30
+                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, (255,255,255),(0,0,0))
+                        self.screen.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                        placePosition += 50
                     if charakter.animaltype == "baer":
-                        image = pygame.image.load('characterbear.png').convert()
+                        image = pygame.image.load('bearbig.png').convert()
                         image = pygame.transform.scale(image, (300,300))
                         self.screen.blit(image, (150,100))
                     else:

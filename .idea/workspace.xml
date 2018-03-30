@@ -14,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1522418086192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1522420656774" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -33,8 +33,8 @@
       <file leaf-file-name="Hauptfile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Hauptfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="37" column="104" lean-forward="true" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="104" />
+            <state relative-caret-position="47">
+              <caret line="38" column="4" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="20" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -42,34 +42,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interaktion.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Interaktion.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="30" column="91" selection-start-line="30" selection-start-column="91" selection-end-line="30" selection-end-column="91" />
-              <folding>
-                <element signature="e#40#54#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CharakterWerte.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CharakterWerte.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CharakterWerte.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="15" lean-forward="true" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+            <state relative-caret-position="136">
+              <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LevelupForm.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LevelupForm.py">
+      <file leaf-file-name="Interaktion.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Interaktion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="62" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="62" />
+            <state relative-caret-position="168">
+              <caret line="38" column="116" selection-start-line="38" selection-start-column="116" selection-end-line="38" selection-end-column="116" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#40#54#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -101,6 +89,7 @@
       <find>surf</find>
       <find>tex</find>
       <find>420</find>
+      <find>snipp</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -114,8 +103,8 @@
         <option value="$PROJECT_DIR$/Weltkarte.py" />
         <option value="$PROJECT_DIR$/CharakterForm.py" />
         <option value="$PROJECT_DIR$/Hauptfile.py" />
-        <option value="$PROJECT_DIR$/Interaktion.py" />
         <option value="$PROJECT_DIR$/CharakterWerte.py" />
+        <option value="$PROJECT_DIR$/Interaktion.py" />
       </list>
     </option>
   </component>
@@ -375,7 +364,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522417276863</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="levelanzeige">
+      <created>1522418129383</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1522418129383</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -383,11 +379,11 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5141563" side_tool="true" visible="true" weight="0.39292365" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5152888" side_tool="true" visible="true" weight="0.39292365" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.4814815" weight="0.30122116" />
+      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.4801812" weight="0.29981378" />
       <window_info anchor="bottom" id="Python Console" order="8" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48584372" visible="true" weight="0.39292365" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4847112" visible="true" weight="0.39292365" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.35220838" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
@@ -433,7 +429,8 @@
     <MESSAGE value="performance resolved" />
     <MESSAGE value="new interaction, new bear icon" />
     <MESSAGE value="bear image in interactions menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="bear image in interactions menu" />
+    <MESSAGE value="levelanzeige" />
+    <option name="LAST_COMMIT_MESSAGE" value="levelanzeige" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/CharakterForm.py">
@@ -469,9 +466,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="15" column="62" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -518,9 +512,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
           <caret line="15" column="62" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -591,16 +582,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sexy.PNG" />
-    <entry file="file://$PROJECT_DIR$/Weltkarte.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="38" column="68" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#19#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CharakterForm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -613,38 +594,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LevelupForm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="62" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="62" />
+        <state relative-caret-position="394">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Weltkarte.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="38" column="68" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#19#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Hauptfile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="37" column="104" lean-forward="true" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="104" />
+        <state relative-caret-position="47">
+          <caret line="38" column="4" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="20" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Interaktion.py">
+    <entry file="file://$PROJECT_DIR$/CharakterWerte.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="30" column="91" selection-start-line="30" selection-start-column="91" selection-end-line="30" selection-end-column="91" />
-          <folding>
-            <element signature="e#40#54#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="136">
+          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CharakterWerte.py">
+    <entry file="file://$PROJECT_DIR$/Interaktion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="15" lean-forward="true" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        <state relative-caret-position="168">
+          <caret line="38" column="116" selection-start-line="38" selection-start-column="116" selection-end-line="38" selection-end-column="116" />
+          <folding>
+            <element signature="e#40#54#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
