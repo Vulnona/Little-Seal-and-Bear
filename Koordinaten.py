@@ -19,3 +19,5 @@ class clsKoordinaten:
     FEEDLBLPOSY = 400
     SNACKSIZEX = 40
     SNACKSIZEY = 40
+
+    # BEACHTE MICH!!!1
