@@ -28,9 +28,11 @@ class Menu(object):
                     pygame.draw.rect(self.screen, (0, 0, 0), BG)
                     pygame.draw.rect(self.screen, [255, 0, 0], exitbutton)
                     self.screen.blit(label, (495, 420))
+                    actuallevel=INVENTARFONT.render("Level: " + str(charakter.getlevel()), 1, (255, 255, 255))
+                    self.screen.blit(actuallevel,(100,100))
                     if charakter.animaltype == "baer":
                         image = pygame.image.load('characterbear.png').convert()
-                        image=pygame.transform.scale(image, (300,300))
+                        image = pygame.transform.scale(image, (300,300))
                         self.screen.blit(image, (150,100))
                     else:
                         pass
