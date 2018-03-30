@@ -5,8 +5,9 @@ import sys
 from pygame.locals import *
 
 class Menu(object):
-    def __init__(self, screen):
+    def __init__(self, screen, inventar):
         self.screen=screen
+        self.inventar=inventar
     def draw(self, screen):
         BG = pygame.Rect(45, 75, 500, 500)
         exitbutton = pygame.Rect(480, 420, 80, 20)
@@ -27,4 +28,7 @@ class Menu(object):
                     pygame.draw.rect(self.screen, [255, 0, 0], exitbutton)
                     self.screen.blit(label, (495, 420))
                 pygame.display.update()
+
+        def interaktionen(self, inventar):
+            pass
 
