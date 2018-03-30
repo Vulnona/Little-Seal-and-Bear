@@ -15,11 +15,12 @@ GRASS=0
 HIGHGRASS=1
 DIRT=2
 WATER=3
+WIESENSNACK=0
+BLÄTTERMISCHUNG=1
+PUSTEBLUMENDESSERT=2
 
-GREEN=(0,255,0)
-DARKGREEN=(34,139,34)
-BLUE=(0,0,255)
-BROWN=(139,69,19)
+allresources={GRASS:0,HIGHGRASS:1,DIRT:2,WATER:3}
+allcraftables={WIESENSNACK:0,BLÄTTERMISCHUNG:1,PUSTEBLUMENDESSERT:2}
 
 #colours={
 #    GRASS : GREEN,
@@ -39,13 +40,35 @@ grasssnippet=pygame.transform.scale(grasssnippet,(20,20))
 highgrasssnippet=pygame.image.load('highgrasstexture.png').convert()
 highgrasssnippet=pygame.transform.scale(highgrasssnippet,(20,20))
 
+
+WIESENSNACK=pygame.image.load('wiesensnack.png').convert()
+WIESENSNACK=pygame.transform.scale(WIESENSNACK,(40,40))
+BLÄTTERMISCHUNG=pygame.image.load('blaettermischung.png').convert()
+BLÄTTERMISCHUNG=pygame.transform.scale(BLÄTTERMISCHUNG,(40,40))
+PUSTEBLUMENDESSERT=pygame.image.load('dandelions.png').convert()
+PUSTEBLUMENDESSERT=pygame.transform.scale(PUSTEBLUMENDESSERT,(40,40))
+
+
 snippets=(grasssnippet,highgrasssnippet)
+crafts=(WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT)
 
 resources=[GRASS,HIGHGRASS,DIRT,WATER]
 collectableres=[GRASS,HIGHGRASS]
+craftables=[WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
+
 inventory={
     GRASS:0,
     HIGHGRASS:0
+}
+inventorycrafts={
+    WIESENSNACK:0,
+    BLÄTTERMISCHUNG:0,
+    PUSTEBLUMENDESSERT:0
+}
+craftrecipes={
+    WIESENSNACK : {GRASS : 5},
+    BLÄTTERMISCHUNG: {GRASS: 4, HIGHGRASS: 2},
+    PUSTEBLUMENDESSERT: {GRASS : 2, HIGHGRASS: 8}
 }
 
 #titlemap=[

@@ -5,3 +5,5 @@ class Charakter(object):
     def getlevel(self):
         level=str(self.level)
         return level
+    def LevelUp(self):
+        self.level=self.level+1
