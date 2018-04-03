@@ -5,6 +5,7 @@ import sys
 from pygame.locals import *
 import Farben
 import Weltkarte
+import Koordinaten
 
 class Menu(object):
     def __init__(self, screen, charakter):
@@ -20,12 +21,15 @@ class Menu(object):
                     sys.exit()
                 else:
                     label = INVENTARFONT.render("Craftables: ", 0, Farben.clsFarben.WHITE)
-                    exitbutton = pygame.Rect(480, 420, 80, 20)
+                    exitlabel = INVENTARFONT.render("Zurück", 0, Farben.clsFarben.WHITE)
                     craftbuttonx=100
                     craftbuttony=200
                     exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH)
+                    #@andre: falsche Größe exitbutton
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
                     self.screen.blit(label, (Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
+                    self.screen.blit(exitlabel, (Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH))
+                    #@Andre: falsche Position des Labels exitlabel
                     placePosition=Koordinaten.clsKoordinaten.INVPLACEPOS
                     for item in Weltkarte.craftables:
                         self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
@@ -73,7 +77,7 @@ class Menu(object):
                         self.screen.blit(Weltkarte.snippets[item],
                                      (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                         placePosition += 30
-                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.BLACK, Farben.clsFarben.WHITE)
+                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
                         self.screen.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                         placePosition += 35
                     if charakter.animaltype == "baer":
