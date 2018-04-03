@@ -66,6 +66,13 @@ inventorycrafts={
     BLÄTTERMISCHUNG:0,
     PUSTEBLUMENDESSERT:0
 }
+
+controls = {
+    WIESENSNACK:49,
+    BLÄTTERMISCHUNG:50,
+    PUSTEBLUMENDESSERT:51
+}
+
 craftrecipes={
     WIESENSNACK : {GRASS : 5},
     BLÄTTERMISCHUNG: {GRASS: 4, HIGHGRASS: 2},

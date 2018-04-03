@@ -31,6 +31,7 @@ class Menu(object):
                     self.screen.blit(exitlabel, (Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH))
                     #@Andre: falsche Position des Labels exitlabel
                     placePosition=Koordinaten.clsKoordinaten.INVPLACEPOS
+                    liste=[1,2,3]
                     for item in Weltkarte.craftables:
                         self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
                         placePosition += 60
@@ -39,13 +40,27 @@ class Menu(object):
                         placePosition += 40
                         craftbutton = pygame.Rect(craftbuttonx, craftbuttony, 60, 15)
                         pygame.draw.rect(self.screen, Farben.clsFarben.BROWN, craftbutton)
-                        craftlabel = INVENTARFONT.render("Herstellen", 0, Farben.clsFarben.GOLD)
+                        craftlabel = INVENTARFONT.render("Herstellen: " + str(liste[item]), 0, Farben.clsFarben.GOLD)
                         self.screen.blit(craftlabel, (craftbuttonx + 5, craftbuttony - 1))
                         craftbuttony+=100
                     if event.type == MOUSEBUTTONDOWN:
                         mousepos = event.pos
                         if exitbutton.collidepoint(mousepos):
                             proceed = False
+                    if event.type == KEYDOWN:
+                        for key in Weltkarte.controls:
+                            if (event.key == Weltkarte.controls[key]):
+                                if key in Weltkarte.craftrecipes:
+                                    canBeMade = True
+                                    for i in Weltkarte.craftrecipes[key]:
+                                        if Weltkarte.craftrecipes[key][i] > Weltkarte.inventory[i]:
+                                            canBeMade = False
+                                            break
+                                    if canBeMade == True:
+                                        for i in Weltkarte.craftrecipes[key]:
+                                            Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
+                                            Weltkarte.inventorycrafts[key] += 1
+
                 pygame.display.update()
 
     def draw(self, screen, charakter):
