@@ -23,11 +23,10 @@ class Menu(object):
                     exitbutton = pygame.Rect(480, 420, 80, 20)
                     craftbuttonx=100
                     craftbuttony=200
+                    exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH)
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
-                    # pygame.draw.rect(self.screen, Farben.clsFarben.GOLD, craftbuttons[item])
-                    self.screen.blit(label, (100, 125))
-
-                    placePosition=150
+                    self.screen.blit(label, (Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
+                    placePosition=Koordinaten.clsKoordinaten.INVPLACEPOS
                     for item in Weltkarte.craftables:
                         self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
                         placePosition += 60
@@ -51,12 +50,8 @@ class Menu(object):
         buttonheigth = 20
         INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         BG = pygame.Rect(45, 75, 500, 500)
-        exitbutton = pygame.Rect(480, 420, buttonwidth, buttonheigth)
-        feedbutton = pygame.Rect(280, 400, buttonwidth, buttonheigth)
-        #craftbutton1= pygame.Rect(90,200, buttonwidth, buttonheigth)
-        #craftbutton2 = pygame.Rect(90, 240, buttonwidth, buttonheigth)
-        #craftbutton3= pygame.Rect(90, 280, buttonwidth, buttonheigth)
-        #craftbuttons={craftbutton1,craftbutton2,craftbutton3}
+        exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
+        feedbutton = pygame.Rect(Koordinaten.clsKoordinaten.FEEDBUTTONPOSX, Koordinaten.clsKoordinaten.FEEDBUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
         label = INVENTARFONT.render("Zurück", 1, Farben.clsFarben.WHITE)
         feedlabel= INVENTARFONT.render("Füttern", 1, Farben.clsFarben.WHITE)
         proceed = True
@@ -68,17 +63,17 @@ class Menu(object):
                 else:
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, BG)
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
-                    self.screen.blit(label, (495, 420))
-                    actuallevel=INVENTARFONT.render("Level: " + str(charakter.getlevel()), 1, (255, 255, 255))
-                    self.screen.blit(actuallevel,(100,100))
+                    self.screen.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
+                    actuallevel=INVENTARFONT.render("Level: " + str(charakter.getlevel()), 1, Farben.clsFarben.BLACK)
+                    self.screen.blit(actuallevel,(Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, feedbutton)
-                    self.screen.blit(feedlabel, (300, 400))
+                    self.screen.blit(feedlabel, (Koordinaten.clsKoordinaten.FEEDLBLPOSX, Koordinaten.clsKoordinaten.FEEDLBLPOSY))
                     placePosition = 50
                     for item in Weltkarte.collectableres:
                         self.screen.blit(Weltkarte.snippets[item],
                                      (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                         placePosition += 30
-                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, (255,255,255),(0,0,0))
+                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.BLACK, Farben.clsFarben.WHITE)
                         self.screen.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                         placePosition += 35
                     if charakter.animaltype == "baer":
