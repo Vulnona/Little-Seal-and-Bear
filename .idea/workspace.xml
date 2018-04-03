@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1d8c0ac9-8354-48f5-a847-1dbff08da979" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/StartingScreen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interaktion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interaktion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hauptfile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hauptfile.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,19 +14,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1522749845395" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1522761507072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Weltkarte.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Weltkarte.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="44" column="55" selection-start-line="44" selection-start-column="55" selection-end-line="44" selection-end-column="55" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CharakterWerte.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CharakterWerte.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -35,11 +27,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interaktion.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Hauptfile.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Hauptfile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="67" column="54" selection-start-line="67" selection-start-column="54" selection-end-line="67" selection-end-column="54" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Interaktion.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Interaktion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="27" column="53" selection-start-line="27" selection-start-column="53" selection-end-line="27" selection-end-column="53" />
+            <state relative-caret-position="-761">
+              <caret line="28" column="87" lean-forward="true" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="87" />
               <folding>
                 <element signature="e#40#54#0" expanded="true" />
               </folding>
@@ -47,23 +51,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LevelupForm.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LevelupForm.py">
+      <file leaf-file-name="Koordinaten.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Koordinaten.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="Weltkarte.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Weltkarte.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-130">
+              <caret line="79" column="1" lean-forward="true" selection-start-line="79" selection-start-column="1" selection-end-line="79" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Hauptfile.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Hauptfile.py">
+      <file leaf-file-name="StartingScreen.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/StartingScreen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+            <state relative-caret-position="111">
+              <caret line="19" column="75" selection-start-line="19" selection-start-column="75" selection-end-line="19" selection-end-column="75" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,10 +114,11 @@
         <option value="$PROJECT_DIR$/LevelupForm.py" />
         <option value="$PROJECT_DIR$/Buttons" />
         <option value="$PROJECT_DIR$/Buttons.py" />
-        <option value="$PROJECT_DIR$/Hauptfile.py" />
-        <option value="$PROJECT_DIR$/Weltkarte.py" />
         <option value="$PROJECT_DIR$/Koordinaten.py" />
+        <option value="$PROJECT_DIR$/Weltkarte.py" />
         <option value="$PROJECT_DIR$/Interaktion.py" />
+        <option value="$PROJECT_DIR$/StartingScreen.py" />
+        <option value="$PROJECT_DIR$/Hauptfile.py" />
       </list>
     </option>
   </component>
@@ -462,7 +472,21 @@
       <option name="project" value="LOCAL" />
       <updated>1522439003623</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="@Andre: In Interaktion zwei Stellen markiert, an denen die Größe jetzt falsch ist, bitte ausbesser">
+      <created>1522749947850</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1522749947850</updated>
+    </task>
+    <task id="LOCAL-00037" summary="display update still buggy, but crafting is available">
+      <created>1522752529578</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1522752529578</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -470,9 +494,9 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.520687" side_tool="true" visible="true" weight="0.39115646" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5214676" side_tool="true" visible="true" weight="0.39115646" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.47931305" visible="true" weight="0.39115646" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4785324" visible="true" weight="0.39115646" />
       <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.47881356" weight="0.29981378" />
       <window_info anchor="bottom" id="Python Console" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
@@ -481,7 +505,7 @@
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49943376" weight="0.39851025" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49882904" weight="0.39795917" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -499,8 +523,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="we now have a bigger map" />
-    <MESSAGE value="random map" />
     <MESSAGE value="bear character" />
     <MESSAGE value="bear can move, but cant move out of the window" />
     <MESSAGE value="inventory added, exception handling completed" />
@@ -524,7 +546,9 @@
     <MESSAGE value="added craftables" />
     <MESSAGE value="bewegungstern" />
     <MESSAGE value="koordinaten ausgelagert in koordinaten.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="koordinaten ausgelagert in koordinaten.py" />
+    <MESSAGE value="@Andre: In Interaktion zwei Stellen markiert, an denen die Größe jetzt falsch ist, bitte ausbesser" />
+    <MESSAGE value="display update still buggy, but crafting is available" />
+    <option name="LAST_COMMIT_MESSAGE" value="display update still buggy, but crafting is available" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -570,6 +594,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -842,13 +869,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CharakterWerte.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Farben.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -856,26 +876,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Hauptfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Interaktion.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="27" column="53" selection-start-line="27" selection-start-column="53" selection-end-line="27" selection-end-column="53" />
-          <folding>
-            <element signature="e#40#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LevelupForm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
+        <state relative-caret-position="273">
           <caret line="33" selection-start-line="33" selection-end-line="33" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
@@ -883,13 +886,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Weltkarte.py">
+    <entry file="file://$PROJECT_DIR$/CharakterWerte.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="44" column="55" selection-start-line="44" selection-start-column="55" selection-end-line="44" selection-end-column="55" />
+        <state relative-caret-position="136">
+          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Koordinaten.py" />
+    <entry file="file://$PROJECT_DIR$/Weltkarte.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-130">
+          <caret line="79" column="1" lean-forward="true" selection-start-line="79" selection-start-column="1" selection-end-line="79" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Interaktion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-761">
+          <caret line="28" column="87" lean-forward="true" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="87" />
+          <folding>
+            <element signature="e#40#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/StartingScreen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="19" column="75" selection-start-line="19" selection-start-column="75" selection-end-line="19" selection-end-column="75" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Koordinaten.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Hauptfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="67" column="54" selection-start-line="67" selection-start-column="54" selection-end-line="67" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
