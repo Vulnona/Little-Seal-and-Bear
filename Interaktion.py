@@ -15,24 +15,38 @@ class Menu(object):
         INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         proceed=True
         while proceed:
+            pygame.display.flip()
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
                 else:
-                    label = INVENTARFONT.render("Craftables: ", 0, Farben.clsFarben.WHITE)
+                    craftlabel = INVENTARFONT.render("Craftables: ", 0, Farben.clsFarben.WHITE)
                     exitlabel = INVENTARFONT.render("Zurück", 0, Farben.clsFarben.WHITE)
                     craftbuttonx=100
                     craftbuttony=200
                     exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH)
                     #@andre: falsche Größe exitbutton
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
-                    self.screen.blit(label, (Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
+                    self.screen.blit(craftlabel, (Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
                     self.screen.blit(exitlabel, (Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH))
                     #@Andre: falsche Position des Labels exitlabel
                     placePosition=Koordinaten.clsKoordinaten.INVPLACEPOS
+                    placePositioncoll = 50
+                    for item in Weltkarte.collectableres:
+                        self.screen.blit(Weltkarte.snippets[item],
+                                     (placePositioncoll, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                        placePositioncoll += 30
+                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), False, Farben.clsFarben.WHITE,
+                                                         Farben.clsFarben.BLACK)
+                        self.screen.blit(textObjekt, (placePositioncoll, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                        placePositioncoll += 50
+
+                    #liste: buttons to be pressed for crafting
                     liste=[1,2,3]
                     for item in Weltkarte.craftables:
+                        #displaying craft snippets
                         self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
                         placePosition += 60
                         textObjekt = INVENTARFONT.render(str(Weltkarte.inventorycrafts.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
@@ -40,8 +54,8 @@ class Menu(object):
                         placePosition += 40
                         craftbutton = pygame.Rect(craftbuttonx, craftbuttony, 60, 15)
                         pygame.draw.rect(self.screen, Farben.clsFarben.BROWN, craftbutton)
-                        craftlabel = INVENTARFONT.render("Herstellen: " + str(liste[item]), 0, Farben.clsFarben.GOLD)
-                        self.screen.blit(craftlabel, (craftbuttonx + 5, craftbuttony - 1))
+                        craftinglabel = INVENTARFONT.render("Herstellen: " + str(liste[item]), False, Farben.clsFarben.GOLD)
+                        self.screen.blit(craftinglabel, (craftbuttonx + 5, craftbuttony - 1))
                         craftbuttony+=100
                     if event.type == MOUSEBUTTONDOWN:
                         mousepos = event.pos
@@ -61,7 +75,6 @@ class Menu(object):
                                             Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
                                             Weltkarte.inventorycrafts[key] += 1
 
-                pygame.display.update()
 
     def draw(self, screen, charakter):
         # Rect(left, top, width, height)
@@ -87,14 +100,14 @@ class Menu(object):
                     self.screen.blit(actuallevel,(Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, feedbutton)
                     self.screen.blit(feedlabel, (Koordinaten.clsKoordinaten.FEEDLBLPOSX, Koordinaten.clsKoordinaten.FEEDLBLPOSY))
-                    placePosition = 50
-                    for item in Weltkarte.collectableres:
-                        self.screen.blit(Weltkarte.snippets[item],
-                                     (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                        placePosition += 30
-                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
-                        self.screen.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                        placePosition += 35
+                    #placePosition = 50
+                    #for item in Weltkarte.collectableres:
+                    #    self.screen.blit(Weltkarte.snippets[item],
+                    #                 (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                    #    placePosition += 30
+                    #    textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+                    #    self.screen.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                    #    placePosition += 35
                     if charakter.animaltype == "baer":
                         if charakter.level<4:
                             image = pygame.image.load('babybear.png').convert()
