@@ -60,9 +60,7 @@ class Menu(object):
                         textObjekt = INVENTARFONT.render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
                         self.screen.blit(textObjekt, (100, placePosition - 40))
                         placePosition += 40
-                        craftbutton = pygame.Rect(craftbuttonx, craftbuttony, 60, 15)
-                        pygame.draw.rect(self.screen, Farben.clsFarben.BROWN, craftbutton)
-                        craftinglabel = INVENTARFONT.render("Herstellen: " + str(liste[item]), False, Farben.clsFarben.GOLD)
+                        craftinglabel = INVENTARFONT.render("Herstellen: Drücke " + str(liste[item]), False, Farben.clsFarben.GOLD)
                         self.screen.blit(craftinglabel, (craftbuttonx + 5, craftbuttony - 1))
                         craftbuttony+=100
                     if event.type == MOUSEBUTTONDOWN:
