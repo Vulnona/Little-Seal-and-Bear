@@ -88,6 +88,7 @@ craftrecipes={
 
 tilemap=[[GRASS for i in range(MAPWIDTH)]for j in range(MAPHEIGHT)]
 
+
 for k in range(MAPHEIGHT):
     for l in range(MAPWIDTH):
         randomint=random.randint(0,20)

@@ -40,5 +40,8 @@ class clsStartScreen(object):
                 elif newgamebutton.collidepoint(mousepos):
                     self.MODE="NEWGAME"
                 else:
-                    self.MODE="UNKNOWN"
-                return self.MODE
+                    self.MODE="STARTSCREEN"
+                #return self.MODE
+
+    def whichMode(self):
+        return self.MODE
