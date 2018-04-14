@@ -22,6 +22,7 @@ class Menu(object):
                     pygame.quit()
                     sys.exit()
                 else:
+                    #textbackground: background for all craftable values, and collectable values
                     textbackground=pygame.Rect(80,140,100,800)
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, textbackground)
                     craftlabel = INVENTARFONT.render("Craftables: ", 0, Farben.clsFarben.WHITE)
