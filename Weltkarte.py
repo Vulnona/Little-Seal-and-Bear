@@ -79,6 +79,13 @@ inventory={
     PUSTEBLUMENDESSERT:0
 }
 
+class clsInventory(object):
+    def __init__(self, inventory):
+        self.inventory=inventory
+    def showInventory(self):
+        print(inventory)
+
+
 controls = {
     WIESENSNACK:49,
     BLÄTTERMISCHUNG:50,
