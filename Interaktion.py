@@ -6,6 +6,7 @@ from pygame.locals import *
 import Farben
 import Weltkarte
 import CharakterWerte
+import CharakterAussehen
 import Koordinaten
 
 class Menu(object):
@@ -29,22 +30,7 @@ class Menu(object):
                     textbackground=pygame.Rect(80,100,100,600)
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, textbackground)
 
-                    if charakter.animaltype == "baer":
-                        if charakter.level<4:
-                            image = pygame.image.load('babybear.png').convert()
-                            image = pygame.transform.scale(image, (300, 300))
-                            self.screen.blit(image, (200, 100))
-                        elif charakter.level>=4 and charakter.level<=8:
-                            image = pygame.image.load('bearbig.png').convert()
-                            image = pygame.transform.scale(image, (300,300))
-                            self.screen.blit(image, (200,100))
-                        elif charakter.level>8:
-                            image = pygame.image.load('bearfinallevel.png').convert()
-                            image = pygame.transform.scale(image, (300, 300))
-                            self.screen.blit(image, (200, 100))
-
-                    else:
-                        pass
+                    CharakterAussehen.showAnimal(charakter, self.screen)
 
                     actuallevel = INVENTARFONT.render("Level: " + str(charakter.getlevel()), 0, Farben.clsFarben.WHITE)
                     self.screen.blit(actuallevel,
@@ -150,22 +136,7 @@ class Menu(object):
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, feedbutton)
                     self.screen.blit(feedlabel, (Koordinaten.clsKoordinaten.FEEDLBLPOSX, Koordinaten.clsKoordinaten.FEEDLBLPOSY))
 
-                    if charakter.animaltype == "baer":
-                        if charakter.level<4:
-                            image = pygame.image.load('babybear.png').convert()
-                            image = pygame.transform.scale(image, (300, 300))
-                            self.screen.blit(image, (200, 100))
-                        elif charakter.level>=4 and charakter.level<=8:
-                            image = pygame.image.load('bearbig.png').convert()
-                            image = pygame.transform.scale(image, (300,300))
-                            self.screen.blit(image, (200,100))
-                        elif charakter.level>8:
-                            image = pygame.image.load('bearfinallevel.png').convert()
-                            image = pygame.transform.scale(image, (300, 300))
-                            self.screen.blit(image, (200, 100))
-
-                    else:
-                        pass
+                    CharakterAussehen.showAnimal(charakter, self.screen)
 
 
                     if event.type == MOUSEBUTTONDOWN:

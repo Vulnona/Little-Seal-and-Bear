@@ -5,5 +5,8 @@ class Charakter(object):
     def getlevel(self):
         level=str(self.level)
         return level
+    def gettype(self):
+        type=str(self.animaltype)
+        return type
     def LevelUp(self):
         self.level=self.level+1
