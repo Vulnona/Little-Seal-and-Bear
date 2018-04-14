@@ -44,25 +44,20 @@ def Spiel(MODE, Charakter):
         MODE="STARTSCREEN"
         print(MODE)
         return MODE
-        # debugging
-        #Spiel(MODE, Charakter)
-        #Spiel(object, MODE)
 
     elif MODE=="SAVE":
-        #SURFACE.fill(Farben.clsFarben.BLACK)
         with open('savefile.dat', 'wb') as f:
             pickle.dump([Charakter], f, protocol=2)
+            print(MODE)
         MODE="GAME"
-        return Spiel(MODE,Charakter)
-        #Spiel(object, MODE)
+        return MODE
 
     elif MODE=="LOAD":
-        #SURFACE.fill(Farben.clsFarben.BLACK)
         with open('savefile.dat', 'rb') as f:
-            Baer1 = pickle.load(f)
+            Charakter = pickle.load(f)
+        print(MODE)
         MODE="GAME"
-        return Spiel(MODE,Charakter)
-        #Spiel(object, MODE)
+        return MODE
 
     elif MODE=="NEWGAME":
         SURFACE.fill(Farben.clsFarben.BLACK)

@@ -47,13 +47,15 @@ class Menu(object):
                         placePositioncoll += 50
 
                     #liste: buttons to be pressed for crafting
-                    liste=[1,2,3]
+                    liste=[0,0,1,2,3]
                     for item in Weltkarte.craftables:
                         #displaying craft snippets
 
-                        self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
+                        #self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
+                        self.screen.blit(Weltkarte.snippets[item], (120, placePosition))
                         placePosition += 60
-                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventorycrafts.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
+                        #textObjekt = INVENTARFONT.render(str(Weltkarte.inventorycrafts.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
+                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
                         self.screen.blit(textObjekt, (100, placePosition - 40))
                         placePosition += 40
                         craftbutton = pygame.Rect(craftbuttonx, craftbuttony, 60, 15)
@@ -77,7 +79,8 @@ class Menu(object):
                                     if canBeMade == True:
                                         for i in Weltkarte.craftrecipes[key]:
                                             Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
-                                            Weltkarte.inventorycrafts[key] += 1
+                                            #Weltkarte.inventorycrafts[key] += 1
+                                            Weltkarte.inventory[key]+=1
 
 
     def draw(self, screen, charakter):

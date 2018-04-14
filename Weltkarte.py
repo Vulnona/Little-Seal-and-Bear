@@ -14,11 +14,15 @@ SURFACE = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE+50))
 
 GRASS = 0
 HIGHGRASS = 1
-DIRT = 2
-WATER = 3
-WIESENSNACK = 0
-BLÄTTERMISCHUNG = 1
-PUSTEBLUMENDESSERT = 2
+#WIESENSNACK = 0
+#BLÄTTERMISCHUNG = 1
+#PUSTEBLUMENDESSERT = 2
+WIESENSNACK=2
+BLÄTTERMISCHUNG=3
+PUSTEBLUMENDESSERT=4
+DIRT = 5
+WATER = 6
+
 
 allresources = {GRASS:0, HIGHGRASS:1, DIRT:2, WATER:3}
 allcraftables = {WIESENSNACK:0, BLÄTTERMISCHUNG:1, PUSTEBLUMENDESSERT:2}
@@ -50,18 +54,26 @@ pusteblumendessertsnippet = pygame.image.load('dandelions.png')
 pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
 
 
-snippets=(grasssnippet,highgrasssnippet)
-craftsnippets=(wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
+#snippets=(grasssnippet,highgrasssnippet)
+snippets=(grasssnippet,highgrasssnippet,wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
+#craftsnippets=(wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
 
 resources=[GRASS,HIGHGRASS,DIRT,WATER]
 collectableres=[GRASS,HIGHGRASS]
 craftables=[WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
 
+#inventory={
+#    GRASS:0,
+#    HIGHGRASS:0
+#}
+#inventorycrafts={
+#    WIESENSNACK:0,
+#    BLÄTTERMISCHUNG:0,
+#    PUSTEBLUMENDESSERT:0
+#}
 inventory={
     GRASS:0,
-    HIGHGRASS:0
-}
-inventorycrafts={
+    HIGHGRASS:0,
     WIESENSNACK:0,
     BLÄTTERMISCHUNG:0,
     PUSTEBLUMENDESSERT:0
