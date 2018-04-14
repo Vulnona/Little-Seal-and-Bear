@@ -64,10 +64,17 @@ controls = {
     PUSTEBLUMENDESSERT:51
 }
 
+#controls for feeding
+feedcontrols = {
+    WIESENSNACK:55,
+    BLÄTTERMISCHUNG:56,
+    PUSTEBLUMENDESSERT:57
+}
+
 #recipes for crafting
 craftrecipes={
     WIESENSNACK : {GRASS : 5},
-    BLÄTTERMISCHUNG: {GRASS : 2, HIGHGRASS:1},
+    BLÄTTERMISCHUNG: {HIGHGRASS : 2, WIESENSNACK: 1},
     PUSTEBLUMENDESSERT: {GRASS : 4, HIGHGRASS : 2, BLÄTTERMISCHUNG : 1}
 }
 
