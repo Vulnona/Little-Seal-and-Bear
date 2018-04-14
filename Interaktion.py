@@ -16,7 +16,7 @@ class Menu(object):
         proceed=True
         while proceed:
             pygame.display.update()
-            Weltkarte.clsInventory.showInventory(self)
+            #Weltkarte.clsInventory.showInventory(self)
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -81,7 +81,9 @@ class Menu(object):
                                         for i in Weltkarte.craftrecipes[key]:
                                             Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
                                             #Weltkarte.inventorycrafts[key] += 1
-                                            Weltkarte.inventory[key]+=1
+                                        #print(Weltkarte.inventory[key])
+                                        Weltkarte.inventory[key]+=1
+                                        #print(Weltkarte.inventory[key])
 
 
     def draw(self, screen, charakter):
