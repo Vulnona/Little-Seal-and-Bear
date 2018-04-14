@@ -6,32 +6,20 @@ import Koordinaten
 
 
 pygame.init()
+
 TILESIZE = 20
 MAPWIDTH = 30
 MAPHEIGHT = 20
 SURFACE = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE+50))
 
-
 GRASS = 0
 HIGHGRASS = 1
-#WIESENSNACK = 0
-#BLÄTTERMISCHUNG = 1
-#PUSTEBLUMENDESSERT = 2
 WIESENSNACK=2
 BLÄTTERMISCHUNG=3
 PUSTEBLUMENDESSERT=4
 DIRT = 5
 WATER = 6
 
-
-allresources = {GRASS:0, HIGHGRASS:1, DIRT:2, WATER:3}
-allcraftables = {WIESENSNACK:0, BLÄTTERMISCHUNG:1, PUSTEBLUMENDESSERT:2}
-
-#colours={
-#    GRASS : GREEN,
-#    HIGHGRASS: DARKGREEN,
-#    WATER : BLUE
-#}
 
 textures={
     GRASS : pygame.image.load('grasstexture.png').convert(),
@@ -40,11 +28,11 @@ textures={
     WATER : pygame.image.load('watertexture.png').convert()
 }
 
+#snippets
 grasssnippet = pygame.image.load('grasstexture.png').convert()
 grasssnippet = pygame.transform.scale(grasssnippet,(20,20))
 highgrasssnippet = pygame.image.load('highgrasstexture.png').convert()
 highgrasssnippet = pygame.transform.scale(highgrasssnippet,(20,20))
-
 
 wiesensnacksnippet = pygame.image.load('wiesensnack.png')
 wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet,(Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
@@ -53,24 +41,14 @@ blättermischungsnippet = pygame.transform.scale(blättermischungsnippet, (Koord
 pusteblumendessertsnippet = pygame.image.load('dandelions.png')
 pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
 
-
-#snippets=(grasssnippet,highgrasssnippet)
 snippets=(grasssnippet,highgrasssnippet,wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
-#craftsnippets=(wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
 
+#resources
 resources=[GRASS,HIGHGRASS,DIRT,WATER]
 collectableres=[GRASS,HIGHGRASS]
 craftables=[WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
 
-#inventory={
-#    GRASS:0,
-#    HIGHGRASS:0
-#}
-#inventorycrafts={
-#    WIESENSNACK:0,
-#    BLÄTTERMISCHUNG:0,
-#    PUSTEBLUMENDESSERT:0
-#}
+#inventory
 inventory={
     GRASS:0,
     HIGHGRASS:0,
@@ -79,43 +57,46 @@ inventory={
     PUSTEBLUMENDESSERT:0
 }
 
-class clsInventory(object):
-    def __init__(self, inventory):
-        self.inventory=inventory
-    def showInventory(self):
-        print(inventory)
-
-
+#controls for crafting
 controls = {
     WIESENSNACK:49,
     BLÄTTERMISCHUNG:50,
     PUSTEBLUMENDESSERT:51
 }
 
+#recipes for crafting
 craftrecipes={
     WIESENSNACK : {GRASS : 5},
     BLÄTTERMISCHUNG: {GRASS : 2, HIGHGRASS:1},
     PUSTEBLUMENDESSERT: {GRASS : 4, HIGHGRASS : 2, BLÄTTERMISCHUNG : 1}
 }
 
-#titlemap=[
-#    [GRASS, GRASS, HIGHGRASS],
-#    [WATER, GRASS, GRASS],
-#    [WATER, WATER, GRASS],
-#    [WATER, HIGHGRASS, GRASS]
-#]
-
-tilemap=[[GRASS for i in range(MAPWIDTH)]for j in range(MAPHEIGHT)]
-
-
+#random map
+tilemap = [[GRASS for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
 for k in range(MAPHEIGHT):
     for l in range(MAPWIDTH):
-        randomint=random.randint(0,20)
-        if randomint==0:
-            tile=WATER
-        elif randomint>=0 and randomint<=5:
-            tile=HIGHGRASS
+        randomint = random.randint(0, 20)
+        if randomint == 0:
+            tile = WATER
+        elif randomint >= 0 and randomint <= 5:
+            tile = HIGHGRASS
         else:
-            tile=GRASS
+            tile = GRASS
+        tilemap[k][l] = tile
 
-        tilemap[k][l]=tile
+
+class clsInventory(object):
+    def __init__(self, inventory):
+        self.inventory=inventory
+    def showInventory(self):
+        print(inventory)
+    def getInventory(self):
+        return self.inventory
+
+class clsTileMap(object):
+    def __init__(self, tilemap):
+        self.tilemap=tilemap
+    def showTilemap(self):
+        print(tilemap)
+    def getTilemap(self):
+        return self.tilemap

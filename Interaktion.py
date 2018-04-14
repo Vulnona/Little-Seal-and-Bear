@@ -17,6 +17,7 @@ class Menu(object):
         while proceed:
             pygame.display.update()
             #Weltkarte.clsInventory.showInventory(self)
+            #Weltkarte.clsTileMap.showTilemap(self)
 
             for event in pygame.event.get():
                 if event.type == QUIT:

@@ -5,7 +5,7 @@ from pygame.locals import *
 import pickle
 import StartingScreen
 import Weltkarte
-import CharakterForm
+import CharakterIcon
 import CharakterWerte
 import Interaktion
 #import LevelupForm
@@ -28,17 +28,13 @@ interagierenbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordina
 def Spiel(MODE, Charakter):
 
     if MODE=="STARTSCREEN":
-        #SURFACE.fill(Farben.clsFarben.BLACK)
-        print("In Bedingung Startscreen")
         NewStartingScreen = StartingScreen.clsStartScreen(SURFACE, MODE)
-        #while MODE=="STARTSCREEN":
         NewStartingScreen.draw(SURFACE)
         pygame.display.update()
         MODE=NewStartingScreen.whichMode()
         print(MODE)
         return MODE
-            #if (MODE!="STARTSCREEN" and MODE!="UNKNOWN"):
-            #    return Spiel(MODE,Charakter)
+
     elif MODE=="UNKNOWN":
         print(MODE)
         MODE="STARTSCREEN"
@@ -47,14 +43,14 @@ def Spiel(MODE, Charakter):
 
     elif MODE=="SAVE":
         with open('savefile.dat', 'wb') as f:
-            pickle.dump([Charakter], f, protocol=2)
+            pickle.dump([Charakter, CharakterWerte.Charakter, Weltkarte.inventory], f, protocol=2)
             print(MODE)
         MODE="GAME"
         return MODE
 
     elif MODE=="LOAD":
         with open('savefile.dat', 'rb') as f:
-            Charakter = pickle.load(f)
+            Charakter, CharakterWerte.Charakter, Weltkarte.inventory = pickle.load(f)
         print(MODE)
         MODE="GAME"
         return MODE
@@ -73,13 +69,12 @@ def Spiel(MODE, Charakter):
 
             for row in range(Weltkarte.MAPHEIGHT):
                 for column in range(Weltkarte.MAPWIDTH):
-                    # pygame.draw.rect(SURFACE, Weltkarte.colours[Weltkarte.titlemap[row][column]], (column*Weltkarte.TILESIZE, row*Weltkarte.TILESIZE, Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                     SURFACE.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]],
                                  (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
                     pygame.draw.rect(SURFACE, Farben.clsFarben.BLACK, blackbar)
 
-            SURFACE.blit(CharakterForm.CHARACTER, (
-            CharakterForm.POSITION[0] * Weltkarte.TILESIZE, CharakterForm.POSITION[1] * Weltkarte.TILESIZE))
+            SURFACE.blit(CharakterIcon.CHARACTER, (
+                CharakterIcon.POSITION[0] * Weltkarte.TILESIZE, CharakterIcon.POSITION[1] * Weltkarte.TILESIZE))
             placePosition = 50
             INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
 
@@ -95,6 +90,7 @@ def Spiel(MODE, Charakter):
             label = INVENTARFONT.render("Charakter", 1, Farben.clsFarben.WHITE)
             SURFACE.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
 
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -109,21 +105,21 @@ def Spiel(MODE, Charakter):
                     if (event.key == K_ESCAPE):
                         MODE="STARTSCREEN"
                         return MODE
-                    elif (event.key == K_RIGHT and CharakterForm.POSITION[0] < Weltkarte.MAPWIDTH - 1):
-                        CharakterForm.POSITION[0] += 1
-                    elif (event.key == K_LEFT and CharakterForm.POSITION[0] > 0):
-                        CharakterForm.POSITION[0] -= 1
-                    elif (event.key == K_DOWN and CharakterForm.POSITION[1] < Weltkarte.MAPHEIGHT - 1):
-                        CharakterForm.POSITION[1] += 1
-                    elif (event.key == K_UP and CharakterForm.POSITION[1] > 0):
-                        CharakterForm.POSITION[1] -= 1
+                    elif (event.key == K_RIGHT and CharakterIcon.POSITION[0] < Weltkarte.MAPWIDTH - 1):
+                        CharakterIcon.POSITION[0] += 1
+                    elif (event.key == K_LEFT and CharakterIcon.POSITION[0] > 0):
+                        CharakterIcon.POSITION[0] -= 1
+                    elif (event.key == K_DOWN and CharakterIcon.POSITION[1] < Weltkarte.MAPHEIGHT - 1):
+                        CharakterIcon.POSITION[1] += 1
+                    elif (event.key == K_UP and CharakterIcon.POSITION[1] > 0):
+                        CharakterIcon.POSITION[1] -= 1
                     elif (event.key == K_SPACE):
-                        currentTile = Weltkarte.tilemap[CharakterForm.POSITION[1]][CharakterForm.POSITION[0]]
+                        currentTile = Weltkarte.tilemap[CharakterIcon.POSITION[1]][CharakterIcon.POSITION[0]]
                         if (currentTile == Weltkarte.WATER or currentTile == Weltkarte.DIRT):
                             pass
                         else:
                             Weltkarte.inventory[currentTile] += 1
-                            Weltkarte.tilemap[CharakterForm.POSITION[1]][CharakterForm.POSITION[0]] = Weltkarte.DIRT
+                            Weltkarte.tilemap[CharakterIcon.POSITION[1]][CharakterIcon.POSITION[0]] = Weltkarte.DIRT
                     elif (event.key == K_e):
                         # STAR = pygame.draw.lines(SURFACE, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
                         # SURFACE.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
@@ -137,6 +133,7 @@ def Spiel(MODE, Charakter):
 
 Baer1=CharakterWerte.Charakter("baer", 0)
 MODE = "UNKNOWN"
+
 while True:
     MODE=Spiel(MODE, Baer1)
     #print(MODE)
