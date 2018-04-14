@@ -13,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1523699313208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pythonprojekt$Hauptfile.coverage" NAME="Hauptfile Coverage Results" MODIFIED="1523703182269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -29,8 +29,8 @@
       <file leaf-file-name="Hauptfile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Hauptfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-235">
-              <caret line="67" column="8" lean-forward="true" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="44" />
+            <state relative-caret-position="92">
+              <caret line="83" column="79" lean-forward="true" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="79" />
             </state>
           </provider>
         </entry>
@@ -43,8 +43,8 @@
       <file leaf-file-name="Interaktion.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Interaktion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="51" column="103" selection-start-line="51" selection-start-column="103" selection-end-line="51" selection-end-column="103" />
+            <state relative-caret-position="209">
+              <caret line="25" column="88" selection-start-line="25" selection-start-column="88" selection-end-line="25" selection-end-column="88" />
               <folding>
                 <element signature="e#40#54#0" expanded="true" />
               </folding>
@@ -93,7 +93,6 @@
       <find>snipp</find>
       <find>STAR</find>
       <find>button</find>
-      <find>black</find>
       <find>charsh</find>
       <find>width</find>
       <find>INVPLACEPOS</find>
@@ -104,6 +103,7 @@
       <find>charakter</find>
       <find>BG</find>
       <find>snippet</find>
+      <find>black</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -512,7 +512,21 @@
       <option name="project" value="LOCAL" />
       <updated>1523697067209</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="updated version">
+      <created>1523701772845</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1523701772845</updated>
+    </task>
+    <task id="LOCAL-00042" summary="level works again">
+      <created>1523702901636</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1523702901636</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -549,8 +563,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added comments which could help you in hauptfile.py" />
-    <MESSAGE value="agieren class added" />
     <MESSAGE value="levelupform abstrakter" />
     <MESSAGE value="button and blackbar" />
     <MESSAGE value="working button" />
@@ -574,14 +586,16 @@
     <MESSAGE value="working start menu, but not beautiful at all" />
     <MESSAGE value="some debugging with menu conditions :(" />
     <MESSAGE value="working again, but you have broken the 'level: x', the back button and some other things, please fix @andre" />
-    <option name="LAST_COMMIT_MESSAGE" value="working again, but you have broken the 'level: x', the back button and some other things, please fix @andre" />
+    <MESSAGE value="updated version" />
+    <MESSAGE value="level works again" />
+    <option name="LAST_COMMIT_MESSAGE" value="level works again" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Interaktion.py</url>
-          <line>26</line>
+          <line>28</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/LevelupForm.py</url>
@@ -936,9 +950,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Koordinaten.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/CharakterWerte.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -946,17 +957,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Koordinaten.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/Hauptfile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-235">
-          <caret line="67" column="8" lean-forward="true" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="44" />
+        <state relative-caret-position="92">
+          <caret line="83" column="79" lean-forward="true" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="79" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Interaktion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="51" column="103" selection-start-line="51" selection-start-column="103" selection-end-line="51" selection-end-column="103" />
+        <state relative-caret-position="209">
+          <caret line="25" column="88" selection-start-line="25" selection-start-column="88" selection-end-line="25" selection-end-column="88" />
           <folding>
             <element signature="e#40#54#0" expanded="true" />
           </folding>
