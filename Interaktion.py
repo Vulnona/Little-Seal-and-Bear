@@ -15,7 +15,7 @@ class Menu(object):
         INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         proceed=True
         while proceed:
-            pygame.display.flip()
+            pygame.display.update()
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -47,10 +47,11 @@ class Menu(object):
                     liste=[1,2,3]
                     for item in Weltkarte.craftables:
                         #displaying craft snippets
+
                         self.screen.blit(Weltkarte.craftsnippets[item],(120, placePosition))
                         placePosition += 60
                         textObjekt = INVENTARFONT.render(str(Weltkarte.inventorycrafts.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
-                        self.screen.blit(textObjekt, (100, placePosition-40))
+                        self.screen.blit(textObjekt, (100, placePosition - 40))
                         placePosition += 40
                         craftbutton = pygame.Rect(craftbuttonx, craftbuttony, 60, 15)
                         pygame.draw.rect(self.screen, Farben.clsFarben.BROWN, craftbutton)
@@ -96,7 +97,7 @@ class Menu(object):
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, BG)
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
                     self.screen.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
-                    actuallevel=INVENTARFONT.render("Level: " + str(charakter.getlevel()), 1, Farben.clsFarben.BLACK)
+                    actuallevel=INVENTARFONT.render("Level: " + str(charakter.getlevel()), 1, Farben.clsFarben.WHITE)
                     self.screen.blit(actuallevel,(Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, feedbutton)
                     self.screen.blit(feedlabel, (Koordinaten.clsKoordinaten.FEEDLBLPOSX, Koordinaten.clsKoordinaten.FEEDLBLPOSY))
