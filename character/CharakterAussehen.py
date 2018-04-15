@@ -1,11 +1,11 @@
 import pygame
-import CharakterWerte
+import character
 
 pygame.init()
 
 def showAnimal(charakter, screen):
-    if CharakterWerte.Charakter.gettype(charakter) == "baer":
-        if int(CharakterWerte.Charakter.getlevel(charakter)) < 4:
+    if character.gettype(charakter) == "Baer":
+        if int(charakter.level < 4):
             image = pygame.image.load('babybear.png').convert()
             image = pygame.transform.scale(image, (300, 300))
             screen.blit(image, (200, 100))

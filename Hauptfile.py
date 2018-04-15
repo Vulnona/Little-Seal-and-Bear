@@ -1,27 +1,28 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
+# Very nice: http://game-icons.net/
 
 import pygame, sys
 from pygame.locals import *
 import pickle
 import StartingScreen
 import Weltkarte
-import CharakterIcon
-import CharakterWerte
 import Interaktion
 #import LevelupForm
-import Farben
-import Koordinaten
+from resources import Farben, Koordinaten
+import game
+import run
+import character
 
 SCHRIFTGROESSE = 19
-
+INVENTARFONT = pygame.font.Font('./resources/fonts/customfont.ttf', SCHRIFTGROESSE)
 
 pygame.init()
 SURFACE=pygame.display.set_mode((Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50))
-INVENTARFONT=pygame.font.Font('customfont.ttf', SCHRIFTGROESSE)
+
 
 pygame.display.set_caption("Bärenspiel")
 
-blackbar=pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND, Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
+blackbar=pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND, Weltkarte.MAPWIDTH * Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
 interagierenbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
 
 
@@ -32,7 +33,6 @@ def Spiel(MODE, Charakter):
         NewStartingScreen.draw(SURFACE)
         pygame.display.update()
         MODE=NewStartingScreen.whichMode()
-        print(MODE)
         return MODE
 
     elif MODE=="UNKNOWN":
@@ -43,22 +43,28 @@ def Spiel(MODE, Charakter):
 
     elif MODE=="SAVE":
         with open('savefile.dat', 'wb') as f:
-            pickle.dump([Charakter, CharakterWerte.Charakter, Weltkarte.inventory], f, protocol=2)
+            pickle.dump([Charakter, Weltkarte.inventory], f, protocol=2)
             print(MODE)
         MODE="GAME"
         return MODE
 
     elif MODE=="LOAD":
         with open('savefile.dat', 'rb') as f:
-            Charakter, CharakterWerte.Charakter, Weltkarte.inventory = pickle.load(f)
+            Charakter, Weltkarte.inventory = pickle.load(f)
         print(MODE)
         MODE="GAME"
         return MODE
 
     elif MODE=="NEWGAME":
         SURFACE.fill(Farben.clsFarben.BLACK)
+        while True:
+            run.run()
 
-        pygame.display.update()
+            startlabel = pygame.font.Font('customfont.ttf', SCHRIFTGROESSE+10).render("Such dir ein Tier aus... ", 0, Farben.clsFarben.WHITE)
+
+            #NewGameScreen()
+            pygame.display.update()
+
         MODE="GAME"
         return MODE
         #Spiel(object, MODE)
@@ -76,7 +82,6 @@ def Spiel(MODE, Charakter):
             SURFACE.blit(CharakterIcon.CHARACTER, (
                 CharakterIcon.POSITION[0] * Weltkarte.TILESIZE, CharakterIcon.POSITION[1] * Weltkarte.TILESIZE))
             placePosition = 50
-            INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
 
             for item in Weltkarte.collectableres:
                 SURFACE.blit(Weltkarte.snippets[item], (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
@@ -131,7 +136,10 @@ def Spiel(MODE, Charakter):
 
             #Spiel(object,MODE)
 
-Baer1=CharakterWerte.Charakter("baer", 0)
+#Baer1= CharakterWerte.CharakterWerte("baer", 0)
+#Baer1=CharakterWerte.CharakterWerte("Baer", "Weiss", 0)
+Baer1=character.Character()
+Baer1.create(name="Bruno",animaltype="Baer",animalsubtype="Schwarz",level=0)
 MODE = "UNKNOWN"
 
 while True:

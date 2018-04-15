@@ -1,13 +1,11 @@
 #http://usingpython.com/dl/StayAlive.py
-import tkinter
 import pygame
 import sys
 from pygame.locals import *
-import Farben
+from resources import Farben, Koordinaten
 import Weltkarte
-import CharakterWerte
-import CharakterAussehen
-import Koordinaten
+import character
+
 
 class Menu(object):
     def __init__(self, screen, charakter):
@@ -43,10 +41,12 @@ class Menu(object):
                     exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH)
                     #@andre: falsche Größe exitbutton
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
-                    self.screen.blit(craftlabel, (Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
-                    self.screen.blit(exitlabel, (Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH))
+                    self.screen.blit(craftlabel, (
+                    Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
+                    self.screen.blit(exitlabel, (
+                    Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH))
                     #@Andre: falsche Position des Labels exitlabel
-                    placePosition=Koordinaten.clsKoordinaten.INVPLACEPOS
+                    placePosition= Koordinaten.clsKoordinaten.INVPLACEPOS
                     placePositioncoll = 50
                     for item in Weltkarte.collectableres:
                         self.screen.blit(Weltkarte.snippets[item],
@@ -65,7 +65,8 @@ class Menu(object):
                         #displaying craft snippets
                         self.screen.blit(Weltkarte.snippets[item], (120, placePosition))
                         placePosition += 60
-                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
+                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,
+                                                         Farben.clsFarben.BLACK)
                         self.screen.blit(textObjekt, (100, placePosition - 40))
                         placePosition += 40
                         craftinglabel = INVENTARFONT.render("Herstellen: Drücke " + str(liste[item]), False, Farben.clsFarben.GOLD)
@@ -84,18 +85,18 @@ class Menu(object):
                                 #print(event.key)
                                 #print(Weltkarte.inventory[key])
                                 leveltoohigh=False
-                                if (event.key == 55 and int(CharakterWerte.Charakter.getlevel(charakter))>=4):
+                                if (event.key == 55 and int(character.Character.getlevel(charakter))>=4):
                                     leveltoohigh=True
                                     print("Level zu hoch für Wiesensnack")
-                                if (event.key == 56 and int(CharakterWerte.Charakter.getlevel(charakter))>=8):
+                                if (event.key == 56 and int(character.Character.getlevel(charakter))>=8):
                                     leveltoohigh=True
                                     print("Level zu hoch für Blättermischung")
 
                                 if (Weltkarte.inventory[key]>=1 and leveltoohigh==False):
                                     Weltkarte.inventory[key]-=1
-                                    print(CharakterWerte.Charakter.getlevel(charakter))
-                                    CharakterWerte.Charakter.LevelUp(charakter)
-                                    print(CharakterWerte.Charakter.getlevel(charakter))
+                                    print(character.Character.getlevel(charakter))
+                                    character.Character.LevelUp(charakter)
+                                    print(character.Character.getlevel(charakter))
                         for key in Weltkarte.controls:
                             if (event.key == Weltkarte.controls[key]):
                                 if key in Weltkarte.craftrecipes:
@@ -132,9 +133,11 @@ class Menu(object):
                 else:
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, BG)
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
-                    self.screen.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
+                    self.screen.blit(label, (
+                    Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
                     pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, feedbutton)
-                    self.screen.blit(feedlabel, (Koordinaten.clsKoordinaten.FEEDLBLPOSX, Koordinaten.clsKoordinaten.FEEDLBLPOSY))
+                    self.screen.blit(feedlabel, (
+                    Koordinaten.clsKoordinaten.FEEDLBLPOSX, Koordinaten.clsKoordinaten.FEEDLBLPOSY))
 
                     CharakterAussehen.showAnimal(charakter, self.screen)
 

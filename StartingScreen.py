@@ -1,7 +1,8 @@
 import pygame, sys
 from pygame.locals import *
 import Weltkarte
-import Farben
+from resources import Farben
+
 
 class clsStartScreen(object):
     def __init__(self, screen, MODE):
@@ -9,7 +10,7 @@ class clsStartScreen(object):
         self.MODE=MODE
 
     def draw(self, screen):
-        INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
+        INVENTARFONT = pygame.font.Font('./resources/fonts/customfont.ttf', 19)
         background=pygame.Rect(Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50, 400,400)
         newgamebutton=pygame.Rect(100,100,80,20)
         newgamebuttonlabel=INVENTARFONT.render("Neues Spiel", 1, Farben.clsFarben.WHITE)

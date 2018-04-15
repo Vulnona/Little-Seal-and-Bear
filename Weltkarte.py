@@ -1,9 +1,7 @@
 #robbie is working
 import pygame
-from pygame.locals import *
 import random
-import Koordinaten
-
+from resources import Koordinaten
 
 pygame.init()
 
@@ -22,24 +20,27 @@ WATER = 6
 
 
 textures={
-    GRASS : pygame.image.load('grasstexture.png').convert(),
-    HIGHGRASS : pygame.image.load('highgrasstexture.png').convert(),
-    DIRT : pygame.image.load('dirttexture.jpg').convert(),
-    WATER : pygame.image.load('watertexture.png').convert()
+    GRASS : pygame.image.load('./resources/images/grasstexture.png').convert(),
+    HIGHGRASS : pygame.image.load('./resources/images/highgrasstexture.png').convert(),
+    DIRT : pygame.image.load('./resources/images/dirttexture.jpg').convert(),
+    WATER : pygame.image.load('./resources/images/watertexture.png').convert()
 }
 
 #snippets
-grasssnippet = pygame.image.load('grasstexture.png').convert()
+grasssnippet = pygame.image.load('./resources/images/grasstexture.png').convert()
 grasssnippet = pygame.transform.scale(grasssnippet,(20,20))
-highgrasssnippet = pygame.image.load('highgrasstexture.png').convert()
+highgrasssnippet = pygame.image.load('./resources/images/highgrasstexture.png').convert()
 highgrasssnippet = pygame.transform.scale(highgrasssnippet,(20,20))
 
-wiesensnacksnippet = pygame.image.load('wiesensnack.png')
-wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet,(Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
-blättermischungsnippet = pygame.image.load('blattermischung.png')
-blättermischungsnippet = pygame.transform.scale(blättermischungsnippet, (Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
-pusteblumendessertsnippet = pygame.image.load('dandelions.png')
-pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
+wiesensnacksnippet = pygame.image.load('./resources/images/wiesensnack.png')
+wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet, (
+Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
+blättermischungsnippet = pygame.image.load('./resources/images/blattermischung.png')
+blättermischungsnippet = pygame.transform.scale(blättermischungsnippet, (
+Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
+pusteblumendessertsnippet = pygame.image.load('./resources/images/dandelions.png')
+pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (
+Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
 
 snippets=(grasssnippet,highgrasssnippet,wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
 
