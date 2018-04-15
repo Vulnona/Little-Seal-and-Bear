@@ -38,6 +38,16 @@ class SwimmingCharacterSkill(AllSkill):
         abilities.IntelligenceCharacterAbility: 4
     }
 
+class EnduranceCharacterSkill(AllSkill):
+    id = "endurance"
+    name = "Resistenz"
+
+    required_abilities = {
+        abilities.DexterityCharacterAbility: 3,
+        abilities.ResistanceCharacterAbility: 12
+    }
+
+
 
 class StealthCharacterSkill(SchwarzSkill):
     id = 'stealth'
@@ -133,6 +143,7 @@ class SaversCharacterSkill(WeissSkill):
 
 ALL = [
     SwimmingCharacterSkill,
+    EnduranceCharacterSkill,
     StealthCharacterSkill,
     TailCharacterSkill,
     GrasMovementCharacterSkill,
