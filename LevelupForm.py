@@ -2,7 +2,7 @@ import Hauptfile
 import Weltkarte
 import random
 
-
+#sollte später integriert werden in das Objekt character
 class Star(object):
     def __init__(self, zackzahl, farbe, groesse, screen):
         self.Zackenzahl = zackzahl
