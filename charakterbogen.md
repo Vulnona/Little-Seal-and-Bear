@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Eufab
+  - Name: Jack
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

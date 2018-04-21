@@ -58,7 +58,7 @@ def Spiel(MODE, Charakter):
     elif MODE=="NEWGAME":
         SURFACE.fill(Farben.clsFarben.BLACK)
         #while game.Game.MODE=="CREATE":
-        run.run()
+        Charakter=run.run()
 
         startlabel = pygame.font.Font('/resources/fonts/customfont.ttf', SCHRIFTGROESSE+10).render("Such dir ein Tier aus... ", 0, Farben.clsFarben.WHITE)
 

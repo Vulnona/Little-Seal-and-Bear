@@ -32,6 +32,7 @@ def run():
 
     while g.get_Mode()=="CREATE":
         g.update()
+    return character.Character()
     #save character ausserhalb des sheets und übergeben fehlt noch
 
 
