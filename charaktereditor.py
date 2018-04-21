@@ -16,17 +16,14 @@ class Editor:
         self.clock = pygame.time.Clock()
         self.window = pygame.display.set_mode(settings.WINDOW_SIZE, pygame.DOUBLEBUF)
         self.window_rect = self.window.get_rect()
-        MODE="CREATE"
-        self.MODE=MODE
-
-        pygame.display.set_caption('Charakter Generator')
-        pygame.display.set_icon(Helfer.load_image('icon.png'))
-
         self._load_fonts()
         self._load_images()
         self.character = Character()
         #self.character.randomize_all()
         self._load_gui()
+
+        MODE = "CREATE"
+        self.MODE = MODE
 
     def get_Mode(self):
         return self.MODE
@@ -43,6 +40,9 @@ class Editor:
         self.images = {
             'window': Helfer.load_image('window.png'),
             'validatewindow': Helfer.load_image('validatewindow.png'),
+            'unknown': Helfer.load_image('unknown.png'),
+            'bearicon': Helfer.load_image('bearicon.png'),
+            'sealicon': Helfer.load_image('sealicon.png'),
             'abilities': {ability.id: Helfer.load_image('abilities/' + ability.id + '.png') for ability in character.abilities.ALL},
             'skills': {skill.id: Helfer.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL},
             'animaltypes': {

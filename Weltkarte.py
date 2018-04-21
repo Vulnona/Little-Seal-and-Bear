@@ -20,25 +20,25 @@ WATER = 6
 
 
 textures={
-    GRASS : pygame.image.load('./resources/images/grasstexture.png').convert(),
-    HIGHGRASS : pygame.image.load('./resources/images/highgrasstexture.png').convert(),
-    DIRT : pygame.image.load('./resources/images/dirttexture.jpg').convert(),
-    WATER : pygame.image.load('./resources/images/watertexture.png').convert()
+    GRASS : pygame.image.load('./resources/images/ressourcen/grasstexture.png').convert(),
+    HIGHGRASS : pygame.image.load('./resources/images/ressourcen/highgrasstexture.png').convert(),
+    DIRT : pygame.image.load('./resources/images/ressourcen/dirttexture.jpg').convert(),
+    WATER : pygame.image.load('./resources/images/ressourcen/watertexture.png').convert()
 }
 
 #snippets
-grasssnippet = pygame.image.load('./resources/images/grasstexture.png').convert()
+grasssnippet = pygame.image.load('./resources/images/ressourcen/grasstexture.png').convert()
 grasssnippet = pygame.transform.scale(grasssnippet,(20,20))
-highgrasssnippet = pygame.image.load('./resources/images/highgrasstexture.png').convert()
+highgrasssnippet = pygame.image.load('./resources/images/ressourcen/highgrasstexture.png').convert()
 highgrasssnippet = pygame.transform.scale(highgrasssnippet,(20,20))
 
-wiesensnacksnippet = pygame.image.load('./resources/images/wiesensnack.png')
+wiesensnacksnippet = pygame.image.load('./resources/images/ressourcen/wiesensnack.png')
 wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet, (
 Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
-blättermischungsnippet = pygame.image.load('./resources/images/blattermischung.png')
+blättermischungsnippet = pygame.image.load('./resources/images/ressourcen/blattermischung.png')
 blättermischungsnippet = pygame.transform.scale(blättermischungsnippet, (
 Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
-pusteblumendessertsnippet = pygame.image.load('./resources/images/dandelions.png')
+pusteblumendessertsnippet = pygame.image.load('./resources/images/ressourcen/dandelions.png')
 pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (
 Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
 

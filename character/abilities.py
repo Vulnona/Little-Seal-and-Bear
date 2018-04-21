@@ -1,7 +1,7 @@
 import random
 
 class BaseCharacterAbility:
-    """Base character ability to inherit from."""
+   #base character ability to inherit from
     value = 0
 
 class StrengthCharacterAbility(BaseCharacterAbility):

@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Jack
-  - Tierart: <class 'character.animaltypes.clsRobbe'>
-  - Farbe: <class 'character.animalsubtypes.Weiss'>
+  - Name: Eow
+  - Tierart: <class 'character.animaltypes.clsBaer'>
+  - Farbe: <class 'character.animalsubtypes.Schwarz'>
 
 ## Statuswerte
 

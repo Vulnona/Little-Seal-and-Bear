@@ -1,148 +1,181 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
 
-import pygame, sys
+import pygame, sys, os
+import logging
 from pygame.locals import *
 import pickle
+import inspect
 import StartingScreen
 import Weltkarte
 import Interaktion
 #import LevelupForm
 from resources import Farben, Koordinaten
 import charaktereditor
+import CharakterAussehen
 import run
 import character
+import Helfer
 
-SCHRIFTGROESSE = 19
-INVENTARFONT = pygame.font.Font('./resources/fonts/customfont.ttf', SCHRIFTGROESSE)
+
+if 'SDL_VIDEO_WINDOW_POS' not in os.environ:
+    os.environ['SDL_VIDEO_CENTERED'] = '1'  # This makes the window centered on the screen
+
+logging.basicConfig(
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%d/%m/%Y %H:%M:%S',
+    stream=sys.stdout
+)
+
+logging.getLogger().setLevel(logging.INFO)
+
+logging.info('Initializing PyGame/{} (with SDL/{})'.format(
+    pygame.version.ver,
+    '.'.join(str(v) for v in pygame.get_sdl_version())
+))
 
 pygame.init()
-SURFACE=pygame.display.set_mode((Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50))
+pygame.display.set_caption("Spiel ohne Namen")
+pygame.display.set_icon(Helfer.load_image('icon.png'))
 
 
-pygame.display.set_caption("Bärenspiel")
+SCHRIFTGROESSE = 19
+#INVENTARFONT = pygame.font.Font('./resources/fonts/customfont.ttf', SCHRIFTGROESSE)
 
-blackbar=pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND, Weltkarte.MAPWIDTH * Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
-interagierenbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
-
-
-def Spiel(MODE, Charakter):
-
-    if MODE=="STARTSCREEN":
-        NewStartingScreen = StartingScreen.clsStartScreen(SURFACE, MODE)
-        NewStartingScreen.draw(SURFACE)
-        pygame.display.update()
-        MODE=NewStartingScreen.whichMode()
-        return MODE
-
-    elif MODE=="UNKNOWN":
-        print(MODE)
-        MODE="STARTSCREEN"
-        print(MODE)
-        return MODE
-
-    elif MODE=="SAVE":
-        with open('savefile.dat', 'wb') as f:
-            pickle.dump([Charakter, Weltkarte.inventory], f, protocol=2)
-            print(MODE)
-        MODE="GAME"
-        return MODE
-
-    elif MODE=="LOAD":
-        with open('savefile.dat', 'rb') as f:
-            Charakter, Weltkarte.inventory = pickle.load(f)
-        print(MODE)
-        MODE="GAME"
-        return MODE
-
-    elif MODE=="NEWGAME":
-        SURFACE.fill(Farben.clsFarben.BLACK)
-        #while game.Game.MODE=="CREATE":
-        Charakter=run.run()
-
-        startlabel = pygame.font.Font('/resources/fonts/customfont.ttf', SCHRIFTGROESSE+10).render("Such dir ein Tier aus... ", 0, Farben.clsFarben.WHITE)
-
-        pygame.display.update()
-
-        MODE="GAME"
-        return MODE
-        #Spiel(object, MODE)
-
-    elif MODE=="GAME":
-        while True:
-            pygame.display.update()
-
-            for row in range(Weltkarte.MAPHEIGHT):
-                for column in range(Weltkarte.MAPWIDTH):
-                    SURFACE.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]],
-                                 (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
-                    pygame.draw.rect(SURFACE, Farben.clsFarben.BLACK, blackbar)
-
-            SURFACE.blit(CharakterIcon.CHARACTER, (
-                CharakterIcon.POSITION[0] * Weltkarte.TILESIZE, CharakterIcon.POSITION[1] * Weltkarte.TILESIZE))
-            placePosition = 50
-
-            for item in Weltkarte.collectableres:
-                SURFACE.blit(Weltkarte.snippets[item], (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                placePosition += 30
-                textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE,
-                                                 Farben.clsFarben.BLACK)
-                SURFACE.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                placePosition += 50
-
-            pygame.draw.rect(SURFACE, Farben.clsFarben.DARKRED, interagierenbutton)
-            label = INVENTARFONT.render("Charakter", 1, Farben.clsFarben.WHITE)
-            SURFACE.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
-
-
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == MOUSEBUTTONDOWN:
-                    mousepos = event.pos
-                    if interagierenbutton.collidepoint(mousepos):
-                        Charaktermenu = Interaktion.Menu(SURFACE, Charakter)
-                        Charaktermenu.draw(SURFACE, Charakter)
-
-                elif event.type == KEYDOWN:
-                    if (event.key == K_ESCAPE):
-                        MODE="STARTSCREEN"
-                        return MODE
-                    elif (event.key == K_RIGHT and CharakterIcon.POSITION[0] < Weltkarte.MAPWIDTH - 1):
-                        CharakterIcon.POSITION[0] += 1
-                    elif (event.key == K_LEFT and CharakterIcon.POSITION[0] > 0):
-                        CharakterIcon.POSITION[0] -= 1
-                    elif (event.key == K_DOWN and CharakterIcon.POSITION[1] < Weltkarte.MAPHEIGHT - 1):
-                        CharakterIcon.POSITION[1] += 1
-                    elif (event.key == K_UP and CharakterIcon.POSITION[1] > 0):
-                        CharakterIcon.POSITION[1] -= 1
-                    elif (event.key == K_SPACE):
-                        currentTile = Weltkarte.tilemap[CharakterIcon.POSITION[1]][CharakterIcon.POSITION[0]]
-                        if (currentTile == Weltkarte.WATER or currentTile == Weltkarte.DIRT):
-                            pass
-                        else:
-                            Weltkarte.inventory[currentTile] += 1
-                            Weltkarte.tilemap[CharakterIcon.POSITION[1]][CharakterIcon.POSITION[0]] = Weltkarte.DIRT
-                    elif (event.key == K_e):
-                        # STAR = pygame.draw.lines(SURFACE, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
-                        # SURFACE.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
-                        pygame.draw.rect(SURFACE, Farben.clsFarben.BLACK, STAR, 2)
-
-                    #else:
-                    #    SURFACE.fill(Farben.clsFarben.BLACK)
-                    #    MODE = NewStartingScreen.draw(SURFACE)
-
-            #Spiel(object,MODE)
-
-#Baer1= CharakterWerte.CharakterWerte("baer", 0)
-#Baer1=CharakterWerte.CharakterWerte("Baer", "Weiss", 0)
-Baer1=character.Character()
-Baer1.create(name="Bruno",animaltype="Baer",animalsubtype="Schwarz",level=0)
+Charakter=character.Character()
 MODE = "UNKNOWN"
+player_Icon_Position = [0,0]
 
+class Spiel(object):
+
+    def __init__(self, MODE, Charakter):
+        self.MODE=MODE
+        self.Charakter=Charakter
+
+        self.window = pygame.display.set_mode(
+            (Weltkarte.MAPWIDTH * Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 50))
+        self.fonts = {
+            'normal': Helfer.load_font('celtic_gaelige.ttf', 19)
+        }
+
+    def spielen(self, MODE):
+        if MODE=="STARTSCREEN":
+            NewStartingScreen = StartingScreen.clsStartScreen(self.window, MODE)
+            NewStartingScreen.draw(self.window)
+            pygame.display.update()
+            MODE=NewStartingScreen.whichMode()
+            return MODE
+
+        elif MODE=="UNKNOWN":
+            print("Game is in unknown mode: " + MODE)
+            MODE="STARTSCREEN"
+            return MODE
+
+        elif MODE=="SAVE":
+            with open('savefile.dat', 'wb') as f:
+                pickle.dump([self.Charakter, Weltkarte.inventory], f, protocol=2)
+                print(MODE)
+            MODE="GAME"
+            return MODE
+
+        elif MODE=="LOAD":
+            with open('savefile.dat', 'rb') as f:
+                Charakter, Weltkarte.inventory = pickle.load(f)
+            print(MODE)
+            MODE="GAME"
+            return MODE
+
+        elif MODE=="NEWGAME":
+            self.window.fill(Farben.clsFarben.BLACK)
+            self.Charakter=run.run()
+            pygame.display.update()
+            MODE="GAME"
+            return MODE
+
+        elif MODE=="GAME":
+            blackbar = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND,
+                                   Weltkarte.MAPWIDTH * Weltkarte.TILESIZE,
+                                   Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
+            while True:
+                pygame.display.update()
+
+                for row in range(Weltkarte.MAPHEIGHT):
+                    for column in range(Weltkarte.MAPWIDTH):
+                        self.window.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]],
+                                     (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
+                        pygame.draw.rect(self.window, Farben.clsFarben.BLACK, blackbar)
+
+                player_Icon = Helfer.load_image('unknown.png')
+                player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                #if (isinstance(self.Charakter.gettype(), character.animaltypes.clsBaer)): #doesnt work :(
+                if(str(self.Charakter.gettype())==str(character.animaltypes.clsBaer)):
+                    player_Icon = Helfer.load_image('bearicon.png')
+                    player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                elif (str(self.Charakter.gettype())==str(character.animaltypes.clsRobbe)):
+                    player_Icon = Helfer.load_image('sealicon.png')
+                    player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                self.window.blit(
+                    player_Icon, (
+                    player_Icon_Position[0]*Weltkarte.TILESIZE,player_Icon_Position[1]*Weltkarte.TILESIZE))
+
+                placePosition = 50
+                for item in Weltkarte.collectableres:
+                    self.window.blit(Weltkarte.snippets[item], (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                    placePosition += 30
+                    #textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE,
+                    #                                 Farben.clsFarben.BLACK)
+                    textObjekt = self.fonts['normal'].render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
+                    self.window.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
+                    placePosition += 50
+
+
+                interagierenbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX,
+                                                 Koordinaten.clsKoordinaten.BUTTONPOSY,
+                                                 Koordinaten.clsKoordinaten.BUTTONWIDTH,
+                                                 Koordinaten.clsKoordinaten.BUTTONHEIGTH)
+
+                pygame.draw.rect(self.window, Farben.clsFarben.DARKRED, interagierenbutton)
+                label = self.fonts['normal'].render("Charakter", 1, Farben.clsFarben.WHITE)
+                self.window.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
+
+                for event in pygame.event.get():
+                    if event.type == QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == MOUSEBUTTONDOWN:
+                        mousepos = event.pos
+                        if interagierenbutton.collidepoint(mousepos):
+                            Charaktermenu = Interaktion.Menu(self.window, self.Charakter)
+                            Charaktermenu.draw(self.window, self.Charakter)
+                    elif event.type == KEYDOWN:
+                        if (event.key == K_ESCAPE):
+                            MODE="STARTSCREEN"
+                            return MODE
+                        elif (event.key == K_RIGHT and player_Icon_Position[0] < Weltkarte.MAPWIDTH - 1):
+                            player_Icon_Position[0] += 1
+                        elif (event.key == K_LEFT and player_Icon_Position[0] > 0):
+                            player_Icon_Position[0] -= 1
+                        elif (event.key == K_DOWN and player_Icon_Position[1] < Weltkarte.MAPHEIGHT - 1):
+                            player_Icon_Position[1] += 1
+                        elif (event.key == K_UP and player_Icon_Position[1] > 0):
+                            player_Icon_Position[1] -= 1
+                        elif (event.key == K_SPACE):
+                            currentTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]
+                            if (currentTile == Weltkarte.WATER or currentTile == Weltkarte.DIRT):
+                                pass
+                            else:
+                                Weltkarte.inventory[currentTile] += 1
+                                Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]] = Weltkarte.DIRT
+                        elif (event.key == K_e):
+                            # STAR = pygame.draw.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
+                            # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
+                            pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
+
+
+NeuesSpiel=Spiel(MODE,Charakter)
 while True:
-    MODE=Spiel(MODE, Baer1)
-    #print(MODE)
-
+    MODE=NeuesSpiel.spielen(MODE)
 

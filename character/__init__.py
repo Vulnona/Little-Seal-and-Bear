@@ -37,8 +37,8 @@ class Character:
         self.animaltype=str(type)
 
     def gettype(self):
-        type=str(self.animaltype)
-        return type
+        #type=str(self.animaltype)
+        return self.animaltype
 
     def setsubtype(self, animalsubtype):
         self.animalsubtype=animalsubtype

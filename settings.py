@@ -1,3 +1,5 @@
+import Weltkarte
+
 # ----------------------------------------------------------------------
 # Editable settings
 
@@ -12,4 +14,6 @@ TEXT_COLOR = (51, 51, 51)
 
 RESOURCES_ROOT = 'resources'
 
-WINDOW_SIZE = (490, 420)
+#WINDOW_SIZE = (490, 420)
+WINDOW_SIZE = (Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50)
+

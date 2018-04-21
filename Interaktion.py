@@ -5,14 +5,20 @@ from pygame.locals import *
 from resources import Farben, Koordinaten
 import Weltkarte
 import character
+import CharakterAussehen
+import Helfer
 
 
 class Menu(object):
     def __init__(self, screen, charakter):
         self.screen=screen
         self.charakter=charakter
+
+        self.fonts = {
+            'normal': Helfer.load_font('celtic_gaelige.ttf', 19),
+            'custom': Helfer.load_font('customfont.ttf', 19)
+        }
     def interaktionen(self, charakter):
-        INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         proceed=True
         while proceed:
             pygame.display.update()
@@ -30,12 +36,12 @@ class Menu(object):
 
                     CharakterAussehen.showAnimal(charakter, self.screen)
 
-                    actuallevel = INVENTARFONT.render("Level: " + str(charakter.getlevel()), 0, Farben.clsFarben.WHITE)
+                    actuallevel = self.fonts['custom'].render("Level: " + str(charakter.getlevel()), 0, Farben.clsFarben.WHITE)
                     self.screen.blit(actuallevel,
                                      (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
 
-                    craftlabel = INVENTARFONT.render("Craftables: ", 0, Farben.clsFarben.WHITE)
-                    exitlabel = INVENTARFONT.render("Zurück", 0, Farben.clsFarben.WHITE)
+                    craftlabel = self.fonts['custom'].render("Craftables: ", 0, Farben.clsFarben.WHITE)
+                    exitlabel = self.fonts['custom'].render("Zurück", 0, Farben.clsFarben.WHITE)
                     craftbuttonx=100
                     craftbuttony=200
                     exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH)
@@ -52,7 +58,7 @@ class Menu(object):
                         self.screen.blit(Weltkarte.snippets[item],
                                      (placePositioncoll, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                         placePositioncoll += 30
-                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), False, Farben.clsFarben.WHITE,
+                        textObjekt = self.fonts['custom'].render(str(Weltkarte.inventory[item]), False, Farben.clsFarben.WHITE,
                                                          Farben.clsFarben.BLACK)
                         self.screen.blit(textObjekt, (placePositioncoll, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                         placePositioncoll += 50
@@ -65,12 +71,12 @@ class Menu(object):
                         #displaying craft snippets
                         self.screen.blit(Weltkarte.snippets[item], (120, placePosition))
                         placePosition += 60
-                        textObjekt = INVENTARFONT.render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,
+                        textObjekt = self.fonts['custom'].render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,
                                                          Farben.clsFarben.BLACK)
                         self.screen.blit(textObjekt, (100, placePosition - 40))
                         placePosition += 40
-                        craftinglabel = INVENTARFONT.render("Herstellen: Drücke " + str(liste[item]), False, Farben.clsFarben.GOLD)
-                        feedlabel = INVENTARFONT.render("Füttern:  Drücke " + str(listezwei[item]), False, Farben.clsFarben.GOLD)
+                        craftinglabel = self.fonts['custom'].render("Herstellen: Drücke " + str(liste[item]), False, Farben.clsFarben.GOLD)
+                        feedlabel = self.fonts['custom'].render("Füttern:  Drücke " + str(listezwei[item]), False, Farben.clsFarben.GOLD)
                         self.screen.blit(craftinglabel, (craftbuttonx + 5, craftbuttony - 14))
                         self.screen.blit(feedlabel, (craftbuttonx+5, craftbuttony-1))
                         craftbuttony+=100
@@ -118,12 +124,11 @@ class Menu(object):
         # Rect(left, top, width, height)
         buttonwidth = 80
         buttonheigth = 20
-        INVENTARFONT = pygame.font.Font('customfont.ttf', 19)
         BG = pygame.Rect(45, 75, 500, 500)
         exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
         feedbutton = pygame.Rect(Koordinaten.clsKoordinaten.FEEDBUTTONPOSX, Koordinaten.clsKoordinaten.FEEDBUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
-        label = INVENTARFONT.render("Zurück", 1, Farben.clsFarben.WHITE)
-        feedlabel= INVENTARFONT.render("Füttern", 1, Farben.clsFarben.WHITE)
+        label = self.fonts['custom'].render("Zurück", 1, Farben.clsFarben.WHITE)
+        feedlabel= self.fonts['custom'].render("Füttern", 1, Farben.clsFarben.WHITE)
         proceed = True
         while proceed:
             for event in pygame.event.get():
