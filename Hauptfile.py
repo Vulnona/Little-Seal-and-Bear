@@ -9,7 +9,7 @@ import Weltkarte
 import Interaktion
 #import LevelupForm
 from resources import Farben, Koordinaten
-import game
+import charaktereditor
 import run
 import character
 
@@ -57,13 +57,12 @@ def Spiel(MODE, Charakter):
 
     elif MODE=="NEWGAME":
         SURFACE.fill(Farben.clsFarben.BLACK)
-        while True:
-            run.run()
+        #while game.Game.MODE=="CREATE":
+        run.run()
 
-            startlabel = pygame.font.Font('customfont.ttf', SCHRIFTGROESSE+10).render("Such dir ein Tier aus... ", 0, Farben.clsFarben.WHITE)
+        startlabel = pygame.font.Font('/resources/fonts/customfont.ttf', SCHRIFTGROESSE+10).render("Such dir ein Tier aus... ", 0, Farben.clsFarben.WHITE)
 
-            #NewGameScreen()
-            pygame.display.update()
+        pygame.display.update()
 
         MODE="GAME"
         return MODE
