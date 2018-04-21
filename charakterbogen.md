@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Eow
-  - Tierart: <class 'character.animaltypes.clsBaer'>
-  - Farbe: <class 'character.animalsubtypes.Schwarz'>
+  - Name: Aiwaipoa
+  - Tierart: <class 'character.animaltypes.clsRobbe'>
+  - Farbe: <class 'character.animalsubtypes.Weiss'>
 
 ## Statuswerte
 

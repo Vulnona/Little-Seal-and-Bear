@@ -60,10 +60,13 @@ class Spiel(object):
 
     def spielen(self, MODE):
         if MODE=="STARTSCREEN":
-            NewStartingScreen = StartingScreen.clsStartScreen(self.window, MODE)
+            if self.Charakter.getName()==None:
+                NewStartingScreen = StartingScreen.clsStartScreen(self.window, MODE, False)
+            else:
+                NewStartingScreen = StartingScreen.clsStartScreen(self.window, MODE, True)
             NewStartingScreen.draw(self.window)
             pygame.display.update()
-            MODE=NewStartingScreen.whichMode()
+            MODE = NewStartingScreen.whichMode()
             return MODE
 
         elif MODE=="UNKNOWN":
