@@ -40,6 +40,8 @@ class Editor:
         self.images = {
             'window': Helfer.load_image('window.png'),
             'validatewindow': Helfer.load_image('validatewindow.png'),
+            'bearavatar': Helfer.load_image('bearavatar.jpg'),
+            'sealavatar': Helfer.load_image('sealavatar.jpg'),
             'unknown': Helfer.load_image('unknown.png'),
             'bearicon': Helfer.load_image('bearicon.png'),
             'sealicon': Helfer.load_image('sealicon.png'),
@@ -265,6 +267,7 @@ class Editor:
 
         # Drawings
         self.window.blit(self.images['window'], self.images['window'].get_rect())
+        self.draw_avatar()
         self._draw_name_input()
         self._draw_abilities()
         self._draw_skills()
@@ -346,6 +349,17 @@ class Editor:
         print(element.value)
     # --------------------------------------------------------------------------
     # Drawing handlers
+    def draw_avatar(self):
+        if (str(self.character.get_type())==str(character.animaltypes.clsRobbe)):
+            seal = pygame.image.load('./resources/images/sealavatar.jpg').convert()
+            #seal=self.images('sealavatar')
+            seal = pygame.transform.scale(seal, (155, 150))
+            self.window.blit(seal, (50, 42))
+        elif str(self.character.get_type())==str(character.animaltypes.clsBaer):
+            bear = pygame.image.load('./resources/images/bearavatar.jpg').convert()
+            bear = pygame.transform.scale(bear, (155, 150))
+            self.window.blit(bear, (50, 42))
+
     def _draw_name_input(self):
         name_text = self.fonts['normal'].render(self.character.get_Name(), True, settings.TEXT_COLOR)
         name_text_rect = name_text.get_rect()

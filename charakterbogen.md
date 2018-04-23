@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Iom
+  - Name: Apheos
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

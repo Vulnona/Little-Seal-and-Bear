@@ -38,10 +38,6 @@ pygame.init()
 pygame.display.set_caption("Spiel ohne Namen")
 pygame.display.set_icon(Helfer.load_image('icon.png'))
 
-
-SCHRIFTGROESSE = 19
-#INVENTARFONT = pygame.font.Font('./resources/fonts/customfont.ttf', SCHRIFTGROESSE)
-
 Charakter=character.Character()
 MODE = "UNKNOWN"
 player_Icon_Position = [0,0]
@@ -77,7 +73,7 @@ class Spiel(object):
         elif MODE=="SAVE":
             with open('savefile.dat', 'wb') as f:
                 pickle.dump([self.Charakter, Weltkarte.inventory], f, protocol=2)
-                print(MODE)
+            print(MODE)
             MODE="GAME"
             return MODE
 

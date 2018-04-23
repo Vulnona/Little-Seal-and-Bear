@@ -4,7 +4,6 @@ import character
 pygame.init()
 
 def showAnimal(charakter, screen):
-    print(str(charakter.get_type()))
     if (str(charakter.get_type())==str(character.animaltypes.clsBaer)):
         if (int(charakter.level) < 4):
             image = pygame.image.load('./resources/images/animalstages/babybear.png').convert()
