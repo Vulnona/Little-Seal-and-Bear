@@ -23,56 +23,55 @@ class Character:
         self.level=level
         self.exp=exp
 
-    def getName(self):
+    def get_Name(self):
         return self.name
 
-    def setName(self, name):
+    def set_Name(self, name):
         self.name=str(name)
 
-    def getlevel(self):
+    def get_level(self):
         level=str(self.level)
         return level
 
-    def settype(self, type):
+    def set_type(self, type):
         self.animaltype=str(type)
 
-    def gettype(self):
-        #type=str(self.animaltype)
+    def get_type(self):
         return self.animaltype
 
-    def setsubtype(self, animalsubtype):
+    def set_subtype(self, animalsubtype):
         self.animalsubtype=animalsubtype
         self.update_applicable_skills()
 
-    def getsubtype(self):
+    def get_subtype(self):
         return str(self.animalsubtype)
 
-    def getexp(self):
+    def get_exp(self):
         return self.exp
 
-    def gainexp(self, points):
+    def gain_exp(self, points):
         self.exp+=points
 
     def lowerexp(self, points):
         self.exp-=points
 
-    def spend_ability_points(self, inputability):
+    def spend_ability_points(self, input_ability):
         for ability in abilities.ALL:
-            if str(ability.id)==inputability:
+            if str(ability.id)==input_ability:
                 getattr(self.abilities, ability.id).value+=1
                 self.update_applicable_skills()
                 break
 
-    def lost_ability_points(self, inputability):
+    def lost_ability_points(self, input_ability):
         for ability in abilities.ALL:
-            if str(ability.id)==inputability:
+            if str(ability.id)==input_ability:
                 getattr(self.abilities, ability.id).value-=1
                 self.update_applicable_skills()
                 break
 
-    def abilityvalue(self, inputability):
+    def ability_value(self, input_ability):
         for ability in abilities.ALL:
-            if str(ability.id)==inputability:
+            if str(ability.id)==input_ability:
                 return getattr(self.abilities, ability.id).value
 
     def LevelUp(self):
@@ -80,33 +79,31 @@ class Character:
 
     def randomize_name(self):
         name=NameGenerator.generate_name(2, 5)
-        self.setName(name)
+        self.set_Name(name)
         print(self.name)
 
     def update_applicable_skills(self):
         self.skills = []
         for skill in skills.ALL:
-            cont = True
+            continues = True
             for subtype in skill.applicable_subtype:
                 if (self.animalsubtype==subtype):
-                    cont=False
+                    continues=False
                     break
-            if cont:
+            if continues:
                 continue
-            cont = False
+            continues = False
 
             for required_ability, min_value in skill.required_abilities.items():
                 print("In condition")
                 if getattr(self.abilities, required_ability.id).value < min_value:
-                    cont = True
+                    continues = True
                     break
-            if cont:
+            if continues:
                 continue
             self.skills.append(skill)
 
-
 # für den Charakterbogen
-
     def __str__(self):
         content = [
             '# Charakter Bogen',
@@ -118,20 +115,16 @@ class Character:
             '## Statuswerte',
             ''
         ]
-
         for ability in abilities.ALL:
             content.append('  - ' + ability.name + ': ' + str(getattr(self.abilities, ability.id).value))
-
         content.extend([
             '',
             '## Fähigkeiten',
             ''
         ])
-
         if not self.skills:
             content.append('Keine Fähigkeiten verfügbar.')
         else:
             for skill in self.skills:
                 content.append('  - ' + skill.name)
-
         return '\n'.join(content)

@@ -11,7 +11,6 @@ def draw(surface):
         elif isinstance(element, pygame.sprite.Sprite):
             surface.blit(element.image, element.rect)
 
-
 def add(element):
     elements.append(element)
 

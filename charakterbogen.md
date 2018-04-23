@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Aiwaipoa
+  - Name: Iom
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

@@ -92,7 +92,6 @@ for k in range(MAPHEIGHT):
             tile = GRASS
         tilemap[k][l] = tile
 
-
 class clsInventory(object):
     def __init__(self, inventory):
         self.inventory=inventory

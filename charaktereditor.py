@@ -65,13 +65,12 @@ class Editor:
         }
 
     def _load_gui(self):
-
         #AnimalType Buttons
-        spacing = 270
+        spacing = 272
         for animaltype in character.animaltypes.ALL:
             animaltype_image_rect = self.images['animaltypes']['normal'][animaltype.id].get_rect()
             animaltype_image_rect.right = spacing
-            animaltype_image_rect.top = 76
+            animaltype_image_rect.top = 110
             gui.add(gui.RadioButton(
                 {
                     'normal': self.images['animaltypes']['normal'][animaltype.id],
@@ -88,8 +87,8 @@ class Editor:
         #Animalsubtype Buttons
         for animalsubtype in character.animalsubtypes.ALL:
             animalsubtype_image_rect = self.images['animalsubtypes']['normal'][animalsubtype.id].get_rect()
-            animalsubtype_image_rect.right = spacing-100
-            animalsubtype_image_rect.top = 120
+            animalsubtype_image_rect.right = spacing-115
+            animalsubtype_image_rect.top = 155
             gui.add(gui.RadioButton(
                 {
                     'normal': self.images['animalsubtypes']['normal'][animalsubtype.id],
@@ -103,10 +102,12 @@ class Editor:
             ))
             spacing += 50
 
-        buttonpos=230
+        spacing=250
+        posless=352
+        posmore=308
         lesser_attribute_strength_button_rect = self.images['buttons']['less'].get_rect()
-        lesser_attribute_strength_button_rect.top = buttonpos
-        lesser_attribute_strength_button_rect.right = self.window_rect.w-290
+        lesser_attribute_strength_button_rect.top = spacing
+        lesser_attribute_strength_button_rect.right = self.window_rect.w-posless
         gui.add(gui.Button(
             self.images['buttons']['less'],
             lesser_attribute_strength_button_rect,
@@ -114,17 +115,17 @@ class Editor:
         ))
 
         more_attribute_strength_button_rect = self.images['buttons']['more'].get_rect()
-        more_attribute_strength_button_rect.top = buttonpos
-        more_attribute_strength_button_rect.right = self.window_rect.w-230
+        more_attribute_strength_button_rect.top = spacing
+        more_attribute_strength_button_rect.right = self.window_rect.w-posmore
         gui.add(gui.Button(
             self.images['buttons']['more'],
             more_attribute_strength_button_rect,
             self._click_more_attribute_strength_button
         ))
-        buttonpos+=35
+        spacing+=30
         lesser_attribute_resistance_button_rect = self.images['buttons']['less'].get_rect()
-        lesser_attribute_resistance_button_rect.top = buttonpos
-        lesser_attribute_resistance_button_rect.right = self.window_rect.w - 290
+        lesser_attribute_resistance_button_rect.top = spacing
+        lesser_attribute_resistance_button_rect.right = self.window_rect.w-posless
         gui.add(gui.Button(
             self.images['buttons']['less'],
             lesser_attribute_resistance_button_rect,
@@ -132,17 +133,17 @@ class Editor:
         ))
 
         more_attribute_resistance_button_rect = self.images['buttons']['more'].get_rect()
-        more_attribute_resistance_button_rect.top = buttonpos
-        more_attribute_resistance_button_rect.right = self.window_rect.w - 230
+        more_attribute_resistance_button_rect.top = spacing
+        more_attribute_resistance_button_rect.right = self.window_rect.w-posmore
         gui.add(gui.Button(
             self.images['buttons']['more'],
             more_attribute_resistance_button_rect,
             self._click_more_attribute_resistance_button
         ))
-        buttonpos+=35
+        spacing+=30
         lesser_attribute_dexterity_button_rect = self.images['buttons']['less'].get_rect()
-        lesser_attribute_dexterity_button_rect.top = buttonpos
-        lesser_attribute_dexterity_button_rect.right = self.window_rect.w - 290
+        lesser_attribute_dexterity_button_rect.top = spacing
+        lesser_attribute_dexterity_button_rect.right = self.window_rect.w-posless
         gui.add(gui.Button(
             self.images['buttons']['less'],
             lesser_attribute_dexterity_button_rect,
@@ -150,17 +151,17 @@ class Editor:
         ))
 
         more_attribute_dexterity_button_rect = self.images['buttons']['more'].get_rect()
-        more_attribute_dexterity_button_rect.top = buttonpos
-        more_attribute_dexterity_button_rect.right = self.window_rect.w - 230
+        more_attribute_dexterity_button_rect.top = spacing
+        more_attribute_dexterity_button_rect.right = self.window_rect.w-posmore
         gui.add(gui.Button(
             self.images['buttons']['more'],
             more_attribute_dexterity_button_rect,
             self._click_more_attribute_dexterity_button
         ))
-        buttonpos+=35
+        spacing+=30
         lesser_attribute_intelligence_button_rect = self.images['buttons']['less'].get_rect()
-        lesser_attribute_intelligence_button_rect.top = buttonpos
-        lesser_attribute_intelligence_button_rect.right = self.window_rect.w - 290
+        lesser_attribute_intelligence_button_rect.top = spacing
+        lesser_attribute_intelligence_button_rect.right = self.window_rect.w-posless
         gui.add(gui.Button(
             self.images['buttons']['less'],
             lesser_attribute_intelligence_button_rect,
@@ -168,8 +169,8 @@ class Editor:
         ))
 
         more_attribute_intelligence_button_rect = self.images['buttons']['more'].get_rect()
-        more_attribute_intelligence_button_rect.top = buttonpos
-        more_attribute_intelligence_button_rect.right = self.window_rect.w - 230
+        more_attribute_intelligence_button_rect.top = spacing
+        more_attribute_intelligence_button_rect.right = self.window_rect.w-posmore
         gui.add(gui.Button(
             self.images['buttons']['more'],
             more_attribute_intelligence_button_rect,
@@ -177,7 +178,7 @@ class Editor:
         ))
         # Randomize character name button
         randomize_name_button_rect = self.images['buttons']['randomize'].get_rect()
-        randomize_name_button_rect.top = 35
+        randomize_name_button_rect.top = 70
         randomize_name_button_rect.right = self.window_rect.w - 20
         gui.add(gui.Button(
             self.images['buttons']['randomize'],
@@ -214,9 +215,9 @@ class Editor:
             exit_button_rect,
             self._click_exit_button
         ))
+
     def play_with_this_character(self):
         print("Mit diesem Charakter das Abenteuer bestreiten?")
-
         back_button_rect = self.images['buttons']['refresh'].get_rect()
         back_button_rect.bottom = self.window_rect.h - 10
         back_button_rect.right = self.window_rect.w - 10
@@ -237,17 +238,15 @@ class Editor:
 
         self.MODE="PLAY"
 
-
     def _click_yes_button(self):
         pass
     def _click_back_button(self):
         pass
 
-
     def save_character_sheet(self):
-        if self.character.getName()!=None:
-            if self.character.gettype()!=None:
-                if self.character.getsubtype()!=None:
+        if self.character.get_Name()!=None:
+            if self.character.get_type()!=None:
+                if self.character.get_subtype()!=None:
                     logging.info('Saving character')
                     with open(settings.CHARACTER_SHEET_FILE_NAME, 'w', encoding='utf-8') as f:
                         f.write(str(self.character))
@@ -286,46 +285,46 @@ class Editor:
         sys.exit()
 
     def _click_lesser_attribute_strength_button(self, element):
-        valuetocheck=self.character.abilityvalue("strength")
+        valuetocheck=self.character.ability_value("strength")
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("strength")
-            self.character.gainexp(1)
+            self.character.gain_exp(1)
 
     def _click_more_attribute_strength_button(self, element):
-        if int(self.character.getexp()) > 0:
+        if int(self.character.get_exp()) > 0:
             self.character.lowerexp(1)
             self.character.spend_ability_points("strength")
 
     def _click_lesser_attribute_resistance_button(self, element):
-        valuetocheck=self.character.abilityvalue("resistance")
+        valuetocheck=self.character.ability_value("resistance")
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("resistance")
-            self.character.gainexp(1)
+            self.character.gain_exp(1)
 
     def _click_more_attribute_resistance_button(self, element):
-        if int(self.character.getexp()) > 0:
+        if int(self.character.get_exp()) > 0:
             self.character.lowerexp(1)
             self.character.spend_ability_points("resistance")
 
     def _click_lesser_attribute_dexterity_button(self, element):
-        valuetocheck=self.character.abilityvalue("dexterity")
+        valuetocheck=self.character.ability_value("dexterity")
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("dexterity")
-            self.character.gainexp(1)
+            self.character.gain_exp(1)
 
     def _click_more_attribute_dexterity_button(self, element):
-        if int(self.character.getexp()) > 0:
+        if int(self.character.get_exp()) > 0:
             self.character.lowerexp(1)
             self.character.spend_ability_points("dexterity")
 
     def _click_lesser_attribute_intelligence_button(self, element):
-        valuetocheck=self.character.abilityvalue("intelligence")
+        valuetocheck=self.character.ability_value("intelligence")
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("intelligence")
-            self.character.gainexp(1)
+            self.character.gain_exp(1)
 
     def _click_more_attribute_intelligence_button(self, element):
-        if int(self.character.getexp()) > 0:
+        if int(self.character.get_exp()) > 0:
             self.character.lowerexp(1)
             self.character.spend_ability_points("intelligence")
 
@@ -333,35 +332,34 @@ class Editor:
         self.character.randomize_name()
 
     #def _click_randomize_all_button(self, element):
-    #    """Called when the Randomize all character attributes button is clicked."""
     #    self.character.randomize_all()
 
     def _click_save_button(self, element):
         self.save_character_sheet()
 
     def _click_animaltype_button(self, element):
-        self.character.settype(element.value)
+        self.character.set_type(element.value)
         print(element.value)
 
     def _click_animalsubtype_button(self, element):
-        self.character.setsubtype(element.value)
+        self.character.set_subtype(element.value)
         print(element.value)
     # --------------------------------------------------------------------------
     # Drawing handlers
     def _draw_name_input(self):
-        name_text = self.fonts['normal'].render(self.character.getName(), True, settings.TEXT_COLOR)
+        name_text = self.fonts['normal'].render(self.character.get_Name(), True, settings.TEXT_COLOR)
         name_text_rect = name_text.get_rect()
-        name_text_rect.left = 240
-        name_text_rect.top = 43
-        #print(self.character.getName())
+        name_text_rect.left = 320
+        name_text_rect.top = 80
+        #print(self.character.get_Name())
         self.window.blit(name_text, name_text_rect)
 
     def _draw_abilities(self):
-        spacing = 235
+        spacing = 250
         for ability in character.abilities.ALL:
             ability_image = self.images['abilities'][ability.id]
             ability_image_rect = ability_image.get_rect()
-            ability_image_rect.left = 25
+            ability_image_rect.left = 28
             ability_image_rect.top = spacing
 
             self.window.blit(ability_image, ability_image_rect)
@@ -375,26 +373,25 @@ class Editor:
 
             ability_value = self.fonts['normal'].render(str(getattr(self.character.abilities, ability.id).value), True, settings.TEXT_COLOR)
             ability_value_rect = ability_value.get_rect()
-            ability_value_rect.left = 210
+            ability_value_rect.left = 252
             ability_value_rect.top = spacing
             self.window.blit(ability_value, ability_value_rect)
-
             spacing += 30
 
     def _draw_skills(self):
-        spacing = 235
+        spacing = 250
         for skill in self.character.skills:
         #for skill in character.skills.ALL:
             skill_image = self.images['skills'][skill.id]
             skill_image_rect = skill_image.get_rect()
-            skill_image_rect.left = 265
+            skill_image_rect.left = 320
             skill_image_rect.top = spacing
 
             self.window.blit(skill_image, skill_image_rect)
 
             skill_text = self.fonts['normal'].render(skill.name, True, settings.TEXT_COLOR)
             skill_text_rect = skill_text.get_rect()
-            skill_text_rect.left = 295
+            skill_text_rect.left = 345
             skill_text_rect.top = spacing
             self.window.blit(skill_text, skill_text_rect)
             spacing += 30

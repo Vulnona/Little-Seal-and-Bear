@@ -36,7 +36,7 @@ class Menu(object):
 
                     CharakterAussehen.showAnimal(charakter, self.screen)
 
-                    actuallevel = self.fonts['custom'].render("Level: " + str(charakter.getlevel()), 0, Farben.clsFarben.WHITE)
+                    actuallevel = self.fonts['custom'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
                     self.screen.blit(actuallevel,
                                      (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
 
@@ -91,18 +91,18 @@ class Menu(object):
                                 #print(event.key)
                                 #print(Weltkarte.inventory[key])
                                 leveltoohigh=False
-                                if (event.key == 55 and int(character.Character.getlevel(charakter))>=4):
+                                if (event.key == 55 and int(character.Character.get_level(charakter))>=4):
                                     leveltoohigh=True
                                     print("Level zu hoch für Wiesensnack")
-                                if (event.key == 56 and int(character.Character.getlevel(charakter))>=8):
+                                if (event.key == 56 and int(character.Character.get_level(charakter))>=8):
                                     leveltoohigh=True
                                     print("Level zu hoch für Blättermischung")
 
                                 if (Weltkarte.inventory[key]>=1 and leveltoohigh==False):
                                     Weltkarte.inventory[key]-=1
-                                    print(character.Character.getlevel(charakter))
+                                    print(character.Character.get_level(charakter))
                                     character.Character.LevelUp(charakter)
-                                    print(character.Character.getlevel(charakter))
+                                    print(character.Character.get_level(charakter))
                         for key in Weltkarte.controls:
                             if (event.key == Weltkarte.controls[key]):
                                 if key in Weltkarte.craftrecipes:

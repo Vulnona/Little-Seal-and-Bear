@@ -60,7 +60,7 @@ class Spiel(object):
 
     def spielen(self, MODE):
         if MODE=="STARTSCREEN":
-            if self.Charakter.getName()==None:
+            if self.Charakter.get_Name()==None:
                 NewStartingScreen = StartingScreen.clsStartScreen(self.window, MODE, False)
             else:
                 NewStartingScreen = StartingScreen.clsStartScreen(self.window, MODE, True)
@@ -83,7 +83,7 @@ class Spiel(object):
 
         elif MODE=="LOAD":
             with open('savefile.dat', 'rb') as f:
-                Charakter, Weltkarte.inventory = pickle.load(f)
+                self.Charakter, Weltkarte.inventory = pickle.load(f)
             print(MODE)
             MODE="GAME"
             return MODE
@@ -111,12 +111,12 @@ class Spiel(object):
                 player_Icon = Helfer.load_image('unknown.png')
                 player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
-                #if (isinstance(self.Charakter.gettype(), character.animaltypes.clsBaer)): #doesnt work :(
-                if(str(self.Charakter.gettype())==str(character.animaltypes.clsBaer)):
+                #if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)): #doesnt work :(
+                if(str(self.Charakter.get_type())==str(character.animaltypes.clsBaer)):
                     player_Icon = Helfer.load_image('bearicon.png')
                     player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
-                elif (str(self.Charakter.gettype())==str(character.animaltypes.clsRobbe)):
+                elif (str(self.Charakter.get_type()) == str(character.animaltypes.clsRobbe)):
                     player_Icon = Helfer.load_image('sealicon.png')
                     player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
@@ -128,12 +128,9 @@ class Spiel(object):
                 for item in Weltkarte.collectableres:
                     self.window.blit(Weltkarte.snippets[item], (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                     placePosition += 30
-                    #textObjekt = INVENTARFONT.render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE,
-                    #                                 Farben.clsFarben.BLACK)
                     textObjekt = self.fonts['normal'].render(str(Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE,Farben.clsFarben.BLACK)
                     self.window.blit(textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
                     placePosition += 50
-
 
                 interagierenbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX,
                                                  Koordinaten.clsKoordinaten.BUTTONPOSY,
@@ -175,10 +172,13 @@ class Spiel(object):
                         elif (event.key == K_e):
                             # STAR = pygame.draw.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
                             # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
-                            pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
+                            #pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
+                            pass
 
 
+
+Charakter=character.Character()
+MODE = "UNKNOWN"
 NeuesSpiel=Spiel(MODE,Charakter)
 while True:
     MODE=NeuesSpiel.spielen(MODE)
-

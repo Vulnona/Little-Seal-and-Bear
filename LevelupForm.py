@@ -1,4 +1,4 @@
-import Hauptfile
+import main
 import Weltkarte
 import random
 
@@ -17,7 +17,7 @@ class Star(object):
         pass
 
     def get_koordinaten(self):
-        loc = Hauptfile.currentTile
+        loc = main.currentTile
 
     def set_koordinaten(self):
         loc
