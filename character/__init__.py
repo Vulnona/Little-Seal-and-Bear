@@ -14,7 +14,6 @@ class Character:
         self.animalsubtype=animalsubtype
         self.level=level
         self.exp=exp
-        #self.character_skills = self.skills[:]
         self.skills = skills
         self.update_skills(self.skills)
 
@@ -132,17 +131,16 @@ class Character:
         #for skill in self.skills:
          #   print(skill)
         for skill in self.skills:
-            print(skill)
+            if skill==input_skill:
             #if (self.skills.__getattribute__(str(skill))):
             #    print(self.skills.__getattribute__(str(skill)))
             #print(self.skills.__getattribute__(input_skill))
-        print('END')
-        if self.skills.__getattribute__(input_skill).value:
-            print("True")
-            return True
-        else:
-            print("False")
-            return False
+        #print('END')
+        #if self.skills.__getattribute__(input_skill).value:
+                print("True")
+                return True
+        print("False")
+        return False
         #for skill in self.skills:
         #    print(skill.name)
         #print(self.character_skills)

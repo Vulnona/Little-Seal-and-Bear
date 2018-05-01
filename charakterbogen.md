@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Frapioz
+  - Name: Eflio
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

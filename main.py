@@ -154,9 +154,7 @@ class Spiel(object):
                         elif (event.key == K_RIGHT and player_Icon_Position[0] < Weltkarte.MAPWIDTH - 1):
                             nextTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]+1]
                             if nextTile==Weltkarte.WATER:
-                                print(Charakter.get_skills())
-                                print(Charakter.has_skill('magical_heal'))
-                                if Charakter.has_skill('magical_heal'):
+                                if Charakter.has_skill(character.skills.MagicalHealCharacterSkill):
                                     print("In magi condi")
                                     player_Icon_Position[0] += 1
                                 else:
