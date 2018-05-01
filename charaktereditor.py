@@ -223,6 +223,7 @@ class Editor:
         back_button_rect = self.images['buttons']['refresh'].get_rect()
         back_button_rect.bottom = self.window_rect.h - 10
         back_button_rect.right = self.window_rect.w - 10
+
         gui.add(gui.Button(
             self.images['buttons']['refresh'],
             back_button_rect,
@@ -295,7 +296,7 @@ class Editor:
 
     def _click_more_attribute_strength_button(self, element):
         if int(self.character.get_exp()) > 0:
-            self.character.lowerexp(1)
+            self.character.lower_exp(1)
             self.character.spend_ability_points("strength")
 
     def _click_lesser_attribute_resistance_button(self, element):
@@ -306,7 +307,7 @@ class Editor:
 
     def _click_more_attribute_resistance_button(self, element):
         if int(self.character.get_exp()) > 0:
-            self.character.lowerexp(1)
+            self.character.lower_exp(1)
             self.character.spend_ability_points("resistance")
 
     def _click_lesser_attribute_dexterity_button(self, element):
@@ -317,7 +318,7 @@ class Editor:
 
     def _click_more_attribute_dexterity_button(self, element):
         if int(self.character.get_exp()) > 0:
-            self.character.lowerexp(1)
+            self.character.lower_exp(1)
             self.character.spend_ability_points("dexterity")
 
     def _click_lesser_attribute_intelligence_button(self, element):
@@ -328,7 +329,7 @@ class Editor:
 
     def _click_more_attribute_intelligence_button(self, element):
         if int(self.character.get_exp()) > 0:
-            self.character.lowerexp(1)
+            self.character.lower_exp(1)
             self.character.spend_ability_points("intelligence")
 
     def _click_randomize_name_button(self, element):

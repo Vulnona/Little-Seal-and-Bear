@@ -48,7 +48,6 @@ class EnduranceCharacterSkill(AllSkill):
     }
 
 
-
 class StealthCharacterSkill(SchwarzSkill):
     id = 'stealth'
     name = 'Schleichen'

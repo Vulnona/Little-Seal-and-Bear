@@ -66,25 +66,26 @@ class Spiel(object):
             return MODE
 
         elif MODE=="UNKNOWN":
-            print("Game is in unknown mode: " + MODE)
+            logging.info('Game is in unknown mode: ' + MODE)
             MODE="STARTSCREEN"
             return MODE
 
         elif MODE=="SAVE":
             with open('savefile.dat', 'wb') as f:
                 pickle.dump([self.Charakter, Weltkarte.inventory], f, protocol=2)
-            print(MODE)
+            logging.info('Game saved')
             MODE="GAME"
             return MODE
 
         elif MODE=="LOAD":
             with open('savefile.dat', 'rb') as f:
                 self.Charakter, Weltkarte.inventory = pickle.load(f)
-            print(MODE)
+            logging.info('Game loaded')
             MODE="GAME"
             return MODE
 
         elif MODE=="NEWGAME":
+            logging.info('Initializing new game')
             self.window.fill(Farben.clsFarben.BLACK)
             self.Charakter=run.run()
             pygame.display.update()
@@ -151,7 +152,17 @@ class Spiel(object):
                             MODE="STARTSCREEN"
                             return MODE
                         elif (event.key == K_RIGHT and player_Icon_Position[0] < Weltkarte.MAPWIDTH - 1):
-                            player_Icon_Position[0] += 1
+                            nextTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]+1]
+                            if nextTile==Weltkarte.WATER:
+                                print(Charakter.get_skills())
+                                print(Charakter.has_skill('magical_heal'))
+                                if Charakter.has_skill('magical_heal'):
+                                    print("In magi condi")
+                                    player_Icon_Position[0] += 1
+                                else:
+                                    pass
+                            else:
+                                player_Icon_Position[0] += 1
                         elif (event.key == K_LEFT and player_Icon_Position[0] > 0):
                             player_Icon_Position[0] -= 1
                         elif (event.key == K_DOWN and player_Icon_Position[1] < Weltkarte.MAPHEIGHT - 1):
@@ -161,7 +172,7 @@ class Spiel(object):
                         elif (event.key == K_SPACE):
                             currentTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]
                             if (currentTile == Weltkarte.WATER or currentTile == Weltkarte.DIRT):
-                                pass
+                                print("Not collectable")
                             else:
                                 Weltkarte.inventory[currentTile] += 1
                                 Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]] = Weltkarte.DIRT

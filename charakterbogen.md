@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Apheos
+  - Name: Frapioz
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 
@@ -9,8 +9,8 @@
   - Stärke: 0
   - Ausdauer: 0
   - Geschicklichkeit: 0
-  - Intelligenz: 0
+  - Intelligenz: 5
 
 ## Fähigkeiten
 
-Keine Fähigkeiten verfügbar.
+  - Magische Heilung
