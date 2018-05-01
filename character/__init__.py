@@ -118,40 +118,13 @@ class Character:
             self.skills.append(skill)
 
     def update_skills(self, Liste):
-        #for i in Liste:
-        #    self.character_skills=Liste
         self.skills=Liste[:]
 
     def has_skill(self, input_skill):
-        #print(self.get_skill_id('magical_heal'))
-        print('Debugging begins...')
-        #print(self.skills.__getattribute__(input_skill).value)
-        #for skill in skills.ALL:
-        #    print(skill)
-        #for skill in self.skills:
-         #   print(skill)
         for skill in self.skills:
             if skill==input_skill:
-            #if (self.skills.__getattribute__(str(skill))):
-            #    print(self.skills.__getattribute__(str(skill)))
-            #print(self.skills.__getattribute__(input_skill))
-        #print('END')
-        #if self.skills.__getattribute__(input_skill).value:
-                print("True")
                 return True
-        print("False")
         return False
-        #for skill in self.skills:
-        #    print(skill.name)
-        #print(self.character_skills)
-        #print(self.get_skills())
-        #print(self.get_int())
-        #if (input_skill=="intelligence"):
-        #    print(self.get_int())
-        #    if (self.get_int()>4):
-        #        return True
-        #    else:
-        #        return False
 
 # für den Charakterbogen
     def __str__(self):

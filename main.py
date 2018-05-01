@@ -154,19 +154,35 @@ class Spiel(object):
                         elif (event.key == K_RIGHT and player_Icon_Position[0] < Weltkarte.MAPWIDTH - 1):
                             nextTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]+1]
                             if nextTile==Weltkarte.WATER:
-                                if Charakter.has_skill(character.skills.MagicalHealCharacterSkill):
+                                if self.Charakter.has_skill(character.skills.MagicalHealCharacterSkill):
                                     print("In magi condi")
                                     player_Icon_Position[0] += 1
                                 else:
                                     pass
-                            else:
-                                player_Icon_Position[0] += 1
                         elif (event.key == K_LEFT and player_Icon_Position[0] > 0):
-                            player_Icon_Position[0] -= 1
+                            nextTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0] + 1]
+                            if nextTile == Weltkarte.WATER:
+                                if self.Charakter.has_skill(character.skills.MagicalHealCharacterSkill):
+                                    print("In magi condi")
+                                    player_Icon_Position[0] -= 1
+                                else:
+                                    pass
                         elif (event.key == K_DOWN and player_Icon_Position[1] < Weltkarte.MAPHEIGHT - 1):
-                            player_Icon_Position[1] += 1
+                            nextTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0] + 1]
+                            if nextTile == Weltkarte.WATER:
+                                if self.Charakter.has_skill(character.skills.MagicalHealCharacterSkill):
+                                    print("In magi condi")
+                                    player_Icon_Position[1] += 1
+                                else:
+                                    pass
                         elif (event.key == K_UP and player_Icon_Position[1] > 0):
-                            player_Icon_Position[1] -= 1
+                            nextTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0] + 1]
+                            if nextTile == Weltkarte.WATER:
+                                if self.Charakter.has_skill(character.skills.MagicalHealCharacterSkill):
+                                    print("In magi condi")
+                                    player_Icon_Position[1] -= 1
+                                else:
+                                    pass
                         elif (event.key == K_SPACE):
                             currentTile = Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]
                             if (currentTile == Weltkarte.WATER or currentTile == Weltkarte.DIRT):
