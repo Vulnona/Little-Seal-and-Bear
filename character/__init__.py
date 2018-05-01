@@ -7,16 +7,15 @@ from . import animaltypes
 
 class Character:
     abilities=abilities.CharacterAbilities()
-    skills=[skills.MagicalHealCharacterSkill]
 
-    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=0, exp=10):
+    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=0, exp=10, skills=[]):
         self.name=name
         self.animaltype=animaltype
         self.animalsubtype=animalsubtype
         self.level=level
         self.exp=exp
         #self.character_skills = self.skills[:]
-        self.character_skills = skills
+        self.skills = skills
         self.update_skills(self.skills)
 
     def get_str(self):
@@ -122,7 +121,7 @@ class Character:
     def update_skills(self, Liste):
         #for i in Liste:
         #    self.character_skills=Liste
-        self.character_skills=Liste[:]
+        self.skills=Liste[:]
 
     def has_skill(self, input_skill):
         #print(self.get_skill_id('magical_heal'))
@@ -132,7 +131,7 @@ class Character:
         #    print(skill)
         #for skill in self.skills:
          #   print(skill)
-        for skill in self.character_skills:
+        for skill in self.skills:
             print(skill)
             #if (self.skills.__getattribute__(str(skill))):
             #    print(self.skills.__getattribute__(str(skill)))
