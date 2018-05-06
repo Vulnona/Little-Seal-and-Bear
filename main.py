@@ -1,5 +1,6 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
+# Spritehseets: https://www.pygame.org/wiki/Spritesheet?parent=
 
 import pygame
 import sys
