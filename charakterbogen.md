@@ -1,16 +1,16 @@
 # Charakter Bogen
 
-  - Name: Ish
+  - Name: Thoek
   - Tierart: <class 'character.animaltypes.clsRobbe'>
-  - Farbe: <class 'character.animalsubtypes.Grau'>
+  - Farbe: <class 'character.animalsubtypes.Weiss'>
 
 ## Statuswerte
 
-  - Stärke: 4
-  - Ausdauer: 2
-  - Geschicklichkeit: 2
-  - Intelligenz: 2
+  - Stärke: 1
+  - Ausdauer: 1
+  - Geschicklichkeit: 3
+  - Intelligenz: 5
 
 ## Fähigkeiten
 
-  - Flammenbiss
+  - Magische Heilung

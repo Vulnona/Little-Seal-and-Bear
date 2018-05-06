@@ -15,7 +15,7 @@ class Editor:
     def __init__(self):
         self.clock = pygame.time.Clock()
         self.window = pygame.display.set_mode(
-            settings.WINDOW_SIZE, pygame.DOUBLEBUF)
+            settings.WINDOW_SIZE, pygame.DOUBLEBUF | pygame.HWSURFACE)
         self.window_rect = self.window.get_rect()
         self._load_fonts()
         self._load_images()
@@ -261,9 +261,9 @@ class Editor:
         pass
 
     def save_character_sheet(self):
-        if self.character.get_Name() not None:
-            if self.character.get_type() not None:
-                if self.character.get_subtype() not None:
+        if self.character.get_Name() is not None:
+            if self.character.get_type() is not None:
+                if self.character.get_subtype() is not None:
                     logging.info('Saving character')
                     with open(settings.CHARACTER_SHEET_FILE_NAME, 'w', encoding='utf-8') as f:
                         f.write(str(self.character))
