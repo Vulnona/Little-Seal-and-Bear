@@ -1,16 +1,16 @@
 # Charakter Bogen
 
-  - Name: Eboo
-  - Tierart: <class 'character.animaltypes.clsBaer'>
+  - Name: Ish
+  - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Grau'>
 
 ## Statuswerte
 
-  - Stärke: 0
-  - Ausdauer: 0
-  - Geschicklichkeit: 6
-  - Intelligenz: 0
+  - Stärke: 4
+  - Ausdauer: 2
+  - Geschicklichkeit: 2
+  - Intelligenz: 2
 
 ## Fähigkeiten
 
-  - Erdbeben
+  - Flammenbiss
