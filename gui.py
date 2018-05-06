@@ -1,8 +1,9 @@
 import pygame
 
-#Button Vorlagen und Event Handling
+# Button Vorlagen und Event Handling
 
 elements = []
+
 
 def draw(surface):
     for element in elements:
@@ -11,14 +12,17 @@ def draw(surface):
         elif isinstance(element, pygame.sprite.Sprite):
             surface.blit(element.image, element.rect)
 
+
 def add(element):
     elements.append(element)
+
 
 def event_handler(event):
     for element in elements:
         if element.event_handler(event):
             return True
     return False
+
 
 class Button(pygame.sprite.Sprite):
     is_hovered = False
@@ -44,8 +48,10 @@ class Button(pygame.sprite.Sprite):
                 return True
         return False
 
+
 class RadioButton(pygame.sprite.Sprite):
     is_hovered = False
+
     def __init__(self, images, rect, name, value, on_click=None, selected=False):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
@@ -56,6 +62,7 @@ class RadioButton(pygame.sprite.Sprite):
         self.selected = selected
         self.update()
         self.update_buttons_group()
+
     def event_handler(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos):
             for element in elements:

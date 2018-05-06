@@ -2,7 +2,9 @@ import main
 import Weltkarte
 import random
 
-#sollte später integriert werden in das Objekt character
+# sollte später integriert werden in das Objekt character
+
+
 class Star(object):
     def __init__(self, zackzahl, farbe, groesse, screen):
         self.Zackenzahl = zackzahl
@@ -32,17 +34,16 @@ class Star(object):
 
         i++
 
-
     pointlist = [(startpunktx, startpunkty), ()]
 
     def Sternbewegung(self, screen):
-        screen.blit(textures(Star).convert_alpha(), (Posx,Posy))
-        #stern bewegt sich nach oben/unten
-        Posy+=1
+        screen.blit(textures(Star).convert_alpha(), (Posx, Posy))
+        # stern bewegt sich nach oben/unten
+        Posy += 1
 
-        if Posy>Weltkarte.MAPWIDTH*Weltkarte.TILESIZE:
-            Posx=random.randint(0,Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE)
-            Posy=-200
+        if Posy > Weltkarte.MAPWIDTH*Weltkarte.TILESIZE:
+            Posx = random.randint(0, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE)
+            Posy = -200
 # pygame.display.set_caption("Screentitle")
 
     # pointlists for different stars
