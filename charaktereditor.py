@@ -254,6 +254,12 @@ class Editor:
                     with open(settings.CHARACTER_SHEET_FILE_NAME, 'w', encoding='utf-8') as f:
                         f.write(str(self.character))
                     self.play_with_this_character()
+                else:
+                    logging.info('Subtype missing')
+            else:
+                logging.info('Type missing')
+        else:
+            logging.info('Name missing')
 
     def update(self):
         # Events handling
@@ -343,11 +349,11 @@ class Editor:
 
     def _click_animaltype_button(self, element):
         self.character.set_type(element.value)
-        print(element.value)
+        self.character.set_status_initial(element.value)
 
     def _click_animalsubtype_button(self, element):
         self.character.set_subtype(element.value)
-        print(element.value)
+
     # --------------------------------------------------------------------------
     # Drawing handlers
     def draw_avatar(self):

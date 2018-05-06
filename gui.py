@@ -18,9 +18,7 @@ def event_handler(event):
     for element in elements:
         if element.event_handler(event):
             return True
-
     return False
-
 
 class Button(pygame.sprite.Sprite):
     is_hovered = False

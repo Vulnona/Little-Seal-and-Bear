@@ -78,16 +78,14 @@ class GrasMovementCharacterSkill(SchwarzSkill):
         abilities.IntelligenceCharacterAbility: 4
     }
 
-
 class BiteCharacterSkill(GrauSkill):
     id = 'bite'
-    name = 'Biss'
+    name = 'Flammenbiss'
 
     required_abilities = {
         abilities.StrengthCharacterAbility: 4,
         abilities.DexterityCharacterAbility: 2
     }
-
 
 class RunnerCharacterSkill(GrauSkill):
     id = 'runner'
@@ -99,16 +97,14 @@ class RunnerCharacterSkill(GrauSkill):
         abilities.IntelligenceCharacterAbility: 5
     }
 
-
 class EarthquakeCharacterSkill(GrauSkill):
     id = 'earthquake'
     name = 'Erdbeben'
 
     required_abilities = {
-        abilities.StrengthCharacterAbility: 15,
+        #abilities.StrengthCharacterAbility: 15,
         abilities.DexterityCharacterAbility: 6
     }
-
 
 class MagicalHealCharacterSkill(WeissSkill):
     id = 'magical_heal'
@@ -118,17 +114,15 @@ class MagicalHealCharacterSkill(WeissSkill):
         abilities.IntelligenceCharacterAbility: 5
     }
 
-
 class PlantingCharacterSkill(WeissSkill):
     id = 'plant'
     name = 'Natur erwecken'
 
     required_abilities = {
-        abilities.IntelligenceCharacterAbility: 8,
-        abilities.ResistanceCharacterAbility: 4,
+        #abilities.IntelligenceCharacterAbility: 8,
+        #abilities.ResistanceCharacterAbility: 4,
         abilities.DexterityCharacterAbility: 4
     }
-
 
 class SaversCharacterSkill(WeissSkill):
     id = 'robe'
@@ -139,17 +133,16 @@ class SaversCharacterSkill(WeissSkill):
         abilities.ResistanceCharacterAbility: 7
     }
 
-
 ALL = [
-    SwimmingCharacterSkill,
-    EnduranceCharacterSkill,
-    StealthCharacterSkill,
+    SwimmingCharacterSkill, #included functionality
+    EnduranceCharacterSkill, #partly included functionality
+    StealthCharacterSkill, #MAGIC!
     TailCharacterSkill,
-    GrasMovementCharacterSkill,
-    BiteCharacterSkill,
-    RunnerCharacterSkill,
+    GrasMovementCharacterSkill, #included functionality
+    BiteCharacterSkill, #MAGIC!
+    RunnerCharacterSkill, #included functionality
     EarthquakeCharacterSkill,
-    MagicalHealCharacterSkill,
-    PlantingCharacterSkill,
-    SaversCharacterSkill
+    MagicalHealCharacterSkill, #included functionality
+    PlantingCharacterSkill, #included functionality
+    SaversCharacterSkill #NO MAGIC!
 ]

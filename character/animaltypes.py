@@ -18,5 +18,4 @@ ALL = [
 ]
 
 def pick_random():
-    """Zufallsgenerierte Tierart..."""
     return random.choice(ALL)

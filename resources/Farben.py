@@ -11,3 +11,6 @@ class clsFarben(object):
     DARKGREEN = (34, 139, 34)
     BLUE = (0, 0, 255)
     BROWN = (139, 69, 19)
+    LIGHTGREY = (211,211,211)
+    GREY = (128,128,128)
+    DARKGREY = (105,105,105)

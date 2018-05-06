@@ -8,12 +8,62 @@ import character
 import CharakterAussehen
 import Helfer
 
+class Bubble(object):
+    def __init__(self, screen, player_Icon_Position, bubble_position_x, bubble_position_y, attack_form, active):
+        self.screen=screen
+        self.bubble_position_x = bubble_position_x
+        self.bubble_position_y = bubble_position_y
+        self.bubble_size = 20
+        self.player_Icon_Position=player_Icon_Position
+        self.attack_form=attack_form
+        self.active=active #in near of an enemy
+        self._load_images()
+
+    def _load_images(self):
+        self.images = {
+            'standard': Helfer.load_image('unknown.png'),
+            'skills': {skill.id: Helfer.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL}
+        }
+
+    def draw_bubble(self):
+
+        circle_x=(self.player_Icon_Position[0] + self.bubble_position_x)*Weltkarte.TILESIZE
+        circle_y=(self.player_Icon_Position[1] + self.bubble_position_y)*Weltkarte.TILESIZE
+
+        if self.active==True:
+            circle=pygame.draw.circle(self.screen, Farben.clsFarben.LIGHTGREY,[circle_x,circle_y], self.bubble_size)
+        else: #not near an enemy
+            circle=pygame.draw.circle(self.screen, Farben.clsFarben.DARKGREY, [circle_x, circle_y], self.bubble_size)
+
+        if self.attack_form!="standard":
+            icon = self.images['skills'][self.attack_form]
+        else:
+            icon = self.images['standard']
+            icon=pygame.transform.scale(
+                    icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+        #Positioning of the skill image on circle
+        if self.bubble_position_x>0:
+            blit_icon_x=circle_x-10
+        else:
+            blit_icon_x=circle_x-12
+        if self.bubble_position_y>0:
+            blit_icon_y=circle_y-10
+        else:
+            blit_icon_y=circle_y-8
+
+        self.screen.blit(
+            icon, (
+                blit_icon_x, blit_icon_y
+                )
+        )
+        pygame.display.update()
+        return circle
 
 class Menu(object):
     def __init__(self, screen, charakter):
         self.screen=screen
         self.charakter=charakter
-
         self.fonts = {
             'normal': Helfer.load_font('celtic_gaelige.ttf', 19),
             'custom': Helfer.load_font('customfont.ttf', 19)
@@ -22,9 +72,6 @@ class Menu(object):
         proceed=True
         while proceed:
             pygame.display.update()
-            #Weltkarte.clsInventory.showInventory(self)
-            #Weltkarte.clsTileMap.showTilemap(self)
-
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -121,9 +168,6 @@ class Menu(object):
 
 
     def draw(self, screen, charakter):
-        # Rect(left, top, width, height)
-        buttonwidth = 80
-        buttonheigth = 20
         BG = pygame.Rect(45, 75, 500, 500)
         exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
         feedbutton = pygame.Rect(Koordinaten.clsKoordinaten.FEEDBUTTONPOSX, Koordinaten.clsKoordinaten.FEEDBUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
@@ -146,7 +190,6 @@ class Menu(object):
 
                     CharakterAussehen.showAnimal(charakter, self.screen)
 
-
                     if event.type == MOUSEBUTTONDOWN:
                         mousepos = event.pos
                         if exitbutton.collidepoint(mousepos):
@@ -155,5 +198,3 @@ class Menu(object):
                             self.interaktionen(charakter)
 
                 pygame.display.update()
-
-

@@ -22,15 +22,15 @@ WATER = 6
 textures={
     GRASS : pygame.image.load('./resources/images/ressourcen/grasstexture.png').convert(),
     HIGHGRASS : pygame.image.load('./resources/images/ressourcen/highgrasstexture.png').convert(),
-    DIRT : pygame.image.load('./resources/images/ressourcen/dirttexture.jpg').convert(),
+    DIRT : pygame.image.load('./resources/images/ressourcen/dirttexture.png').convert(),
     WATER : pygame.image.load('./resources/images/ressourcen/watertexture.png').convert()
 }
 
 #snippets
 grasssnippet = pygame.image.load('./resources/images/ressourcen/grasstexture.png').convert()
-grasssnippet = pygame.transform.scale(grasssnippet,(20,20))
+grasssnippet = pygame.transform.scale(grasssnippet,(TILESIZE,TILESIZE))
 highgrasssnippet = pygame.image.load('./resources/images/ressourcen/highgrasstexture.png').convert()
-highgrasssnippet = pygame.transform.scale(highgrasssnippet,(20,20))
+highgrasssnippet = pygame.transform.scale(highgrasssnippet,(TILESIZE,TILESIZE))
 
 wiesensnacksnippet = pygame.image.load('./resources/images/ressourcen/wiesensnack.png')
 wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet, (
@@ -86,7 +86,7 @@ for k in range(MAPHEIGHT):
         randomint = random.randint(0, 20)
         if randomint == 0:
             tile = WATER
-        elif randomint >= 0 and randomint <= 5:
+        elif randomint > 0 and randomint <= 5:
             tile = HIGHGRASS
         else:
             tile = GRASS
