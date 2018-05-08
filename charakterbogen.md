@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Jav
+  - Name: Iuglap
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 
