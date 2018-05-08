@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Uwoo
+  - Name: Glo
   - Tierart: <class 'character.animaltypes.clsRobbe'>
-  - Farbe: <class 'character.animalsubtypes.Weiss'>
+  - Farbe: <class 'character.animalsubtypes.Grau'>
 
 ## Statuswerte
 

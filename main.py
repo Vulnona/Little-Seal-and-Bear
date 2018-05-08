@@ -51,7 +51,6 @@ Enemies = Objekte.cls_Enemies()
 Enemies.fill_Enemies_list()
 
 
-
 class Spiel(object):
 
     def __init__(self, MODE, Charakter):
@@ -141,6 +140,7 @@ class Spiel(object):
             return MODE
 
         elif MODE == "GAME":
+            global direction
             blackbar = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND,
                                    Weltkarte.MAPWIDTH * Weltkarte.TILESIZE,
                                    Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
@@ -152,10 +152,9 @@ class Spiel(object):
                                           'Charakter',
                                           bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
             characterButton.font=self.fonts['small']
-
+            direction=""
             while True:
                 pygame.display.update()
-
                 for row in range(Weltkarte.MAPHEIGHT):
                     for column in range(Weltkarte.MAPWIDTH):
                         self.window.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]],
@@ -175,26 +174,25 @@ class Spiel(object):
                         player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                 elif (str(self.Charakter.get_type()) == str(character.animaltypes.clsRobbe)):
-                    #player_Icon = self.images['player_icon']['seal']
                     player_Sprite = self.spritesheets['sealsprites']
-                    player_Icon = player_Sprite.image_at((0,0,(576/12),(384/8)), colorkey=(0,0,0))
+                    # a x b pixels
+                    a = 576 / 12
+                    b = 384 / 8
+                    if direction == "right":
+                        player_Icon = player_Sprite.image_at((0, b*2, a, b), colorkey=(0 , 0, 0))
+                    else:
+                        player_Icon = player_Sprite.image_at((0, 0, a, b), colorkey=(0, 0, 0))
                     player_Icon = pygame.transform.scale(
                         player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                    images=[]
-                    #a x b pixels
-                    a=576/12
-                    b=384/8
 
                     sprites_seal_right=[]
                     for sprite_pos in range (6):
                         seal_right=(sprite_pos,b*2,a,b)
                         sprites_seal_right.append((seal_right))
 
-                    #sprite = pygame.transform.scale(
-                    #    sprite, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-
                     images=player_Sprite.images_at(rects=sprites_seal_right, colorkey=[0,0,0])
-                    #images=pygame.transform.scale(images, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                    for rect in images:
+                        rect=pygame.transform.scale(rect, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                 self.window.blit(
                     player_Icon, (
@@ -238,19 +236,6 @@ class Spiel(object):
                             MODE = "STARTSCREEN"
                             return MODE
                         elif (event.key == K_RIGHT and player_Icon_Position[0] < Weltkarte.MAPWIDTH - 1):
-                            WalkAnim = pyganim.PygAnimation([(images[0], 10), (images[1], 10), (images[2], 10,
-                                                            ), (images[3], 10), (images[4], 10), (images[5], 10)])
-                            WalkAnim.play()
-                            m = 100
-                            for i in range(m):
-                                print(player_Icon_Position[0])
-                                print(player_Icon_Position[1])
-                                WalkAnim.blit(self.window,
-                                              (player_Icon_Position[0] * Weltkarte.TILESIZE,
-                                               player_Icon_Position[1] * Weltkarte.TILESIZE))
-                                pygame.display.update()
-                                fpsClock.tick(30)
-                                i -= 1
                             if self.Charakter.get_status_temp('endu')<=0:
                                 print('Keine Energie mehr verfügbar')
                             else:
@@ -269,6 +254,22 @@ class Spiel(object):
                                     else:
                                         cont=False
                                 if cont:
+                                    WalkAnim = pyganim.PygAnimation([(images[0], 100), (images[1], 20), (images[2], 20,
+                                                                                                         ),
+                                                                     (images[3], 20), (images[4], 20), (images[5], 20)])
+                                    WalkAnim.play()
+                                    walk = 0.0
+                                    m = 100
+                                    for i in range(m):
+                                        WalkAnim.blit(self.window,
+                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE + walk,
+                                                       player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        pygame.display.update()
+                                        fpsClock.tick(30)
+                                        i -= 1
+                                        walk += 0.45
+                                    direction = "right"
+
                                     player_Icon_Position[0] += 1
                                     self.Charakter.change_status_temp('endu', '-')
                                     if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
