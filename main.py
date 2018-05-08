@@ -1,14 +1,15 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# Spritehseets: https://www.pygame.org/wiki/Spritesheet?parent=
 
 import pygame
 import sys
+import gui
 import os
 import logging
 from pygame.locals import *
 import pickle
 import inspect
+import pyganim
 import StartingScreen
 import Weltkarte
 import Objekte
@@ -50,6 +51,7 @@ Enemies = Objekte.cls_Enemies()
 Enemies.fill_Enemies_list()
 
 
+
 class Spiel(object):
 
     def __init__(self, MODE, Charakter):
@@ -58,11 +60,13 @@ class Spiel(object):
         self.window = Weltkarte.SURFACE
         self._load_fonts()
         self._load_images()
+        self._load_spritesheets()
 
     def _load_fonts(self):
         logging.info('Loading fonts')
         self.fonts = {
-            'normal': Helfer.load_font('celtic_gaelige.ttf', 19)
+            'normal': Helfer.load_font('celtic_gaelige.ttf', 19),
+            'small': Helfer.load_font('celtic_gaelige.ttf', 14)
         }
 
     def _load_images(self):
@@ -86,6 +90,13 @@ class Spiel(object):
             }
         }
 
+    def _load_spritesheets(self):
+        logging.info('Loading Spritesheets')
+
+        self.spritesheets = {
+            'sealsprites': Helfer.spritesheet('seal.png')
+        }
+
     def spielen(self, MODE):
         if MODE == "STARTSCREEN":
             if self.Charakter.get_Name() is None:
@@ -94,9 +105,18 @@ class Spiel(object):
             else:
                 NewStartingScreen = StartingScreen.clsStartScreen(
                     self.window, MODE, True)
-            NewStartingScreen.draw(self.window)
-            pygame.display.update()
-            MODE = NewStartingScreen.whichMode()
+            #NewStartingScreen.draw(self.window)
+            #print(MODE)
+            #pygame.display.update()
+            #MODE = NewStartingScreen.whichMode()
+            proceed=True
+            while proceed:
+                pygame.display.update()
+                print(MODE)
+                NewStartingScreen.draw()
+                if MODE != "STARTSCREEN":
+                    print('not startscreen')
+                    proceed=False
             return MODE
 
         elif MODE == "UNKNOWN":
@@ -131,6 +151,15 @@ class Spiel(object):
             blackbar = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND,
                                    Weltkarte.MAPWIDTH * Weltkarte.TILESIZE,
                                    Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
+
+            characterButton=gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
+                                             Koordinaten.clsKoordinaten.BUTTONPOSY,
+                                             Koordinaten.clsKoordinaten.BUTTONWIDTH,
+                                             Koordinaten.clsKoordinaten.BUTTONHEIGTH),
+                                          'Charakter',
+                                          bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+            characterButton.font=self.fonts['small']
+
             while True:
                 pygame.display.update()
 
@@ -140,6 +169,7 @@ class Spiel(object):
                                          (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
                 pygame.draw.rect(
                     self.window, Farben.clsFarben.BLACK, blackbar)
+                characterButton.draw(self.window)
 
                 player_Icon = self.images['unknown']
                 player_Icon = pygame.transform.scale(
@@ -152,9 +182,26 @@ class Spiel(object):
                         player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                 elif (str(self.Charakter.get_type()) == str(character.animaltypes.clsRobbe)):
-                    player_Icon = self.images['player_icon']['seal']
+                    #player_Icon = self.images['player_icon']['seal']
+                    player_Sprite = self.spritesheets['sealsprites']
+                    player_Icon = player_Sprite.image_at((0,0,(576/12),(384/8)), colorkey=(0,0,0))
                     player_Icon = pygame.transform.scale(
                         player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                    images=[]
+                    #a x b pixels
+                    a=576/12
+                    b=384/8
+
+                    sprites_seal_right=[]
+                    for sprite_pos in range (6):
+                        seal_right=(sprite_pos,b*2,a,b)
+                        sprites_seal_right.append((seal_right))
+
+                    #sprite = pygame.transform.scale(
+                    #    sprite, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                    images=player_Sprite.images_at(rects=sprites_seal_right, colorkey=[0,0,0])
+                    #images=pygame.transform.scale(images, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                 self.window.blit(
                     player_Icon, (
@@ -179,44 +226,38 @@ class Spiel(object):
                             enemy_Icon_Position[0] * Weltkarte.TILESIZE, enemy_Icon_Position[1] * Weltkarte.TILESIZE))
 
                 #Snippets Showing
-                placePosition = 50
-                for item in Weltkarte.collectableres:
-                    self.window.blit(
-                        Weltkarte.snippets[item], (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                    placePosition += 30
-                    textObjekt = self.fonts['normal'].render(str(
-                        Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
-                    self.window.blit(
-                        textObjekt, (placePosition, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                    placePosition += 50
+                Weltkarte.clsTileMap.drawSnippets(self.window)
 
-                interagierenbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX,
-                                                 Koordinaten.clsKoordinaten.BUTTONPOSY,
-                                                 Koordinaten.clsKoordinaten.BUTTONWIDTH,
-                                                 Koordinaten.clsKoordinaten.BUTTONHEIGTH)
-
-                pygame.draw.rect(
-                    self.window, Farben.clsFarben.DARKRED, interagierenbutton)
-                label = self.fonts['normal'].render(
-                    "Charakter", 1, Farben.clsFarben.WHITE)
-                self.window.blit(label, (Koordinaten.clsKoordinaten.CHARSHEETPOSX,
-                                         Koordinaten.clsKoordinaten.CHARSHEETPOSY))
                 #Key and Mouse Input Handling
                 for event in pygame.event.get():
                     if event.type == QUIT:
                         pygame.quit()
                         sys.exit()
-                    elif event.type == MOUSEBUTTONDOWN:
-                        mousepos = event.pos
-                        if interagierenbutton.collidepoint(mousepos):
-                            Charaktermenu = Interaktion.Menu(
-                                self.window, self.Charakter)
-                            Charaktermenu.draw(self.window, self.Charakter)
-                    elif event.type == KEYDOWN:
+
+                    #Button: 'Charakter'
+                    events = characterButton.handleEvent(event)
+                    if 'click' in events:
+                        Charaktermenu = Interaktion.Menu(self.window, self.Charakter)
+                        Charaktermenu.draw(self.Charakter)
+
+                    if event.type == KEYDOWN:
                         if (event.key == K_ESCAPE):
                             MODE = "STARTSCREEN"
                             return MODE
                         elif (event.key == K_RIGHT and player_Icon_Position[0] < Weltkarte.MAPWIDTH - 1):
+                            WalkAnim = pyganim.PygAnimation([(images[0], 10), (images[1], 10), (images[2], 10,
+                                                            ), (images[3], 10), (images[4], 10), (images[5], 10)])
+                            WalkAnim.play()
+                            m = 100
+                            for i in range(m):
+                                print(player_Icon_Position[0])
+                                print(player_Icon_Position[1])
+                                WalkAnim.blit(self.window,
+                                              (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                               player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                pygame.display.update()
+                                fpsClock.tick(30)
+                                i -= 1
                             if self.Charakter.get_status_temp('endu')<=0:
                                 print('Keine Energie mehr verfügbar')
                             else:
@@ -576,6 +617,8 @@ class Spiel(object):
                             print(self.Charakter.get_status_temp('health'))
                             print(self.Charakter.get_status_max('endu'))
                             print(self.Charakter.get_status_temp('endu'))
+
+
 
 NeuesSpiel = Spiel(MODE, Charakter)
 while True:

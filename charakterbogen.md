@@ -1,16 +1,16 @@
 # Charakter Bogen
 
-  - Name: Eboo
-  - Tierart: <class 'character.animaltypes.clsBaer'>
-  - Farbe: <class 'character.animalsubtypes.Grau'>
+  - Name: Voac
+  - Tierart: <class 'character.animaltypes.clsRobbe'>
+  - Farbe: <class 'character.animalsubtypes.Weiss'>
 
 ## Statuswerte
 
   - Stärke: 0
   - Ausdauer: 0
-  - Geschicklichkeit: 6
+  - Geschicklichkeit: 0
   - Intelligenz: 0
 
 ## Fähigkeiten
 
-  - Erdbeben
+Keine Fähigkeiten verfügbar.

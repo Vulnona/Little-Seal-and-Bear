@@ -1,6 +1,8 @@
 import pygame, sys
 from pygame.locals import *
 import Weltkarte
+import Helfer
+import gui
 from resources import Farben
 
 
@@ -9,58 +11,60 @@ class clsStartScreen(object):
         self.screen=screen
         self.MODE=MODE
         self.Status=Status
+        self.fonts = {
+            'normal': Helfer.load_font('celtic_gaelige.ttf', 19)
+        }
 
-    def draw(self, screen):
-        INVENTARFONT = pygame.font.Font('./resources/fonts/customfont.ttf', 19)
+    def draw(self):
         background=pygame.Rect(Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50, 400,400)
 
+        returnButton = gui.PygButton((100, 100, 80, 20),
+                                     'Weiter',
+                                     bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        returnButton.font = self.fonts['normal']
+        newgameButton = gui.PygButton((100, 100, 80, 20),
+                                     'Neues Spiel',
+                                     bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        newgameButton.font = self.fonts['normal']
+        saveButton = gui.PygButton((100, 200, 80, 20),
+                                   'Speichern',
+                                   bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        saveButton.font = self.fonts['normal']
+        loadButton = gui.PygButton((200, 100, 80, 20),
+                                     'Laden',
+                                     bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        returnButton.font = self.fonts['normal']
+
         if self.Status:
-            returnbutton = pygame.Rect(100, 100, 80, 20)
-            returnbuttonlabel = INVENTARFONT.render("Weiter", 1, Farben.clsFarben.WHITE)
-            pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, returnbutton)
-            self.screen.blit(returnbuttonlabel, (100, 100))
-
-            savebutton = pygame.Rect(100, 200, 80, 20)
-            savebuttonlabel = INVENTARFONT.render("Speichern", 1, Farben.clsFarben.WHITE)
-            pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, savebutton)
-            self.screen.blit(savebuttonlabel, (100, 200))
+            returnButton.draw(self.screen)
+            saveButton.draw(self.screen)
         else:
-            newgamebutton=pygame.Rect(100,100,80,20)
-            newgamebuttonlabel=INVENTARFONT.render("Neues Spiel", 1, Farben.clsFarben.WHITE)
-            pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, newgamebutton)
-            self.screen.blit(newgamebuttonlabel, (100, 100))
+            newgameButton.draw(self.screen)
 
+        loadButton.draw(self.screen)
 
-        loadbutton = pygame.Rect(200,100, 80,20)
-        loadbuttonlabel=INVENTARFONT.render("Laden", 1, Farben.clsFarben.WHITE)
-
-        pygame.draw.rect(self.screen, Farben.clsFarben.WHITE, background)
-        pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, loadbutton)
-        self.screen.blit(loadbuttonlabel, (200,100))
-
-#    def decideMode(self):
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type==MOUSEBUTTONDOWN:
-                mousepos=event.pos
+        while self.whichMode()=="STARSCREEN":
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
                 if self.Status:
-                    if returnbutton.collidepoint(mousepos):
+                    events = returnButton.handleEvent(event)
+                    if 'click' in events:
                         self.MODE = "GAME"
-                    elif savebutton.collidepoint(mousepos):
+                    events = saveButton.handleEvent(event)
+                    if 'click' in events:
                         self.MODE = "SAVE"
-                    elif loadbutton.collidepoint(mousepos):
+                    events = loadButton.handleEvent(event)
+                    if 'click' in events:
                         self.MODE = "LOAD"
-                    else:
-                        self.MODE = "STARTSCREEN"
                 else:
-                    if newgamebutton.collidepoint(mousepos):
+                    events = newgameButton.handleEvent(event)
+                    if 'click' in events:
                         self.MODE = "NEWGAME"
-                    elif loadbutton.collidepoint(mousepos):
+                    events = loadButton.handleEvent(event)
+                    if 'click' in events:
                         self.MODE = "LOAD"
-                    else:
-                        self.MODE = "STARTSCREEN"
 
     def whichMode(self):
         return self.MODE

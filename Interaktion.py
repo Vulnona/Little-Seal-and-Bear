@@ -1,5 +1,5 @@
-#http://usingpython.com/dl/StayAlive.py
 import pygame
+import gui
 import sys
 from pygame.locals import *
 from resources import Farben, Koordinaten
@@ -26,7 +26,7 @@ class Bubble(object):
         }
 
     def draw_bubble(self):
-
+    #BENÖTIGT ÜBERARBEITUNG
         circle_x=(self.player_Icon_Position[0] + self.bubble_position_x)*Weltkarte.TILESIZE
         circle_y=(self.player_Icon_Position[1] + self.bubble_position_y)*Weltkarte.TILESIZE
 
@@ -69,6 +69,18 @@ class Menu(object):
             'custom': Helfer.load_font('customfont.ttf', 19)
         }
     def interaktionen(self, charakter):
+        #BENÖTIGT ÜBERARBEITUNG
+        textbackground = pygame.Rect(80, 100, 100, 600)# textbackground: background for all craftable values, and collectable values
+        actuallevel = self.fonts['custom'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
+        exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
+                                    Koordinaten.clsKoordinaten.BUTTONPOSY,
+                                    Koordinaten.clsKoordinaten.BUTTONWIDTH,
+                                    Koordinaten.clsKoordinaten.BUTTONHEIGTH),
+                                   'Zurück',
+                                   bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        exitButton.font = self.fonts['normal']
+        craftlabel = self.fonts['custom'].render("Craftables: ", 0, Farben.clsFarben.WHITE)
+        craftbuttony = 200
         proceed=True
         while proceed:
             pygame.display.update()
@@ -76,44 +88,24 @@ class Menu(object):
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
+                events = exitButton.handleEvent(event)
+                if 'click' in events:
+                    proceed = False
                 else:
-                    #textbackground: background for all craftable values, and collectable values
-                    textbackground=pygame.Rect(80,100,100,600)
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, textbackground)
-
                     CharakterAussehen.showAnimal(charakter, self.screen)
-
-                    actuallevel = self.fonts['custom'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
                     self.screen.blit(actuallevel,
                                      (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
-
-                    craftlabel = self.fonts['custom'].render("Craftables: ", 0, Farben.clsFarben.WHITE)
-                    exitlabel = self.fonts['custom'].render("Zurück", 0, Farben.clsFarben.WHITE)
-                    craftbuttonx=100
-                    craftbuttony=200
-                    exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH)
-                    #@andre: falsche Größe exitbutton
-                    pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
+                    exitButton.draw(self.screen)
                     self.screen.blit(craftlabel, (
                     Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
-                    self.screen.blit(exitlabel, (
-                    Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONWIDTH))
-                    #@Andre: falsche Position des Labels exitlabel
-                    placePosition= Koordinaten.clsKoordinaten.INVPLACEPOS
-                    placePositioncoll = 50
-                    for item in Weltkarte.collectableres:
-                        self.screen.blit(Weltkarte.snippets[item],
-                                     (placePositioncoll, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                        placePositioncoll += 30
-                        textObjekt = self.fonts['custom'].render(str(Weltkarte.inventory[item]), False, Farben.clsFarben.WHITE,
-                                                         Farben.clsFarben.BLACK)
-                        self.screen.blit(textObjekt, (placePositioncoll, Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE + 20))
-                        placePositioncoll += 50
+
+                    Weltkarte.clsTileMap.drawSnippets(self.screen)
 
                     #liste: buttons to be pressed for crafting and feeding
                     liste=[0,0,1,2,3]
                     listezwei=[0,0,7,8,9]
-
+                    placePosition = Koordinaten.clsKoordinaten.INVPLACEPOS
                     for item in Weltkarte.craftables:
                         #displaying craft snippets
                         self.screen.blit(Weltkarte.snippets[item], (120, placePosition))
@@ -124,13 +116,10 @@ class Menu(object):
                         placePosition += 40
                         craftinglabel = self.fonts['custom'].render("Herstellen: Drücke " + str(liste[item]), False, Farben.clsFarben.GOLD)
                         feedlabel = self.fonts['custom'].render("Füttern:  Drücke " + str(listezwei[item]), False, Farben.clsFarben.GOLD)
-                        self.screen.blit(craftinglabel, (craftbuttonx + 5, craftbuttony - 14))
-                        self.screen.blit(feedlabel, (craftbuttonx+5, craftbuttony-1))
+                        self.screen.blit(craftinglabel, (105, craftbuttony-14))
+                        self.screen.blit(feedlabel, (105, craftbuttony-1))
                         craftbuttony+=100
-                    if event.type == MOUSEBUTTONDOWN:
-                        mousepos = event.pos
-                        if exitbutton.collidepoint(mousepos):
-                            proceed = False
+
                     if event.type == KEYDOWN:
                         for key in Weltkarte.feedcontrols:
                             if (event.key == Weltkarte.feedcontrols[key]):
@@ -144,7 +133,6 @@ class Menu(object):
                                 if (event.key == 56 and int(character.Character.get_level(charakter))>=8):
                                     leveltoohigh=True
                                     print("Level zu hoch für Blättermischung")
-
                                 if (Weltkarte.inventory[key]>=1 and leveltoohigh==False):
                                     Weltkarte.inventory[key]-=1
                                     print(character.Character.get_level(charakter))
@@ -161,40 +149,49 @@ class Menu(object):
                                     if canBeMade == True:
                                         for i in Weltkarte.craftrecipes[key]:
                                             Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
-                                            #Weltkarte.inventorycrafts[key] += 1
-                                        #print(Weltkarte.inventory[key])
                                         Weltkarte.inventory[key]+=1
-                                        #print(Weltkarte.inventory[key])
 
+    def draw(self, charakter):
+        BG = pygame.Rect(45, 75, 500, 500) #BACKGROUND
+        exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
+                                    Koordinaten.clsKoordinaten.BUTTONPOSY,
+                                    Koordinaten.clsKoordinaten.BUTTONWIDTH,
+                                    Koordinaten.clsKoordinaten.BUTTONHEIGTH),
+                                   'Zurück',
+                                   bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        exitButton.font = self.fonts['normal']
+        feedButton = gui.PygButton((Koordinaten.clsKoordinaten.FEEDBUTTONPOSX,
+                                    Koordinaten.clsKoordinaten.FEEDBUTTONPOSY,
+                                    Koordinaten.clsKoordinaten.BUTTONWIDTH,
+                                    Koordinaten.clsKoordinaten.BUTTONHEIGTH),
+                                   'Füttern',
+                                   bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        feedButton.font = self.fonts['normal']
 
-    def draw(self, screen, charakter):
-        BG = pygame.Rect(45, 75, 500, 500)
-        exitbutton = pygame.Rect(Koordinaten.clsKoordinaten.BUTTONPOSX, Koordinaten.clsKoordinaten.BUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
-        feedbutton = pygame.Rect(Koordinaten.clsKoordinaten.FEEDBUTTONPOSX, Koordinaten.clsKoordinaten.FEEDBUTTONPOSY, Koordinaten.clsKoordinaten.BUTTONWIDTH, Koordinaten.clsKoordinaten.BUTTONHEIGTH)
-        label = self.fonts['custom'].render("Zurück", 1, Farben.clsFarben.WHITE)
-        feedlabel= self.fonts['custom'].render("Füttern", 1, Farben.clsFarben.WHITE)
+        interaktion=False
         proceed = True
+        visMode = True
         while proceed:
+            feedButton.visible=visMode
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
+                events = exitButton.handleEvent(event)
+                if 'click' in events:
+                    proceed = False
+                events = feedButton.handleEvent(event)
+                if 'click' in events:
+                    visMode = not visMode
+                    interaktion=True
                 else:
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, BG)
-                    pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, exitbutton)
-                    self.screen.blit(label, (
-                    Koordinaten.clsKoordinaten.CHARSHEETPOSX, Koordinaten.clsKoordinaten.CHARSHEETPOSY))
-                    pygame.draw.rect(self.screen, Farben.clsFarben.DARKRED, feedbutton)
-                    self.screen.blit(feedlabel, (
-                    Koordinaten.clsKoordinaten.FEEDLBLPOSX, Koordinaten.clsKoordinaten.FEEDLBLPOSY))
-
+                    feedButton.draw(self.screen)
+                    exitButton.draw(self.screen)
                     CharakterAussehen.showAnimal(charakter, self.screen)
-
-                    if event.type == MOUSEBUTTONDOWN:
-                        mousepos = event.pos
-                        if exitbutton.collidepoint(mousepos):
-                            proceed = False
-                        if feedbutton.collidepoint(mousepos):
-                            self.interaktionen(charakter)
+                    if interaktion:
+                        self.interaktionen(charakter)
+                        visMode=True
+                        interaktion=False
 
                 pygame.display.update()

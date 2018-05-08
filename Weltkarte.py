@@ -1,13 +1,15 @@
 #robbie is working
 import pygame
 import random
+#import Helfer
+from resources import Farben
 from resources import Koordinaten
 
 pygame.init()
 
-TILESIZE = 20
-MAPWIDTH = 30
-MAPHEIGHT = 20
+TILESIZE = 40
+MAPWIDTH = 15
+MAPHEIGHT = 10
 SURFACE = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE+50))
 
 GRASS = 0
@@ -107,3 +109,14 @@ class clsTileMap(object):
         print(tilemap)
     def getTilemap(self):
         return self.tilemap
+    def drawSnippets(screen):
+        placePosition = 50
+        for item in collectableres:
+            screen.blit(
+                snippets[item], (placePosition, MAPHEIGHT * TILESIZE + 5))
+            placePosition += 50
+            textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
+                inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+            screen.blit(
+                textObjekt, (placePosition, MAPHEIGHT * TILESIZE + 5))
+            placePosition += 50
