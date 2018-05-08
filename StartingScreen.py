@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 import Weltkarte
 import Helfer
+import os.path
 import gui
 from resources import Farben
 
@@ -18,7 +19,7 @@ class clsStartScreen(object):
     def draw(self):
         background=pygame.Rect(Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50, 400,400)
 
-        returnButton = gui.PygButton((100, 100, 80, 20),
+        returnButton = gui.PygButton((10, 100, 80, 20),
                                      'Weiter',
                                      bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
         returnButton.font = self.fonts['normal']
@@ -41,9 +42,11 @@ class clsStartScreen(object):
         else:
             newgameButton.draw(self.screen)
 
-        loadButton.draw(self.screen)
+        if os.path.isfile('savefile.dat'):
+            loadButton.draw(self.screen)
+        pygame.display.update()
 
-        while self.whichMode()=="STARSCREEN":
+        while self.whichMode()=="STARTSCREEN":
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -55,16 +58,19 @@ class clsStartScreen(object):
                     events = saveButton.handleEvent(event)
                     if 'click' in events:
                         self.MODE = "SAVE"
-                    events = loadButton.handleEvent(event)
-                    if 'click' in events:
-                        self.MODE = "LOAD"
+                    if os.path.isfile('savefile.dat'):
+                        events = loadButton.handleEvent(event)
+                        if 'click' in events:
+                            self.MODE = "LOAD"
                 else:
                     events = newgameButton.handleEvent(event)
                     if 'click' in events:
                         self.MODE = "NEWGAME"
                     events = loadButton.handleEvent(event)
-                    if 'click' in events:
-                        self.MODE = "LOAD"
+                    if os.path.isfile('savefile.dat'):
+                        events = loadButton.handleEvent(event)
+                        if 'click' in events:
+                            self.MODE = "LOAD"
 
     def whichMode(self):
         return self.MODE

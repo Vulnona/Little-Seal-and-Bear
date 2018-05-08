@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Voac
+  - Name: Uwoo
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

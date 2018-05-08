@@ -105,19 +105,12 @@ class Spiel(object):
             else:
                 NewStartingScreen = StartingScreen.clsStartScreen(
                     self.window, MODE, True)
-            #NewStartingScreen.draw(self.window)
-            #print(MODE)
-            #pygame.display.update()
-            #MODE = NewStartingScreen.whichMode()
             proceed=True
             while proceed:
-                pygame.display.update()
-                print(MODE)
-                NewStartingScreen.draw()
+                MODE=NewStartingScreen.draw()
                 if MODE != "STARTSCREEN":
-                    print('not startscreen')
                     proceed=False
-            return MODE
+            return NewStartingScreen.whichMode()
 
         elif MODE == "UNKNOWN":
             logging.info('Game is in unknown mode: ' + MODE)
