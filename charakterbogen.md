@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Glo
+  - Name: Jav
   - Tierart: <class 'character.animaltypes.clsRobbe'>
-  - Farbe: <class 'character.animalsubtypes.Grau'>
+  - Farbe: <class 'character.animalsubtypes.Weiss'>
 
 ## Statuswerte
 

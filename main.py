@@ -175,15 +175,15 @@ class Spiel(object):
 
                 elif (str(self.Charakter.get_type()) == str(character.animaltypes.clsRobbe)):
                     player_Sprite = self.spritesheets['sealsprites']
-                    # a x b pixels
+                    # a x b pixels of spritesheet
                     a = 576 / 12
                     b = 384 / 8
                     if direction == "right":
                         player_Icon = player_Sprite.image_at((0, b*2, a, b), colorkey=(0 , 0, 0))
                     else:
                         player_Icon = player_Sprite.image_at((0, 0, a, b), colorkey=(0, 0, 0))
-                    player_Icon = pygame.transform.scale(
-                        player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                    #player_Icon = pygame.transform.scale(
+                    #    player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                     sprites_seal_right=[]
                     for sprite_pos in range (6):
@@ -196,7 +196,7 @@ class Spiel(object):
 
                 self.window.blit(
                     player_Icon, (
-                        player_Icon_Position[0]*Weltkarte.TILESIZE, player_Icon_Position[1]*Weltkarte.TILESIZE))
+                        player_Icon_Position[0]*Weltkarte.TILESIZE, (player_Icon_Position[1]*Weltkarte.TILESIZE)-10))
 
                 #Generating and placing enemies
                 for enemy in range (0, Enemies.get_Enemies_Anzahl()):
@@ -261,9 +261,26 @@ class Spiel(object):
                                     walk = 0.0
                                     m = 100
                                     for i in range(m):
+                                        toRepaintcurrent = Weltkarte.textures[
+                                            Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                        toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
+                                        Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintnext = Weltkarte.textures[
+                                            Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                        toRepaintnext = pygame.transform.scale(toRepaintnext, (
+                                        Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                                        self.window.blit(toRepaintcurrent,
+                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintnext,
+                                                         (nextPosition[0] * Weltkarte.TILESIZE,
+                                                          nextPosition[1] * Weltkarte.TILESIZE))
+
                                         WalkAnim.blit(self.window,
                                                       (player_Icon_Position[0] * Weltkarte.TILESIZE + walk,
-                                                       player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                                       (player_Icon_Position[1] * Weltkarte.TILESIZE)-10))
+
                                         pygame.display.update()
                                         fpsClock.tick(30)
                                         i -= 1
