@@ -6,6 +6,7 @@ class BaseSkill:
     applicable_subtype = []
     required_abilities = {}
 
+
 class AllSkill(BaseSkill):
     applicable_subtype = [
         animalsubtypes.Schwarz,
@@ -13,10 +14,12 @@ class AllSkill(BaseSkill):
         animalsubtypes.Weiss
     ]
 
+
 class SchwarzSkill(BaseSkill):
     applicable_subtype = [
         animalsubtypes.Schwarz
     ]
+
 
 class GrauSkill(BaseSkill):
     applicable_subtype = [
@@ -29,6 +32,7 @@ class WeissSkill(BaseSkill):
         animalsubtypes.Weiss
     ]
 
+
 class SwimmingCharacterSkill(AllSkill):
     id = 'swim'
     name = 'Schwimmen'
@@ -37,6 +41,7 @@ class SwimmingCharacterSkill(AllSkill):
         abilities.DexterityCharacterAbility: 7,
         abilities.IntelligenceCharacterAbility: 4
     }
+
 
 class EnduranceCharacterSkill(AllSkill):
     id = "endurance"
@@ -78,6 +83,7 @@ class GrasMovementCharacterSkill(SchwarzSkill):
         abilities.IntelligenceCharacterAbility: 4
     }
 
+
 class BiteCharacterSkill(GrauSkill):
     id = 'bite'
     name = 'Flammenbiss'
@@ -86,6 +92,7 @@ class BiteCharacterSkill(GrauSkill):
         abilities.StrengthCharacterAbility: 4,
         abilities.DexterityCharacterAbility: 2
     }
+
 
 class RunnerCharacterSkill(GrauSkill):
     id = 'runner'
@@ -97,14 +104,16 @@ class RunnerCharacterSkill(GrauSkill):
         abilities.IntelligenceCharacterAbility: 5
     }
 
+
 class EarthquakeCharacterSkill(GrauSkill):
     id = 'earthquake'
     name = 'Erdbeben'
 
     required_abilities = {
-        #abilities.StrengthCharacterAbility: 15,
+        # abilities.StrengthCharacterAbility: 15,
         abilities.DexterityCharacterAbility: 6
     }
+
 
 class MagicalHealCharacterSkill(WeissSkill):
     id = 'magical_heal'
@@ -114,15 +123,17 @@ class MagicalHealCharacterSkill(WeissSkill):
         abilities.IntelligenceCharacterAbility: 5
     }
 
+
 class PlantingCharacterSkill(WeissSkill):
     id = 'plant'
     name = 'Natur erwecken'
 
     required_abilities = {
-        #abilities.IntelligenceCharacterAbility: 8,
-        #abilities.ResistanceCharacterAbility: 4,
+        # abilities.IntelligenceCharacterAbility: 8,
+        # abilities.ResistanceCharacterAbility: 4,
         abilities.DexterityCharacterAbility: 4
     }
+
 
 class SaversCharacterSkill(WeissSkill):
     id = 'robe'
@@ -133,16 +144,17 @@ class SaversCharacterSkill(WeissSkill):
         abilities.ResistanceCharacterAbility: 7
     }
 
+
 ALL = [
-    SwimmingCharacterSkill, #included functionality
-    EnduranceCharacterSkill, #partly included functionality
-    StealthCharacterSkill, #MAGIC!
+    SwimmingCharacterSkill,  # included functionality
+    EnduranceCharacterSkill,  # partly included functionality
+    StealthCharacterSkill,  # MAGIC!
     TailCharacterSkill,
-    GrasMovementCharacterSkill, #included functionality
-    BiteCharacterSkill, #MAGIC!
-    RunnerCharacterSkill, #included functionality
+    GrasMovementCharacterSkill,  # included functionality
+    BiteCharacterSkill,  # MAGIC!
+    RunnerCharacterSkill,  # included functionality
     EarthquakeCharacterSkill,
-    MagicalHealCharacterSkill, #included functionality
-    PlantingCharacterSkill, #included functionality
-    SaversCharacterSkill #NO MAGIC!
+    MagicalHealCharacterSkill,  # included functionality
+    PlantingCharacterSkill,  # included functionality
+    SaversCharacterSkill  # NO MAGIC!
 ]
