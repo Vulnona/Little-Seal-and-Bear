@@ -14,6 +14,6 @@ TEXT_COLOR = (51, 51, 51)
 
 RESOURCES_ROOT = 'resources'
 
-# WINDOW_SIZE = (490, 420)
-WINDOW_SIZE = (Weltkarte.MAPWIDTH*Weltkarte.TILESIZE,
-               Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50)
+WINDOW_SIZE = (15*40, 450)
+#WINDOW_SIZE = (Weltkarte.MAPWIDTH*Weltkarte.TILESIZE,
+#               Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50)

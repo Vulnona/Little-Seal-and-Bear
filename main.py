@@ -50,7 +50,9 @@ player_Icon_Position = [0, 0]
 Enemies = Objekte.cls_Enemies()
 Enemies.fill_Enemies_list()
 NewTilemap=Weltkarte.clsTileMap()
-NewTilemap.randomTilemap()
+#NewTilemap.randomTilemap()
+NewTilemap.customTilemap()
+NewTilemap.environment_customTilemap()
 
 
 class Spiel(object):
@@ -160,6 +162,8 @@ class Spiel(object):
                 for row in range(Weltkarte.MAPHEIGHT):
                     for column in range(Weltkarte.MAPWIDTH):
                         self.window.blit(Weltkarte.textures[NewTilemap.getTilemap()[row][column]],
+                                         (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
+                        self.window.blit(Weltkarte.environment[NewTilemap.getEnvironment()[row][column]],
                                          (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
                 pygame.draw.rect(
                     self.window, Farben.clsFarben.BLACK, blackbar)
@@ -283,15 +287,27 @@ class Spiel(object):
                                             NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                         toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintcurrentenvironment = Weltkarte.environment[NewTilemap.getEnvironment()[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                        toRepaintcurrentenvironment = pygame.transform.scale(toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnext = Weltkarte.textures[
                                             NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                         toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintnextenvironment = Weltkarte.environment[
+                                            NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
+                                        toRepaintnextenvironment = pygame.transform.scale(
+                                            toRepaintnextenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                                         self.window.blit(toRepaintcurrent,
                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                           player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintcurrentenvironment,
+                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
                                         self.window.blit(toRepaintnext,
+                                                         (nextPosition[0] * Weltkarte.TILESIZE,
+                                                          nextPosition[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintnextenvironment,
                                                          (nextPosition[0] * Weltkarte.TILESIZE,
                                                           nextPosition[1] * Weltkarte.TILESIZE))
 
@@ -341,15 +357,31 @@ class Spiel(object):
                                                 NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                             toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                                 Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintcurrentenvironment = Weltkarte.environment[
+                                                NewTilemap.getEnvironment()[player_Icon_Position[1]][
+                                                    player_Icon_Position[0]]]
+                                            toRepaintcurrentenvironment = pygame.transform.scale(
+                                                toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                             toRepaintnext = Weltkarte.textures[
                                                 NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                             toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                                 Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintnextenvironment = Weltkarte.environment[
+                                                NewTilemap.getEnvironment()[nextPosition[1]][
+                                                    nextPosition[0]]]
+                                            toRepaintcurrentenvironment = pygame.transform.scale(
+                                                toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                                             self.window.blit(toRepaintcurrent,
                                                              (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                               player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintcurrentenvironment,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
                                             self.window.blit(toRepaintnext,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnextenvironment,
                                                              (nextPosition[0] * Weltkarte.TILESIZE,
                                                               nextPosition[1] * Weltkarte.TILESIZE))
 
@@ -400,15 +432,31 @@ class Spiel(object):
                                             NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                         toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintcurrentenvironment = Weltkarte.environment[
+                                            NewTilemap.getEnvironment()[player_Icon_Position[1]][
+                                                player_Icon_Position[0]]]
+                                        toRepaintcurrentenvironment = pygame.transform.scale(
+                                            toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnext = Weltkarte.textures[
                                             NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                         toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintnextenvironment = Weltkarte.environment[
+                                            NewTilemap.getEnvironment()[nextPosition[1]][
+                                                nextPosition[0]]]
+                                        toRepaintnextenvironment = pygame.transform.scale(
+                                            toRepaintnextenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                                         self.window.blit(toRepaintcurrent,
                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                           player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintcurrentenvironment,
+                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
                                         self.window.blit(toRepaintnext,
+                                                         (nextPosition[0] * Weltkarte.TILESIZE,
+                                                          nextPosition[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintnextenvironment,
                                                          (nextPosition[0] * Weltkarte.TILESIZE,
                                                           nextPosition[1] * Weltkarte.TILESIZE))
 
@@ -457,15 +505,31 @@ class Spiel(object):
                                             NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                         toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintcurrentenvironment = Weltkarte.environment[
+                                            NewTilemap.getEnvironment()[player_Icon_Position[1]][
+                                                player_Icon_Position[0]]]
+                                        toRepaintcurrentenvironment = pygame.transform.scale(
+                                            toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnext = Weltkarte.textures[
                                             NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                         toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintnextenvironment = Weltkarte.environment[
+                                            NewTilemap.getEnvironment()[nextPosition[1]][
+                                                nextPosition[0]]]
+                                        toRepaintnextenvironment = pygame.transform.scale(
+                                            toRepaintnextenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                                         self.window.blit(toRepaintcurrent,
                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                           player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintcurrentenvironment,
+                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
                                         self.window.blit(toRepaintnext,
+                                                         (nextPosition[0] * Weltkarte.TILESIZE,
+                                                          nextPosition[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintnextenvironment,
                                                          (nextPosition[0] * Weltkarte.TILESIZE,
                                                           nextPosition[1] * Weltkarte.TILESIZE))
 

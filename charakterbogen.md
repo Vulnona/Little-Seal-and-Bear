@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Ceeloi
+  - Name: Droawa
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 
