@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Iutaim
+  - Name: Ceeloi
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

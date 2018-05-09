@@ -123,9 +123,9 @@ class Menu(object):
                     if event.type == KEYDOWN:
                         for key in Weltkarte.feedcontrols:
                             if (event.key == Weltkarte.feedcontrols[key]):
-                                #print(Weltkarte.feedcontrols[key])
+                                #print(Weltkarte.py.feedcontrols[key])
                                 #print(event.key)
-                                #print(Weltkarte.inventory[key])
+                                #print(Weltkarte.py.inventory[key])
                                 leveltoohigh=False
                                 if (event.key == 55 and int(character.Character.get_level(charakter))>=4):
                                     leveltoohigh=True

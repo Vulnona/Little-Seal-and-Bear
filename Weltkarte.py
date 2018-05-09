@@ -82,17 +82,17 @@ craftrecipes={
 }
 
 #random map
-tilemap = [[GRASS for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
-for k in range(MAPHEIGHT):
-    for l in range(MAPWIDTH):
-        randomint = random.randint(0, 20)
-        if randomint == 0:
-            tile = WATER
-        elif randomint > 0 and randomint <= 5:
-            tile = HIGHGRASS
-        else:
-            tile = GRASS
-        tilemap[k][l] = tile
+#tilemap = [[GRASS for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
+#for k in range(MAPHEIGHT):
+#    for l in range(MAPWIDTH):
+#        randomint = random.randint(0, 20)
+#        if randomint == 0:
+#            tile = WATER
+#        elif randomint > 0 and randomint <= 5:
+#            tile = HIGHGRASS
+#        else:
+#            tile = GRASS
+#        tilemap[k][l] = tile
 
 class clsInventory(object):
     def __init__(self, inventory):
@@ -103,12 +103,23 @@ class clsInventory(object):
         return self.inventory
 
 class clsTileMap(object):
-    def __init__(self, tilemap):
-        self.tilemap=tilemap
+    def __init__(self):
+        self.tilemap= [[GRASS for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
     def showTilemap(self):
-        print(tilemap)
+        print(self.tilemap)
     def getTilemap(self):
         return self.tilemap
+    def randomTilemap(self):
+        for k in range(MAPHEIGHT):
+            for l in range(MAPWIDTH):
+                randomint = random.randint(0, 20)
+                if randomint == 0:
+                    tile = WATER
+                elif randomint > 0 and randomint <= 5:
+                    tile = HIGHGRASS
+                else:
+                    tile = GRASS
+                self.tilemap[k][l] = tile
     def drawSnippets(screen):
         placePosition = 50
         for item in collectableres:

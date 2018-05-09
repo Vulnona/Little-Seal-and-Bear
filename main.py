@@ -49,6 +49,8 @@ MODE = "UNKNOWN"
 player_Icon_Position = [0, 0]
 Enemies = Objekte.cls_Enemies()
 Enemies.fill_Enemies_list()
+NewTilemap=Weltkarte.clsTileMap()
+NewTilemap.randomTilemap()
 
 
 class Spiel(object):
@@ -93,7 +95,7 @@ class Spiel(object):
         logging.info('Loading Spritesheets')
 
         self.spritesheets = {
-            'sealsprites': Helfer.spritesheet('seal.png')
+            'sealsprites': Helfer.spritesheet('seal2.png')
         }
 
     def spielen(self, MODE):
@@ -157,7 +159,7 @@ class Spiel(object):
                 pygame.display.update()
                 for row in range(Weltkarte.MAPHEIGHT):
                     for column in range(Weltkarte.MAPWIDTH):
-                        self.window.blit(Weltkarte.textures[Weltkarte.tilemap[row][column]],
+                        self.window.blit(Weltkarte.textures[NewTilemap.getTilemap()[row][column]],
                                          (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
                 pygame.draw.rect(
                     self.window, Farben.clsFarben.BLACK, blackbar)
@@ -179,13 +181,13 @@ class Spiel(object):
                     a = 576 / 12
                     b = 384 / 8
                     if direction == "right":
-                        player_Icon = player_Sprite.image_at((0, b*2, a, b), colorkey=(0 , 0, 0))
+                        player_Icon = player_Sprite.image_at((a, b*2, a, b), colorkey=(0 , 0, 0))
                     elif direction == "left":
-                        player_Icon = player_Sprite.image_at((0, b, a, b), colorkey=(0 , 0, 0))
+                        player_Icon = player_Sprite.image_at((a, b, a, b), colorkey=(0 , 0, 0))
                     elif direction == "up":
-                        player_Icon = player_Sprite.image_at((0, b*3, a, b), colorkey=(0 , 0, 0))
+                        player_Icon = player_Sprite.image_at((a, b*3, a, b), colorkey=(0 , 0, 0))
                     else:
-                        player_Icon = player_Sprite.image_at((0, 0, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a, 0, a, b), colorkey=(0, 0, 0))
 
                     sprites_seal_right_baby=[]
                     sprite_pos=0
@@ -196,30 +198,20 @@ class Spiel(object):
                     sprites_seal_left_baby = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        seal_left = (a * sprite_pos, b, a, b)
+                        seal_left = (a* sprite_pos, b, a, b)
                         sprites_seal_left_baby.append((seal_left))
 
                     sprites_seal_down_baby = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        seal_down = (a * sprite_pos, 0, a, b)
+                        seal_down = (a*sprite_pos, 0, a, b)
                         sprites_seal_down_baby.append((seal_down))
 
                     sprites_seal_up_baby = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        seal_up = (a * sprite_pos, b * 3, a, b)
+                        seal_up = (a*sprite_pos, b * 3, a, b)
                         sprites_seal_up_baby.append((seal_up))
-
-                    sprites_seal_right_adult = []
-                    sprite_pos=3
-                    for sprite_pos in range (6):
-                        seal_right=(a*sprite_pos,b*2,a,b)
-                        sprites_seal_right_adult.append((seal_right))
-
-
-
-                    #images=player_Sprite.images_at(rects=sprites_seal_right_baby, colorkey=[0,0,0])
 
                 self.window.blit(
                     player_Icon, (
@@ -267,7 +259,7 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont=True
-                                nextTile = Weltkarte.tilemap[player_Icon_Position[1]
+                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                              ][player_Icon_Position[0]+1]
                                 nextPosition = [player_Icon_Position[0]+1, player_Icon_Position[1]]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
@@ -288,11 +280,11 @@ class Spiel(object):
                                     proceed=True
                                     while proceed:
                                         toRepaintcurrent = Weltkarte.textures[
-                                            Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                            NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                         toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnext = Weltkarte.textures[
-                                            Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                            NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                         toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
@@ -323,7 +315,7 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont=True
-                                nextTile = Weltkarte.tilemap[player_Icon_Position[1]
+                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                 ][player_Icon_Position[0] - 1]
                                 nextPosition = [player_Icon_Position[0] - 1, player_Icon_Position[1]]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
@@ -346,11 +338,11 @@ class Spiel(object):
                                         proceed = True
                                         while proceed:
                                             toRepaintcurrent = Weltkarte.textures[
-                                                Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                                NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                             toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                                 Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                             toRepaintnext = Weltkarte.textures[
-                                                Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                                NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                             toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                                 Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
@@ -384,7 +376,7 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont=True
-                                nextTile = Weltkarte.tilemap[player_Icon_Position[1]+1
+                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]+1
                                 ][player_Icon_Position[0]]
                                 nextPosition = [player_Icon_Position[0], player_Icon_Position[1]+1]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
@@ -405,11 +397,11 @@ class Spiel(object):
                                     proceed = True
                                     while proceed:
                                         toRepaintcurrent = Weltkarte.textures[
-                                            Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                            NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                         toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnext = Weltkarte.textures[
-                                            Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                            NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                         toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
@@ -441,7 +433,7 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont=True
-                                nextTile = Weltkarte.tilemap[player_Icon_Position[1]-1
+                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]-1
                                 ][player_Icon_Position[0]]
                                 nextPosition = [player_Icon_Position[0], player_Icon_Position[1]-1]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
@@ -462,11 +454,11 @@ class Spiel(object):
                                     proceed = True
                                     while proceed:
                                         toRepaintcurrent = Weltkarte.textures[
-                                            Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                            NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                         toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnext = Weltkarte.textures[
-                                            Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                            NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                         toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
@@ -494,11 +486,11 @@ class Spiel(object):
                                         if rand_int:
                                             self.Charakter.change_status_temp('endu','+')
                         elif (event.key == K_SPACE):
-                            currentTile = Weltkarte.tilemap[player_Icon_Position[1]
+                            currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                             ][player_Icon_Position[0]]
                             if (currentTile == Weltkarte.WATER or currentTile == Weltkarte.DIRT):
                                 if (currentTile == Weltkarte.DIRT and self.Charakter.has_skill(character.skills.PlantingCharacterSkill)):
-                                    Weltkarte.tilemap[player_Icon_Position[1]
+                                    NewTilemap.getTilemap()[player_Icon_Position[1]
                                     ][player_Icon_Position[0]]=Weltkarte.GRASS
                                     self.Charakter.change_status_temp('magic', '-')
                                     break
@@ -509,7 +501,7 @@ class Spiel(object):
                                     Weltkarte.inventory[currentTile] += 1
                                 #Sammeln
                                 Weltkarte.inventory[currentTile] += 1
-                                Weltkarte.tilemap[player_Icon_Position[1]
+                                NewTilemap.getTilemap()[player_Icon_Position[1]
                                                   ][player_Icon_Position[0]] = Weltkarte.DIRT
                         elif (event.key == K_m):
                             #non-fighting skills
@@ -542,7 +534,7 @@ class Spiel(object):
                             if plantingSkill == True:
                                 enough_temp_value = False
                                 if self.Charakter.get_status_temp('magic') > 1:
-                                    currentTile = Weltkarte.tilemap[player_Icon_Position[1]
+                                    currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                     ][player_Icon_Position[0]]
                                     if currentTile==Weltkarte.DIRT or currentTile==Weltkarte.GRASS:
                                         enough_temp_value = True
@@ -582,17 +574,16 @@ class Spiel(object):
                                                     self.Charakter.change_status_temp('health', '+')
                                             if plantingSkill:
                                                 if plantbubble.collidepoint(mousepos):
-                                                    currentTile = Weltkarte.tilemap[player_Icon_Position[1]
+                                                    currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                     ][player_Icon_Position[0]]
                                                     if currentTile == Weltkarte.DIRT :
-                                                            Weltkarte.tilemap[player_Icon_Position[1]
+                                                        NewTilemap.getTilemap()[player_Icon_Position[1]
                                                             ][player_Icon_Position[0]] = Weltkarte.GRASS
-                                                            self.Charakter.change_status_temp('magic', '-')
+                                                        self.Charakter.change_status_temp('magic', '-')
                                                     elif currentTile == Weltkarte.GRASS:
-                                                        Weltkarte.tilemap[player_Icon_Position[1]
+                                                        NewTilemap.getTilemap()[player_Icon_Position[1]
                                                         ][player_Icon_Position[0]] = Weltkarte.HIGHGRASS
                                                         self.Charakter.change_status_temp('magic', '-')
-
                                                     break
 
                                             if saverSkill:
@@ -642,7 +633,7 @@ class Spiel(object):
                                             mousepos = event.pos
                                             if standardbubble.collidepoint(mousepos):
                                                 for enemy in Enemies_in_range:
-                                                    enemy_tile = Weltkarte.tilemap[enemy.Position[1]
+                                                    enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
                                                     ][enemy.Position[0]]
                                                     enemy.lower_Gesundheit(1)
                                                     enemy.damage_and_death_anim(self.window, "damage", enemy_tile)
@@ -660,7 +651,7 @@ class Spiel(object):
                                             if biteSkill:
                                                 if bitebubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
-                                                        enemy_tile = Weltkarte.tilemap[enemy.Position[1]
+                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
                                                         ][enemy.Position[0]]
                                                         enemy.lower_Gesundheit(2)
                                                         enemy.damage_and_death_anim(self.window, "damage", enemy_tile)
@@ -677,7 +668,7 @@ class Spiel(object):
                                             if tailSkill:
                                                 if tailbubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
-                                                        enemy_tile = Weltkarte.tilemap[enemy.Position[1]
+                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
                                                         ][enemy.Position[0]]
                                                         enemy.lower_Gesundheit(2)
                                                         enemy.damage_and_death_anim(self.window, "damage", enemy_tile)
@@ -699,7 +690,7 @@ class Spiel(object):
                                                                                                 (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                                     for tile in Liste:
                                                         #Exception handling fehlt: falls list index out of range, z.b. bei feinden direkt am spielrand
-                                                        Weltkarte.tilemap[tile[1]
+                                                        Weltkarte.NewTilemap.getTilemap()[tile[1]
                                                         ][tile[0]] = Weltkarte.DIRT
                                                         self.window.blit(dirtimage,
                                                             (tile[0] * Weltkarte.TILESIZE, tile[1] * Weltkarte.TILESIZE))
@@ -710,7 +701,7 @@ class Spiel(object):
                                                     pygame.display.update()
                                                     fpsClock.tick(FPS)
                                                     for enemy in Enemies_in_range:
-                                                        enemy_tile = Weltkarte.tilemap[enemy.Position[1]
+                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
                                                         ][enemy.Position[0]]
                                                         enemy.lower_Gesundheit(Wahrscheinlichkeiten.wuerfel(5))
                                                         enemy.damage_and_death_anim(self.window, "damage", enemy_tile)
@@ -747,7 +738,7 @@ class Spiel(object):
                                         earthbubble=bubble.draw_bubble()
                         elif (event.key == K_e):
                             # STAR = pygame.draw.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
-                            # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.TILESIZE))
+                            # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.py.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.py.TILESIZE))
                             # pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
                             print(self.Charakter.get_status_max('health'))
                             print(self.Charakter.get_status_temp('health'))
