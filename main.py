@@ -180,10 +180,12 @@ class Spiel(object):
                     b = 384 / 8
                     if direction == "right":
                         player_Icon = player_Sprite.image_at((0, b*2, a, b), colorkey=(0 , 0, 0))
+                    elif direction == "left":
+                        player_Icon = player_Sprite.image_at((0, b, a, b), colorkey=(0 , 0, 0))
+                    elif direction == "up":
+                        player_Icon = player_Sprite.image_at((0, b*3, a, b), colorkey=(0 , 0, 0))
                     else:
                         player_Icon = player_Sprite.image_at((0, 0, a, b), colorkey=(0, 0, 0))
-                    #player_Icon = pygame.transform.scale(
-                    #    player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
                     sprites_seal_right_baby=[]
                     sprite_pos=0
@@ -191,17 +193,37 @@ class Spiel(object):
                         seal_right=(a*sprite_pos,b*2,a,b)
                         sprites_seal_right_baby.append((seal_right))
 
+                    sprites_seal_left_baby = []
+                    sprite_pos = 0
+                    for sprite_pos in range(3):
+                        seal_left = (a * sprite_pos, b, a, b)
+                        sprites_seal_left_baby.append((seal_left))
+
+                    sprites_seal_down_baby = []
+                    sprite_pos = 0
+                    for sprite_pos in range(3):
+                        seal_down = (a * sprite_pos, 0, a, b)
+                        sprites_seal_down_baby.append((seal_down))
+
+                    sprites_seal_up_baby = []
+                    sprite_pos = 0
+                    for sprite_pos in range(3):
+                        seal_up = (a * sprite_pos, b * 3, a, b)
+                        sprites_seal_up_baby.append((seal_up))
+
                     sprites_seal_right_adult = []
                     sprite_pos=3
                     for sprite_pos in range (6):
                         seal_right=(a*sprite_pos,b*2,a,b)
                         sprites_seal_right_adult.append((seal_right))
 
-                    images=player_Sprite.images_at(rects=sprites_seal_right_baby, colorkey=[0,0,0])
+
+
+                    #images=player_Sprite.images_at(rects=sprites_seal_right_baby, colorkey=[0,0,0])
 
                 self.window.blit(
                     player_Icon, (
-                        player_Icon_Position[0]*Weltkarte.TILESIZE, (player_Icon_Position[1]*Weltkarte.TILESIZE)-10))
+                        player_Icon_Position[0]*Weltkarte.TILESIZE - 5, (player_Icon_Position[1]*Weltkarte.TILESIZE)-10))
 
                 #Generating and placing enemies
                 for enemy in range (0, Enemies.get_Enemies_Anzahl()):
@@ -259,6 +281,7 @@ class Spiel(object):
                                     else:
                                         cont=False
                                 if cont:
+                                    images = player_Sprite.images_at(rects=sprites_seal_right_baby, colorkey=[0, 0, 0])
                                     WalkAnim = pyganim.PygAnimation([(images[0], 150), (images[1], 150), (images[2], 150)])
                                     WalkAnim.play()
                                     walk = 0.0
@@ -281,7 +304,7 @@ class Spiel(object):
                                                           nextPosition[1] * Weltkarte.TILESIZE))
 
                                         WalkAnim.blit(self.window,
-                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE + walk,
+                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE + walk -5,
                                                        (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10))
                                         pygame.display.update()
                                         walk+=1
@@ -314,6 +337,40 @@ class Spiel(object):
                                         else:
                                             cont=False
                                     if cont:
+                                        images = player_Sprite.images_at(rects=sprites_seal_left_baby,
+                                                                         colorkey=[0, 0, 0])
+                                        WalkAnim = pyganim.PygAnimation(
+                                            [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                        WalkAnim.play()
+                                        walk = 0.0
+                                        proceed = True
+                                        while proceed:
+                                            toRepaintcurrent = Weltkarte.textures[
+                                                Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                            toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintnext = Weltkarte.textures[
+                                                Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                            toRepaintnext = pygame.transform.scale(toRepaintnext, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                                            self.window.blit(toRepaintcurrent,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnext,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
+
+                                            WalkAnim.blit(self.window,
+                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE - walk - 5,
+                                                           (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10))
+                                            pygame.display.update()
+                                            walk += 1
+                                            fpsClock.tick(FPS)
+                                            if player_Icon_Position[0] * Weltkarte.TILESIZE - walk < (
+                                                    player_Icon_Position[0] - 1) * Weltkarte.TILESIZE:
+                                                proceed = False
+                                        direction = "left"
                                         player_Icon_Position[0] -= 1
                                         self.Charakter.change_status_temp('endu', '-')
                                         if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
@@ -340,6 +397,39 @@ class Spiel(object):
                                     else:
                                         cont=False
                                 if cont:
+                                    images = player_Sprite.images_at(rects=sprites_seal_down_baby, colorkey=[0, 0, 0])
+                                    WalkAnim = pyganim.PygAnimation(
+                                        [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                    WalkAnim.play()
+                                    walk = 0.0
+                                    proceed = True
+                                    while proceed:
+                                        toRepaintcurrent = Weltkarte.textures[
+                                            Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                        toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
+                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintnext = Weltkarte.textures[
+                                            Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                        toRepaintnext = pygame.transform.scale(toRepaintnext, (
+                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                                        self.window.blit(toRepaintcurrent,
+                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintnext,
+                                                         (nextPosition[0] * Weltkarte.TILESIZE,
+                                                          nextPosition[1] * Weltkarte.TILESIZE))
+
+                                        WalkAnim.blit(self.window,
+                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE - 5,
+                                                       (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10 +walk))
+                                        pygame.display.update()
+                                        walk += 1
+                                        fpsClock.tick(FPS)
+                                        if player_Icon_Position[1] * Weltkarte.TILESIZE + walk > (
+                                                player_Icon_Position[1] + 1) * Weltkarte.TILESIZE:
+                                            proceed = False
+                                    direction = "down"
                                     player_Icon_Position[1] += 1
                                     self.Charakter.change_status_temp('endu', '-')
                                     if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
@@ -364,6 +454,39 @@ class Spiel(object):
                                     else:
                                         cont=False
                                 if cont:
+                                    images = player_Sprite.images_at(rects=sprites_seal_up_baby, colorkey=[0, 0, 0])
+                                    WalkAnim = pyganim.PygAnimation(
+                                        [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                    WalkAnim.play()
+                                    walk = 0.0
+                                    proceed = True
+                                    while proceed:
+                                        toRepaintcurrent = Weltkarte.textures[
+                                            Weltkarte.tilemap[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                        toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
+                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintnext = Weltkarte.textures[
+                                            Weltkarte.tilemap[nextPosition[1]][nextPosition[0]]]
+                                        toRepaintnext = pygame.transform.scale(toRepaintnext, (
+                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+                                        self.window.blit(toRepaintcurrent,
+                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintnext,
+                                                         (nextPosition[0] * Weltkarte.TILESIZE,
+                                                          nextPosition[1] * Weltkarte.TILESIZE))
+
+                                        WalkAnim.blit(self.window,
+                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE - 5,
+                                                       (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk  - 10))
+                                        pygame.display.update()
+                                        walk -= 1
+                                        fpsClock.tick(FPS)
+                                        if player_Icon_Position[1] * Weltkarte.TILESIZE + walk < (
+                                                player_Icon_Position[1] - 1) * Weltkarte.TILESIZE:
+                                            proceed = False
+                                    direction = "up"
                                     player_Icon_Position[1] -= 1
                                     self.Charakter.change_status_temp('endu', '-')
                                     if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):

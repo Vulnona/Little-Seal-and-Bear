@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Iuglap
+  - Name: Iutaim
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 
