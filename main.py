@@ -1,5 +1,6 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
+#TODO: Höhle größer machen, außerdem kann die BG Tilemap glaube ich weg
 
 import pygame
 import sys
@@ -49,6 +50,7 @@ MODE = "UNKNOWN"
 player_Icon_Position = [0, 0]
 Enemies = Objekte.cls_Enemies()
 Enemies.fill_Enemies_list()
+BackgroundTilemap=Weltkarte.clsTileMap()
 NewTilemap=Weltkarte.clsTileMap()
 #NewTilemap.randomTilemap()
 NewTilemap.customTilemap()
@@ -157,10 +159,13 @@ class Spiel(object):
                                           bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
             characterButton.font=self.fonts['small']
             direction=""
+
             while True:
                 pygame.display.update()
                 for row in range(Weltkarte.MAPHEIGHT):
                     for column in range(Weltkarte.MAPWIDTH):
+                        self.window.blit(Weltkarte.textures[BackgroundTilemap.getTilemap()[row][column]],
+                                         (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
                         self.window.blit(Weltkarte.textures[NewTilemap.getTilemap()[row][column]],
                                          (column * Weltkarte.TILESIZE, row * Weltkarte.TILESIZE))
                         self.window.blit(Weltkarte.environment[NewTilemap.getEnvironment()[row][column]],
@@ -265,67 +270,94 @@ class Spiel(object):
                                 cont=True
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                              ][player_Icon_Position[0]+1]
+                                nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                ][player_Icon_Position[0] + 1]
                                 nextPosition = [player_Icon_Position[0]+1, player_Icon_Position[1]]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                                     an_enemy = Enemies.get_Enemy(enemy)
                                     if nextPosition==an_enemy.Position:
                                         cont=False
-                                if nextTile == Weltkarte.WATER:
-                                    # Fähigkeit Schwimmen: Wassertiles betreten
-                                    if self.Charakter.has_skill(character.skills.SwimmingCharacterSkill):
-                                        print("Schwimmt")
-                                    else:
-                                        cont=False
+                                currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                                             ][player_Icon_Position[0]]
+                                for env in Weltkarte.enterable:
+                                    if env == currentEnvironment:
+                                        cont = False
                                 if cont:
-                                    images = player_Sprite.images_at(rects=sprites_seal_right_baby, colorkey=[0, 0, 0])
-                                    WalkAnim = pyganim.PygAnimation([(images[0], 150), (images[1], 150), (images[2], 150)])
-                                    WalkAnim.play()
-                                    walk = 0.0
-                                    proceed=True
-                                    while proceed:
-                                        toRepaintcurrent = Weltkarte.textures[
-                                            NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
-                                        toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
-                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                                        toRepaintcurrentenvironment = Weltkarte.environment[NewTilemap.getEnvironment()[player_Icon_Position[1]][player_Icon_Position[0]]]
-                                        toRepaintcurrentenvironment = pygame.transform.scale(toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                                        toRepaintnext = Weltkarte.textures[
-                                            NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
-                                        toRepaintnext = pygame.transform.scale(toRepaintnext, (
-                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                                        toRepaintnextenvironment = Weltkarte.environment[
-                                            NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
-                                        toRepaintnextenvironment = pygame.transform.scale(
-                                            toRepaintnextenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                    if nextTile == Weltkarte.WATER:
+                                        # Fähigkeit Schwimmen: Wassertiles betreten
+                                        if self.Charakter.has_skill(character.skills.SwimmingCharacterSkill):
+                                            print("Schwimmt")
+                                        else:
+                                            cont=False
+                                    for env in Weltkarte.enterable:
+                                        if env == nextEnvironment:
+                                            cont = False
+                                    for env in Weltkarte.collide:
+                                        if env==nextEnvironment:
+                                            cont=False
+                                            break
+                                    if cont:
+                                        images = player_Sprite.images_at(rects=sprites_seal_right_baby, colorkey=[0, 0, 0])
+                                        WalkAnim = pyganim.PygAnimation([(images[0], 150), (images[1], 150), (images[2], 150)])
+                                        WalkAnim.play()
+                                        walk = 0.0
+                                        proceed=True
+                                        while proceed:
+                                            toRepaintcurrentBG = Weltkarte.textures[
+                                                BackgroundTilemap.getTilemap()[player_Icon_Position[1]][
+                                                    player_Icon_Position[0]]]
+                                            toRepaintcurrentBG = pygame.transform.scale(toRepaintcurrentBG, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintcurrent = Weltkarte.textures[
+                                                NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                            toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintcurrentenvironment = Weltkarte.environment[NewTilemap.getEnvironment()[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                            toRepaintnextBG = Weltkarte.textures[
+                                                BackgroundTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+                                            toRepaintnextBG = pygame.transform.scale(toRepaintnextBG, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintnext = Weltkarte.textures[
+                                                NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+                                            toRepaintnext = pygame.transform.scale(toRepaintnext, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintnextenvironment = Weltkarte.environment[
+                                                NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
 
-                                        self.window.blit(toRepaintcurrent,
-                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
-                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
-                                        self.window.blit(toRepaintcurrentenvironment,
-                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
-                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
-                                        self.window.blit(toRepaintnext,
-                                                         (nextPosition[0] * Weltkarte.TILESIZE,
-                                                          nextPosition[1] * Weltkarte.TILESIZE))
-                                        self.window.blit(toRepaintnextenvironment,
-                                                         (nextPosition[0] * Weltkarte.TILESIZE,
-                                                          nextPosition[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintcurrentBG,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintcurrent,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintcurrentenvironment,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnextBG,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnext,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnextenvironment,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
 
-                                        WalkAnim.blit(self.window,
-                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE + walk -5,
-                                                       (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10))
-                                        pygame.display.update()
-                                        walk+=1
-                                        fpsClock.tick(FPS)
-                                        if player_Icon_Position[0]*Weltkarte.TILESIZE + walk > (player_Icon_Position[0]+1)*Weltkarte.TILESIZE:
-                                            proceed=False
-                                    direction = "right"
-                                    player_Icon_Position[0] += 1
-                                    self.Charakter.change_status_temp('endu', '-')
-                                    if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
-                                        rand_int=Wahrscheinlichkeiten.haelftehaelfte()
-                                        if rand_int:
-                                            self.Charakter.change_status_temp('endu','+')
+                                            WalkAnim.blit(self.window,
+                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE + walk -5,
+                                                           (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10))
+                                            pygame.display.update()
+                                            walk+=1
+                                            fpsClock.tick(FPS)
+                                            if player_Icon_Position[0]*Weltkarte.TILESIZE + walk > (player_Icon_Position[0]+1)*Weltkarte.TILESIZE:
+                                                proceed=False
+                                        direction = "right"
+                                        player_Icon_Position[0] += 1
+                                        self.Charakter.change_status_temp('endu', '-')
+                                        if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
+                                            rand_int=Wahrscheinlichkeiten.haelftehaelfte()
+                                            if rand_int:
+                                                self.Charakter.change_status_temp('endu','+')
                         elif (event.key == K_LEFT and player_Icon_Position[0] > 0):
                             if self.Charakter.get_status_temp('endu')<=0:
                                 print('Keine Energie mehr verfügbar')
@@ -333,10 +365,17 @@ class Spiel(object):
                                 cont=True
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                 ][player_Icon_Position[0] - 1]
+                                nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                ][player_Icon_Position[0] - 1]
+                                currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                ][player_Icon_Position[0]]
                                 nextPosition = [player_Icon_Position[0] - 1, player_Icon_Position[1]]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                                     an_enemy = Enemies.get_Enemy(enemy)
                                     if nextPosition == an_enemy.Position:
+                                        cont = False
+                                for env in Weltkarte.enterable:
+                                    if env == currentEnvironment:
                                         cont = False
                                 if cont:
                                     if nextTile == Weltkarte.WATER:
@@ -344,6 +383,10 @@ class Spiel(object):
                                             print("Schwimmt")
                                         else:
                                             cont=False
+                                    for env in Weltkarte.collide:
+                                        if env == nextEnvironment:
+                                            cont = False
+                                            break
                                     if cont:
                                         images = player_Sprite.images_at(rects=sprites_seal_left_baby,
                                                                          colorkey=[0, 0, 0])
@@ -353,31 +396,42 @@ class Spiel(object):
                                         walk = 0.0
                                         proceed = True
                                         while proceed:
+                                            toRepaintcurrentBG = Weltkarte.textures[
+                                                BackgroundTilemap.getTilemap()[player_Icon_Position[1]][
+                                                    player_Icon_Position[0]]]
+                                            toRepaintcurrentBG = pygame.transform.scale(toRepaintcurrentBG, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                             toRepaintcurrent = Weltkarte.textures[
-                                                NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
+                                                NewTilemap.getTilemap()[player_Icon_Position[1]][
+                                                    player_Icon_Position[0]]]
                                             toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
                                                 Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                             toRepaintcurrentenvironment = Weltkarte.environment[
                                                 NewTilemap.getEnvironment()[player_Icon_Position[1]][
                                                     player_Icon_Position[0]]]
-                                            toRepaintcurrentenvironment = pygame.transform.scale(
-                                                toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintnextBG = Weltkarte.textures[
+                                                BackgroundTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+                                            toRepaintnextBG = pygame.transform.scale(toRepaintnextBG, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                             toRepaintnext = Weltkarte.textures[
                                                 NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                             toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                                 Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                             toRepaintnextenvironment = Weltkarte.environment[
-                                                NewTilemap.getEnvironment()[nextPosition[1]][
-                                                    nextPosition[0]]]
-                                            toRepaintcurrentenvironment = pygame.transform.scale(
-                                                toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                                NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
 
+                                            self.window.blit(toRepaintcurrentBG,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
                                             self.window.blit(toRepaintcurrent,
                                                              (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                               player_Icon_Position[1] * Weltkarte.TILESIZE))
                                             self.window.blit(toRepaintcurrentenvironment,
                                                              (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                               player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnextBG,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
                                             self.window.blit(toRepaintnext,
                                                              (nextPosition[0] * Weltkarte.TILESIZE,
                                                               nextPosition[1] * Weltkarte.TILESIZE))
@@ -410,6 +464,8 @@ class Spiel(object):
                                 cont=True
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]+1
                                 ][player_Icon_Position[0]]
+                                nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1] + 1
+                                                                   ][player_Icon_Position[0]]
                                 nextPosition = [player_Icon_Position[0], player_Icon_Position[1]+1]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                                     an_enemy = Enemies.get_Enemy(enemy)
@@ -420,6 +476,10 @@ class Spiel(object):
                                         print("Schwimmt")
                                     else:
                                         cont=False
+                                for env in Weltkarte.collide:
+                                    if env == nextEnvironment:
+                                        cont = False
+                                        break
                                 if cont:
                                     images = player_Sprite.images_at(rects=sprites_seal_down_baby, colorkey=[0, 0, 0])
                                     WalkAnim = pyganim.PygAnimation(
@@ -428,6 +488,11 @@ class Spiel(object):
                                     walk = 0.0
                                     proceed = True
                                     while proceed:
+                                        toRepaintcurrentBG = Weltkarte.textures[
+                                            BackgroundTilemap.getTilemap()[player_Icon_Position[1]][
+                                                player_Icon_Position[0]]]
+                                        toRepaintcurrentBG = pygame.transform.scale(toRepaintcurrentBG, (
+                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintcurrent = Weltkarte.textures[
                                             NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
                                         toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
@@ -435,24 +500,29 @@ class Spiel(object):
                                         toRepaintcurrentenvironment = Weltkarte.environment[
                                             NewTilemap.getEnvironment()[player_Icon_Position[1]][
                                                 player_Icon_Position[0]]]
-                                        toRepaintcurrentenvironment = pygame.transform.scale(
-                                            toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                        toRepaintnextBG = Weltkarte.textures[
+                                            BackgroundTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+                                        toRepaintnextBG = pygame.transform.scale(toRepaintnextBG, (
+                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnext = Weltkarte.textures[
                                             NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
                                         toRepaintnext = pygame.transform.scale(toRepaintnext, (
                                             Weltkarte.TILESIZE, Weltkarte.TILESIZE))
                                         toRepaintnextenvironment = Weltkarte.environment[
-                                            NewTilemap.getEnvironment()[nextPosition[1]][
-                                                nextPosition[0]]]
-                                        toRepaintnextenvironment = pygame.transform.scale(
-                                            toRepaintnextenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
 
+                                        self.window.blit(toRepaintcurrentBG,
+                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
                                         self.window.blit(toRepaintcurrent,
                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                           player_Icon_Position[1] * Weltkarte.TILESIZE))
                                         self.window.blit(toRepaintcurrentenvironment,
                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                           player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                        self.window.blit(toRepaintnextBG,
+                                                         (nextPosition[0] * Weltkarte.TILESIZE,
+                                                          nextPosition[1] * Weltkarte.TILESIZE))
                                         self.window.blit(toRepaintnext,
                                                          (nextPosition[0] * Weltkarte.TILESIZE,
                                                           nextPosition[1] * Weltkarte.TILESIZE))
@@ -483,90 +553,131 @@ class Spiel(object):
                                 cont=True
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]-1
                                 ][player_Icon_Position[0]]
+                                currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                                                   ][player_Icon_Position[0]]
+                                nextEnvironment= NewTilemap.getEnvironment()[player_Icon_Position[1]-1
+                                ][player_Icon_Position[0]]
                                 nextPosition = [player_Icon_Position[0], player_Icon_Position[1]-1]
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                                     an_enemy = Enemies.get_Enemy(enemy)
                                     if nextPosition == an_enemy.Position:
                                         cont = False
-                                if nextTile == Weltkarte.WATER:
-                                    if self.Charakter.has_skill(character.skills.SwimmingCharacterSkill):
-                                        print("Schwimmt")
-                                    else:
-                                        cont=False
+                                for env in Weltkarte.enterable:
+                                    if env == currentEnvironment:
+                                        cont = False
                                 if cont:
-                                    images = player_Sprite.images_at(rects=sprites_seal_up_baby, colorkey=[0, 0, 0])
-                                    WalkAnim = pyganim.PygAnimation(
-                                        [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                    WalkAnim.play()
-                                    walk = 0.0
-                                    proceed = True
-                                    while proceed:
-                                        toRepaintcurrent = Weltkarte.textures[
-                                            NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
-                                        toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
-                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                                        toRepaintcurrentenvironment = Weltkarte.environment[
-                                            NewTilemap.getEnvironment()[player_Icon_Position[1]][
-                                                player_Icon_Position[0]]]
-                                        toRepaintcurrentenvironment = pygame.transform.scale(
-                                            toRepaintcurrentenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                                        toRepaintnext = Weltkarte.textures[
-                                            NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
-                                        toRepaintnext = pygame.transform.scale(toRepaintnext, (
-                                            Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                                        toRepaintnextenvironment = Weltkarte.environment[
-                                            NewTilemap.getEnvironment()[nextPosition[1]][
-                                                nextPosition[0]]]
-                                        toRepaintnextenvironment = pygame.transform.scale(
-                                            toRepaintnextenvironment, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                    if nextEnvironment == Weltkarte.STONEHOLE:
+                                        if self.Charakter.has_skill(character.skills.SwimmingCharacterSkill):
+                                            print("Schwimmt")
+                                        else:
+                                            cont=False
+                                    for env in Weltkarte.collide:
+                                        if env == nextEnvironment:
+                                            cont = False
+                                            break
+                                    if nextTile == Weltkarte.WATER:
+                                        if self.Charakter.has_skill(character.skills.SwimmingCharacterSkill):
+                                            print("Schwimmt")
+                                        else:
+                                            cont=False
+                                    if cont:
+                                        images = player_Sprite.images_at(rects=sprites_seal_up_baby, colorkey=[0, 0, 0])
+                                        WalkAnim = pyganim.PygAnimation(
+                                            [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                        WalkAnim.play()
+                                        walk = 0.0
+                                        proceed = True
+                                        while proceed:
+                                            toRepaintcurrentBG = Weltkarte.textures[
+                                                BackgroundTilemap.getTilemap()[player_Icon_Position[1]][
+                                                    player_Icon_Position[0]]]
+                                            toRepaintcurrentBG = pygame.transform.scale(toRepaintcurrentBG, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintcurrent = Weltkarte.textures[
+                                                NewTilemap.getTilemap()[player_Icon_Position[1]][
+                                                    player_Icon_Position[0]]]
+                                            toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintcurrentenvironment = Weltkarte.environment[
+                                                NewTilemap.getEnvironment()[player_Icon_Position[1]][
+                                                    player_Icon_Position[0]]]
+                                            toRepaintnextBG = Weltkarte.textures[
+                                                BackgroundTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+                                            toRepaintnextBG = pygame.transform.scale(toRepaintnextBG, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintnext = Weltkarte.textures[
+                                                NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+                                            toRepaintnext = pygame.transform.scale(toRepaintnext, (
+                                                Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                            toRepaintnextenvironment = Weltkarte.environment[
+                                                NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
 
-                                        self.window.blit(toRepaintcurrent,
-                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
-                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
-                                        self.window.blit(toRepaintcurrentenvironment,
-                                                         (player_Icon_Position[0] * Weltkarte.TILESIZE,
-                                                          player_Icon_Position[1] * Weltkarte.TILESIZE))
-                                        self.window.blit(toRepaintnext,
-                                                         (nextPosition[0] * Weltkarte.TILESIZE,
-                                                          nextPosition[1] * Weltkarte.TILESIZE))
-                                        self.window.blit(toRepaintnextenvironment,
-                                                         (nextPosition[0] * Weltkarte.TILESIZE,
-                                                          nextPosition[1] * Weltkarte.TILESIZE))
-
-                                        WalkAnim.blit(self.window,
-                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE - 5,
-                                                       (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk  - 10))
-                                        pygame.display.update()
-                                        walk -= 1
-                                        fpsClock.tick(FPS)
-                                        if player_Icon_Position[1] * Weltkarte.TILESIZE + walk < (
-                                                player_Icon_Position[1] - 1) * Weltkarte.TILESIZE:
-                                            proceed = False
-                                    direction = "up"
-                                    player_Icon_Position[1] -= 1
-                                    self.Charakter.change_status_temp('endu', '-')
-                                    if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
-                                        rand_int=Wahrscheinlichkeiten.haelftehaelfte()
-                                        if rand_int:
-                                            self.Charakter.change_status_temp('endu','+')
+                                            self.window.blit(toRepaintcurrentBG,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintcurrent,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintcurrentenvironment,
+                                                             (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                              player_Icon_Position[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnextBG,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnext,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
+                                            self.window.blit(toRepaintnextenvironment,
+                                                             (nextPosition[0] * Weltkarte.TILESIZE,
+                                                              nextPosition[1] * Weltkarte.TILESIZE))
+                                            WalkAnim.blit(self.window,
+                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE - 5,
+                                                           (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk  - 10))
+                                            pygame.display.update()
+                                            walk -= 1
+                                            fpsClock.tick(FPS)
+                                            if player_Icon_Position[1] * Weltkarte.TILESIZE + walk < (
+                                                    player_Icon_Position[1] - 1) * Weltkarte.TILESIZE:
+                                                proceed = False
+                                        direction = "up"
+                                        player_Icon_Position[1] -= 1
+                                        self.Charakter.change_status_temp('endu', '-')
+                                        if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
+                                            rand_int=Wahrscheinlichkeiten.haelftehaelfte()
+                                            if rand_int:
+                                                self.Charakter.change_status_temp('endu','+')
                         elif (event.key == K_SPACE):
                             currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                             ][player_Icon_Position[0]]
-                            if (currentTile == Weltkarte.WATER or currentTile == Weltkarte.DIRT):
-                                if (currentTile == Weltkarte.DIRT and self.Charakter.has_skill(character.skills.PlantingCharacterSkill)):
-                                    NewTilemap.getTilemap()[player_Icon_Position[1]
-                                    ][player_Icon_Position[0]]=Weltkarte.GRASS
-                                    self.Charakter.change_status_temp('magic', '-')
-                                    break
-                                print("Nicht sammelbar")
-                            else:
-                                # Fähigkeit Grasschlitzer: doppelte Ressourcen sammeln
+                            if (currentTile == Weltkarte.DIRT and self.Charakter.has_skill(character.skills.PlantingCharacterSkill)):
+                                NewTilemap.getTilemap()[player_Icon_Position[1]
+                                ][player_Icon_Position[0]]=Weltkarte.GRASS
+                                NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                ][player_Icon_Position[0]] = Weltkarte.LOWGRASS
+                                self.Charakter.change_status_temp('magic', '-')
+                                break
+                            elif currentTile == Weltkarte.GRASS:
+                                currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                ][player_Icon_Position[0]]
+                                hasenv=False
+                                for grass in Weltkarte.grasses:
+                                    if grass == currentEnvironment:
+                                        hasenv=True
+
+                                # Fähigkeit Grasschlitzer: Chance auf doppelte Ressourcen
                                 if self.Charakter.has_skill(character.skills.GrasMovementCharacterSkill):
-                                    Weltkarte.inventory[currentTile] += 1
+                                    rand_int=Wahrscheinlichkeiten.haelftehaelfte()
+                                    if rand_int:
+                                        Weltkarte.inventory[currentTile] += 1
                                 #Sammeln
                                 Weltkarte.inventory[currentTile] += 1
                                 NewTilemap.getTilemap()[player_Icon_Position[1]
                                                   ][player_Icon_Position[0]] = Weltkarte.DIRT
+                                if hasenv == True:
+                                    NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                    ][player_Icon_Position[0]] = Weltkarte.DEADGRASS
+                            else:
+                                break
                         elif (event.key == K_m):
                             #non-fighting skills
                             stealthSkill=False

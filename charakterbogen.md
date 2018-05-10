@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Droawa
+  - Name: Umoste
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

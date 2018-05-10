@@ -63,11 +63,11 @@ class Character:
 
     def set_status_initial(self, animaltype):
         if (str(animaltype) == str(animaltypes.clsBaer)):
-            self.status = [20, 100, 5]
+            self.status = [20, 40, 5]
             if self.has_skill(skills.EnduranceCharacterSkill):
                 self.status[1] += 20
         elif (str(animaltype) == str(animaltypes.clsRobbe)):
-            self.status = [10, 10, 15]
+            self.status = [10, 35, 15]
             if self.has_skill(skills.EnduranceCharacterSkill):
                 self.status[1] += 20
         self.temp_status = self.status[:]
