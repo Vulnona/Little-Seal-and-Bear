@@ -2,6 +2,7 @@
 # Very nice: http://game-icons.net/
 # TODO: die BG Tilemap kann glaube ich weg
 # TODO: collect system überarbeiten, bubbles überarbeiten, 'schwarz'->'braun'
+# @ANDRE: Seal images (animalstages) without logo
 
 
 import pygame

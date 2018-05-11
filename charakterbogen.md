@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Utoba
-  - Tierart: Robbe
-  - Farbe: Grau
+  - Name: Pleofroo
+  - Tierart: Bär
+  - Farbe: Schwarz
 
 ## Statuswerte
 
