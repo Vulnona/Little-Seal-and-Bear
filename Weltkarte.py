@@ -53,8 +53,11 @@ TREE2 = 36
 TREE3 = 37
 GRASSDECO = 38
 STONEDECO = 39
-CAVE = 40
-WATERBORDERINNERCURVE = 41
+CAVE1 = 40
+CAVE2 = 41
+CAVE3 = 42
+CAVE4 = 43
+WATERBORDERINNERCURVE = 44
 
 
 tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
@@ -103,8 +106,19 @@ hill_grass_3 = tiles_Sprite.image_at((13+35, 5679, 35, 35), colorkey=(0,0,0))
 hill_grass_3 = pygame.transform.scale(hill_grass_3, (40,40))
 hill_grass_4 = tiles_Sprite.image_at((13, 5679+35, 35, 35), colorkey=(0,0,0))
 hill_grass_4 = pygame.transform.scale(hill_grass_4, (40,40))
+
 cave = tiles_Sprite.image_at((136, 6500, 56, 53), colorkey=(0,0,0))
 cave = pygame.transform.scale(cave, (40,40))
+cave_1 = tiles_Sprite.image_at((136, 6500, 28, 26), colorkey=(0,0,0))
+cave_1 = pygame.transform.scale(cave_1, (40,40))
+cave_2 = tiles_Sprite.image_at((136+28, 6500, 28, 26), colorkey=(0,0,0))
+cave_2 = pygame.transform.scale(cave_2, (40,40))
+cave_3 = tiles_Sprite.image_at((136+28, 6500+26, 28, 26), colorkey=(0,0,0))
+cave_3 = pygame.transform.scale(cave_3, (40,40))
+cave_4 = tiles_Sprite.image_at((136, 6500+26, 28, 26), colorkey=(0,0,0))
+cave_4 = pygame.transform.scale(cave_4, (40,40))
+
+
 water_border=tiles_Sprite.image_at((30, 4689, 40, 45), colorkey=(0,0,0))
 water_border= pygame.transform.scale(water_border, (40,40))
 water_border_top=pygame.transform.rotate(water_border, 0)
@@ -143,7 +157,7 @@ textures={
     STONE: stone_tile,
     DIRT : dirt_tile,
     WATER : water_tile,
-    LAKE1: lake_1,
+    LAKE1: lake_1, #WATER BEHAVIOUR MISSING
     LAKE2: lake_2,
     LAKE3: lake_3,
     LAKE4: lake_4
@@ -175,7 +189,10 @@ environment={
     TREE2: tree_2,
     TREE3: tree_3,
     STONEDECO: stone_deco,
-    CAVE: cave,
+    CAVE1: cave_1,
+    CAVE2: cave_2,
+    CAVE3: cave_3,
+    CAVE4: cave_4,
     WATERBORDERINNERCURVE: water_border_inner_curve,
     STONECORNERLEFT: stone_corner_left,
     STONECORNERDOWN: stone_corner_down,
@@ -206,10 +223,10 @@ collectableres=[GRASS,HIGHGRASS]
 craftables=[WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
 
 #collide
-collide=[STONESTAND, HOLE, GRASSBUSH, TREE1, TREE2, TREE3]
+collide=[STONESTAND, HOLE, GRASSBUSH, TREE1, TREE2, TREE3, CAVE1, CAVE2]
 
 #enterable
-enterable=[CAVE, STONEHOLE]
+enterable=[CAVE3, CAVE4, STONEHOLE]
 
 #grasssorts
 grasses=[LOWGRASS, MOREGRASS]
@@ -302,9 +319,9 @@ class clsTileMap(object):
              LOWGRASS, MOREGRASS, TREE2],
             [LOWGRASS, LOWGRASS, LOWGRASS, LOWGRASS, HILL1, HILL3, NOTHING, GRASSDECO, NOTHING, LOWGRASS, NOTHING, ROSEWATER1,
              LOWGRASS, MOREGRASS, MOREGRASS],
-            [LOWGRASS, LOWGRASS, LOWGRASS, LOWGRASS, HILL4, HILL2, NOTHING, NOTHING, NOTHING, GRASSBUSH, LOWGRASS, LOWGRASS,
+            [LOWGRASS, LOWGRASS, LOWGRASS, LOWGRASS, HILL4, HILL2, NOTHING, CAVE1, CAVE2, GRASSBUSH, LOWGRASS, LOWGRASS,
              LOWGRASS, MOREGRASS, MOREGRASS],
-            [WATERBORDERTOP, WATERBORDERTOP, WATERBORDERCURVE, LOWGRASS, LOWGRASS, NOTHING, NOTHING, NOTHING, CAVE, NOTHING, NOTHING, GRASSDECO,
+            [WATERBORDERTOP, WATERBORDERTOP, WATERBORDERCURVE, LOWGRASS, LOWGRASS, NOTHING, NOTHING, CAVE4, CAVE3, NOTHING, NOTHING, GRASSDECO,
              LOWGRASS, LOWGRASS, MOREGRASS],
             [ROSEWATER2, STONEWATER, WATERBORDERINNERCURVE, WATERBORDERCURVE, LOWGRASS, LOWGRASS, TREE2, NOTHING, NOTHING, STONEDECO, NOTHING, TREE1,
              MOREGRASS, HOLE, MOREGRASS]

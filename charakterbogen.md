@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Umoste
+  - Name: Aog
   - Tierart: <class 'character.animaltypes.clsRobbe'>
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

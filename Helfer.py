@@ -57,7 +57,6 @@ class spritesheet(object):
 
 class SpriteStripAnim(object):
     """sprite strip animator
-
     This class provides an iterator (iter() and next() methods), and a
     __add__() method for joining strips which comes in handy when a
     strip wraps to the next row.
@@ -65,13 +64,10 @@ class SpriteStripAnim(object):
 
     def __init__(self, filename, rect, count, colorkey=None, loop=False, frames=1):
         """construct a SpriteStripAnim
-
         filename, rect, count, and colorkey are the same arguments used
         by spritesheet.load_strip.
-
         loop is a boolean that, when True, causes the next() method to
         loop. If False, the terminal case raises StopIteration.
-
         frames is the number of ticks to return the same image before
         the iterator advances to the next image.
         """
