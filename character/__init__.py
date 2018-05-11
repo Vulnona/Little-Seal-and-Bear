@@ -101,7 +101,7 @@ class Character:
         return level
 
     def set_type(self, type):
-        self.animaltype = str(type)
+        self.animaltype = type()
 
     def get_type(self):
         return self.animaltype
