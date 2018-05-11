@@ -13,25 +13,25 @@ MAPWIDTH = 15
 MAPHEIGHT = 10
 SURFACE = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE+50))
 
-GRASS = 0
-HIGHGRASS = 1
-WIESENSNACK=2
-BLÄTTERMISCHUNG=3
-PUSTEBLUMENDESSERT=4
-DIRT = 5
-WATER = 6
-NOTHING = 7
-GRASSBUSH = 8
-STONEHOLE = 9
-GRASSFRAME = 10
-LOWGRASS = 11
+GRASSLAND = 0
+LOWGRASS = 1
+MOREGRASS = 2
+WIESENSNACK=3
+BLÄTTERMISCHUNG=4
+PUSTEBLUMENDESSERT=5
+DIRT = 6
+WATER = 7
+STONE = 8
+NOTHING = 9
+GRASSBUSH = 10
+STONEHOLE = 11
 HOLE = 12
 HILL1= 13
 HILL2=14
 HILL3=15
 HILL4=16
-MOREGRASS = 17
-STONE = 18
+GRASSFRAME = 17
+WATERBORDERINNERCURVE = 18
 STONECORNERLEFT = 19
 STONECORNERDOWN = 20
 STONECORNERCURVE = 21
@@ -57,7 +57,7 @@ CAVE1 = 40
 CAVE2 = 41
 CAVE3 = 42
 CAVE4 = 43
-WATERBORDERINNERCURVE = 44
+
 
 
 tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
@@ -152,8 +152,7 @@ tree_3 = tiles_Sprite.image_at((195, 410, 64, 64), colorkey=(0,0,0))
 tree_3 = pygame.transform.scale(tree_3, (40, 40))
 
 textures={
-    GRASS : grass_tile,
-    HIGHGRASS : pygame.image.load('./resources/images/ressourcen/highgrasstexture.png').convert(),#needs renaming: darkgrass
+    GRASSLAND : grass_tile,
     STONE: stone_tile,
     DIRT : dirt_tile,
     WATER : water_tile,
@@ -202,7 +201,9 @@ environment={
 #snippets
 grasssnippet = grass_tile.convert()
 grasssnippet = pygame.transform.scale(grasssnippet,(TILESIZE,TILESIZE))
-highgrasssnippet = pygame.image.load('./resources/images/ressourcen/highgrasstexture.png').convert()
+lowgrasssnippet = low_grass.convert()
+lowgrasssnippet = pygame.transform.scale(lowgrasssnippet,(TILESIZE,TILESIZE))
+highgrasssnippet = high_grass.convert()
 highgrasssnippet = pygame.transform.scale(highgrasssnippet,(TILESIZE,TILESIZE))
 
 wiesensnacksnippet = pygame.image.load('./resources/images/ressourcen/wiesensnack.png')
@@ -215,11 +216,11 @@ pusteblumendessertsnippet = pygame.image.load('./resources/images/ressourcen/dan
 pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (
 Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
 
-snippets=(grasssnippet,highgrasssnippet,wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
+snippets=(grasssnippet,lowgrasssnippet,highgrasssnippet,wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
 
 #resources
-resources=[GRASS,STONE,DIRT,WATER]
-collectableres=[GRASS,HIGHGRASS]
+resources=[GRASSLAND, STONE, DIRT, WATER]
+collectableres=[GRASSLAND, LOWGRASS, MOREGRASS]
 craftables=[WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
 
 #needs swimming
@@ -236,8 +237,9 @@ grasses=[LOWGRASS, MOREGRASS]
 
 #inventory
 inventory={
-    GRASS:0,
-    HIGHGRASS:0,
+    GRASSLAND:0,
+    LOWGRASS: 0,
+    MOREGRASS:0,
     WIESENSNACK:0,
     BLÄTTERMISCHUNG:0,
     PUSTEBLUMENDESSERT:0
@@ -259,9 +261,10 @@ feedcontrols = {
 
 #recipes for crafting
 craftrecipes={
-    WIESENSNACK : {GRASS : 5},
-    BLÄTTERMISCHUNG: {HIGHGRASS : 2, WIESENSNACK: 1},
-    PUSTEBLUMENDESSERT: {GRASS : 4, HIGHGRASS : 2, BLÄTTERMISCHUNG : 1}
+    LOWGRASS : {GRASSLAND : 5},
+    WIESENSNACK : {LOWGRASS : 4},
+    BLÄTTERMISCHUNG: {MOREGRASS : 2, WIESENSNACK: 1},
+    PUSTEBLUMENDESSERT: {GRASSLAND : 4, MOREGRASS : 2, BLÄTTERMISCHUNG : 1}
 }
 
 class clsInventory(object):
@@ -274,7 +277,7 @@ class clsInventory(object):
 
 class clsTileMap(object):
     def __init__(self):
-        self.tilemap= [[GRASS for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
+        self.tilemap= [[GRASSLAND for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
         self.environment = [[NOTHING for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
     def showTilemap(self):
         print(self.tilemap)
@@ -291,20 +294,20 @@ class clsTileMap(object):
                 elif randomint > 0 and randomint <= 5:
                     tile = STONE
                 else:
-                    tile = GRASS
+                    tile = GRASSLAND
                 self.tilemap[k][l] = tile
     def customTilemap(self):
         self.tilemap=[
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, STONE, STONE, STONE, STONE, STONE, STONE],
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, STONE, STONE, STONE, STONE, STONE, STONE],
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, STONE, STONE, STONE, STONE, STONE, STONE],
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS],
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS],
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, LAKE1, LAKE2, GRASS, GRASS, GRASS],
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, LAKE3, LAKE4, GRASS, GRASS, GRASS],
-            [GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS],
-            [WATER, WATER, WATER, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS],
-            [WATER, WATER, WATER, WATER, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, STONE, STONE, STONE, STONE, STONE, STONE],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, STONE, STONE, STONE, STONE, STONE, STONE],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, STONE, STONE, STONE, STONE, STONE, STONE],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, LAKE1, LAKE2, GRASSLAND, GRASSLAND, GRASSLAND],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, LAKE3, LAKE4, GRASSLAND, GRASSLAND, GRASSLAND],
+            [GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND],
+            [WATER, WATER, WATER, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND],
+            [WATER, WATER, WATER, WATER, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND, GRASSLAND],
         ]
     def environment_customTilemap(self):
         self.environment=[

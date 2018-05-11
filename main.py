@@ -744,34 +744,35 @@ class Spiel(object):
                             currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                   ][player_Icon_Position[0]]
                             if (currentTile == Weltkarte.DIRT and self.Charakter.has_skill(character.skills.PlantingCharacterSkill)):
-                                NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                        ][player_Icon_Position[0]] = Weltkarte.GRASS
+                                #NewTilemap.getTilemap()[player_Icon_Position[1]
+                                #                        ][player_Icon_Position[0]] = Weltkarte.GRASS
                                 NewTilemap.getEnvironment()[player_Icon_Position[1]
                                                             ][player_Icon_Position[0]] = Weltkarte.LOWGRASS
                                 self.Charakter.change_status_temp('magic', '-')
                                 break
-                            elif currentTile == Weltkarte.GRASS:
+                            elif currentTile == Weltkarte.GRASSLAND:
                                 currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
                                                                                  ][player_Icon_Position[0]]
                                 hasenv = False
                                 for grass in Weltkarte.grasses:
                                     if grass == currentEnvironment:
                                         hasenv = True
-
-                                # Fähigkeit Grasschlitzer: Chance auf doppelte Ressourcen
-                                if self.Charakter.has_skill(character.skills.GrasMovementCharacterSkill):
-                                    rand_int = Wahrscheinlichkeiten.haelftehaelfte()
-                                    if rand_int:
-                                        Weltkarte.inventory[currentTile] += 1
-                                # Sammeln
-                                Weltkarte.inventory[currentTile] += 1
-                                NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                        ][player_Icon_Position[0]] = Weltkarte.DIRT
-                                if hasenv == True:
+                                if hasenv:
+                                    # Fähigkeit Grasschlitzer: Chance auf doppelte Ressourcen
+                                    if self.Charakter.has_skill(character.skills.GrasMovementCharacterSkill):
+                                        rand_int = Wahrscheinlichkeiten.haelftehaelfte()
+                                        if rand_int:
+                                            Weltkarte.inventory[currentEnvironment] += 1
+                                    # Sammeln
+                                    Weltkarte.inventory[currentEnvironment]+=1
                                     NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                ][player_Icon_Position[0]] = Weltkarte.DEADGRASS
-                            else:
-                                break
+                                    ][player_Icon_Position[0]] = Weltkarte.DEADGRASS
+
+                                else:
+                                    Weltkarte.inventory[currentTile] += 1
+                                    NewTilemap.getTilemap()[player_Icon_Position[1]
+                                                            ][player_Icon_Position[0]] = Weltkarte.DIRT
+
                         elif (event.key == K_m):
                             # non-fighting skills
                             stealthSkill = False
@@ -805,7 +806,7 @@ class Spiel(object):
                                 if self.Charakter.get_status_temp('magic') > 1:
                                     currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                           ][player_Icon_Position[0]]
-                                    if currentTile == Weltkarte.DIRT or currentTile == Weltkarte.GRASS:
+                                    if currentTile == Weltkarte.DIRT or currentTile == Weltkarte.GRASSLAND:
                                         enough_temp_value = True
                                 bubble = Interaktion.Bubble(self.window, player_Icon_Position, -1,
                                                             2, "plant", enough_temp_value)
@@ -851,10 +852,10 @@ class Spiel(object):
                                                                                           ][player_Icon_Position[0]]
                                                     if currentTile == Weltkarte.DIRT:
                                                         NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                                                ][player_Icon_Position[0]] = Weltkarte.GRASS
+                                                                                ][player_Icon_Position[0]] = Weltkarte.GRASSLAND
                                                         self.Charakter.change_status_temp(
                                                             'magic', '-')
-                                                    elif currentTile == Weltkarte.GRASS:
+                                                    elif currentTile == Weltkarte.GRASSLAND:
                                                         NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                                 ][player_Icon_Position[0]] = Weltkarte.HIGHGRASS
                                                         self.Charakter.change_status_temp(

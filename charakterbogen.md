@@ -1,7 +1,7 @@
 # Charakter Bogen
 
-  - Name: Of
-  - Tierart: Robbe
+  - Name: Aor
+  - Tierart: Bär
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 
 ## Statuswerte
