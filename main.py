@@ -176,10 +176,6 @@ class Spiel(object):
                     self.window, Farben.clsFarben.BLACK, blackbar)
                 characterButton.draw(self.window)
 
-                player_Icon = self.images['unknown']
-                player_Icon = pygame.transform.scale(
-                    player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-
                 # a x b pixels of spritesheet
                 a = 576 / 12
                 b = 384 / 8

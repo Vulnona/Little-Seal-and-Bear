@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Hi
+  - Name: Ic
   - Tierart: Bär
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 
