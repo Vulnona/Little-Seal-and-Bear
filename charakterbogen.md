@@ -1,6 +1,6 @@
 # Charakter Bogen
 
-  - Name: Eudosii
+  - Name: Hi
   - Tierart: Bär
   - Farbe: <class 'character.animalsubtypes.Weiss'>
 

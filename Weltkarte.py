@@ -157,7 +157,7 @@ textures={
     STONE: stone_tile,
     DIRT : dirt_tile,
     WATER : water_tile,
-    LAKE1: lake_1, #WATER BEHAVIOUR MISSING
+    LAKE1: lake_1,
     LAKE2: lake_2,
     LAKE3: lake_3,
     LAKE4: lake_4
@@ -221,6 +221,9 @@ snippets=(grasssnippet,highgrasssnippet,wiesensnacksnippet,blättermischungsnipp
 resources=[GRASS,STONE,DIRT,WATER]
 collectableres=[GRASS,HIGHGRASS]
 craftables=[WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
+
+#needs swimming
+waterbehaviour=[WATER, LAKE2, LAKE1, LAKE3, LAKE4]
 
 #collide
 collide=[STONESTAND, HOLE, GRASSBUSH, TREE1, TREE2, TREE3, CAVE1, CAVE2]
