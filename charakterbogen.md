@@ -1,7 +1,7 @@
 # Charakter Bogen
 
-  - Name: Aph
-  - Tierart: Robbe
+  - Name: Auwoez
+  - Tierart: Bär
   - Farbe: Weiss
 
 ## Statuswerte
