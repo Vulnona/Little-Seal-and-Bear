@@ -197,25 +197,25 @@ class Spiel(object):
                     sprites_bear_right_white = []
                     sprite_pos = 4
                     for sprite_pos in range(7):
-                        bear_right = (a * 3 * sprite_pos, b * 4, a, b)
+                        bear_right = (a * 3, sprite_pos * b * 4, a, b)
                         sprites_bear_right_white.append((bear_right))
 
                     sprites_bear_left_white = []
                     sprite_pos = 4
                     for sprite_pos in range(7):
-                        bear_left = (a * 2 * sprite_pos, b * 4, a, b)
+                        bear_left = (a * 2, sprite_pos * b * 4, a, b)
                         sprites_bear_left_white.append((bear_left))
 
                     sprites_bear_up_white = []
                     sprite_pos = 4
                     for sprite_pos in range(7):
-                        bear_right = (a * 4* sprite_pos, b * 4, a, b)
+                        bear_right = (a * 4, sprite_pos * b * 4, a, b)
                         sprites_bear_right_white.append((bear_right))
 
                     sprites_bear_down_white = []
                     sprite_pos = 4
                     for sprite_pos in range(7):
-                        bear_right = (a * sprite_pos, b * 4, a, b)
+                        bear_right = (a, sprite_pos * b * 4, a, b)
                         sprites_bear_right_white.append((bear_right))
 
 
