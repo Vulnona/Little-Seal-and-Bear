@@ -103,8 +103,8 @@ class Menu(object):
                     Weltkarte.clsTileMap.drawSnippets(self.screen)
 
                     #liste: buttons to be pressed for crafting and feeding
-                    liste=[0,0,1,2,3]
-                    listezwei=[0,0,7,8,9]
+                    liste=[0,0,0,1,2,3]
+                    listezwei=[0,0,0,7,8,9]
                     placePosition = Koordinaten.clsKoordinaten.INVPLACEPOS
                     for item in Weltkarte.craftables:
                         #displaying craft snippets

@@ -181,6 +181,12 @@ class Spiel(object):
                 b = 384 / 8
                 if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                     player_Sprite = self.spritesheets['bearsprites']
+                    if(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Weiss)):
+                        pass
+                    elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Grau)):
+                        pass
+                    elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Schwarz)):
+                        pass
                     if direction == "right":
                         player_Icon = player_Sprite.image_at((a * 3, b * 2, a, b), colorkey=(0, 0, 0))
                     elif direction == "left":

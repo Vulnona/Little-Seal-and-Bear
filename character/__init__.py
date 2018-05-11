@@ -107,7 +107,7 @@ class Character:
         return self.animaltype
 
     def set_subtype(self, animalsubtype):
-        self.animalsubtype = animalsubtype
+        self.animalsubtype = animalsubtype()
         self.update_applicable_skills()
         self.update_skills(self.skills)
 
