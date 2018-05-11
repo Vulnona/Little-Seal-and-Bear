@@ -99,7 +99,8 @@ class Spiel(object):
         logging.info('Loading Spritesheets')
 
         self.spritesheets = {
-            'sealsprites': Helfer.spritesheet('seal2.png')
+            'sealsprites': Helfer.spritesheet('seal2.png'),
+            'bearsprites': Helfer.spritesheet('bear.png')
         }
 
     def spielen(self, MODE):
@@ -178,17 +179,48 @@ class Spiel(object):
                 player_Icon = pygame.transform.scale(
                     player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
-                if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):  # doesnt work :(
-                    # if(str(self.Charakter.get_type()) == str(character.animaltypes.clsBaer)):
-                    player_Icon = self.images['player_icon']['bear']
-                    player_Icon = pygame.transform.scale(
-                        player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                # a x b pixels of spritesheet
+                a = 576 / 12
+                b = 384 / 8
+                if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)): #doesnt work :(
+                # if(str(self.Charakter.get_type()) == str(character.animaltypes.clsBaer)):
+                    player_Sprite = self.spritesheets['bearsprites']
+                    if direction == "right":
+                        player_Icon = player_Sprite.image_at((a * 3, b * 4, a, b), colorkey=(0, 0, 0))
+                    elif direction == "left":
+                        player_Icon = player_Sprite.image_at((a * 2, b * 4, a, b), colorkey=(0, 0, 0))
+                    elif direction == "up":
+                        player_Icon = player_Sprite.image_at((a * 4, b * 4, a, b), colorkey=(0, 0, 0))
+                    else:
+                        player_Icon = player_Sprite.image_at((a * 1, b * 4, a, b), colorkey=(0, 0, 0))
+
+                    sprites_bear_right_white = []
+                    sprite_pos = 4
+                    for sprite_pos in range(7):
+                        bear_right = (a * 3, sprite_pos * b * 4, a, b)
+                        sprites_bear_right_white.append((bear_right))
+
+                    sprites_bear_left_white = []
+                    sprite_pos = 4
+                    for sprite_pos in range(7):
+                        bear_left = (a * 2, sprite_pos * b * 4, a, b)
+                        sprites_bear_left_white.append((bear_left))
+
+                    sprites_bear_up_white = []
+                    sprite_pos = 4
+                    for sprite_pos in range(7):
+                        bear_right = (a * 4, sprite_pos * b * 4, a, b)
+                        sprites_bear_right_white.append((bear_right))
+
+                    sprites_bear_down_white = []
+                    sprite_pos = 4
+                    for sprite_pos in range(7):
+                        bear_right = (a, sprite_pos * b * 4, a, b)
+                        sprites_bear_right_white.append((bear_right))
+
 
                 elif (str(self.Charakter.get_type()) == str(character.animaltypes.clsRobbe)):
                     player_Sprite = self.spritesheets['sealsprites']
-                    # a x b pixels of spritesheet
-                    a = 576 / 12
-                    b = 384 / 8
                     if direction == "right":
                         player_Icon = player_Sprite.image_at(
                             (a, b*2, a, b), colorkey=(0, 0, 0))
