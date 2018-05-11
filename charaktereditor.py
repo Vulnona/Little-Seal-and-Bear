@@ -372,13 +372,13 @@ class Editor:
     # --------------------------------------------------------------------------
     # Drawing handlers
     def draw_avatar(self):
-        if (str(self.character.get_type()) == str(character.animaltypes.clsRobbe)):
+        if (isinstance(self.character.get_type(), character.animaltypes.clsRobbe)):
             seal = pygame.image.load(
                 './resources/images/sealavatar.jpg').convert()
             # seal=self.images('sealavatar')
             seal = pygame.transform.scale(seal, (155, 150))
             self.window.blit(seal, (50, 42))
-        elif str(self.character.get_type()) == str(character.animaltypes.clsBaer):
+        elif (isinstance(self.character.get_type(), character.animaltypes.clsBaer)):
             bear = pygame.image.load(
                 './resources/images/bearavatar.jpg').convert()
             bear = pygame.transform.scale(bear, (155, 150))

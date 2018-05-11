@@ -182,41 +182,40 @@ class Spiel(object):
                 # a x b pixels of spritesheet
                 a = 576 / 12
                 b = 384 / 8
-                if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)): #doesnt work :(
-                # if(str(self.Charakter.get_type()) == str(character.animaltypes.clsBaer)):
+                if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                     player_Sprite = self.spritesheets['bearsprites']
                     if direction == "right":
-                        player_Icon = player_Sprite.image_at((a * 3, b * 4, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * 3, b * 2, a, b), colorkey=(0, 0, 0))
                     elif direction == "left":
-                        player_Icon = player_Sprite.image_at((a * 2, b * 4, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * 3, b * 1, a, b), colorkey=(0, 0, 0))
                     elif direction == "up":
-                        player_Icon = player_Sprite.image_at((a * 4, b * 4, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * 3, b * 3, a, b), colorkey=(0, 0, 0))
                     else:
-                        player_Icon = player_Sprite.image_at((a * 1, b * 4, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * 3, b * 0, a, b), colorkey=(0, 0, 0))
 
                     sprites_bear_right_white = []
-                    sprite_pos = 4
-                    for sprite_pos in range(7):
-                        bear_right = (a * 3, sprite_pos * b * 4, a, b)
+                    sprite_pos = 0
+                    for sprite_pos in range(3):
+                        bear_right = ((a * 3 )+ (sprite_pos*a), b * 2, a, b)
                         sprites_bear_right_white.append((bear_right))
 
                     sprites_bear_left_white = []
-                    sprite_pos = 4
-                    for sprite_pos in range(7):
-                        bear_left = (a * 2, sprite_pos * b * 4, a, b)
+                    sprite_pos = 0
+                    for sprite_pos in range(3):
+                        bear_left = ((a * 3) + (sprite_pos*a), b * 1, a, b)
                         sprites_bear_left_white.append((bear_left))
 
                     sprites_bear_up_white = []
-                    sprite_pos = 4
-                    for sprite_pos in range(7):
-                        bear_right = (a * 4, sprite_pos * b * 4, a, b)
-                        sprites_bear_right_white.append((bear_right))
+                    sprite_pos = 0
+                    for sprite_pos in range(3):
+                        bear_up = ((a * 3) + (sprite_pos*a), b * 3, a, b)
+                        sprites_bear_up_white.append((bear_up))
 
                     sprites_bear_down_white = []
-                    sprite_pos = 4
-                    for sprite_pos in range(7):
-                        bear_right = (a, sprite_pos * b * 4, a, b)
-                        sprites_bear_right_white.append((bear_right))
+                    sprite_pos = 0
+                    for sprite_pos in range(3):
+                        bear_down = ((a * 3) + (sprite_pos*a), b * 0, a, b)
+                        sprites_bear_down_white.append((bear_down))
 
 
                 elif (str(self.Charakter.get_type()) == str(character.animaltypes.clsRobbe)):
@@ -341,8 +340,12 @@ class Spiel(object):
                                                 cont = False
                                                 break
                                         if cont:
-                                            images = player_Sprite.images_at(
-                                                rects=sprites_seal_right_baby, colorkey=[0, 0, 0])
+                                            if(isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_bear_right_white, colorkey=[0, 0, 0])
+                                            elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_seal_right_baby, colorkey=[0, 0, 0])
                                             WalkAnim = pyganim.PygAnimation(
                                                 [(images[0], 150), (images[1], 150), (images[2], 150)])
                                             WalkAnim.play()
@@ -444,8 +447,13 @@ class Spiel(object):
                                                 cont = False
                                                 break
                                         if cont:
-                                            images = player_Sprite.images_at(rects=sprites_seal_left_baby,
-                                                                             colorkey=[0, 0, 0])
+                                            if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_bear_left_white, colorkey=[0, 0, 0])
+                                            elif (
+                                            isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_seal_left_baby, colorkey=[0, 0, 0])
                                             WalkAnim = pyganim.PygAnimation(
                                                 [(images[0], 150), (images[1], 150), (images[2], 150)])
                                             WalkAnim.play()
@@ -540,8 +548,12 @@ class Spiel(object):
                                         cont = False
                                         break
                                 if cont:
-                                    images = player_Sprite.images_at(
-                                        rects=sprites_seal_down_baby, colorkey=[0, 0, 0])
+                                    if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                        images = player_Sprite.images_at(
+                                            rects=sprites_bear_down_white, colorkey=[0, 0, 0])
+                                    elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                        images = player_Sprite.images_at(
+                                            rects=sprites_seal_down_baby, colorkey=[0, 0, 0])
                                     WalkAnim = pyganim.PygAnimation(
                                         [(images[0], 150), (images[1], 150), (images[2], 150)])
                                     WalkAnim.play()
@@ -644,8 +656,12 @@ class Spiel(object):
                                         else:
                                             cont = False
                                     if cont:
-                                        images = player_Sprite.images_at(
-                                            rects=sprites_seal_up_baby, colorkey=[0, 0, 0])
+                                        if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                            images = player_Sprite.images_at(
+                                                rects=sprites_bear_up_white, colorkey=[0, 0, 0])
+                                        elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                            images = player_Sprite.images_at(
+                                                rects=sprites_seal_up_baby, colorkey=[0, 0, 0])
                                         WalkAnim = pyganim.PygAnimation(
                                             [(images[0], 150), (images[1], 150), (images[2], 150)])
                                         WalkAnim.play()

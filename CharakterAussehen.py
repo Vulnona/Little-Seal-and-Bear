@@ -5,7 +5,7 @@ pygame.init()
 
 
 def showAnimal(charakter, screen):
-    if (str(charakter.get_type()) == str(character.animaltypes.clsBaer)):
+    if (isinstance(charakter.get_type(), character.animaltypes.clsBaer)):
         if (int(charakter.level) < 4):
             image = pygame.image.load(
                 './resources/images/animalstages/babybear.png').convert()
@@ -21,7 +21,7 @@ def showAnimal(charakter, screen):
                 './resources/images/animalstages/bearfinallevel.png').convert()
             image = pygame.transform.scale(image, (300, 300))
             screen.blit(image, (200, 100))
-    elif (str(charakter.get_type()) == str(character.animaltypes.clsRobbe)):
+    elif (isinstance(charakter.get_type(), character.animaltypes.clsRobbe)):
         if (int(charakter.level) < 4):
             image = pygame.image.load(
                 './resources/images/animalstages/babyseal.png').convert()
