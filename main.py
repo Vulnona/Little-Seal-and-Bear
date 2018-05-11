@@ -1,6 +1,8 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# TODO: die BG Tilemap kann glaube ich weg, recolor der 3d tiere, resize tiles für baerenanimation
+# TODO: die BG Tilemap kann glaube ich weg, resize tiles für baerenanimation,
+# TODO: collect system überarbeiten, bubbles überarbeiten, 'schwarz'->'braun'
+
 
 import pygame
 import sys
@@ -44,7 +46,6 @@ pygame.display.set_caption("Spiel ohne Namen")
 pygame.display.set_icon(Helfer.load_image('icon.png'))
 FPS = 60
 fpsClock = pygame.time.Clock()
-
 Charakter = character.Character()
 MODE = "UNKNOWN"
 player_Icon_Position = [0, 0]
