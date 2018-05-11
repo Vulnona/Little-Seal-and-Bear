@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Auwoez
-  - Tierart: Bär
-  - Farbe: Weiss
+  - Name: Utoba
+  - Tierart: Robbe
+  - Farbe: Grau
 
 ## Statuswerte
 

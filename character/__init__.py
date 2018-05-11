@@ -112,7 +112,7 @@ class Character:
         self.update_skills(self.skills)
 
     def get_subtype(self):
-        return str(self.animalsubtype)
+        return self.animalsubtype
 
     def get_exp(self):
         return self.exp

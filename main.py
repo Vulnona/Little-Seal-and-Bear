@@ -101,6 +101,7 @@ class Spiel(object):
 
         self.spritesheets = {
             'sealsprites': Helfer.spritesheet('seal2.png'),
+            'sealsprites2': Helfer.spritesheet('seal.png'),
             'bearsprites': Helfer.spritesheet('bear.png')
         }
 
@@ -182,84 +183,105 @@ class Spiel(object):
                 if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                     player_Sprite = self.spritesheets['bearsprites']
                     if(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Weiss)):
-                        print('in condi')
                         amod = 3
-                        bmod = 1
+                        bmod = 0
                     elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Grau)):
-                        pass
+                        amod = 3
+                        bmod = 4
                     elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Schwarz)):
-                        pass
+                        amod = 0
+                        bmod = 4
                     if direction == "right":
-                        player_Icon = player_Sprite.image_at((a * amod, b * bmod * 2, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
                     elif direction == "left":
-                        player_Icon = player_Sprite.image_at((a * amod, b * bmod * 1, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
                     elif direction == "up":
-                        player_Icon = player_Sprite.image_at((a * amod, b * bmod * 3, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
                     else:
-                        player_Icon = player_Sprite.image_at((a * amod, b * bmod * 0, a, b), colorkey=(0, 0, 0))
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
 
                     sprites_bear_right_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        bear_right = ((a * amod)+ (sprite_pos*a), b * 2, a, b)
+                        bear_right = ((a * amod) + (sprite_pos * a), b * (bmod + 2), a, b)
                         sprites_bear_right_white.append((bear_right))
 
                     sprites_bear_left_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        bear_left = ((a * amod) + (sprite_pos*a), b * bmod* 1, a, b)
+                        bear_left = ((a * amod) + (sprite_pos * a), b * (bmod + 1), a, b)
                         sprites_bear_left_white.append((bear_left))
 
                     sprites_bear_up_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        bear_up = ((a * amod) + (sprite_pos*a), b * bmod* 3, a, b)
+                        bear_up = ((a * amod) + (sprite_pos * a), b * (bmod + 3), a, b)
                         sprites_bear_up_white.append((bear_up))
 
                     sprites_bear_down_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        bear_down = ((a * amod) + (sprite_pos*a), b * bmod* 0, a, b)
+                        bear_down = ((a * amod) + (sprite_pos * a), b * (bmod + 0), a, b)
                         sprites_bear_down_white.append((bear_down))
 
 
                 elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                     player_Sprite = self.spritesheets['sealsprites']
+                    if (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Weiss)):
+                        amod = 0
+                        bmod = 0
+                    elif (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Grau)):
+                        player_Sprite = self.spritesheets['sealsprites2']
+                        amod = 0
+                        bmod = 0
+                    elif (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Schwarz)):
+                        amod = 0
+                        bmod = 4
                     if direction == "right":
                         player_Icon = player_Sprite.image_at(
-                            (a, b*2, a, b), colorkey=(0, 0, 0))
+                            (a * amod, b*(bmod+2), a, b), colorkey=(0, 0, 0))
                     elif direction == "left":
                         player_Icon = player_Sprite.image_at(
-                            (a, b, a, b), colorkey=(0, 0, 0))
+                            (a * amod, b*(bmod+1), a, b), colorkey=(0, 0, 0))
                     elif direction == "up":
                         player_Icon = player_Sprite.image_at(
-                            (a, b*3, a, b), colorkey=(0, 0, 0))
+                            (a * amod, b*(bmod +3), a, b), colorkey=(0, 0, 0))
                     else:
                         player_Icon = player_Sprite.image_at(
-                            (a, 0, a, b), colorkey=(0, 0, 0))
+                            (a * amod, b * (bmod+0), a, b), colorkey=(0, 0, 0))
+
+###########
+                    if direction == "right":
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
+                    elif direction == "left":
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
+                    elif direction == "up":
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
+                    else:
+                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
 
                     sprites_seal_right_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        seal_right = (a*sprite_pos, b*2, a, b)
+                        seal_right = (a*amod + (sprite_pos*a), b*(bmod+2), a, b)
                         sprites_seal_right_white.append((seal_right))
 
                     sprites_seal_left_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        seal_left = (a * sprite_pos, b, a, b)
+                        seal_left = (a *amod + (sprite_pos*a), b*(bmod+1), a, b)
                         sprites_seal_left_white.append((seal_left))
 
                     sprites_seal_down_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        seal_down = (a*sprite_pos, 0, a, b)
+                        seal_down = (a*amod +(sprite_pos*a), b*(bmod+0), a, b)
                         sprites_seal_down_white.append((seal_down))
 
                     sprites_seal_up_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
-                        seal_up = (a*sprite_pos, b * 3, a, b)
+                        seal_up = (a*amod +(sprite_pos*a), b *(bmod+3), a, b)
                         sprites_seal_up_white.append((seal_up))
                 player_Icon = pygame.transform.scale(player_Icon, (37,37))
 
