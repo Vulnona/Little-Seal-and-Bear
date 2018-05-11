@@ -1,6 +1,6 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# TODO: die BG Tilemap kann glaube ich weg, resize tiles für baerenanimation,
+# TODO: die BG Tilemap kann glaube ich weg
 # TODO: collect system überarbeiten, bubbles überarbeiten, 'schwarz'->'braun'
 
 
@@ -215,7 +215,7 @@ class Spiel(object):
                         sprites_bear_down_white.append((bear_down))
 
 
-                elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                     player_Sprite = self.spritesheets['sealsprites']
                     if direction == "right":
                         player_Icon = player_Sprite.image_at(
@@ -230,33 +230,35 @@ class Spiel(object):
                         player_Icon = player_Sprite.image_at(
                             (a, 0, a, b), colorkey=(0, 0, 0))
 
-                    sprites_seal_right_baby = []
+                    sprites_seal_right_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_right = (a*sprite_pos, b*2, a, b)
-                        sprites_seal_right_baby.append((seal_right))
+                        sprites_seal_right_white.append((seal_right))
 
-                    sprites_seal_left_baby = []
+                    sprites_seal_left_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_left = (a * sprite_pos, b, a, b)
-                        sprites_seal_left_baby.append((seal_left))
+                        sprites_seal_left_white.append((seal_left))
 
-                    sprites_seal_down_baby = []
+                    sprites_seal_down_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_down = (a*sprite_pos, 0, a, b)
-                        sprites_seal_down_baby.append((seal_down))
+                        sprites_seal_down_white.append((seal_down))
 
-                    sprites_seal_up_baby = []
+                    sprites_seal_up_white = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_up = (a*sprite_pos, b * 3, a, b)
-                        sprites_seal_up_baby.append((seal_up))
+                        sprites_seal_up_white.append((seal_up))
+                player_Icon = pygame.transform.scale(player_Icon, (37,37))
 
                 self.window.blit(
                     player_Icon, (
-                        player_Icon_Position[0]*Weltkarte.TILESIZE - 5, (player_Icon_Position[1]*Weltkarte.TILESIZE)-10))
+                         player_Icon_Position[0] * Weltkarte.TILESIZE,
+                        (player_Icon_Position[1] * Weltkarte.TILESIZE)))
 
                 # Generating and placing enemies
                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
@@ -343,9 +345,10 @@ class Spiel(object):
                                                     rects=sprites_bear_right_white, colorkey=[0, 0, 0])
                                             elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                                 images = player_Sprite.images_at(
-                                                    rects=sprites_seal_right_baby, colorkey=[0, 0, 0])
+                                                    rects=sprites_seal_right_white, colorkey=[0, 0, 0])
                                             WalkAnim = pyganim.PygAnimation(
                                                 [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                            WalkAnim.scale((37, 37))
                                             WalkAnim.play()
                                             walk = 0.0
                                             proceed = True
@@ -392,8 +395,8 @@ class Spiel(object):
                                                                   nextPosition[1] * Weltkarte.TILESIZE))
 
                                                 WalkAnim.blit(self.window,
-                                                              (player_Icon_Position[0] * Weltkarte.TILESIZE + walk - 5,
-                                                               (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10))
+                                                              (player_Icon_Position[0] * Weltkarte.TILESIZE + walk,
+                                                               (player_Icon_Position[1] * Weltkarte.TILESIZE)))
                                                 pygame.display.update()
                                                 walk += 1
                                                 fpsClock.tick(FPS)
@@ -429,7 +432,7 @@ class Spiel(object):
                                     for env in Weltkarte.enterable:
                                         if env == currentEnvironment:
                                             for env2 in Weltkarte.enterable:
-                                                if env == nextEnvironment:
+                                                if env2 == nextEnvironment:
                                                     cont = True
                                                     break
                                                 else:
@@ -454,9 +457,10 @@ class Spiel(object):
                                                 elif (
                                                 isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                                     images = player_Sprite.images_at(
-                                                        rects=sprites_seal_left_baby, colorkey=[0, 0, 0])
+                                                        rects=sprites_seal_left_white, colorkey=[0, 0, 0])
                                                 WalkAnim = pyganim.PygAnimation(
                                                     [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                                WalkAnim.scale((37, 37))
                                                 WalkAnim.play()
                                                 walk = 0.0
                                                 proceed = True
@@ -505,8 +509,8 @@ class Spiel(object):
                                                                       nextPosition[1] * Weltkarte.TILESIZE))
 
                                                     WalkAnim.blit(self.window,
-                                                                  (player_Icon_Position[0] * Weltkarte.TILESIZE - walk - 5,
-                                                                   (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10))
+                                                                (player_Icon_Position[0] * Weltkarte.TILESIZE - walk,
+                                                                (player_Icon_Position[1] * Weltkarte.TILESIZE)))
                                                     pygame.display.update()
                                                     walk += 1
                                                     fpsClock.tick(FPS)
@@ -556,9 +560,10 @@ class Spiel(object):
                                             rects=sprites_bear_down_white, colorkey=[0, 0, 0])
                                     elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                         images = player_Sprite.images_at(
-                                            rects=sprites_seal_down_baby, colorkey=[0, 0, 0])
+                                            rects=sprites_seal_down_white, colorkey=[0, 0, 0])
                                     WalkAnim = pyganim.PygAnimation(
                                         [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                    WalkAnim.scale((37, 37))
                                     WalkAnim.play()
                                     walk = 0.0
                                     proceed = True
@@ -606,8 +611,8 @@ class Spiel(object):
                                                           nextPosition[1] * Weltkarte.TILESIZE))
 
                                         WalkAnim.blit(self.window,
-                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE - 5,
-                                                       (player_Icon_Position[1] * Weltkarte.TILESIZE) - 10 + walk))
+                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                        (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk))
                                         pygame.display.update()
                                         walk += 1
                                         fpsClock.tick(FPS)
@@ -667,9 +672,10 @@ class Spiel(object):
                                                 rects=sprites_bear_up_white, colorkey=[0, 0, 0])
                                         elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                             images = player_Sprite.images_at(
-                                                rects=sprites_seal_up_baby, colorkey=[0, 0, 0])
+                                                rects=sprites_seal_up_white, colorkey=[0, 0, 0])
                                         WalkAnim = pyganim.PygAnimation(
                                             [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                        WalkAnim.scale((37, 37))
                                         WalkAnim.play()
                                         walk = 0.0
                                         proceed = True
@@ -717,8 +723,8 @@ class Spiel(object):
                                                              (nextPosition[0] * Weltkarte.TILESIZE,
                                                               nextPosition[1] * Weltkarte.TILESIZE))
                                             WalkAnim.blit(self.window,
-                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE - 5,
-                                                           (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk - 10))
+                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                           (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk))
                                             pygame.display.update()
                                             walk -= 1
                                             fpsClock.tick(FPS)
