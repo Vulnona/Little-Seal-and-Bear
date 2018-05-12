@@ -164,9 +164,7 @@ class Spiel(object):
             direction = ""
             time_begin = pygame.time.get_ticks()
             milli_seconds_to_pass = 40000
-            #print(self.Charakter.get_skills())
-            self.Charakter.set_skill(character.skills.EarthquakeCharacterSkill)
-            #print(self.Charakter.get_skills())
+        
             while True:
                 pygame.display.update()
                 for row in range(Weltkarte.MAPHEIGHT):
