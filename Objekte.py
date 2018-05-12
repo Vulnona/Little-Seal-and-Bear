@@ -31,7 +31,7 @@ class cls_Enemy(object):
     def add_Verhalten(self, Verhalten):
         self.Verhalten.append(Verhalten)
 
-    def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art):
+    def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art, enemy_environment=Weltkarte.NOTHING):
         mainClock = pygame.time.Clock()
         if self.Art == "Käfer":
             first = Helfer.load_image('enemies/bug.png')
@@ -54,7 +54,9 @@ class cls_Enemy(object):
         second = pygame.transform.scale(
             second, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
-        deathAnim = pyganim.PygAnimation([(first, 10), (second, 10)])
+        third = Weltkarte.environment[enemy_environment]
+
+        deathAnim = pyganim.PygAnimation([(first, 10), (second, 10), (third, 10)])
         i = 0
         if damage_or_death == "damage":
             m = 10

@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Idripeau
+  - Name: Iakut
   - Tierart: Robbe
-  - Farbe: Braun
+  - Farbe: Weiss
 
 ## Statuswerte
 
