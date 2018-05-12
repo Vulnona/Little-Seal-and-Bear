@@ -163,7 +163,8 @@ class Spiel(object):
                                             bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
             characterButton.font = self.fonts['small']
             direction = ""
-
+            time_begin = pygame.time.get_ticks()
+            milli_seconds_to_pass = 40000
             while True:
                 pygame.display.update()
                 for row in range(Weltkarte.MAPHEIGHT):
@@ -251,7 +252,6 @@ class Spiel(object):
                         player_Icon = player_Sprite.image_at(
                             (a * amod, b * (bmod+0), a, b), colorkey=(0, 0, 0))
 
-###########
                     if direction == "right":
                         player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
                     elif direction == "left":
@@ -312,12 +312,18 @@ class Spiel(object):
                 # Snippets Showing
                 Weltkarte.clsTileMap.drawSnippets(self.window)
 
+                #Time Handling for time-based events
+                actual_time = pygame.time.get_ticks()
+                if (actual_time - time_begin) > milli_seconds_to_pass:
+                    if self.Charakter.get_status_temp('endu')<self.Charakter.get_status_max('endu'):
+                        self.Charakter.change_status_temp('endu', '+')
+                    time_begin = actual_time
+
                 # Key and Mouse Input Handling
                 for event in pygame.event.get():
                     if event.type == QUIT:
                         pygame.quit()
                         sys.exit()
-
                     #Button: 'Charakter'
                     events = characterButton.handleEvent(event)
                     if 'click' in events:

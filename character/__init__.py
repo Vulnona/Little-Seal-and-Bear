@@ -41,21 +41,21 @@ class Character:
     def change_status_temp(self, input_string, Vorzeichen):
         if input_string == 'health':
             if Vorzeichen == '+':
-                if self.temp_status < self.status[0]:
+                if self.temp_status[0] < self.status[0]:
                     self.temp_status[0] += 1
             if Vorzeichen == '-':
                 if self.temp_status[0] > 0:
                     self.temp_status[0] -= 1
         elif input_string == 'endu':
             if Vorzeichen == '+':
-                if self.temp_status < self.status[1]:
+                if self.temp_status[1] < self.status[1]:
                     self.temp_status[1] += 1
             if Vorzeichen == '-':
                 if self.temp_status[1] > 0:
                     self.temp_status[1] -= 1
         elif input_string == "magic":
             if Vorzeichen == '+':
-                if self.temp_status < self.status[1]:
+                if self.temp_status[2] < self.status[1]:
                     self.temp_status[2] += 1
             if Vorzeichen == '-':
                 if self.temp_status[2] > 0:

@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Pleofroo
-  - Tierart: Bär
-  - Farbe: Schwarz
+  - Name: Fowhed
+  - Tierart: Robbe
+  - Farbe: Weiss
 
 ## Statuswerte
 
