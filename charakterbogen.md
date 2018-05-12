@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Ifre
+  - Name: Frustro
   - Tierart: Bär
-  - Farbe: Weiss
+  - Farbe: Braun
 
 ## Statuswerte
 

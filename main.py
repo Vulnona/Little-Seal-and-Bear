@@ -910,12 +910,10 @@ class Spiel(object):
                                                     #stores just Gras tiles around character
                                                     Surrounding = []
                                                     for tile in Liste:
-                                                        print(tile)
                                                         if tile[0] >= 0 and tile[1] >= 0:
                                                             tile_art= NewTilemap.getTilemap()[tile[1]][tile[0]]
                                                             if tile_art == Weltkarte.GRASSLAND:
                                                                 Surrounding.append(tile)
-                                                    print(Surrounding)
 
                                                     for tile in Surrounding:
                                                         #GRAS to DIRT
@@ -962,35 +960,37 @@ class Spiel(object):
                                                                     enemy_Icon_Position[1] * Weltkarte.TILESIZE))
                                                         pygame.display.update()
                                                         fpsClock.tick(FPS)
-                                                        for enemy in Enemies_in_range:
-                                                            enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
-                                                                                                 ][enemy.Position[0]]
-                                                            enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
-                                                            ][enemy.Position[0]]
 
-                                                            if enemy.Position in Surrounding:
-                                                                enemy.lower_Gesundheit(
-                                                                    Wahrscheinlichkeiten.wuerfel(5))
+                                                    for enemy in Enemies_in_range:
+                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
+                                                                                             ][enemy.Position[0]]
+                                                        enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                        ][enemy.Position[0]]
+
+                                                        if enemy.Position in Surrounding:
+                                                            print('enemy in surrounding')
+                                                            enemy.lower_Gesundheit(
+                                                                Wahrscheinlichkeiten.wuerfel(5))
+                                                            enemy.damage_and_death_anim(
+                                                                self.window, "damage", enemy_tile, enemy_environment)
+                                                            if enemy.Gesundheit <= 0:
                                                                 enemy.damage_and_death_anim(
-                                                                    self.window, "damage", enemy_tile, enemy_environment)
-                                                                if enemy.Gesundheit <= 0:
-                                                                    enemy.damage_and_death_anim(
-                                                                        self.window, "death", enemy_tile, enemy_environment)
-                                                                    Enemies.delete_from_list(
-                                                                        enemy)
-                                                                    Enemies_in_range.remove(
-                                                                        enemy)
-                                                                    enemy.__del__
-                                                                    if not Enemies_in_range:
-                                                                        active = False
-                                                                    break
-                                                            else:
-                                                                #enemy.damage_and_death_anim(self.window, )
-                                                                pass
-                                                    self.Charakter.change_status_temp(
-                                                        'endu', '-')
-                                                    self.Charakter.change_status_temp(
-                                                        'health', '-')
+                                                                    self.window, "death", enemy_tile, enemy_environment)
+                                                                Enemies.delete_from_list(
+                                                                    enemy)
+                                                                Enemies_in_range.remove(
+                                                                    enemy)
+                                                                enemy.__del__
+                                                                if not Enemies_in_range:
+                                                                    active = False
+                                                                break
+                                                        else:
+                                                            #enemy.damage_and_death_anim(self.window, )
+                                                            pass
+                                                self.Charakter.change_status_temp(
+                                                    'endu', '-')
+                                                self.Charakter.change_status_temp(
+                                                    'health', '-')
 
                                     elif event.type == KEYDOWN:
                                         if event.key == K_f:
