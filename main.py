@@ -925,6 +925,9 @@ class Spiel(object):
                                                         for env in Weltkarte.collide:
                                                             if environment == env:
                                                                 collide=True
+                                                        for env in Weltkarte.enterable:
+                                                            if environment == env:
+                                                                collide=True
                                                         if collide==False:
                                                             #all non-collideables to NOTHING
                                                             NewTilemap.getEnvironment()[tile[1]][tile[0]] = Weltkarte.NOTHING
@@ -957,7 +960,7 @@ class Spiel(object):
                                                                 enemy_Icon, (
                                                                     enemy_Icon_Position[0] * Weltkarte.TILESIZE,
                                                                     enemy_Icon_Position[1] * Weltkarte.TILESIZE))
-
+                                                        pygame.display.update()
                                                         fpsClock.tick(FPS)
                                                         for enemy in Enemies_in_range:
                                                             enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]

@@ -1,7 +1,7 @@
 ## Charakter Bogen
 
-  - Name: Iakut
-  - Tierart: Robbe
+  - Name: Ifre
+  - Tierart: Bär
   - Farbe: Weiss
 
 ## Statuswerte
