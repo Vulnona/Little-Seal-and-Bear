@@ -6,25 +6,25 @@ class BaseSubtype:
         return self.name
 
 
-class Schwarz(BaseSubtype):
-    id = 'schwarz'
-    name = 'Schwarz'
+class Brown(BaseSubtype):
+    id = 'brown'
+    name = 'Braun'
 
 
-class Grau(BaseSubtype):
-    id = 'grau'
+class Grey(BaseSubtype):
+    id = 'grey'
     name = 'Grau'
 
 
-class Weiss(BaseSubtype):
-    id = 'weiss'
+class White(BaseSubtype):
+    id = 'white'
     name = 'Weiss'
 
 
 ALL = [
-    Schwarz,
-    Weiss,
-    Grau
+    Brown,
+    White,
+    Grey
 ]
 
 

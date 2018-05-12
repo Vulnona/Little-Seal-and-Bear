@@ -1,8 +1,8 @@
 # Charakter Bogen
 
-  - Name: Fowhed
+  - Name: Stiy
   - Tierart: Robbe
-  - Farbe: Weiss
+  - Farbe: Braun
 
 ## Statuswerte
 

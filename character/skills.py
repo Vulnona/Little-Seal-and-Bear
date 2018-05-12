@@ -9,27 +9,27 @@ class BaseSkill:
 
 class AllSkill(BaseSkill):
     applicable_subtype = [
-        animalsubtypes.Schwarz,
-        animalsubtypes.Grau,
-        animalsubtypes.Weiss
+        animalsubtypes.Brown,
+        animalsubtypes.Grey,
+        animalsubtypes.White
     ]
 
 
 class SchwarzSkill(BaseSkill):
     applicable_subtype = [
-        animalsubtypes.Schwarz
+        animalsubtypes.Brown
     ]
 
 
 class GrauSkill(BaseSkill):
     applicable_subtype = [
-        animalsubtypes.Grau
+        animalsubtypes.Grey
     ]
 
 
 class WeissSkill(BaseSkill):
     applicable_subtype = [
-        animalsubtypes.Weiss
+        animalsubtypes.White
     ]
 
 

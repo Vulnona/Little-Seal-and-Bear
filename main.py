@@ -1,8 +1,8 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
 # TODO: die BG Tilemap kann glaube ich weg
-# TODO: collect system überarbeiten, bubbles überarbeiten, 'schwarz'->'braun'
-# @ANDRE: Seal images (animalstages) without logo
+# TODO: collect system überarbeiten, bubbles überarbeiten
+# @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
 
 
 import pygame
@@ -184,13 +184,13 @@ class Spiel(object):
                 b = 384 / 8
                 if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                     player_Sprite = self.spritesheets['bearsprites']
-                    if(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Weiss)):
+                    if(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.White)):
                         amod = 3
                         bmod = 0
-                    elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Grau)):
+                    elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Grey)):
                         amod = 3
                         bmod = 4
-                    elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Schwarz)):
+                    elif(isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Brown)):
                         amod = 0
                         bmod = 4
                     if direction == "right":
@@ -229,14 +229,14 @@ class Spiel(object):
 
                 elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                     player_Sprite = self.spritesheets['sealsprites']
-                    if (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Weiss)):
+                    if (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.White)):
                         amod = 0
                         bmod = 0
-                    elif (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Grau)):
+                    elif (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Grey)):
                         player_Sprite = self.spritesheets['sealsprites2']
                         amod = 0
                         bmod = 0
-                    elif (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Schwarz)):
+                    elif (isinstance(self.Charakter.get_subtype(), character.animalsubtypes.Brown)):
                         amod = 0
                         bmod = 4
                     if direction == "right":
