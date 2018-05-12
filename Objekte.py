@@ -78,6 +78,8 @@ class cls_Enemy(object):
         elif damage_or_death == "damage":
             screen.blit(
                 first, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
+        screen.blit(
+            third, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
 
     def generate_Enemy(self):
         rand_int = Wahrscheinlichkeiten.wuerfel(10)

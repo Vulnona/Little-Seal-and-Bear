@@ -824,7 +824,6 @@ class Spiel(object):
 
                             wait_for_click = True
                             while wait_for_click:
-                                # pygame.display.update()
                                 for event in pygame.event.get():
                                     if event.type == QUIT:
                                         pygame.quit()

@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Aecri
+  - Name: Tre
   - Tierart: Bär
-  - Farbe: Weiss
+  - Farbe: Braun
 
 ## Statuswerte
 
