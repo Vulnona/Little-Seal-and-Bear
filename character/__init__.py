@@ -183,7 +183,7 @@ class Character:
 # für den Charakterbogen
     def __str__(self):
         content = [
-            '# Charakter Bogen',
+            '## Charakter Bogen',
             '',
             '  - Name: ' + self.name,
             '  - Tierart: ' + str(self.animaltype),

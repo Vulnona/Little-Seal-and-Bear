@@ -1,8 +1,8 @@
-# Charakter Bogen
+## Charakter Bogen
 
-  - Name: Stiy
+  - Name: Ogrigla
   - Tierart: Robbe
-  - Farbe: Braun
+  - Farbe: Weiss
 
 ## Statuswerte
 

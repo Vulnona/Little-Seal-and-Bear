@@ -1,12 +1,54 @@
 import settings
+import Weltkarte
 import pygame
 import os
 
+#Repainting Tiles and Environment for Walking Animation
 
+def repaint(BackgroundTilemap, NewTilemap, player_Icon_Position, nextPosition, window):
+    toRepaintcurrentBG = Weltkarte.textures[
+        BackgroundTilemap.getTilemap()[player_Icon_Position[1]][
+            player_Icon_Position[0]]]
+    toRepaintcurrentBG = pygame.transform.scale(toRepaintcurrentBG, (
+        Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+    toRepaintcurrent = Weltkarte.textures[
+        NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
+    toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
+        Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+    toRepaintcurrentenvironment = Weltkarte.environment[NewTilemap.getEnvironment(
+    )[player_Icon_Position[1]][player_Icon_Position[0]]]
+    toRepaintnextBG = Weltkarte.textures[
+        BackgroundTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+    toRepaintnextBG = pygame.transform.scale(toRepaintnextBG, (
+        Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+    toRepaintnext = Weltkarte.textures[
+        NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
+    toRepaintnext = pygame.transform.scale(toRepaintnext, (
+        Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+    toRepaintnextenvironment = Weltkarte.environment[
+        NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
+
+    window.blit(toRepaintcurrentBG,
+                     (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                      player_Icon_Position[1] * Weltkarte.TILESIZE))
+    window.blit(toRepaintcurrent,
+                     (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                      player_Icon_Position[1] * Weltkarte.TILESIZE))
+    window.blit(toRepaintcurrentenvironment,
+                     (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                      player_Icon_Position[1] * Weltkarte.TILESIZE))
+    window.blit(toRepaintnextBG,
+                     (nextPosition[0] * Weltkarte.TILESIZE,
+                      nextPosition[1] * Weltkarte.TILESIZE))
+    window.blit(toRepaintnext,
+                     (nextPosition[0] * Weltkarte.TILESIZE,
+                      nextPosition[1] * Weltkarte.TILESIZE))
+    window.blit(toRepaintnextenvironment,
+                     (nextPosition[0] * Weltkarte.TILESIZE,
+                      nextPosition[1] * Weltkarte.TILESIZE))
 
 
 # Resources, Images, Fonts Loading
-
 
 def _get_resource_path(res_type, filename):
     path = os.path.join(settings.RESOURCES_ROOT, res_type, filename)
@@ -14,16 +56,13 @@ def _get_resource_path(res_type, filename):
         raise ValueError('The file ' + path + ' doesn\'t exist')
     return path
 
-
 def load_image(filename):
     path = _get_resource_path('images', filename)
     return pygame.image.load(path).convert_alpha()
 
-
 def load_font(filename, size):
     path = _get_resource_path('fonts', filename)
     return pygame.font.Font(path, size)
-
 
 #Spritesheets, taken from https://www.pygame.org/wiki/Spritesheet?parent=, converted to Python 3.x
 
@@ -64,7 +103,6 @@ class SpriteStripAnim(object):
     __add__() method for joining strips which comes in handy when a
     strip wraps to the next row.
     """
-
     def __init__(self, filename, rect, count, colorkey=None, loop=False, frames=1):
         """construct a SpriteStripAnim
         filename, rect, count, and colorkey are the same arguments used

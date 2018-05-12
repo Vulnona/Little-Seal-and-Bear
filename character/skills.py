@@ -15,23 +15,20 @@ class AllSkill(BaseSkill):
     ]
 
 
-class SchwarzSkill(BaseSkill):
+class BrownSkill(BaseSkill):
     applicable_subtype = [
         animalsubtypes.Brown
     ]
 
-
-class GrauSkill(BaseSkill):
+class GreySkill(BaseSkill):
     applicable_subtype = [
         animalsubtypes.Grey
     ]
 
-
-class WeissSkill(BaseSkill):
+class WhiteSkill(BaseSkill):
     applicable_subtype = [
         animalsubtypes.White
     ]
-
 
 class SwimmingCharacterSkill(AllSkill):
     id = 'swim'
@@ -53,7 +50,7 @@ class EnduranceCharacterSkill(AllSkill):
     }
 
 
-class StealthCharacterSkill(SchwarzSkill):
+class StealthCharacterSkill(BrownSkill):
     id = 'stealth'
     name = 'Schleichen'
 
@@ -63,7 +60,7 @@ class StealthCharacterSkill(SchwarzSkill):
     }
 
 
-class TailCharacterSkill(SchwarzSkill):
+class TailCharacterSkill(BrownSkill):
     id = 'tail'
     name = 'Schwanzpeitsche'
 
@@ -74,7 +71,7 @@ class TailCharacterSkill(SchwarzSkill):
     }
 
 
-class GrasMovementCharacterSkill(SchwarzSkill):
+class GrasMovementCharacterSkill(BrownSkill):
     id = 'erasegras'
     name = 'Grasschlitzer'
 
@@ -84,7 +81,7 @@ class GrasMovementCharacterSkill(SchwarzSkill):
     }
 
 
-class BiteCharacterSkill(GrauSkill):
+class BiteCharacterSkill(GreySkill):
     id = 'bite'
     name = 'Flammenbiss'
 
@@ -94,7 +91,7 @@ class BiteCharacterSkill(GrauSkill):
     }
 
 
-class RunnerCharacterSkill(GrauSkill):
+class RunnerCharacterSkill(GreySkill):
     id = 'runner'
     name = 'Läufer'
 
@@ -105,7 +102,7 @@ class RunnerCharacterSkill(GrauSkill):
     }
 
 
-class EarthquakeCharacterSkill(GrauSkill):
+class EarthquakeCharacterSkill(GreySkill):
     id = 'earthquake'
     name = 'Erdbeben'
 
@@ -115,7 +112,7 @@ class EarthquakeCharacterSkill(GrauSkill):
     }
 
 
-class MagicalHealCharacterSkill(WeissSkill):
+class MagicalHealCharacterSkill(WhiteSkill):
     id = 'magical_heal'
     name = 'Magische Heilung'
 
@@ -124,7 +121,7 @@ class MagicalHealCharacterSkill(WeissSkill):
     }
 
 
-class PlantingCharacterSkill(WeissSkill):
+class PlantingCharacterSkill(WhiteSkill):
     id = 'plant'
     name = 'Natur erwecken'
 
@@ -135,7 +132,7 @@ class PlantingCharacterSkill(WeissSkill):
     }
 
 
-class SaversCharacterSkill(WeissSkill):
+class SaversCharacterSkill(WhiteSkill):
     id = 'robe'
     name = 'Schutzmantel'
 
