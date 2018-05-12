@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Ogrigla
+  - Name: Tediad
   - Tierart: Robbe
   - Farbe: Weiss
 

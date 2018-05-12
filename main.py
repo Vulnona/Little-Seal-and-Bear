@@ -165,7 +165,7 @@ class Spiel(object):
             time_begin = pygame.time.get_ticks()
             milli_seconds_to_pass = 40000
             #print(self.Charakter.get_skills())
-            #self.Charakter.set_skill(character.skills.PlantingCharacterSkill)
+            self.Charakter.set_skill(character.skills.PlantingCharacterSkill)
             #print(self.Charakter.get_skills())
             while True:
                 pygame.display.update()
@@ -708,15 +708,17 @@ class Spiel(object):
                                     for grass in Weltkarte.grasses:
                                         if grass == currentEnvironment:
                                             hasenv = True
-                                # Skill möglich, wenn Dirt ohne Gras vorhanden ist
-                                if currentTile == Weltkarte.DIRT and hasenv == False:
-                                    enough_temp_value = True
-                                # Skill möglich, wenn Grassland vorhanden ist, auf dem kein hohes Gras wächst
-                                elif currentTile == Weltkarte.GRASSLAND and currentEnvironment != Weltkarte.MOREGRASS:
-                                    enough_temp_value = True
-                                bubble = Interaktion.Bubble(self.window, player_Icon_Position, -1,
-                                                            2, "plant", enough_temp_value)
-                                plantbubble = bubble.draw_bubble()
+                                    # Skill möglich, wenn Dirt ohne Gras vorhanden ist
+                                    if currentTile == Weltkarte.DIRT and hasenv == False:
+                                        enough_temp_value = True
+                                    # Skill möglich, wenn Grassland vorhanden ist, auf dem kein hohes Gras wächst
+                                    elif currentTile == Weltkarte.GRASSLAND and currentEnvironment != Weltkarte.MOREGRASS:
+                                        if currentEnvironment == Weltkarte.LOWGRASS or currentEnvironment == Weltkarte.DEADGRASS \
+                                                or currentEnvironment == Weltkarte.GRASSDECO:
+                                            enough_temp_value = True
+                                    bubble = Interaktion.Bubble(self.window, player_Icon_Position, -1,
+                                                                2, "plant", enough_temp_value)
+                                    plantbubble = bubble.draw_bubble()
                             if saverSkill == True:
                                 enough_temp_value = False
                                 if self.Charakter.get_status_temp('endu') > 1:
