@@ -156,7 +156,7 @@ class Character:
         for skill in skills.ALL:
             continues = True
             for subtype in skill.applicable_subtype:
-                if (self.animalsubtype == subtype):
+                if (isinstance(self.animalsubtype, subtype)):
                     continues = False
                     break
             if continues:
