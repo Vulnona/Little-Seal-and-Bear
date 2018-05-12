@@ -42,19 +42,18 @@ class cls_Enemy(object):
         first = pygame.transform.scale(
             first, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
 
-        if enemy_tile_Art == GRASS:
-            second = Helfer.load_image('ressourcen/grasstexture.png')
-        elif enemy_tile_Art == HIGHGRASS:
-            second = pygame.image.load(
-                './resources/images/ressourcen/highgrasstexture.png').convert()
-        elif enemy_tile_Art == DIRT:
-            second = pygame.image.load(
-                './resources/images/ressourcen/dirttexture.png').convert()
-        elif enemy_tile_Art == WATER:
-            second = pygame.image.load(
-                './resources/images/ressourcen/watertexture.png').convert()
+        tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
+        if enemy_tile_Art == Weltkarte.GRASSLAND:
+            second = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0, 0, 0))
+        elif enemy_tile_Art == Weltkarte.STONE:
+            second = tiles_Sprite.image_at((33, 8577, 30, 30), colorkey=(0,0,0))
+        elif enemy_tile_Art == Weltkarte.DIRT:
+            second = tiles_Sprite.image_at((15, 2545, 64, 64), colorkey=(0,0,0))
+        elif enemy_tile_Art == Weltkarte.WATER:
+            second = tiles_Sprite.image_at((26, 4701, 45, 45), colorkey=(0,0,0))
         second = pygame.transform.scale(
             second, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
         deathAnim = pyganim.PygAnimation([(first, 10), (second, 10)])
         i = 0
         if damage_or_death == "damage":
@@ -65,8 +64,6 @@ class cls_Enemy(object):
         deathAnim.play()
 
         for i in range(m):
-            print(self.Position[0])
-            print(self.Position[1])
             deathAnim.blit(
                 screen, (self.Position[0]*Weltkarte.TILESIZE, self.Position[1]*Weltkarte.TILESIZE))
             pygame.display.update()

@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Tediad
+  - Name: Idripeau
   - Tierart: Robbe
-  - Farbe: Weiss
+  - Farbe: Braun
 
 ## Statuswerte
 

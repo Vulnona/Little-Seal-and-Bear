@@ -165,7 +165,7 @@ class Spiel(object):
             time_begin = pygame.time.get_ticks()
             milli_seconds_to_pass = 40000
             #print(self.Charakter.get_skills())
-            self.Charakter.set_skill(character.skills.PlantingCharacterSkill)
+            self.Charakter.set_skill(character.skills.EarthquakeCharacterSkill)
             #print(self.Charakter.get_skills())
             while True:
                 pygame.display.update()
@@ -903,42 +903,66 @@ class Spiel(object):
                                                         'endu', '-')
                                             if earthSkill:
                                                 if earthbubble.collidepoint(mousepos):
-                                                    dirtimage = pygame.image.load(
-                                                        './resources/images/ressourcen/dirttexture.png').convert()
-                                                    dirtimage = pygame.transform.scale(dirtimage,
-                                                                                       (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+                                                    tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
+                                                    dirt_tile = tiles_Sprite.image_at((15, 2545, 64, 64),
+                                                                                      colorkey=(0, 0, 0))
+                                                    dirt_tile = pygame.transform.scale(dirt_tile, (40, 40))
+
+                                                    #stores just Gras tiles around character
+                                                    Surrounding = []
                                                     for tile in Liste:
-                                                        # Exception handling fehlt: falls list index out of range, z.b. bei feinden direkt am spielrand
-                                                        Weltkarte.NewTilemap.getTilemap()[tile[1]
-                                                                                          ][tile[0]] = Weltkarte.DIRT
-                                                        self.window.blit(dirtimage,
-                                                                         (tile[0] * Weltkarte.TILESIZE, tile[1] * Weltkarte.TILESIZE))
-                                                    self.window.blit(
-                                                        player_Icon, (
-                                                            player_Icon_Position[0] *
-                                                            Weltkarte.TILESIZE,
+                                                        if tile[0] and tile[1] >= 0:
+                                                            tile_art= NewTilemap.getTilemap()[tile[1]][tile[0]]
+                                                            if tile_art == Weltkarte.GRASSLAND:
+                                                                Surrounding.append(tile)
+
+                                                    for tile in Surrounding:
+                                                        #GRAS to DIRT
+                                                        NewTilemap.getTilemap()[tile[1]][tile[0]] = Weltkarte.DIRT
+                                                        environment = NewTilemap.getEnvironment()[tile[1]][tile[0]]
+                                                        collide=False
+                                                        for env in Weltkarte.collide:
+                                                            if environment == env:
+                                                                collide=True
+                                                        if collide==False:
+                                                            #all non-collideables to NOTHING
+                                                            NewTilemap.getEnvironment()[tile[1]][tile[0]] = Weltkarte.NOTHING
+                                                        self.window.blit(dirt_tile,
+                                                                         (tile[0] * Weltkarte.TILESIZE,
+                                                                          tile[1] * Weltkarte.TILESIZE))
+                                                        if collide:
+                                                            self.window.blit(Weltkarte.environment[environment],
+                                                            (tile[0]*Weltkarte.TILESIZE, tile[1]*Weltkarte.TILESIZE))
+                                                        self.window.blit(player_Icon, (
+                                                            player_Icon_Position[0] * Weltkarte.TILESIZE,
                                                             player_Icon_Position[1] * Weltkarte.TILESIZE))
-                                                    pygame.display.update()
-                                                    fpsClock.tick(FPS)
-                                                    for enemy in Enemies_in_range:
-                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
-                                                                                             ][enemy.Position[0]]
-                                                        enemy.lower_Gesundheit(
-                                                            Wahrscheinlichkeiten.wuerfel(5))
-                                                        enemy.damage_and_death_anim(
-                                                            self.window, "damage", enemy_tile)
-                                                        if enemy.Gesundheit <= 0:
-                                                            #    #resolution dpi noch fehlerhaft
-                                                            enemy.damage_and_death_anim(
-                                                                self.window, "death", enemy_tile)
-                                                            Enemies.delete_from_list(
-                                                                enemy)
-                                                            Enemies_in_range.remove(
-                                                                enemy)
-                                                            enemy.__del__
-                                                            if not Enemies_in_range:
-                                                                active = False
-                                                            break
+                                                        self.window.blit(enemy_Icon, (
+                                                            enemy_Icon_Position[0]*Weltkarte.TILESIZE,
+                                                            enemy_Icon_Position[1]*Weltkarte.TILESIZE))
+                                                        pygame.display.update()
+                                                        fpsClock.tick(FPS)
+                                                        for enemy in Enemies_in_range:
+                                                            enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
+                                                                                                 ][enemy.Position[0]]
+                                                            if enemy_tile in Surrounding:
+                                                                enemy.lower_Gesundheit(
+                                                                    Wahrscheinlichkeiten.wuerfel(5))
+                                                                enemy.damage_and_death_anim(
+                                                                    self.window, "damage", enemy_tile)
+                                                                if enemy.Gesundheit <= 0:
+                                                                    enemy.damage_and_death_anim(
+                                                                        self.window, "death", enemy_tile)
+                                                                    Enemies.delete_from_list(
+                                                                        enemy)
+                                                                    Enemies_in_range.remove(
+                                                                        enemy)
+                                                                    enemy.__del__
+                                                                    if not Enemies_in_range:
+                                                                        active = False
+                                                                    break
+                                                            else:
+                                                                #enemy.damage_and_death_anim(self.window, )
+                                                                pass
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
                                                     self.Charakter.change_status_temp(
