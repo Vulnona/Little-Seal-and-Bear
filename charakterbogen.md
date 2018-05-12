@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Tre
+  - Name: Athosh
   - Tierart: Bär
-  - Farbe: Braun
+  - Farbe: Weiss
 
 ## Statuswerte
 

@@ -164,7 +164,7 @@ class Spiel(object):
             direction = ""
             time_begin = pygame.time.get_ticks()
             milli_seconds_to_pass = 40000
-        
+
             while True:
                 pygame.display.update()
                 for row in range(Weltkarte.MAPHEIGHT):
@@ -202,29 +202,29 @@ class Spiel(object):
                     else:
                         player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
 
-                    sprites_bear_right_white = []
+                    sprites_bear_right = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         bear_right = ((a * amod) + (sprite_pos * a), b * (bmod + 2), a, b)
-                        sprites_bear_right_white.append((bear_right))
+                        sprites_bear_right.append((bear_right))
 
-                    sprites_bear_left_white = []
+                    sprites_bear_left = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         bear_left = ((a * amod) + (sprite_pos * a), b * (bmod + 1), a, b)
-                        sprites_bear_left_white.append((bear_left))
+                        sprites_bear_left.append((bear_left))
 
-                    sprites_bear_up_white = []
+                    sprites_bear_up = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         bear_up = ((a * amod) + (sprite_pos * a), b * (bmod + 3), a, b)
-                        sprites_bear_up_white.append((bear_up))
+                        sprites_bear_up.append((bear_up))
 
-                    sprites_bear_down_white = []
+                    sprites_bear_down = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         bear_down = ((a * amod) + (sprite_pos * a), b * (bmod + 0), a, b)
-                        sprites_bear_down_white.append((bear_down))
+                        sprites_bear_down.append((bear_down))
 
 
                 elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
@@ -240,19 +240,6 @@ class Spiel(object):
                         amod = 0
                         bmod = 4
                     if direction == "right":
-                        player_Icon = player_Sprite.image_at(
-                            (a * amod, b*(bmod+2), a, b), colorkey=(0, 0, 0))
-                    elif direction == "left":
-                        player_Icon = player_Sprite.image_at(
-                            (a * amod, b*(bmod+1), a, b), colorkey=(0, 0, 0))
-                    elif direction == "up":
-                        player_Icon = player_Sprite.image_at(
-                            (a * amod, b*(bmod +3), a, b), colorkey=(0, 0, 0))
-                    else:
-                        player_Icon = player_Sprite.image_at(
-                            (a * amod, b * (bmod+0), a, b), colorkey=(0, 0, 0))
-
-                    if direction == "right":
                         player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
                     elif direction == "left":
                         player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
@@ -261,29 +248,29 @@ class Spiel(object):
                     else:
                         player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
 
-                    sprites_seal_right_white = []
+                    sprites_seal_right = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_right = (a*amod + (sprite_pos*a), b*(bmod+2), a, b)
-                        sprites_seal_right_white.append((seal_right))
+                        sprites_seal_right.append((seal_right))
 
-                    sprites_seal_left_white = []
+                    sprites_seal_left = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_left = (a *amod + (sprite_pos*a), b*(bmod+1), a, b)
-                        sprites_seal_left_white.append((seal_left))
+                        sprites_seal_left.append((seal_left))
 
-                    sprites_seal_down_white = []
+                    sprites_seal_down = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_down = (a*amod +(sprite_pos*a), b*(bmod+0), a, b)
-                        sprites_seal_down_white.append((seal_down))
+                        sprites_seal_down.append((seal_down))
 
-                    sprites_seal_up_white = []
+                    sprites_seal_up = []
                     sprite_pos = 0
                     for sprite_pos in range(3):
                         seal_up = (a*amod +(sprite_pos*a), b *(bmod+3), a, b)
-                        sprites_seal_up_white.append((seal_up))
+                        sprites_seal_up.append((seal_up))
                 player_Icon = pygame.transform.scale(player_Icon, (37,37))
 
                 self.window.blit(
@@ -294,20 +281,7 @@ class Spiel(object):
                 # Generating and placing enemies
                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                     an_enemy = Enemies.get_Enemy(enemy)
-                    if an_enemy.Art == "Käfer":
-                        enemy_Icon = self.images['enemies']['bug']
-                    elif an_enemy.Art == "Vogel":
-                        enemy_Icon = self.images['enemies']['bird']
-                    elif an_enemy.Art == "Kettensägenmensch":
-                        enemy_Icon = self.images['enemies']['sawblade']
-                    else:
-                        enemy_Icon = self.images['unknown']
-                    enemy_Icon = pygame.transform.scale(
-                        enemy_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                    enemy_Icon_Position = an_enemy.Position
-                    self.window.blit(
-                        enemy_Icon, (
-                            enemy_Icon_Position[0] * Weltkarte.TILESIZE, enemy_Icon_Position[1] * Weltkarte.TILESIZE))
+                    an_enemy.show_Icon(self.window)
 
                 # Snippets Showing
                 Weltkarte.clsTileMap.drawSnippets(self.window)
@@ -379,10 +353,10 @@ class Spiel(object):
                                         if cont:
                                             if(isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                                 images = player_Sprite.images_at(
-                                                    rects=sprites_bear_right_white, colorkey=[0, 0, 0])
+                                                    rects=sprites_bear_right, colorkey=[0, 0, 0])
                                             elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                                 images = player_Sprite.images_at(
-                                                    rects=sprites_seal_right_white, colorkey=[0, 0, 0])
+                                                    rects=sprites_seal_right, colorkey=[0, 0, 0])
                                             WalkAnim = pyganim.PygAnimation(
                                                 [(images[0], 150), (images[1], 150), (images[2], 150)])
                                             WalkAnim.scale((37, 37))
@@ -450,11 +424,11 @@ class Spiel(object):
                                             if cont:
                                                 if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                                     images = player_Sprite.images_at(
-                                                        rects=sprites_bear_left_white, colorkey=[0, 0, 0])
+                                                        rects=sprites_bear_left, colorkey=[0, 0, 0])
                                                 elif (
                                                 isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                                     images = player_Sprite.images_at(
-                                                        rects=sprites_seal_left_white, colorkey=[0, 0, 0])
+                                                        rects=sprites_seal_left, colorkey=[0, 0, 0])
                                                 WalkAnim = pyganim.PygAnimation(
                                                     [(images[0], 150), (images[1], 150), (images[2], 150)])
                                                 WalkAnim.scale((37, 37))
@@ -513,10 +487,10 @@ class Spiel(object):
                                 if cont:
                                     if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                         images = player_Sprite.images_at(
-                                            rects=sprites_bear_down_white, colorkey=[0, 0, 0])
+                                            rects=sprites_bear_down, colorkey=[0, 0, 0])
                                     elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                         images = player_Sprite.images_at(
-                                            rects=sprites_seal_down_white, colorkey=[0, 0, 0])
+                                            rects=sprites_seal_down, colorkey=[0, 0, 0])
                                     WalkAnim = pyganim.PygAnimation(
                                         [(images[0], 150), (images[1], 150), (images[2], 150)])
                                     WalkAnim.scale((37, 37))
@@ -585,10 +559,10 @@ class Spiel(object):
                                     if cont:
                                         if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                             images = player_Sprite.images_at(
-                                                rects=sprites_bear_up_white, colorkey=[0, 0, 0])
+                                                rects=sprites_bear_up, colorkey=[0, 0, 0])
                                         elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
                                             images = player_Sprite.images_at(
-                                                rects=sprites_seal_up_white, colorkey=[0, 0, 0])
+                                                rects=sprites_seal_up, colorkey=[0, 0, 0])
                                         WalkAnim = pyganim.PygAnimation(
                                             [(images[0], 150), (images[1], 150), (images[2], 150)])
                                         WalkAnim.scale((37, 37))
@@ -944,22 +918,8 @@ class Spiel(object):
                                                         #redraw all enemies on map:
                                                         for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                                                             an_enemy = Enemies.get_Enemy(enemy)
-                                                            if an_enemy.Art == "Käfer":
-                                                                enemy_Icon = self.images['enemies']['bug']
-                                                            elif an_enemy.Art == "Vogel":
-                                                                enemy_Icon = self.images['enemies']['bird']
-                                                            elif an_enemy.Art == "Kettensägenmensch":
-                                                                enemy_Icon = self.images['enemies']['sawblade']
-                                                            else:
-                                                                enemy_Icon = self.images['unknown']
-                                                            enemy_Icon = pygame.transform.scale(
-                                                                enemy_Icon,
-                                                                (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-                                                            enemy_Icon_Position = an_enemy.Position
-                                                            self.window.blit(
-                                                                enemy_Icon, (
-                                                                    enemy_Icon_Position[0] * Weltkarte.TILESIZE,
-                                                                    enemy_Icon_Position[1] * Weltkarte.TILESIZE))
+                                                            an_enemy.show_Icon(self.window)
+
                                                         pygame.display.update()
                                                         fpsClock.tick(FPS)
 
