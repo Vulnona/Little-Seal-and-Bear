@@ -912,7 +912,7 @@ class Spiel(object):
                                                     for tile in Liste:
                                                         if tile[0] >= 0 and tile[1] >= 0:
                                                             tile_art= NewTilemap.getTilemap()[tile[1]][tile[0]]
-                                                            if tile_art == Weltkarte.GRASSLAND:
+                                                            if tile_art == Weltkarte.GRASSLAND or tile_art == Weltkarte.DIRT:
                                                                 Surrounding.append(tile)
 
                                                     for tile in Surrounding:
@@ -983,10 +983,8 @@ class Spiel(object):
                                                                 enemy.__del__
                                                                 if not Enemies_in_range:
                                                                     active = False
-                                                                break
-                                                        else:
-                                                            #enemy.damage_and_death_anim(self.window, )
-                                                            pass
+                                                                #break
+
                                                 self.Charakter.change_status_temp(
                                                     'endu', '-')
                                                 self.Charakter.change_status_temp(

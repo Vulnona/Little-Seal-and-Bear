@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Frustro
+  - Name: Scegh
   - Tierart: Bär
   - Farbe: Braun
 
