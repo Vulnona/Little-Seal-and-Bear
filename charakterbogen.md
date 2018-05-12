@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Scegh
+  - Name: Aecri
   - Tierart: Bär
-  - Farbe: Braun
+  - Farbe: Weiss
 
 ## Statuswerte
 

@@ -838,14 +838,16 @@ class Spiel(object):
                                                 for enemy in Enemies_in_range:
                                                     enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
                                                                                          ][enemy.Position[0]]
+                                                    enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                    ][enemy.Position[0]]
                                                     enemy.lower_Gesundheit(1)
                                                     enemy.damage_and_death_anim(
-                                                        self.window, "damage", enemy_tile)
+                                                        self.window, "damage", enemy_tile, enemy_environment)
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
                                                     if enemy.Gesundheit <= 0:
                                                         enemy.damage_and_death_anim(
-                                                            self.window, "death", enemy_tile)
+                                                            self.window, "death", enemy_tile, enemy_environment)
                                                         Enemies.delete_from_list(
                                                             enemy)
                                                         Enemies_in_range.remove(
@@ -860,14 +862,15 @@ class Spiel(object):
                                                     for enemy in Enemies_in_range:
                                                         enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
                                                                                              ][enemy.Position[0]]
+                                                        enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                        ][enemy.Position[0]]
                                                         enemy.lower_Gesundheit(
                                                             2)
                                                         enemy.damage_and_death_anim(
-                                                            self.window, "damage", enemy_tile)
+                                                            self.window, "damage", enemy_tile, enemy_environment)
                                                         if enemy.Gesundheit <= 0:
-                                                            #    #resolution dpi noch fehlerhaft
                                                             enemy.damage_and_death_anim(
-                                                                self.window, "death", enemy_tile)
+                                                                self.window, "death", enemy_tile, enemy_environment)
                                                             Enemies.delete_from_list(
                                                                 enemy)
                                                             Enemies_in_range.remove(
@@ -883,13 +886,15 @@ class Spiel(object):
                                                     for enemy in Enemies_in_range:
                                                         enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
                                                                                              ][enemy.Position[0]]
+                                                        enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                        ][enemy.Position[0]]
                                                         enemy.lower_Gesundheit(
                                                             2)
                                                         enemy.damage_and_death_anim(
-                                                            self.window, "damage", enemy_tile)
+                                                            self.window, "damage", enemy_tile, enemy_environment)
                                                         if enemy.Gesundheit <= 0:
                                                             enemy.damage_and_death_anim(
-                                                                self.window, "death", enemy_tile)
+                                                                self.window, "death", enemy_tile, enemy_environment)
                                                             Enemies.delete_from_list(
                                                                 enemy)
                                                             Enemies_in_range.remove(
@@ -897,7 +902,7 @@ class Spiel(object):
                                                             enemy.__del__
                                                             if not Enemies_in_range:
                                                                 active = False
-                                                            break
+
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
                                             if earthSkill:
@@ -968,7 +973,6 @@ class Spiel(object):
                                                         ][enemy.Position[0]]
 
                                                         if enemy.Position in Surrounding:
-                                                            print('enemy in surrounding')
                                                             enemy.lower_Gesundheit(
                                                                 Wahrscheinlichkeiten.wuerfel(5))
                                                             enemy.damage_and_death_anim(
@@ -983,7 +987,6 @@ class Spiel(object):
                                                                 enemy.__del__
                                                                 if not Enemies_in_range:
                                                                     active = False
-                                                                #break
 
                                                 self.Charakter.change_status_temp(
                                                     'endu', '-')
