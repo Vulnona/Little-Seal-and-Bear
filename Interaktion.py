@@ -66,15 +66,14 @@ class Menu(object):
         self.charakter=charakter
         self.fonts = {
             'normal': Helfer.load_font('celtic_gaelige.ttf', 19),
+            'big': Helfer.load_font('celtic_gaelige.ttf', 23),
+            'small': Helfer.load_font('celtic_gaelige.ttf', 13),
             'custom': Helfer.load_font('customfont.ttf', 19)
         }
-        self.images = {
-            'standard': Helfer.load_image('unknown.png'),
-            'skills': {skill.id: Helfer.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL}
-        }
+
     def interaktionen(self, charakter):
         #textbackground = pygame.Rect(80, 100, 100, 600)# textbackground: background for all craftable values, and collectable values
-        actuallevel = self.fonts['normal'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
+        actuallevel = self.fonts['big'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
         exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
                                     Koordinaten.clsKoordinaten.BUTTONPOSY,
                                     Koordinaten.clsKoordinaten.BUTTONWIDTH,
@@ -82,7 +81,18 @@ class Menu(object):
                                    'Zurück',
                                    bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
         exitButton.font = self.fonts['normal']
-
+        feedButton = gui.PygButton((60, 410,
+                                    Koordinaten.clsKoordinaten.BUTTONWIDTH - 20,
+                                    Koordinaten.clsKoordinaten.BUTTONHEIGTH),
+                                   'Füttern',
+                                   bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        feedButton.font = self.fonts['small']
+        produceButton = gui.PygButton((150, 410,
+                                       Koordinaten.clsKoordinaten.BUTTONWIDTH - 20,
+                                       Koordinaten.clsKoordinaten.BUTTONHEIGTH),
+                                      'Erschaffen',
+                                      bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
+        produceButton.font = self.fonts['small']
         Position=157
         low_grass = pygame.sprite.Sprite()
         low_grass.image = Weltkarte.snippets[1].convert_alpha()
@@ -117,6 +127,8 @@ class Menu(object):
                 textObjekt, (134+25, Position-20))
             Position += 45
 
+        canbeMade=False
+        feed=False
         proceed=True
         while proceed:
             pygame.display.update()
@@ -127,15 +139,28 @@ class Menu(object):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if low_grass.rect.collidepoint(mouse_pos):
-                        self.show_recipes(Weltkarte.LOWGRASS)
-                    if high_grass.rect.collidepoint(mouse_pos):
-                        self.show_recipes(Weltkarte.MOREGRASS)
-                    if wiesen.rect.collidepoint(mouse_pos):
-                        self.show_recipes(Weltkarte.WIESENSNACK)
-                    if blaetter.rect.collidepoint(mouse_pos):
-                        self.show_recipes(Weltkarte.BLÄTTERMISCHUNG)
-                    if blumen.rect.collidepoint(mouse_pos):
-                        self.show_recipes(Weltkarte.PUSTEBLUMENDESSERT)
+                        canbeMade=self.check_Recipe_components(Weltkarte.LOWGRASS)
+                        feed=self.check_Available(Weltkarte.LOWGRASS)
+                    elif high_grass.rect.collidepoint(mouse_pos):
+                        canbeMade=self.check_Recipe_components(Weltkarte.MOREGRASS)
+                        feed=self.check_Available(Weltkarte.MOREGRASS)
+                    elif wiesen.rect.collidepoint(mouse_pos):
+                        canbeMade=self.check_Recipe_components(Weltkarte.WIESENSNACK)
+                        feed = self.check_Available(Weltkarte.WIESENSNACK)
+                    elif blaetter.rect.collidepoint(mouse_pos):
+                        canbeMade=self.check_Recipe_components(Weltkarte.BLÄTTERMISCHUNG)
+                        feed = self.check_Available(Weltkarte.BLÄTTERMISCHUNG)
+                    elif blumen.rect.collidepoint(mouse_pos):
+                        canbeMade=self.check_Recipe_components(Weltkarte.PUSTEBLUMENDESSERT)
+                        feed = self.check_Available(Weltkarte.PUSTEBLUMENDESSERT)
+                if canbeMade:
+                    events=produceButton.handleEvent(event)
+                    if 'click' in events:
+                        pass
+                if feed:
+                    events=feedButton.handleEvent(event)
+                    if 'click' in events:
+                        pass
                 events = exitButton.handleEvent(event)
                 if 'click' in events:
                     proceed = False
@@ -152,12 +177,18 @@ class Menu(object):
                     self.screen.blit(blaetter.image, blaetter.rect)
                     self.screen.blit(blumen.image, blumen.rect)
 
+                    if canbeMade:
+                        produceButton.draw(self.screen)
+                    if feed:
+                        feedButton.draw(self.screen)
 
-    def show_recipes(self, item):
+
+    def check_Recipe_components(self, item):
         Background = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART+60, Koordinaten.clsKoordinaten.BLACKBAREND,
                                  (Weltkarte.MAPWIDTH * Weltkarte.TILESIZE)-185,
                                    Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, Background)
+        canbeMade=True
         Position=250
         for y in Weltkarte.craftrecipes[item]:
             #draws component needed
@@ -167,6 +198,7 @@ class Menu(object):
             if Weltkarte.craftrecipes[item][y]<=Weltkarte.inventory[y]:
                 Farbe=Farben.clsFarben.WHITE
             else:
+                canbeMade=False
                 Farbe=Farben.clsFarben.DARKRED
             #draws amount component needed
             textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
@@ -177,6 +209,14 @@ class Menu(object):
             Position+=30
 
         pygame.display.update()
+        return canbeMade
+
+    def check_Available(self, item):
+        feed=False
+        if Weltkarte.inventory[item]>0:
+            feed=True
+        return feed
+
         #if (event.key == Weltkarte.controls[key]):
         #    if key in Weltkarte.craftrecipes:
         #        canBeMade = True

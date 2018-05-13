@@ -34,7 +34,7 @@ class clsStartScreen(object):
         loadButton = gui.PygButton((200, 100, 80, 20),
                                      'Laden',
                                      bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
-        returnButton.font = self.fonts['normal']
+        loadButton.font = self.fonts['normal']
 
         if self.Status:
             returnButton.draw(self.screen)
