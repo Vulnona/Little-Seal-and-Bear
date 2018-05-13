@@ -949,7 +949,8 @@ class Spiel(object):
                                                                                          ][enemy.Position[0]]
                                                     enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
                                                     ][enemy.Position[0]]
-                                                    enemy.lower_Gesundheit(1)
+                                                    attackmodifier=Wahrscheinlichkeiten.wuerfel(self.Charakter.get_str())
+                                                    enemy.lower_Gesundheit(1+attackmodifier)
                                                     enemy.damage_and_death_anim(
                                                         self.window, "damage", enemy_tile, enemy_environment)
                                                     self.Charakter.change_status_temp(
@@ -976,8 +977,10 @@ class Spiel(object):
                                                                                              ][enemy.Position[0]]
                                                         enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
                                                         ][enemy.Position[0]]
+                                                        attackmodifier = Wahrscheinlichkeiten.wuerfel(
+                                                            self.Charakter.get_str())
                                                         enemy.lower_Gesundheit(
-                                                            2)
+                                                            2+attackmodifier)
                                                         enemy.damage_and_death_anim(
                                                             self.window, "damage", enemy_tile, enemy_environment)
                                                         if enemy.Gesundheit <= 0:
@@ -1004,8 +1007,10 @@ class Spiel(object):
                                                                                              ][enemy.Position[0]]
                                                         enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
                                                         ][enemy.Position[0]]
+                                                        attackmodifier = Wahrscheinlichkeiten.wuerfel(
+                                                            self.Charakter.get_str())
                                                         enemy.lower_Gesundheit(
-                                                            2)
+                                                            2+attackmodifier)
                                                         enemy.damage_and_death_anim(
                                                             self.window, "damage", enemy_tile, enemy_environment)
                                                         if enemy.Gesundheit <= 0:
@@ -1079,8 +1084,10 @@ class Spiel(object):
                                                         ][enemy.Position[0]]
 
                                                         if enemy.Position in Surrounding:
+                                                            attackmodifier = Wahrscheinlichkeiten.wuerfel(
+                                                                self.Charakter.get_str())
                                                             enemy.lower_Gesundheit(
-                                                                Wahrscheinlichkeiten.wuerfel(5))
+                                                                Wahrscheinlichkeiten.wuerfel(5+attackmodifier))
                                                             enemy.damage_and_death_anim(
                                                                 self.window, "damage", enemy_tile, enemy_environment)
                                                             if enemy.Gesundheit <= 0:
