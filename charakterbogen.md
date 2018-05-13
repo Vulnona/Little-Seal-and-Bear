@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Eofebre
+  - Name: Oasku
   - Tierart: Robbe
   - Farbe: Weiss
 

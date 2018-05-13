@@ -66,9 +66,6 @@ class cls_Enemy(object):
                 if tile_x >= 0 and tile_y >= 0:
                     if tile_x < Weltkarte.MAPWIDTH and tile_y < Weltkarte.MAPHEIGHT:
                         to_append = [tile_x, tile_y]
-                        #if to_append==Player_Position:
-                        #    pass
-                        #else:
                         Liste.append(to_append)
 
         Surrounding = []
@@ -93,7 +90,7 @@ class cls_Enemy(object):
                     if Charakter.get_stealth_mode()==False:
                         return "attack"
                     else:
-                        pass
+                        PossibleTiles.remove(tile)
             if tile_env == Weltkarte.LOWGRASS or tile_env == Weltkarte.MOREGRASS:
                 if "fressen" in self.Verhalten:
                     PreferedTiles.append(tile)
