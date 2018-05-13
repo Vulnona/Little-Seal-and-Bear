@@ -412,14 +412,17 @@ class cls_Enemy(object):
     def generate_Enemy(self, Tilemap):
         rand_int = Wahrscheinlichkeiten.wuerfel(10)
         if rand_int <= 5:
-            Art = "Käfer"  # für später: Frisst Gras weg
-            Gesundheit = 2
+            Art = "Käfer"
+            healthmodifier=Wahrscheinlichkeiten.wuerfel(6)
+            Gesundheit = 5+healthmodifier
         elif (rand_int >= 5 and rand_int <= 9):
-            Art = "Vogel"  # für später: frisst Äpfel/Gesundheitsboni weg
-            Gesundheit = 5
+            Art = "Vogel"
+            healthmodifier=Wahrscheinlichkeiten.wuerfel(12)
+            Gesundheit = 10+healthmodifier
         elif rand_int == 10:
             Art = "Kettensägenmensch"
-            Gesundheit = 10
+            healthmodifier=Wahrscheinlichkeiten.wuerfel(30)
+            Gesundheit = 30+healthmodifier
 
         Position=self.generatePosition()
         # Can just spawn on Dirt, Grassland and Stone:
