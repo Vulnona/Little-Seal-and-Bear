@@ -57,9 +57,10 @@ CAVE1 = 40
 CAVE2 = 41
 CAVE3 = 42
 CAVE4 = 43
+FRUIT1 = 44
+FRUIT2 = 45
 
-
-
+fruit_Sprite = Helfer.spritesheet('fruits.png')
 tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
 borders_Sprite = Helfer.spritesheet('borders.png')
 grass_tile = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0,0,0))
@@ -118,14 +119,12 @@ cave_3 = pygame.transform.scale(cave_3, (40,40))
 cave_4 = tiles_Sprite.image_at((136, 6500+26, 28, 26), colorkey=(0,0,0))
 cave_4 = pygame.transform.scale(cave_4, (40,40))
 
-
 water_border=tiles_Sprite.image_at((30, 4689, 40, 45), colorkey=(0,0,0))
 water_border= pygame.transform.scale(water_border, (40,40))
 water_border_top=pygame.transform.rotate(water_border, 0)
 water_border_curve= tiles_Sprite.image_at((43, 4689, 36, 36), colorkey=(0,0,0))
 water_border_curve=pygame.transform.scale(water_border_curve, (40,40))
 water_border_inner_curve=tiles_Sprite.image_at((88, 4705, 40, 40),colorkey=(0,0,0))
-
 
 empty = tiles_Sprite.image_at((193, 8473, 10, 10), colorkey=(0 , 0, 0))
 empty = pygame.transform.scale(empty, (40,40))
@@ -136,7 +135,6 @@ stone_hole = pygame.transform.scale(stone_hole, (40, 40))
 grass_frame = tiles_Sprite.image_at((16, 2096, 64, 62), colorkey=(0,0,0))
 grass_frame = pygame.transform.scale(grass_frame, (40,40))
 grass_deco = tiles_Sprite.image_at((126, 2853, 35, 35), colorkey=(0,0,0))
-
 
 high_grass = tiles_Sprite.image_at((160, 2272, 32, 32), colorkey=(0,0,0))
 high_grass = pygame.transform.scale(high_grass, (40, 40))
@@ -150,6 +148,12 @@ tree_2 = tiles_Sprite.image_at((195, 263, 57, 51), colorkey=(0,0,0))
 tree_2 = pygame.transform.scale(tree_2, (40, 40))
 tree_3 = tiles_Sprite.image_at((195, 410, 64, 64), colorkey=(0,0,0))
 tree_3 = pygame.transform.scale(tree_3, (40, 40))
+
+fruit_1 = fruit_Sprite.image_at((0, 271, 70, 50), colorkey=(0,0,0))
+fruit_1 = pygame.transform.scale(fruit_1, (20, 20))
+fruit_2 = fruit_Sprite.image_at((195, 11, 57, 59), colorkey=(0,0,0))
+fruit_2 = pygame.transform.scale(fruit_2, (20,20))
+
 
 textures={
     GRASSLAND : grass_tile,
@@ -195,7 +199,9 @@ environment={
     WATERBORDERINNERCURVE: water_border_inner_curve,
     STONECORNERLEFT: stone_corner_left,
     STONECORNERDOWN: stone_corner_down,
-    STONECORNERCURVE: stone_corner_curve
+    STONECORNERCURVE: stone_corner_curve,
+    FRUIT1: fruit_1,
+    FRUIT2: fruit_2
 }
 
 #snippets
@@ -311,7 +317,7 @@ class clsTileMap(object):
         ]
     def environment_customTilemap(self):
         self.environment=[
-            [NOTHING, NOTHING, NOTHING, NOTHING, GRASSDECO, TREE2, NOTHING, NOTHING, NOTHING, STONECORNERLEFT, STONESTAND, STONEHOLE,
+            [NOTHING, NOTHING, NOTHING, NOTHING, GRASSDECO, TREE2, NOTHING, NOTHING, FRUIT2, STONECORNERLEFT, STONESTAND, STONEHOLE,
              NOTHING, MINISTONE2, NOTHING],
             [NOTHING, GRASSBUSH, NOTHING, NOTHING, NOTHING, NOTHING, NOTHING, NOTHING, NOTHING, STONECORNERLEFT, NOTHING, MINISTONE1,
              STONESTAND, NOTHING, MINISTONE2],
@@ -320,14 +326,14 @@ class clsTileMap(object):
             [LOWGRASS, LOWGRASS, LOWGRASS, NOTHING, GRASSDECO, NOTHING, TREE3, NOTHING, NOTHING, NOTHING, NOTHING, NOTHING,
              NOTHING, NOTHING, NOTHING],
             [MOREGRASS, MOREGRASS, GRASSBUSH, LOWGRASS, NOTHING, NOTHING, TREE3, TREE3, NOTHING, LOWGRASS, LOWGRASS, LOWGRASS,
-             LOWGRASS, GRASSDECO, NOTHING],
+             LOWGRASS, GRASSDECO, FRUIT1],
             [MOREGRASS, LOWGRASS, LOWGRASS, NOTHING, NOTHING, GRASSDECO, NOTHING, NOTHING, LOWGRASS, LOWGRASS, NOTHING, NOTHING,
              LOWGRASS, MOREGRASS, TREE2],
             [LOWGRASS, LOWGRASS, LOWGRASS, LOWGRASS, HILL1, HILL3, NOTHING, GRASSDECO, NOTHING, LOWGRASS, NOTHING, ROSEWATER1,
              LOWGRASS, MOREGRASS, MOREGRASS],
             [LOWGRASS, LOWGRASS, LOWGRASS, LOWGRASS, HILL4, HILL2, NOTHING, CAVE1, CAVE2, GRASSBUSH, LOWGRASS, LOWGRASS,
              LOWGRASS, MOREGRASS, MOREGRASS],
-            [WATERBORDERTOP, WATERBORDERTOP, WATERBORDERCURVE, LOWGRASS, LOWGRASS, NOTHING, NOTHING, CAVE4, CAVE3, NOTHING, NOTHING, GRASSDECO,
+            [WATERBORDERTOP, WATERBORDERTOP, WATERBORDERCURVE, LOWGRASS, LOWGRASS, FRUIT2, NOTHING, CAVE4, CAVE3, NOTHING, NOTHING, GRASSDECO,
              LOWGRASS, LOWGRASS, MOREGRASS],
             [ROSEWATER2, STONEWATER, WATERBORDERINNERCURVE, WATERBORDERCURVE, LOWGRASS, LOWGRASS, TREE2, NOTHING, NOTHING, STONEDECO, NOTHING, TREE1,
              MOREGRASS, HOLE, MOREGRASS]

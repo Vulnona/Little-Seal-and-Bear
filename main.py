@@ -49,13 +49,13 @@ fpsClock = pygame.time.Clock()
 Charakter = character.Character()
 MODE = "UNKNOWN"
 player_Icon_Position = [0, 0]
-Enemies = Objekte.cls_Enemies()
-Enemies.fill_Enemies_list()
 BackgroundTilemap = Weltkarte.clsTileMap()
 NewTilemap = Weltkarte.clsTileMap()
 # NewTilemap.randomTilemap()
 NewTilemap.customTilemap()
 NewTilemap.environment_customTilemap()
+Enemies = Objekte.cls_Enemies()
+Enemies.fill_Enemies_list(NewTilemap)
 
 
 class Spiel(object):
@@ -973,10 +973,12 @@ class Spiel(object):
                             # STAR = pygame.draw.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
                             # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.py.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.py.TILESIZE))
                             # pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
-                            print(self.Charakter.get_status_max('health'))
-                            print(self.Charakter.get_status_temp('health'))
-                            print(self.Charakter.get_status_max('endu'))
-                            print(self.Charakter.get_status_temp('endu'))
+                            #print(self.Charakter.get_status_max('health'))
+                            #print(self.Charakter.get_status_temp('health'))
+                            #print(self.Charakter.get_status_max('endu'))
+                            #print(self.Charakter.get_status_temp('endu'))
+                            for enemy in Enemies.get_Enemies_Liste():
+                                enemy.Agieren(NewTilemap, player_Icon_Position)
 
 
 NeuesSpiel = Spiel(MODE, Charakter)

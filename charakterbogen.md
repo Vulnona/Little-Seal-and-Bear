@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Athosh
+  - Name: Eud
   - Tierart: Bär
-  - Farbe: Weiss
+  - Farbe: Braun
 
 ## Statuswerte
 
