@@ -62,7 +62,7 @@ class Character:
                     self.temp_status[1] -= 1
         elif input_string == "magic":
             if Vorzeichen == '+':
-                if self.temp_status[2] < self.status[1]:
+                if self.temp_status[2] < self.status[2]:
                     self.temp_status[2] += 1
             if Vorzeichen == '-':
                 if self.temp_status[2] > 0:

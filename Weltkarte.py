@@ -343,9 +343,9 @@ class clsTileMap(object):
         for item in collectableres:
             screen.blit(
                 snippets[item], (placePosition, MAPHEIGHT * TILESIZE + 5))
-            placePosition += 50
+            placePosition += 40
             textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
                 inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
             screen.blit(
-                textObjekt, (placePosition, MAPHEIGHT * TILESIZE + 5))
-            placePosition += 50
+                textObjekt, (placePosition+5, MAPHEIGHT * TILESIZE + 5))
+            placePosition += 40

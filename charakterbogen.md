@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Oasku
+  - Name: Yeaunk
   - Tierart: Robbe
   - Farbe: Weiss
 
