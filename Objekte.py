@@ -66,10 +66,10 @@ class cls_Enemy(object):
                 if tile_x >= 0 and tile_y >= 0:
                     if tile_x < Weltkarte.MAPWIDTH and tile_y < Weltkarte.MAPHEIGHT:
                         to_append = [tile_x, tile_y]
-                        if to_append==Player_Position:
-                            pass
-                        else:
-                            Liste.append(to_append)
+                        #if to_append==Player_Position:
+                        #    pass
+                        #else:
+                        Liste.append(to_append)
 
         Surrounding = []
         for tile in Liste:

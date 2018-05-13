@@ -149,16 +149,22 @@ class Spiel(object):
             return MODE
 
         elif MODE == "GAMEOVER":
-            #logging.info('Game over')
-            #self.Charakter.__del__()
             self.window.fill(Farben.clsFarben.BLACK)
-            pygame.display.update()
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    sys.exit()
-            pygame.display.update()
-            return MODE
+            GameOverAnim = pyganim.PygAnimation('gameover.gif')
+            GameOverAnim.scale((600,450))
+            GameOverAnim.play()
+            mainClock = pygame.time.Clock()
+
+            while True:
+                for event in pygame.event.get():
+                    if event.type == QUIT:
+                        pygame.quit()
+                        sys.exit()
+                GameOverAnim.blit(self.window, (10, 10))
+                mainClock.tick(FPS)
+                pygame.display.update()
+
+            #return MODE
 
         elif MODE == "GAME":
             global direction

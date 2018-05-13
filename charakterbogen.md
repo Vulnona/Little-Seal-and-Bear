@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Oniuca
+  - Name: Ubeslio
   - Tierart: Robbe
-  - Farbe: Grau
+  - Farbe: Weiss
 
 ## Statuswerte
 
