@@ -66,7 +66,10 @@ class cls_Enemy(object):
                 if tile_x >= 0 and tile_y >= 0:
                     if tile_x < Weltkarte.MAPWIDTH and tile_y < Weltkarte.MAPHEIGHT:
                         to_append = [tile_x, tile_y]
-                        Liste.append(to_append)
+                        if to_append==Player_Position:
+                            pass
+                        else:
+                            Liste.append(to_append)
 
         Surrounding = []
         for tile in Liste:
@@ -210,6 +213,15 @@ class cls_Enemy(object):
         #nextEnvironment = Tilemap.getEnvironment()[self.Position[1] - 1
         #                                           ][self.Position[0]]
 
+    # Movement
+    # if act == "right":
+    #    self.Position[0] += 1
+    # elif act == "left":
+    #    self.Position[0] -= 1
+    # elif act == "down":
+    #    self.Position[1] += 1
+    # elif act == "up":
+    #    self.Position[1] -= 1
 
 
     def Agieren(self, screen, Tilemap, Player_Direction, Player_Position, Charakter):
@@ -217,25 +229,16 @@ class cls_Enemy(object):
         #Decide action
         act=self.choose_action(Tilemap, Player_Position, Charakter)
 
-        #Movement
-        #if act == "right":
-        #    self.Position[0] += 1
-        #elif act == "left":
-        #    self.Position[0] -= 1
-        #elif act == "down":
-        #    self.Position[1] += 1
-        #elif act == "up":
-        #    self.Position[1] -= 1
         if act == "bewegt":
             pass
         elif act == "stay":
             pass
         elif act == "attack":
-            print(Charakter.get_status_temp('health'))
             Charakter.change_status_temp('health', '-')
-            self.damage_and_death_player(screen, Tilemap, "damage", Player_Direction, Player_Position, Charakter)
-            print(Charakter.get_status_temp('health'))
-            print('attacked')
+            if Charakter.get_status_temp('health')>0:
+                self.damage_and_death_player(screen, Tilemap, "damage", Player_Direction, Player_Position, Charakter)
+            else:
+                self.damage_and_death_player(screen, Tilemap, "death", Player_Direction, Player_Position, Charakter)
         elif act == "eat":
             currenttile=Tilemap.getTilemap()[self.Position[1]
             ][self.Position[0]]
@@ -268,11 +271,11 @@ class cls_Enemy(object):
         self.Verhalten.append(Verhalten)
 
     def damage_and_death_player(self, screen, Tilemap, damage_or_death, player_direction, player_position, Charakter):
+
         Player_Environment = Tilemap.getEnvironment()[player_position[1]][player_position[0]]
         Player_Tile = Tilemap.getTilemap()[player_position[1]][player_position[0]]
 
         mainClock = pygame.time.Clock()
-
         # a x b pixels of spritesheet
         a = 576 / 12
         b = 384 / 8
@@ -315,9 +318,7 @@ class cls_Enemy(object):
                 player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
             else:
                 player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
-
         player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-
         tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
         if Player_Tile == Weltkarte.GRASSLAND:
             second = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0, 0, 0))
@@ -329,9 +330,7 @@ class cls_Enemy(object):
             second = tiles_Sprite.image_at((26, 4701, 45, 45), colorkey=(0, 0, 0))
         second = pygame.transform.scale(
             second, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-
         third = Weltkarte.environment[Player_Environment]
-
         deathAnim = pyganim.PygAnimation([(player_Icon, 10), (second, 10), (third, 10)])
         i = 0
         if damage_or_death == "damage":
@@ -347,7 +346,6 @@ class cls_Enemy(object):
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
-
         if damage_or_death == "death":
             screen.blit(
                 second, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
@@ -358,7 +356,6 @@ class cls_Enemy(object):
                 third, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
             screen.blit(
                 player_Icon, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
-
 
     def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art, enemy_environment=Weltkarte.NOTHING):
         mainClock = pygame.time.Clock()
@@ -382,9 +379,7 @@ class cls_Enemy(object):
             second = tiles_Sprite.image_at((26, 4701, 45, 45), colorkey=(0,0,0))
         second = pygame.transform.scale(
             second, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
-
         third = Weltkarte.environment[enemy_environment]
-
         deathAnim = pyganim.PygAnimation([(first, 10), (second, 10), (third, 10)])
         i = 0
         if damage_or_death == "damage":
@@ -400,7 +395,6 @@ class cls_Enemy(object):
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
-
         if damage_or_death == "death":
             screen.blit(
                 second, (self.Position[0]*Weltkarte.TILESIZE, self.Position[1]*Weltkarte.TILESIZE))
@@ -411,8 +405,6 @@ class cls_Enemy(object):
                 third, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
             screen.blit(
                 first, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
-
-
 
     def generate_Enemy(self, Tilemap):
         rand_int = Wahrscheinlichkeiten.wuerfel(10)
@@ -446,13 +438,10 @@ class cls_Enemy(object):
         return Position
 
     def __del__(self):
-        print('deleted')
+        pass
 
     def lower_Gesundheit(self, Anzahl):
         self.Gesundheit -= Anzahl
-
-    def change_Position(self):
-        pass
 
 
 class cls_Enemies(object):

@@ -148,6 +148,18 @@ class Spiel(object):
             MODE = "GAME"
             return MODE
 
+        elif MODE == "GAMEOVER":
+            #logging.info('Game over')
+            #self.Charakter.__del__()
+            self.window.fill(Farben.clsFarben.BLACK)
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+            pygame.display.update()
+            return MODE
+
         elif MODE == "GAME":
             global direction
             blackbar = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND,
@@ -166,9 +178,14 @@ class Spiel(object):
             milli_seconds_to_pass = 40000
 
             ######
-            self.Charakter.set_skill(character.skills.StealthCharacterSkill)
+            #self.Charakter.set_skill(character.skills.StealthCharacterSkill)
 
             while True:
+
+                if self.Charakter.get_status_temp('health')<=0:
+                    MODE = "GAMEOVER"
+                    return MODE
+
                 pygame.display.update()
                 for row in range(Weltkarte.MAPHEIGHT):
                     for column in range(Weltkarte.MAPWIDTH):
@@ -359,40 +376,41 @@ class Spiel(object):
                                         if cont:
                                             for enemy in Enemies.get_Enemies_Liste():
                                                 enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position, self.Charakter)
-                                            if(isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
-                                                images = player_Sprite.images_at(
-                                                    rects=sprites_bear_right, colorkey=[0, 0, 0])
-                                            elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
-                                                images = player_Sprite.images_at(
-                                                    rects=sprites_seal_right, colorkey=[0, 0, 0])
-                                            WalkAnim = pyganim.PygAnimation(
-                                                [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                            WalkAnim.scale((37, 37))
-                                            WalkAnim.play()
-                                            walk = 0.0
-                                            proceed = True
-                                            while proceed:
-                                                Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position, nextPosition, self.window)
-                                                WalkAnim.blit(self.window,
-                                                              (player_Icon_Position[0] * Weltkarte.TILESIZE + walk,
-                                                               (player_Icon_Position[1] * Weltkarte.TILESIZE)))
-                                                pygame.display.update()
-                                                walk += 1
-                                                fpsClock.tick(FPS)
-                                                if player_Icon_Position[0]*Weltkarte.TILESIZE + walk > (player_Icon_Position[0]+1)*Weltkarte.TILESIZE:
-                                                    proceed = False
-                                            direction = "right"
-                                            if self.Charakter.get_stealth_mode() == True:
-                                                self.Charakter.change_status_temp(
-                                                    'magic', '-')
-                                            player_Icon_Position[0] += 1
-                                            self.Charakter.change_status_temp(
-                                                'endu', '-')
-                                            if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
-                                                rand_int = Wahrscheinlichkeiten.haelftehaelfte()
-                                                if rand_int:
+                                            if self.Charakter.get_status_temp('health')>0:
+                                                if(isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                                    images = player_Sprite.images_at(
+                                                        rects=sprites_bear_right, colorkey=[0, 0, 0])
+                                                elif(isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                                    images = player_Sprite.images_at(
+                                                        rects=sprites_seal_right, colorkey=[0, 0, 0])
+                                                WalkAnim = pyganim.PygAnimation(
+                                                    [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                                WalkAnim.scale((37, 37))
+                                                WalkAnim.play()
+                                                walk = 0.0
+                                                proceed = True
+                                                while proceed:
+                                                    Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position, nextPosition, self.window)
+                                                    WalkAnim.blit(self.window,
+                                                                  (player_Icon_Position[0] * Weltkarte.TILESIZE + walk,
+                                                                   (player_Icon_Position[1] * Weltkarte.TILESIZE)))
+                                                    pygame.display.update()
+                                                    walk += 1
+                                                    fpsClock.tick(FPS)
+                                                    if player_Icon_Position[0]*Weltkarte.TILESIZE + walk > (player_Icon_Position[0]+1)*Weltkarte.TILESIZE:
+                                                        proceed = False
+                                                direction = "right"
+                                                if self.Charakter.get_stealth_mode() == True:
                                                     self.Charakter.change_status_temp(
-                                                        'endu', '+')
+                                                        'magic', '-')
+                                                player_Icon_Position[0] += 1
+                                                self.Charakter.change_status_temp(
+                                                    'endu', '-')
+                                                if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
+                                                    rand_int = Wahrscheinlichkeiten.haelftehaelfte()
+                                                    if rand_int:
+                                                        self.Charakter.change_status_temp(
+                                                            'endu', '+')
                         elif (event.key == K_LEFT and player_Icon_Position[0] > 0):
                             if self.Charakter.get_status_temp('endu') <= 0:
                                 print('Keine Energie mehr verfügbar')
@@ -439,45 +457,46 @@ class Spiel(object):
                                                 for enemy in Enemies.get_Enemies_Liste():
                                                     enemy.Agieren(self.window, NewTilemap, direction,
                                                                   player_Icon_Position, self.Charakter)
-                                                if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
-                                                    images = player_Sprite.images_at(
-                                                        rects=sprites_bear_left, colorkey=[0, 0, 0])
-                                                elif (
-                                                isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
-                                                    images = player_Sprite.images_at(
-                                                        rects=sprites_seal_left, colorkey=[0, 0, 0])
-                                                WalkAnim = pyganim.PygAnimation(
-                                                    [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                                WalkAnim.scale((37, 37))
-                                                WalkAnim.play()
-                                                walk = 0.0
-                                                proceed = True
-                                                while proceed:
-                                                    Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
-                                                                   nextPosition, self.window)
-                                                    WalkAnim.blit(self.window,
-                                                                (player_Icon_Position[0] * Weltkarte.TILESIZE - walk,
-                                                                (player_Icon_Position[1] * Weltkarte.TILESIZE)))
-                                                    pygame.display.update()
-                                                    walk += 1
-                                                    fpsClock.tick(FPS)
-                                                    if player_Icon_Position[0] * Weltkarte.TILESIZE - walk < (
-                                                            player_Icon_Position[0] - 1) * Weltkarte.TILESIZE:
-                                                        proceed = False
-                                                direction = "left"
-                                                if self.Charakter.get_stealth_mode() == True:
-                                                    self.Charakter.change_status_temp(
-                                                        'magic', '-')
-                                                player_Icon_Position[0] -= 1
-                                                self.Charakter.change_status_temp(
-                                                    'endu', '-')
-                                                if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
-                                                    rand_int = Wahrscheinlichkeiten.haelftehaelfte()
-                                                    if rand_int:
+                                                if self.Charakter.get_status_temp('health') > 0:
+                                                    if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                                        images = player_Sprite.images_at(
+                                                            rects=sprites_bear_left, colorkey=[0, 0, 0])
+                                                    elif (
+                                                    isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                                        images = player_Sprite.images_at(
+                                                            rects=sprites_seal_left, colorkey=[0, 0, 0])
+                                                    WalkAnim = pyganim.PygAnimation(
+                                                        [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                                    WalkAnim.scale((37, 37))
+                                                    WalkAnim.play()
+                                                    walk = 0.0
+                                                    proceed = True
+                                                    while proceed:
+                                                        Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
+                                                                       nextPosition, self.window)
+                                                        WalkAnim.blit(self.window,
+                                                                    (player_Icon_Position[0] * Weltkarte.TILESIZE - walk,
+                                                                    (player_Icon_Position[1] * Weltkarte.TILESIZE)))
+                                                        pygame.display.update()
+                                                        walk += 1
+                                                        fpsClock.tick(FPS)
+                                                        if player_Icon_Position[0] * Weltkarte.TILESIZE - walk < (
+                                                                player_Icon_Position[0] - 1) * Weltkarte.TILESIZE:
+                                                            proceed = False
+                                                    direction = "left"
+                                                    if self.Charakter.get_stealth_mode() == True:
                                                         self.Charakter.change_status_temp(
-                                                            'endu', '+')
-                                        else:
-                                            break
+                                                            'magic', '-')
+                                                    player_Icon_Position[0] -= 1
+                                                    self.Charakter.change_status_temp(
+                                                        'endu', '-')
+                                                    if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
+                                                        rand_int = Wahrscheinlichkeiten.haelftehaelfte()
+                                                        if rand_int:
+                                                            self.Charakter.change_status_temp(
+                                                                'endu', '+')
+                                            else:
+                                                break
                         elif (event.key == K_DOWN and player_Icon_Position[1] < Weltkarte.MAPHEIGHT - 1):
                             if self.Charakter.get_status_temp('endu') <= 0:
                                 print('Keine Energie mehr verfügbar')
@@ -511,42 +530,43 @@ class Spiel(object):
                                     for enemy in Enemies.get_Enemies_Liste():
                                         enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
                                                       self.Charakter)
-                                    if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
-                                        images = player_Sprite.images_at(
-                                            rects=sprites_bear_down, colorkey=[0, 0, 0])
-                                    elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
-                                        images = player_Sprite.images_at(
-                                            rects=sprites_seal_down, colorkey=[0, 0, 0])
-                                    WalkAnim = pyganim.PygAnimation(
-                                        [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                    WalkAnim.scale((37, 37))
-                                    WalkAnim.play()
-                                    walk = 0.0
-                                    proceed = True
-                                    while proceed:
-                                        Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
-                                                       nextPosition, self.window)
-                                        WalkAnim.blit(self.window,
-                                                      (player_Icon_Position[0] * Weltkarte.TILESIZE,
-                                                        (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk))
-                                        pygame.display.update()
-                                        walk += 1
-                                        fpsClock.tick(FPS)
-                                        if player_Icon_Position[1] * Weltkarte.TILESIZE + walk > (
-                                                player_Icon_Position[1] + 1) * Weltkarte.TILESIZE:
-                                            proceed = False
-                                    direction = "down"
-                                    if self.Charakter.get_stealth_mode() == True:
-                                        self.Charakter.change_status_temp(
-                                            'magic', '-')
-                                    player_Icon_Position[1] += 1
-                                    self.Charakter.change_status_temp(
-                                        'endu', '-')
-                                    if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
-                                        rand_int = Wahrscheinlichkeiten.haelftehaelfte()
-                                        if rand_int:
+                                    if self.Charakter.get_status_temp('health') > 0:
+                                        if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                            images = player_Sprite.images_at(
+                                                rects=sprites_bear_down, colorkey=[0, 0, 0])
+                                        elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                            images = player_Sprite.images_at(
+                                                rects=sprites_seal_down, colorkey=[0, 0, 0])
+                                        WalkAnim = pyganim.PygAnimation(
+                                            [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                        WalkAnim.scale((37, 37))
+                                        WalkAnim.play()
+                                        walk = 0.0
+                                        proceed = True
+                                        while proceed:
+                                            Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
+                                                           nextPosition, self.window)
+                                            WalkAnim.blit(self.window,
+                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                            (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk))
+                                            pygame.display.update()
+                                            walk += 1
+                                            fpsClock.tick(FPS)
+                                            if player_Icon_Position[1] * Weltkarte.TILESIZE + walk > (
+                                                    player_Icon_Position[1] + 1) * Weltkarte.TILESIZE:
+                                                proceed = False
+                                        direction = "down"
+                                        if self.Charakter.get_stealth_mode() == True:
                                             self.Charakter.change_status_temp(
-                                                'endu', '+')
+                                                'magic', '-')
+                                        player_Icon_Position[1] += 1
+                                        self.Charakter.change_status_temp(
+                                            'endu', '-')
+                                        if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
+                                            rand_int = Wahrscheinlichkeiten.haelftehaelfte()
+                                            if rand_int:
+                                                self.Charakter.change_status_temp(
+                                                    'endu', '+')
                         elif (event.key == K_UP and player_Icon_Position[1] > 0):
                             if self.Charakter.get_status_temp('endu') <= 0:
                                 print('Keine Energie mehr verfügbar')
@@ -592,42 +612,43 @@ class Spiel(object):
                                         for enemy in Enemies.get_Enemies_Liste():
                                             enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
                                                           self.Charakter)
-                                        if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
-                                            images = player_Sprite.images_at(
-                                                rects=sprites_bear_up, colorkey=[0, 0, 0])
-                                        elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
-                                            images = player_Sprite.images_at(
-                                                rects=sprites_seal_up, colorkey=[0, 0, 0])
-                                        WalkAnim = pyganim.PygAnimation(
-                                            [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                        WalkAnim.scale((37, 37))
-                                        WalkAnim.play()
-                                        walk = 0.0
-                                        proceed = True
-                                        while proceed:
-                                            Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
-                                                           nextPosition, self.window)
-                                            WalkAnim.blit(self.window,
-                                                          (player_Icon_Position[0] * Weltkarte.TILESIZE,
-                                                           (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk))
-                                            pygame.display.update()
-                                            walk -= 1
-                                            fpsClock.tick(FPS)
-                                            if player_Icon_Position[1] * Weltkarte.TILESIZE + walk < (
-                                                    player_Icon_Position[1] - 1) * Weltkarte.TILESIZE:
-                                                proceed = False
-                                        direction = "up"
-                                        if self.Charakter.get_stealth_mode() == True:
-                                            self.Charakter.change_status_temp(
-                                                'magic', '-')
-                                        player_Icon_Position[1] -= 1
-                                        self.Charakter.change_status_temp(
-                                            'endu', '-')
-                                        if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
-                                            rand_int = Wahrscheinlichkeiten.haelftehaelfte()
-                                            if rand_int:
+                                        if self.Charakter.get_status_temp('health') > 0:
+                                            if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_bear_up, colorkey=[0, 0, 0])
+                                            elif (isinstance(self.Charakter.get_type(), character.animaltypes.clsRobbe)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_seal_up, colorkey=[0, 0, 0])
+                                            WalkAnim = pyganim.PygAnimation(
+                                                [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                            WalkAnim.scale((37, 37))
+                                            WalkAnim.play()
+                                            walk = 0.0
+                                            proceed = True
+                                            while proceed:
+                                                Helfer.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
+                                                               nextPosition, self.window)
+                                                WalkAnim.blit(self.window,
+                                                              (player_Icon_Position[0] * Weltkarte.TILESIZE,
+                                                               (player_Icon_Position[1] * Weltkarte.TILESIZE) + walk))
+                                                pygame.display.update()
+                                                walk -= 1
+                                                fpsClock.tick(FPS)
+                                                if player_Icon_Position[1] * Weltkarte.TILESIZE + walk < (
+                                                        player_Icon_Position[1] - 1) * Weltkarte.TILESIZE:
+                                                    proceed = False
+                                            direction = "up"
+                                            if self.Charakter.get_stealth_mode() == True:
                                                 self.Charakter.change_status_temp(
-                                                    'endu', '+')
+                                                    'magic', '-')
+                                            player_Icon_Position[1] -= 1
+                                            self.Charakter.change_status_temp(
+                                                'endu', '-')
+                                            if self.Charakter.has_skill(character.skills.RunnerCharacterSkill):
+                                                rand_int = Wahrscheinlichkeiten.haelftehaelfte()
+                                                if rand_int:
+                                                    self.Charakter.change_status_temp(
+                                                        'endu', '+')
                         elif (event.key == K_SPACE):
                             currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                   ][player_Icon_Position[0]]

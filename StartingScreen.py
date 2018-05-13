@@ -66,7 +66,6 @@ class clsStartScreen(object):
                     events = newgameButton.handleEvent(event)
                     if 'click' in events:
                         self.MODE = "NEWGAME"
-                    events = loadButton.handleEvent(event)
                     if os.path.isfile('savefile.dat'):
                         events = loadButton.handleEvent(event)
                         if 'click' in events:

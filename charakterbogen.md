@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Uzogo
-  - Tierart: Bär
-  - Farbe: Braun
+  - Name: Oniuca
+  - Tierart: Robbe
+  - Farbe: Grau
 
 ## Statuswerte
 
