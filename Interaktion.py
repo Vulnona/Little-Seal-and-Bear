@@ -152,7 +152,7 @@ class Menu(object):
                                         Weltkarte.inventory[key]+=1
 
     def draw(self, charakter):
-        BG = pygame.Rect(45, 75, 500, 500) #BACKGROUND
+        BG = pygame.Rect(55, 75, 500, 500) #BACKGROUND
         exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
                                     Koordinaten.clsKoordinaten.BUTTONPOSY,
                                     Koordinaten.clsKoordinaten.BUTTONWIDTH,

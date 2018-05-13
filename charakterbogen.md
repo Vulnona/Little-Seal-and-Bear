@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Che
+  - Name: Agru
   - Tierart: Robbe
   - Farbe: Weiss
 

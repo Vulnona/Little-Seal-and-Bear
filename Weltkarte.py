@@ -339,7 +339,7 @@ class clsTileMap(object):
              MOREGRASS, HOLE, MOREGRASS]
         ]
     def drawSnippets(screen):
-        placePosition = 50
+        placePosition = 70
         for item in collectableres:
             screen.blit(
                 snippets[item], (placePosition, MAPHEIGHT * TILESIZE + 5))
