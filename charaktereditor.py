@@ -314,44 +314,52 @@ class Editor:
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("strength")
             self.character.gain_exp(1)
+            self.character.set_status_initial()
 
     def _click_more_attribute_strength_button(self, element):
         if int(self.character.get_exp()) > 0:
             self.character.lower_exp(1)
             self.character.spend_ability_points("strength")
+            self.character.set_status_initial()
 
     def _click_lesser_attribute_resistance_button(self, element):
         valuetocheck = self.character.ability_value("resistance")
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("resistance")
             self.character.gain_exp(1)
+            self.character.set_status_initial()
 
     def _click_more_attribute_resistance_button(self, element):
         if int(self.character.get_exp()) > 0:
             self.character.lower_exp(1)
             self.character.spend_ability_points("resistance")
+            self.character.set_status_initial()
 
     def _click_lesser_attribute_dexterity_button(self, element):
         valuetocheck = self.character.ability_value("dexterity")
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("dexterity")
             self.character.gain_exp(1)
+            self.character.set_status_initial()
 
     def _click_more_attribute_dexterity_button(self, element):
         if int(self.character.get_exp()) > 0:
             self.character.lower_exp(1)
             self.character.spend_ability_points("dexterity")
+            self.character.set_status_initial()
 
     def _click_lesser_attribute_intelligence_button(self, element):
         valuetocheck = self.character.ability_value("intelligence")
         if int(valuetocheck) > 0:
             self.character.lost_ability_points("intelligence")
             self.character.gain_exp(1)
+            self.character.set_status_initial()
 
     def _click_more_attribute_intelligence_button(self, element):
         if int(self.character.get_exp()) > 0:
             self.character.lower_exp(1)
             self.character.spend_ability_points("intelligence")
+            self.character.set_status_initial()
 
     def _click_randomize_name_button(self, element):
         self.character.randomize_name()
@@ -364,7 +372,7 @@ class Editor:
 
     def _click_animaltype_button(self, element):
         self.character.set_type(element.value)
-        self.character.set_status_initial(element.value)
+        self.character.set_status_initial()
 
     def _click_animalsubtype_button(self, element):
         self.character.set_subtype(element.value)

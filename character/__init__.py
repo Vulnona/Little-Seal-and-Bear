@@ -68,15 +68,17 @@ class Character:
                 if self.temp_status[2] > 0:
                     self.temp_status[2] -= 1
 
-    def set_status_initial(self, animaltype):
-        if (str(animaltype) == str(animaltypes.clsBaer)):
-            self.status = [20, 40, 5]
+    def set_status_initial(self):
+        endurancemodifier=(self.get_resi()+self.get_dext())
+        magicmodifier=(self.get_int())
+        if isinstance(self.animaltype, animaltypes.clsBaer):
+            self.status = [20, 40+endurancemodifier, 5+magicmodifier]
             if self.has_skill(skills.EnduranceCharacterSkill):
-                self.status[1] += 20
-        elif (str(animaltype) == str(animaltypes.clsRobbe)):
-            self.status = [10, 35, 15]
+                self.status[1] *= 2
+        elif isinstance(self.animaltype, animaltypes.clsRobbe):
+            self.status = [10, 35+endurancemodifier, 15+magicmodifier]
             if self.has_skill(skills.EnduranceCharacterSkill):
-                self.status[1] += 20
+                self.status[1] *= 20
         self.temp_status = self.status[:]
 
     def get_str(self):

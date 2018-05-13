@@ -1,15 +1,15 @@
 ## Charakter Bogen
 
-  - Name: Yeaunk
+  - Name: Ogreau
   - Tierart: Robbe
-  - Farbe: Weiss
+  - Farbe: Grau
 
 ## Statuswerte
 
   - Stärke: 0
   - Ausdauer: 0
-  - Geschicklichkeit: 0
-  - Intelligenz: 0
+  - Geschicklichkeit: 5
+  - Intelligenz: 3
 
 ## Fähigkeiten
 
