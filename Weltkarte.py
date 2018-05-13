@@ -212,8 +212,6 @@ lowgrasssnippet = low_grass.convert()
 lowgrasssnippet = pygame.transform.scale(lowgrasssnippet,(TILESIZE,TILESIZE))
 highgrasssnippet = high_grass.convert()
 highgrasssnippet = pygame.transform.scale(highgrasssnippet,(TILESIZE,TILESIZE))
-
-
 wiesensnacksnippet = craft_Sprites.image_at((33, 135, 35, 30), colorkey=(0,0,0))
 wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet, (TILESIZE,TILESIZE))
 blättermischungsnippet = craft_Sprites.image_at((254, 129, 35, 33), colorkey=(0,0,0))
@@ -226,7 +224,7 @@ snippets=(grasssnippet,lowgrasssnippet,highgrasssnippet,wiesensnacksnippet,blät
 #resources
 resources=[GRASSLAND, STONE, DIRT, WATER]
 collectableres=[GRASSLAND, LOWGRASS, MOREGRASS]
-craftables=[WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
+craftables=[LOWGRASS, MOREGRASS, WIESENSNACK,BLÄTTERMISCHUNG,PUSTEBLUMENDESSERT]
 
 #needs swimming
 waterbehaviour=[WATER, LAKE2, LAKE1, LAKE3, LAKE4]
@@ -251,23 +249,23 @@ inventory={
 }
 
 #controls for crafting
-controls = {
-    WIESENSNACK:49,
-    BLÄTTERMISCHUNG:50,
-    PUSTEBLUMENDESSERT:51
-}
+#controls = {
+#    WIESENSNACK:49,
+#    BLÄTTERMISCHUNG:50,
+#    PUSTEBLUMENDESSERT:51
+#}
 
 #controls for feeding
-feedcontrols = {
-    WIESENSNACK:55,
-    BLÄTTERMISCHUNG:56,
-    PUSTEBLUMENDESSERT:57
-}
+#feedcontrols = {
+#    WIESENSNACK:55,
+#    BLÄTTERMISCHUNG:56,
+#    PUSTEBLUMENDESSERT:57
+#}
 
 #recipes for crafting
 craftrecipes={
-    #LOWGRASS : {GRASSLAND : 5},
-    #MOREGRASS: {GRASSLAND : 2, LOWGRASS : 3},
+    LOWGRASS : {GRASSLAND : 5},
+    MOREGRASS: {GRASSLAND : 2, LOWGRASS : 3},
     WIESENSNACK : {GRASSLAND : 4},
     BLÄTTERMISCHUNG: {LOWGRASS : 2, WIESENSNACK: 1},
     PUSTEBLUMENDESSERT: {GRASSLAND : 1, MOREGRASS : 2, BLÄTTERMISCHUNG : 1}

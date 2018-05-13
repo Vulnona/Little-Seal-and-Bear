@@ -73,7 +73,7 @@ class Menu(object):
             'skills': {skill.id: Helfer.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL}
         }
     def interaktionen(self, charakter):
-        textbackground = pygame.Rect(80, 100, 100, 600)# textbackground: background for all craftable values, and collectable values
+        #textbackground = pygame.Rect(80, 100, 100, 600)# textbackground: background for all craftable values, and collectable values
         actuallevel = self.fonts['normal'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
         exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
                                     Koordinaten.clsKoordinaten.BUTTONPOSY,
@@ -109,6 +109,14 @@ class Menu(object):
         blumen.rect = wiesen.image.get_rect()
         blumen.rect.center = (134, Position)
 
+        Position= 157
+        for item in Weltkarte.craftables:
+            textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
+                Weltkarte.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+            self.screen.blit(
+                textObjekt, (134+25, Position-20))
+            Position += 45
+
         proceed=True
         while proceed:
             pygame.display.update()
@@ -119,20 +127,20 @@ class Menu(object):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if low_grass.rect.collidepoint(mouse_pos):
-                        print('clicked')
+                        self.show_recipes(Weltkarte.LOWGRASS)
                     if high_grass.rect.collidepoint(mouse_pos):
-                        print('clicked')
+                        self.show_recipes(Weltkarte.MOREGRASS)
                     if wiesen.rect.collidepoint(mouse_pos):
-                        print('clicked')
+                        self.show_recipes(Weltkarte.WIESENSNACK)
                     if blaetter.rect.collidepoint(mouse_pos):
-                        print('clicked')
+                        self.show_recipes(Weltkarte.BLÄTTERMISCHUNG)
                     if blumen.rect.collidepoint(mouse_pos):
-                        print('clicked')
+                        self.show_recipes(Weltkarte.PUSTEBLUMENDESSERT)
                 events = exitButton.handleEvent(event)
                 if 'click' in events:
                     proceed = False
                 else:
-                    pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, textbackground)
+         #          pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, textbackground)
                     CharakterAussehen.showAnimal(charakter, self.screen)
                     self.screen.blit(actuallevel,
                                      (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
@@ -145,7 +153,38 @@ class Menu(object):
                     self.screen.blit(blumen.image, blumen.rect)
 
 
-                    #liste: buttons to be pressed for crafting and feeding
+    def show_recipes(self, item):
+        Background = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART+60, Koordinaten.clsKoordinaten.BLACKBAREND,
+                                 (Weltkarte.MAPWIDTH * Weltkarte.TILESIZE)-185,
+                                   Weltkarte.MAPHEIGHT * Weltkarte.TILESIZE)
+        pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, Background)
+        Position=250
+        for y in Weltkarte.craftrecipes[item]:
+            print(y, ':', Weltkarte.craftrecipes[item][y])
+            print(Weltkarte.craftrecipes[item][y])
+            snippetObjekt = Weltkarte.snippets[y]
+            self.screen.blit(snippetObjekt, (Position, 400))
+            textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
+                Weltkarte.craftrecipes[item][y]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+            Position+=50
+            self.screen.blit(
+                textObjekt, (Position, 400))
+            Position+=30
+
+        pygame.display.update()
+        #if (event.key == Weltkarte.controls[key]):
+        #    if key in Weltkarte.craftrecipes:
+        #        canBeMade = True
+        #        for i in Weltkarte.craftrecipes[key]:
+        #            if Weltkarte.craftrecipes[key][i] > Weltkarte.inventory[i]:
+        #               canBeMade = False
+        #              break
+        #      if canBeMade == True:
+        #         for i in Weltkarte.craftrecipes[key]:
+        #            Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
+        #       Weltkarte.inventory[key]+=1
+
+    #liste: buttons to be pressed for crafting and feeding
                     #liste=[0,0,0,1,2,3]
                     #listezwei=[0,0,0,7,8,9]
                     #placePosition = Koordinaten.clsKoordinaten.INVPLACEPOS

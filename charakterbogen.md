@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Aog
+  - Name: Ob
   - Tierart: Robbe
-  - Farbe: Grau
+  - Farbe: Weiss
 
 ## Statuswerte
 
