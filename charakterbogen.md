@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Ubeslio
+  - Name: Foinaim
   - Tierart: Robbe
-  - Farbe: Weiss
+  - Farbe: Grau
 
 ## Statuswerte
 

@@ -234,7 +234,13 @@ class cls_Enemy(object):
         elif act == "stay":
             pass
         elif act == "attack":
-            Charakter.change_status_temp('health', '-')
+            amount=1
+            if self.Art=="Vogel":
+                amount=Wahrscheinlichkeiten.wuerfel(2)
+            elif self.Art=="Kettensägenmensch":
+                amount=Wahrscheinlichkeiten.wuerfel(5)
+            for i in range (amount):
+                Charakter.change_status_temp('health', '-')
             if Charakter.get_status_temp('health')>0:
                 self.damage_and_death_player(screen, Tilemap, "damage", Player_Direction, Player_Position, Charakter)
             else:
