@@ -262,13 +262,14 @@ class cls_Enemy(object):
 
 
     def init_Verhalten(self):
-        self.add_Verhalten("feindlich")
+
         if self.Art == "Käfer":
             self.add_Verhalten("fressen")
         if self.Art == "Vogel":
             self.add_Verhalten("obst")
         if self.Art == "Kettensägenmensch":
             self.add_Verhalten("angriff")
+
 
     def add_Verhalten(self, Verhalten):
         self.Verhalten.append(Verhalten)

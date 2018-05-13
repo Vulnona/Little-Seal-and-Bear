@@ -956,6 +956,10 @@ class Spiel(object):
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
                                                     self.stats_showing()
+
+                                                    if not "feindlich" in enemy.Verhalten:
+                                                        enemy.add_Verhalten("feindlich")
+
                                                     if enemy.Gesundheit <= 0:
                                                         enemy.damage_and_death_anim(
                                                             self.window, "death", enemy_tile, enemy_environment)
@@ -983,6 +987,10 @@ class Spiel(object):
                                                             2+attackmodifier)
                                                         enemy.damage_and_death_anim(
                                                             self.window, "damage", enemy_tile, enemy_environment)
+
+                                                        if not "feindlich" in enemy.Verhalten:
+                                                            enemy.add_Verhalten("feindlich")
+
                                                         if enemy.Gesundheit <= 0:
                                                             enemy.damage_and_death_anim(
                                                                 self.window, "death", enemy_tile, enemy_environment)
@@ -1013,6 +1021,10 @@ class Spiel(object):
                                                             2+attackmodifier)
                                                         enemy.damage_and_death_anim(
                                                             self.window, "damage", enemy_tile, enemy_environment)
+
+                                                        if not "feindlich" in enemy.Verhalten:
+                                                            enemy.add_Verhalten("feindlich")
+
                                                         if enemy.Gesundheit <= 0:
                                                             enemy.damage_and_death_anim(
                                                                 self.window, "death", enemy_tile, enemy_environment)
@@ -1090,6 +1102,8 @@ class Spiel(object):
                                                                 Wahrscheinlichkeiten.wuerfel(5+attackmodifier))
                                                             enemy.damage_and_death_anim(
                                                                 self.window, "damage", enemy_tile, enemy_environment)
+                                                            if not "feindlich" in enemy.Verhalten:
+                                                                enemy.add_Verhalten("feindlich")
                                                             if enemy.Gesundheit <= 0:
                                                                 enemy.damage_and_death_anim(
                                                                     self.window, "death", enemy_tile, enemy_environment)
