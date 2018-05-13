@@ -110,6 +110,40 @@ class Spiel(object):
             'bearsprites': Helfer.spritesheet('bear.png')
         }
 
+    def stats_showing(self):
+        background=pygame.Rect(0, 400, 50, 50)
+        pygame.draw.rect(self.window, Farben.clsFarben.BLACK, background)
+        health = self.images['stats']['health']
+        health = pygame.transform.scale(health, (15, 15))
+        endurance = self.images['stats']['endurance']
+        endurance = pygame.transform.scale(endurance, (15, 15))
+        magic = self.images['stats']['magic']
+        magic = pygame.transform.scale(magic, (15, 15))
+        stats = (health, endurance, magic)
+        stats_string = ("health", "endu", "magic")
+        placePosition = 400
+        for stat in range(3):
+            self.window.blit(
+                stats[stat], (0, placePosition))
+            # placePosition += 10
+            textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
+                self.Charakter.get_status_temp(stats_string[stat])), True, Farben.clsFarben.WHITE,
+                Farben.clsFarben.BLACK)
+            abgrenzungObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str("/"), True,
+                                                                                                 Farben.clsFarben.WHITE,
+                                                                                                 Farben.clsFarben.BLACK)
+            textObjekt2 = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
+                self.Charakter.get_status_max(stats_string[stat])), True, Farben.clsFarben.WHITE,
+                Farben.clsFarben.BLACK)
+            self.window.blit(
+                textObjekt, (15, placePosition))
+            self.window.blit(
+                abgrenzungObjekt, (30, placePosition))
+            self.window.blit(
+                textObjekt2, (35, placePosition))
+
+            placePosition += 15
+
     def spielen(self, MODE):
         if MODE == "STARTSCREEN":
             if self.Charakter.get_Name() is None:
@@ -314,33 +348,8 @@ class Spiel(object):
                     an_enemy = Enemies.get_Enemy(enemy)
                     an_enemy.show_Icon(self.window)
 
-                #Character Stats Showing
-                health=self.images['stats']['health']
-                health=pygame.transform.scale(health, (15,15))
-                endurance=self.images['stats']['endurance']
-                endurance=pygame.transform.scale(endurance, (15,15))
-                magic=self.images['stats']['magic']
-                magic=pygame.transform.scale(magic, (15,15))
-                stats=(health, endurance, magic)
-                stats_string=("health","endu","magic")
-                placePosition=400
-                for stat in range(3):
-                    self.window.blit(
-                        stats[stat], (0, placePosition))
-                    #placePosition += 10
-                    textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
-                        self.Charakter.get_status_temp(stats_string[stat])), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
-                    abgrenzungObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str("/"), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
-                    textObjekt2 = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
-                        self.Charakter.get_status_max(stats_string[stat])), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
-                    self.window.blit(
-                        textObjekt, (15, placePosition))
-                    self.window.blit(
-                        abgrenzungObjekt, (30, placePosition))
-                    self.window.blit(
-                        textObjekt2, (35, placePosition))
-
-                    placePosition += 15
+                # Character Stats Showing
+                self.stats_showing()
 
                 # Snippets Showing
                 Weltkarte.clsTileMap.drawSnippets(self.window)
@@ -750,7 +759,7 @@ class Spiel(object):
                                     Weltkarte.inventory[currentTile] += 1
                                     NewTilemap.getTilemap()[player_Icon_Position[1]
                                                             ][player_Icon_Position[0]] = Weltkarte.DIRT
-
+                                self.stats_showing()
                         elif (event.key == K_m):
                             # non-fighting skills
                             stealthSkill = False
@@ -835,6 +844,7 @@ class Spiel(object):
                                                     for enemy in Enemies.get_Enemies_Liste():
                                                         enemy.Agieren(self.window, NewTilemap, direction,
                                                                       player_Icon_Position, self.Charakter)
+                                                    self.stats_showing()
                                             if healSkill:
                                                 if healbubble.collidepoint(mousepos):
                                                     self.Charakter.change_status_temp(
@@ -846,6 +856,7 @@ class Spiel(object):
                                                     for enemy in Enemies.get_Enemies_Liste():
                                                         enemy.Agieren(self.window, NewTilemap, direction,
                                                                       player_Icon_Position, self.Charakter)
+                                                    self.stats_showing()
                                             if plantingSkill:
                                                 if plantbubble.collidepoint(mousepos):
                                                     for enemy in Enemies.get_Enemies_Liste():
@@ -880,6 +891,7 @@ class Spiel(object):
                                                             ][player_Icon_Position[0]] = Weltkarte.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
+                                                    self.stats_showing()
                                                     break
 
                                             if saverSkill:
@@ -889,6 +901,7 @@ class Spiel(object):
                                                     for enemy in Enemies.get_Enemies_Liste():
                                                         enemy.Agieren(self.window, NewTilemap, direction,
                                                                       player_Icon_Position, self.Charakter)
+                                                    self.stats_showing()
                                     elif event.type == KEYDOWN:
                                         if event.key == K_m:
                                             wait_for_click = False
@@ -941,6 +954,7 @@ class Spiel(object):
                                                         self.window, "damage", enemy_tile, enemy_environment)
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
+                                                    self.stats_showing()
                                                     if enemy.Gesundheit <= 0:
                                                         enemy.damage_and_death_anim(
                                                             self.window, "death", enemy_tile, enemy_environment)
@@ -982,6 +996,7 @@ class Spiel(object):
                                                     for enemy in Enemies.get_Enemies_Liste():
                                                         enemy.Agieren(self.window, NewTilemap, direction,
                                                                       player_Icon_Position, self.Charakter)
+                                                    self.stats_showing()
                                             if tailSkill:
                                                 if tailbubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
@@ -1009,6 +1024,7 @@ class Spiel(object):
                                                     for enemy in Enemies.get_Enemies_Liste():
                                                         enemy.Agieren(self.window, NewTilemap, direction,
                                                                       player_Icon_Position, self.Charakter)
+                                                    self.stats_showing()
                                             if earthSkill:
                                                 if earthbubble.collidepoint(mousepos):
                                                     tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
@@ -1085,7 +1101,7 @@ class Spiel(object):
                                                 for enemy in Enemies.get_Enemies_Liste():
                                                     enemy.Agieren(self.window, NewTilemap, direction,
                                                                   player_Icon_Position, self.Charakter)
-
+                                                self.stats_showing()
                                     elif event.type == KEYDOWN:
                                         if event.key == K_f:
                                             wait_for_click = False
@@ -1114,7 +1130,7 @@ class Spiel(object):
                                 for i in range (10):
                                     self.Charakter.change_status_temp('magic', '+')
                                     self.Charakter.change_status_temp('health', '+')
-
+                                self.stats_showing()
                             # STAR = pygame.draw.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
                             # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.py.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.py.TILESIZE))
                             # pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)

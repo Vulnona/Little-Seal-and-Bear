@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Agru
+  - Name: Eofebre
   - Tierart: Robbe
   - Farbe: Weiss
 
