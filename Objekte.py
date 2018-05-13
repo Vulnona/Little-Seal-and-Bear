@@ -3,6 +3,7 @@ import Weltkarte
 import pygame
 import pyganim
 import Helfer
+import character
 
 
 class cls_Enemy(object):
@@ -23,6 +24,11 @@ class cls_Enemy(object):
                 'sawblade': Helfer.load_image('enemies/sawblade.png')
             }
         }
+        self.spritesheets={
+            'sealsprites': Helfer.spritesheet('seal2.png'),
+            'sealsprites2': Helfer.spritesheet('seal.png'),
+            'bearsprites': Helfer.spritesheet('bear.png')
+        }
 
     def show_Icon(self, screen):
         if self.Art == "Käfer":
@@ -38,11 +44,7 @@ class cls_Enemy(object):
             enemy_Icon, (
                 enemy_Icon_Position[0] * Weltkarte.TILESIZE, enemy_Icon_Position[1] * Weltkarte.TILESIZE))
 
-    def choose_action(self, Tilemap, Player_Position):
-        PossibleAction=["right", "left", "up", "down", "stay", "attack", "eat"] #right, left, up, down, stay, fight
-        #eat_value=0
-        stay_value=0
-        #attack_value=0
+    def choose_action(self, Tilemap, Player_Position, Charakter):
 
         currentTile = Tilemap.getTilemap()[self.Position[1]
         ][self.Position[0]]
@@ -52,21 +54,10 @@ class cls_Enemy(object):
         #evaluate 'eat'
         if "fressen" in self.Verhalten:
             if currentTile == Weltkarte.GRASSLAND or currentEnvironment == Weltkarte.LOWGRASS or currentEnvironment == Weltkarte.MOREGRASS:
-                if currentTile==Weltkarte.GRASSLAND:
-                    return "eat"
-                if currentEnvironment == Weltkarte.LOWGRASS:
-                    return "eat"
-                if currentEnvironment == Weltkarte.MOREGRASS:
-                    return "eat"
-            else:
-                #eat_value=-1
-                PossibleAction.remove("eat")
+                return "eat"
         if "obst" in self.Verhalten:
             if currentEnvironment==Weltkarte.FRUIT1 or currentEnvironment==Weltkarte.FRUIT2:
                 return "eat"
-            else:
-                #eat_value=-1
-                PossibleAction.remove("eat")
 
         #Liste aller umliegenden Tiles# Liste aller benachbarten Tiles, keine 'negativen' Tilewerte (out of range der Map)
         Liste = []
@@ -88,7 +79,6 @@ class cls_Enemy(object):
         PreferedTiles = []
         for tile in Surrounding:
             tile_env = Tilemap.getEnvironment()[tile[1]][tile[0]]
-            print(tile_env)
             for env in Weltkarte.collide:
                 if env == tile_env:
                     PossibleTiles.remove(tile)
@@ -96,16 +86,11 @@ class cls_Enemy(object):
                 if env == tile_env:
                     PossibleTiles.remove(tile)
             if tile == Player_Position:
-                if "angriff" in self.Verhalten:
-                    #attack_value+=90
-                    print('attack act')
-                    return "attack"
-                if "feindlich" in self.Verhalten:
-                    #attack_value+=55
-                    print('attack act')
-                    return "attack"
-                else:
-                    attack_value=1
+                if "angriff" in self.Verhalten or "feindlich" in self.Verhalten:
+                    if Charakter.get_stealth_mode()==False:
+                        return "attack"
+                    else:
+                        pass
             if tile_env == Weltkarte.LOWGRASS or tile_env == Weltkarte.MOREGRASS:
                 if "fressen" in self.Verhalten:
                     PreferedTiles.append(tile)
@@ -113,18 +98,10 @@ class cls_Enemy(object):
                 if "obst" in self.Verhalten:
                     PreferedTiles.append(tile)
 
-
-        print('possible tiles:')
-        print(PossibleTiles)
-        print('prefered tiles:')
-        print(PreferedTiles)
-        #print(attack_value)
-
         if not PreferedTiles:
             if not PossibleTiles:
                 return "stay"
             else:
-                print('chosen: possible list')
                 anzahl = len(PossibleTiles)
                 if anzahl >1:
                     rand_int = Wahrscheinlichkeiten.wuerfel(anzahl)
@@ -133,7 +110,6 @@ class cls_Enemy(object):
                     self.Position=PossibleTiles[0]
                 return "bewegt"
         else:
-            print('chosen: prefered list')
             anzahl = len(PreferedTiles)
             rand_int = Wahrscheinlichkeiten.wuerfel(anzahl)
             self.Position=PreferedTiles[rand_int-1]
@@ -236,10 +212,10 @@ class cls_Enemy(object):
 
 
 
-    def Agieren(self, Tilemap, Player_Position):
+    def Agieren(self, screen, Tilemap, Player_Direction, Player_Position, Charakter):
 
         #Decide action
-        act=self.choose_action(Tilemap, Player_Position)
+        act=self.choose_action(Tilemap, Player_Position, Charakter)
 
         #Movement
         #if act == "right":
@@ -255,7 +231,11 @@ class cls_Enemy(object):
         elif act == "stay":
             pass
         elif act == "attack":
-            pass
+            print(Charakter.get_status_temp('health'))
+            Charakter.change_status_temp('health', '-')
+            self.damage_and_death_player(screen, Tilemap, "damage", Player_Direction, Player_Position, Charakter)
+            print(Charakter.get_status_temp('health'))
+            print('attacked')
         elif act == "eat":
             currenttile=Tilemap.getTilemap()[self.Position[1]
             ][self.Position[0]]
@@ -286,6 +266,99 @@ class cls_Enemy(object):
 
     def add_Verhalten(self, Verhalten):
         self.Verhalten.append(Verhalten)
+
+    def damage_and_death_player(self, screen, Tilemap, damage_or_death, player_direction, player_position, Charakter):
+        Player_Environment = Tilemap.getEnvironment()[player_position[1]][player_position[0]]
+        Player_Tile = Tilemap.getTilemap()[player_position[1]][player_position[0]]
+
+        mainClock = pygame.time.Clock()
+
+        # a x b pixels of spritesheet
+        a = 576 / 12
+        b = 384 / 8
+        if (isinstance(Charakter.get_type(), character.animaltypes.clsBaer)):
+            player_Sprite = self.spritesheets['bearsprites']
+            if (isinstance(Charakter.get_subtype(), character.animalsubtypes.White)):
+                amod = 3
+                bmod = 0
+            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Grey)):
+                amod = 3
+                bmod = 4
+            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Brown)):
+                amod = 0
+                bmod = 4
+            if player_direction == "right":
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
+            elif player_direction == "left":
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
+            elif player_direction == "up":
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
+            else:
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
+        elif (isinstance(Charakter.get_type(), character.animaltypes.clsRobbe)):
+            player_Sprite = self.spritesheets['sealsprites']
+            if (isinstance(Charakter.get_subtype(), character.animalsubtypes.White)):
+                amod = 0
+                bmod = 0
+            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Grey)):
+                player_Sprite = self.spritesheets['sealsprites2']
+                amod = 0
+                bmod = 0
+            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Brown)):
+                amod = 0
+                bmod = 4
+            if player_direction == "right":
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
+            elif player_direction == "left":
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
+            elif player_direction == "up":
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
+            else:
+                player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
+
+        player_Icon = pygame.transform.scale(player_Icon, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+        tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
+        if Player_Tile == Weltkarte.GRASSLAND:
+            second = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0, 0, 0))
+        elif Player_Tile == Weltkarte.STONE:
+            second = tiles_Sprite.image_at((33, 8577, 30, 30), colorkey=(0, 0, 0))
+        elif Player_Tile == Weltkarte.DIRT:
+            second = tiles_Sprite.image_at((15, 2545, 64, 64), colorkey=(0, 0, 0))
+        elif Player_Tile == Weltkarte.WATER:
+            second = tiles_Sprite.image_at((26, 4701, 45, 45), colorkey=(0, 0, 0))
+        second = pygame.transform.scale(
+            second, (Weltkarte.TILESIZE, Weltkarte.TILESIZE))
+
+        third = Weltkarte.environment[Player_Environment]
+
+        deathAnim = pyganim.PygAnimation([(player_Icon, 10), (second, 10), (third, 10)])
+        i = 0
+        if damage_or_death == "damage":
+            m = 10
+        elif damage_or_death == "death":
+            m = 40
+
+        deathAnim.play()
+
+        for i in range(m):
+            deathAnim.blit(
+                screen, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
+            pygame.display.update()
+            mainClock.tick(30)
+            i -= 1
+
+        if damage_or_death == "death":
+            screen.blit(
+                second, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
+            screen.blit(
+                third, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
+        elif damage_or_death == "damage":
+            screen.blit(
+                third, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
+            screen.blit(
+                player_Icon, (player_position[0] * Weltkarte.TILESIZE, player_position[1] * Weltkarte.TILESIZE))
+
 
     def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art, enemy_environment=Weltkarte.NOTHING):
         mainClock = pygame.time.Clock()
@@ -331,11 +404,15 @@ class cls_Enemy(object):
         if damage_or_death == "death":
             screen.blit(
                 second, (self.Position[0]*Weltkarte.TILESIZE, self.Position[1]*Weltkarte.TILESIZE))
+            screen.blit(
+                third, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
         elif damage_or_death == "damage":
             screen.blit(
+                third, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
+            screen.blit(
                 first, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
-        screen.blit(
-            third, (self.Position[0] * Weltkarte.TILESIZE, self.Position[1] * Weltkarte.TILESIZE))
+
+
 
     def generate_Enemy(self, Tilemap):
         rand_int = Wahrscheinlichkeiten.wuerfel(10)

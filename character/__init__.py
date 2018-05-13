@@ -8,7 +8,7 @@ from . import animaltypes
 class Character:
     abilities = abilities.CharacterAbilities()
 
-    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=0, exp=10, skills=[], status=[], temp_status=[]):
+    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=0, exp=10, skills=[], status=[], temp_status=[], stealth=False):
         self.name = name
         self.animaltype = animaltype
         self.animalsubtype = animalsubtype
@@ -18,6 +18,7 @@ class Character:
         self.update_skills(self.skills)
         self.status = status
         self.temp_status = temp_status
+        self.stealth=stealth
 
     def get_status_max(self, input_string):
         # Gesundheit
@@ -29,6 +30,12 @@ class Character:
         # Magie
         elif input_string == "magic":
             return self.status[2]
+
+    def set_stealth_mode(self, Bool):
+        self.stealth=Bool
+
+    def get_stealth_mode(self):
+        return self.stealth
 
     def get_status_temp(self, input_string):
         if input_string == 'health':

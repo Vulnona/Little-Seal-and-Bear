@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Eud
+  - Name: Uzogo
   - Tierart: Bär
   - Farbe: Braun
 

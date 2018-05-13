@@ -165,6 +165,9 @@ class Spiel(object):
             time_begin = pygame.time.get_ticks()
             milli_seconds_to_pass = 40000
 
+            ######
+            self.Charakter.set_skill(character.skills.StealthCharacterSkill)
+
             while True:
                 pygame.display.update()
                 for row in range(Weltkarte.MAPHEIGHT):
@@ -314,6 +317,9 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont = True
+                                if self.Charakter.get_status_temp('magic') <= 0:
+                                    if self.Charakter.get_stealth_mode()==True:
+                                        self.Charakter.set_stealth_mode(False)
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                    ][player_Icon_Position[0]+1]
                                 nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
@@ -351,6 +357,8 @@ class Spiel(object):
                                                 cont = False
                                                 break
                                         if cont:
+                                            for enemy in Enemies.get_Enemies_Liste():
+                                                enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position, self.Charakter)
                                             if(isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                                 images = player_Sprite.images_at(
                                                     rects=sprites_bear_right, colorkey=[0, 0, 0])
@@ -374,6 +382,9 @@ class Spiel(object):
                                                 if player_Icon_Position[0]*Weltkarte.TILESIZE + walk > (player_Icon_Position[0]+1)*Weltkarte.TILESIZE:
                                                     proceed = False
                                             direction = "right"
+                                            if self.Charakter.get_stealth_mode() == True:
+                                                self.Charakter.change_status_temp(
+                                                    'magic', '-')
                                             player_Icon_Position[0] += 1
                                             self.Charakter.change_status_temp(
                                                 'endu', '-')
@@ -387,6 +398,9 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont = True
+                                if self.Charakter.get_status_temp('magic') <= 0:
+                                    if self.Charakter.get_stealth_mode()==True:
+                                        self.Charakter.set_stealth_mode(False)
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                    ][player_Icon_Position[0] - 1]
                                 nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
@@ -422,6 +436,9 @@ class Spiel(object):
                                                     cont = False
                                                     break
                                             if cont:
+                                                for enemy in Enemies.get_Enemies_Liste():
+                                                    enemy.Agieren(self.window, NewTilemap, direction,
+                                                                  player_Icon_Position, self.Charakter)
                                                 if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                                     images = player_Sprite.images_at(
                                                         rects=sprites_bear_left, colorkey=[0, 0, 0])
@@ -448,6 +465,9 @@ class Spiel(object):
                                                             player_Icon_Position[0] - 1) * Weltkarte.TILESIZE:
                                                         proceed = False
                                                 direction = "left"
+                                                if self.Charakter.get_stealth_mode() == True:
+                                                    self.Charakter.change_status_temp(
+                                                        'magic', '-')
                                                 player_Icon_Position[0] -= 1
                                                 self.Charakter.change_status_temp(
                                                     'endu', '-')
@@ -463,6 +483,9 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont = True
+                                if self.Charakter.get_status_temp('magic') <= 0:
+                                    if self.Charakter.get_stealth_mode()==True:
+                                        self.Charakter.set_stealth_mode(False)
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]+1
                                                                    ][player_Icon_Position[0]]
                                 nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1] + 1
@@ -485,6 +508,9 @@ class Spiel(object):
                                         cont = False
                                         break
                                 if cont:
+                                    for enemy in Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                                      self.Charakter)
                                     if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                         images = player_Sprite.images_at(
                                             rects=sprites_bear_down, colorkey=[0, 0, 0])
@@ -510,6 +536,9 @@ class Spiel(object):
                                                 player_Icon_Position[1] + 1) * Weltkarte.TILESIZE:
                                             proceed = False
                                     direction = "down"
+                                    if self.Charakter.get_stealth_mode() == True:
+                                        self.Charakter.change_status_temp(
+                                            'magic', '-')
                                     player_Icon_Position[1] += 1
                                     self.Charakter.change_status_temp(
                                         'endu', '-')
@@ -523,6 +552,9 @@ class Spiel(object):
                                 print('Keine Energie mehr verfügbar')
                             else:
                                 cont = True
+                                if self.Charakter.get_status_temp('magic') <= 0:
+                                    if self.Charakter.get_stealth_mode()==True:
+                                        self.Charakter.set_stealth_mode(False)
                                 nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]-1
                                                                    ][player_Icon_Position[0]]
                                 currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
@@ -557,6 +589,9 @@ class Spiel(object):
                                             else:
                                                 cont = False
                                     if cont:
+                                        for enemy in Enemies.get_Enemies_Liste():
+                                            enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                                          self.Charakter)
                                         if (isinstance(self.Charakter.get_type(), character.animaltypes.clsBaer)):
                                             images = player_Sprite.images_at(
                                                 rects=sprites_bear_up, colorkey=[0, 0, 0])
@@ -582,6 +617,9 @@ class Spiel(object):
                                                     player_Icon_Position[1] - 1) * Weltkarte.TILESIZE:
                                                 proceed = False
                                         direction = "up"
+                                        if self.Charakter.get_stealth_mode() == True:
+                                            self.Charakter.change_status_temp(
+                                                'magic', '-')
                                         player_Icon_Position[1] -= 1
                                         self.Charakter.change_status_temp(
                                             'endu', '-')
@@ -607,20 +645,32 @@ class Spiel(object):
                                     Weltkarte.inventory[currentEnvironment] += 1
                                     NewTilemap.getEnvironment()[player_Icon_Position[1]
                                     ][player_Icon_Position[0]] = Weltkarte.DEADGRASS
+                                    for enemy in Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                                      self.Charakter)
                                 # DIRT ohne Gras, ohne totes Gras: wird wieder Grassland
                                 if currentEnvironment != Weltkarte.DEADGRASS and hasenv == False:
                                     NewTilemap.getTilemap()[player_Icon_Position[1]
                                     ][player_Icon_Position[0]] = Weltkarte.GRASSLAND
                                     self.Charakter.change_status_temp(
                                         'magic', '-')
+                                    for enemy in Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                                      self.Charakter)
                                 # DIRT mit totem Gras: totes Gras wird niedriges Gras
                                 elif currentEnvironment == Weltkarte.DEADGRASS:
                                     NewTilemap.getEnvironment()[player_Icon_Position[1]
                                     ][player_Icon_Position[0]] = Weltkarte.LOWGRASS
                                     self.Charakter.change_status_temp(
                                         'magic', '-')
+                                    for enemy in Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                                      self.Charakter)
                                 break
                             elif currentTile == Weltkarte.GRASSLAND:
+                                for enemy in Enemies.get_Enemies_Liste():
+                                    enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                                  self.Charakter)
                                 if hasenv:
                                     # Fähigkeit Grasschlitzer: Chance auf doppelte Ressourcen
                                     if self.Charakter.has_skill(character.skills.GrasMovementCharacterSkill):
@@ -716,8 +766,15 @@ class Spiel(object):
                                             mousepos = event.pos
                                             if stealthSkill:
                                                 if stealthbubble.collidepoint(mousepos):
-                                                    self.Charakter.change_status_temp(
-                                                        'magic', '-')
+                                                    if self.Charakter.get_stealth_mode()==False:
+                                                        self.Charakter.change_status_temp(
+                                                            'magic', '-')
+                                                        self.Charakter.set_stealth_mode(True)
+                                                    else:
+                                                        self.Charakter.set_stealth_mode(False)
+                                                    for enemy in Enemies.get_Enemies_Liste():
+                                                        enemy.Agieren(self.window, NewTilemap, direction,
+                                                                      player_Icon_Position, self.Charakter)
                                             if healSkill:
                                                 if healbubble.collidepoint(mousepos):
                                                     self.Charakter.change_status_temp(
@@ -726,8 +783,14 @@ class Spiel(object):
                                                         'endurance', '+')
                                                     self.Charakter.change_status_temp(
                                                         'health', '+')
+                                                    for enemy in Enemies.get_Enemies_Liste():
+                                                        enemy.Agieren(self.window, NewTilemap, direction,
+                                                                      player_Icon_Position, self.Charakter)
                                             if plantingSkill:
                                                 if plantbubble.collidepoint(mousepos):
+                                                    for enemy in Enemies.get_Enemies_Liste():
+                                                        enemy.Agieren(self.window, NewTilemap, direction,
+                                                                      player_Icon_Position, self.Charakter)
                                                     currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                                           ][player_Icon_Position[0]]
                                                     currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
@@ -763,6 +826,9 @@ class Spiel(object):
                                                 if saverbubble.collidepoint(mousepos):
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
+                                                    for enemy in Enemies.get_Enemies_Liste():
+                                                        enemy.Agieren(self.window, NewTilemap, direction,
+                                                                      player_Icon_Position, self.Charakter)
                                     elif event.type == KEYDOWN:
                                         if event.key == K_m:
                                             wait_for_click = False
@@ -792,7 +858,6 @@ class Spiel(object):
                                     if element == an_enemy.Position:
                                         active = True
                                         Enemies_in_range.append(an_enemy)
-
 
                             wait_for_click = True
                             while wait_for_click:
@@ -827,7 +892,9 @@ class Spiel(object):
                                                         if not Enemies_in_range:
                                                             active = False
                                                         break
-
+                                                for enemy in Enemies.get_Enemies_Liste():
+                                                    enemy.Agieren(self.window, NewTilemap, direction,
+                                                                  player_Icon_Position, self.Charakter)
                                             if biteSkill:
                                                 if bitebubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
@@ -852,6 +919,9 @@ class Spiel(object):
                                                             break
                                                     self.Charakter.change_status_temp(
                                                         'magic', '-')
+                                                    for enemy in Enemies.get_Enemies_Liste():
+                                                        enemy.Agieren(self.window, NewTilemap, direction,
+                                                                      player_Icon_Position, self.Charakter)
                                             if tailSkill:
                                                 if tailbubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
@@ -876,6 +946,9 @@ class Spiel(object):
 
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
+                                                    for enemy in Enemies.get_Enemies_Liste():
+                                                        enemy.Agieren(self.window, NewTilemap, direction,
+                                                                      player_Icon_Position, self.Charakter)
                                             if earthSkill:
                                                 if earthbubble.collidepoint(mousepos):
                                                     tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
@@ -949,6 +1022,9 @@ class Spiel(object):
                                                     'endu', '-')
                                                 self.Charakter.change_status_temp(
                                                     'health', '-')
+                                                for enemy in Enemies.get_Enemies_Liste():
+                                                    enemy.Agieren(self.window, NewTilemap, direction,
+                                                                  player_Icon_Position, self.Charakter)
 
                                     elif event.type == KEYDOWN:
                                         if event.key == K_f:
@@ -970,6 +1046,15 @@ class Spiel(object):
                                                                     2, "earthquake", active)
                                         earthbubble = bubble.draw_bubble()
                         elif (event.key == K_e):
+                            currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                            ][player_Icon_Position[0]]
+                            if currentEnvironment==Weltkarte.FRUIT1 or currentEnvironment==Weltkarte.FRUIT2:
+                                NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                ][player_Icon_Position[0]]=Weltkarte.NOTHING
+                                for i in range (10):
+                                    self.Charakter.change_status_temp('magic', '+')
+                                    self.Charakter.change_status_temp('health', '+')
+
                             # STAR = pygame.draw.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
                             # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.py.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.py.TILESIZE))
                             # pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
@@ -977,8 +1062,6 @@ class Spiel(object):
                             #print(self.Charakter.get_status_temp('health'))
                             #print(self.Charakter.get_status_max('endu'))
                             #print(self.Charakter.get_status_temp('endu'))
-                            for enemy in Enemies.get_Enemies_Liste():
-                                enemy.Agieren(NewTilemap, player_Icon_Position)
 
 
 NeuesSpiel = Spiel(MODE, Charakter)
