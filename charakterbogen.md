@@ -1,15 +1,15 @@
 ## Charakter Bogen
 
-  - Name: Ogreau
+  - Name: Visoiss
   - Tierart: Robbe
-  - Farbe: Grau
+  - Farbe: Weiss
 
 ## Statuswerte
 
-  - Stärke: 0
+  - Stärke: 3
   - Ausdauer: 0
-  - Geschicklichkeit: 5
-  - Intelligenz: 3
+  - Geschicklichkeit: 0
+  - Intelligenz: 0
 
 ## Fähigkeiten
 
