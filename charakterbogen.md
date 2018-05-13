@@ -1,12 +1,12 @@
 ## Charakter Bogen
 
-  - Name: Visoiss
+  - Name: Aog
   - Tierart: Robbe
-  - Farbe: Weiss
+  - Farbe: Grau
 
 ## Statuswerte
 
-  - Stärke: 3
+  - Stärke: 0
   - Ausdauer: 0
   - Geschicklichkeit: 0
   - Intelligenz: 0

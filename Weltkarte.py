@@ -63,6 +63,7 @@ FRUIT2 = 45
 fruit_Sprite = Helfer.spritesheet('fruits.png')
 tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
 borders_Sprite = Helfer.spritesheet('borders.png')
+craft_Sprites = Helfer.spritesheet('flowers.png')
 grass_tile = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0,0,0))
 grass_tile = pygame.transform.scale(grass_tile, (40, 40))
 stone_tile = tiles_Sprite.image_at((33, 8577, 30, 30), colorkey=(0,0,0))
@@ -212,15 +213,13 @@ lowgrasssnippet = pygame.transform.scale(lowgrasssnippet,(TILESIZE,TILESIZE))
 highgrasssnippet = high_grass.convert()
 highgrasssnippet = pygame.transform.scale(highgrasssnippet,(TILESIZE,TILESIZE))
 
-wiesensnacksnippet = pygame.image.load('./resources/images/ressourcen/wiesensnack.png')
-wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet, (
-Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
-blättermischungsnippet = pygame.image.load('./resources/images/ressourcen/blattermischung.png')
-blättermischungsnippet = pygame.transform.scale(blättermischungsnippet, (
-Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
-pusteblumendessertsnippet = pygame.image.load('./resources/images/ressourcen/dandelions.png')
-pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (
-Koordinaten.clsKoordinaten.SNACKSIZEX, Koordinaten.clsKoordinaten.SNACKSIZEY))
+
+wiesensnacksnippet = craft_Sprites.image_at((33, 135, 35, 30), colorkey=(0,0,0))
+wiesensnacksnippet = pygame.transform.scale(wiesensnacksnippet, (TILESIZE,TILESIZE))
+blättermischungsnippet = craft_Sprites.image_at((254, 129, 35, 33), colorkey=(0,0,0))
+blättermischungsnippet = pygame.transform.scale(blättermischungsnippet, (TILESIZE,TILESIZE))
+pusteblumendessertsnippet = craft_Sprites.image_at((223, 128, 34, 31), colorkey=(0,0,0))
+pusteblumendessertsnippet = pygame.transform.scale(pusteblumendessertsnippet, (TILESIZE, TILESIZE))
 
 snippets=(grasssnippet,lowgrasssnippet,highgrasssnippet,wiesensnacksnippet,blättermischungsnippet,pusteblumendessertsnippet)
 
@@ -267,10 +266,11 @@ feedcontrols = {
 
 #recipes for crafting
 craftrecipes={
-    LOWGRASS : {GRASSLAND : 5},
-    WIESENSNACK : {LOWGRASS : 4},
-    BLÄTTERMISCHUNG: {MOREGRASS : 2, WIESENSNACK: 1},
-    PUSTEBLUMENDESSERT: {GRASSLAND : 4, MOREGRASS : 2, BLÄTTERMISCHUNG : 1}
+    #LOWGRASS : {GRASSLAND : 5},
+    #MOREGRASS: {GRASSLAND : 2, LOWGRASS : 3},
+    WIESENSNACK : {GRASSLAND : 4},
+    BLÄTTERMISCHUNG: {LOWGRASS : 2, WIESENSNACK: 1},
+    PUSTEBLUMENDESSERT: {GRASSLAND : 1, MOREGRASS : 2, BLÄTTERMISCHUNG : 1}
 }
 
 class clsInventory(object):

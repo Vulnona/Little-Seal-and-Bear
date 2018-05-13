@@ -308,13 +308,9 @@ class PygButton(object):
         pass # This class is meant to be overridden.
 
     def setSurfaces(self, normalSurface, downSurface=None, highlightSurface=None):
-
         """Switch the button to a custom image type of button (rather than a
-
         text button). You can specify either a pygame.Surface object or a
-
         string of a filename to load for each of the three button appearance
-
         states."""
 
         if downSurface is None:

@@ -68,10 +68,13 @@ class Menu(object):
             'normal': Helfer.load_font('celtic_gaelige.ttf', 19),
             'custom': Helfer.load_font('customfont.ttf', 19)
         }
+        self.images = {
+            'standard': Helfer.load_image('unknown.png'),
+            'skills': {skill.id: Helfer.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL}
+        }
     def interaktionen(self, charakter):
-        #BENÖTIGT ÜBERARBEITUNG
         textbackground = pygame.Rect(80, 100, 100, 600)# textbackground: background for all craftable values, and collectable values
-        actuallevel = self.fonts['custom'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
+        actuallevel = self.fonts['normal'].render("Level: " + str(charakter.get_level()), 0, Farben.clsFarben.WHITE)
         exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
                                     Koordinaten.clsKoordinaten.BUTTONPOSY,
                                     Koordinaten.clsKoordinaten.BUTTONWIDTH,
@@ -79,8 +82,33 @@ class Menu(object):
                                    'Zurück',
                                    bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
         exitButton.font = self.fonts['normal']
-        craftlabel = self.fonts['custom'].render("Craftables: ", 0, Farben.clsFarben.WHITE)
-        craftbuttony = 200
+
+        Position=157
+        low_grass = pygame.sprite.Sprite()
+        low_grass.image = Weltkarte.snippets[1].convert_alpha()
+        low_grass.rect = low_grass.image.get_rect()
+        low_grass.rect.center = (134, Position)
+        Position+=45
+        high_grass = pygame.sprite.Sprite()
+        high_grass.image = Weltkarte.snippets[2].convert_alpha()
+        high_grass.rect = high_grass.image.get_rect()
+        high_grass.rect.center = (134, Position)
+        Position += 45
+        wiesen = pygame.sprite.Sprite()
+        wiesen.image = Weltkarte.snippets[3].convert_alpha()
+        wiesen.rect = wiesen.image.get_rect()
+        wiesen.rect.center = (134, Position)
+        Position += 45
+        blaetter = pygame.sprite.Sprite()
+        blaetter.image = Weltkarte.snippets[4].convert_alpha()
+        blaetter.rect = blaetter.image.get_rect()
+        blaetter.rect.center = (134, Position)
+        Position += 45
+        blumen = pygame.sprite.Sprite()
+        blumen.image = Weltkarte.snippets[5].convert_alpha()
+        blumen.rect = wiesen.image.get_rect()
+        blumen.rect.center = (134, Position)
+
         proceed=True
         while proceed:
             pygame.display.update()
@@ -88,6 +116,18 @@ class Menu(object):
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+                    if low_grass.rect.collidepoint(mouse_pos):
+                        print('clicked')
+                    if high_grass.rect.collidepoint(mouse_pos):
+                        print('clicked')
+                    if wiesen.rect.collidepoint(mouse_pos):
+                        print('clicked')
+                    if blaetter.rect.collidepoint(mouse_pos):
+                        print('clicked')
+                    if blumen.rect.collidepoint(mouse_pos):
+                        print('clicked')
                 events = exitButton.handleEvent(event)
                 if 'click' in events:
                     proceed = False
@@ -97,59 +137,62 @@ class Menu(object):
                     self.screen.blit(actuallevel,
                                      (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
                     exitButton.draw(self.screen)
-                    self.screen.blit(craftlabel, (
-                    Koordinaten.clsKoordinaten.INVCRAFTPOSX, Koordinaten.clsKoordinaten.INVCRAFTPOSY))
 
-                    Weltkarte.clsTileMap.drawSnippets(self.screen)
+                    self.screen.blit(low_grass.image, low_grass.rect)
+                    self.screen.blit(high_grass.image, high_grass.rect)
+                    self.screen.blit(wiesen.image, wiesen.rect)
+                    self.screen.blit(blaetter.image, blaetter.rect)
+                    self.screen.blit(blumen.image, blumen.rect)
+
 
                     #liste: buttons to be pressed for crafting and feeding
-                    liste=[0,0,0,1,2,3]
-                    listezwei=[0,0,0,7,8,9]
-                    placePosition = Koordinaten.clsKoordinaten.INVPLACEPOS
-                    for item in Weltkarte.craftables:
+                    #liste=[0,0,0,1,2,3]
+                    #listezwei=[0,0,0,7,8,9]
+                    #placePosition = Koordinaten.clsKoordinaten.INVPLACEPOS
+                    #for item in Weltkarte.craftables:
                         #displaying craft snippets
-                        self.screen.blit(Weltkarte.snippets[item], (120, placePosition))
-                        placePosition += 60
-                        textObjekt = self.fonts['custom'].render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,
-                                                         Farben.clsFarben.BLACK)
-                        self.screen.blit(textObjekt, (100, placePosition - 40))
-                        placePosition += 40
-                        craftinglabel = self.fonts['custom'].render("Herstellen: Drücke " + str(liste[item]), False, Farben.clsFarben.GOLD)
-                        feedlabel = self.fonts['custom'].render("Füttern:  Drücke " + str(listezwei[item]), False, Farben.clsFarben.GOLD)
-                        self.screen.blit(craftinglabel, (105, craftbuttony-14))
-                        self.screen.blit(feedlabel, (105, craftbuttony-1))
-                        craftbuttony+=100
+                     #   self.screen.blit(Weltkarte.snippets[item], (70, placePosition))
+                      #  placePosition += 50
+                       # textObjekt = self.fonts['normal'].render(str(Weltkarte.inventory.get(item)), True, Farben.clsFarben.WHITE,
+                        #                                 Farben.clsFarben.BLACK)
+                        #self.screen.blit(textObjekt, (115, placePosition - 50))
+                        #placePosition += 50
+                        #craftinglabel = self.fonts['custom'].render("Herstellen: Drücke " + str(liste[item]), False, Farben.clsFarben.GOLD)
+                        #feedlabel = self.fonts['custom'].render("Füttern:  Drücke " + str(listezwei[item]), False, Farben.clsFarben.GOLD)
+                        #self.screen.blit(craftinglabel, (105, craftbuttony-14))
+                        #self.screen.blit(feedlabel, (105, craftbuttony-1))
+                        #craftbuttony+=100
 
-                    if event.type == KEYDOWN:
-                        for key in Weltkarte.feedcontrols:
-                            if (event.key == Weltkarte.feedcontrols[key]):
+                    #if event.type == KEYDOWN:
+                        #for key in Weltkarte.feedcontrols:
+                        #    if (event.key == Weltkarte.feedcontrols[key]):
                                 #print(Weltkarte.py.feedcontrols[key])
                                 #print(event.key)
                                 #print(Weltkarte.py.inventory[key])
-                                leveltoohigh=False
-                                if (event.key == 55 and int(character.Character.get_level(charakter))>=4):
-                                    leveltoohigh=True
-                                    print("Level zu hoch für Wiesensnack")
-                                if (event.key == 56 and int(character.Character.get_level(charakter))>=8):
-                                    leveltoohigh=True
-                                    print("Level zu hoch für Blättermischung")
-                                if (Weltkarte.inventory[key]>=1 and leveltoohigh==False):
-                                    Weltkarte.inventory[key]-=1
-                                    print(character.Character.get_level(charakter))
-                                    character.Character.LevelUp(charakter)
-                                    print(character.Character.get_level(charakter))
-                        for key in Weltkarte.controls:
-                            if (event.key == Weltkarte.controls[key]):
-                                if key in Weltkarte.craftrecipes:
-                                    canBeMade = True
-                                    for i in Weltkarte.craftrecipes[key]:
-                                        if Weltkarte.craftrecipes[key][i] > Weltkarte.inventory[i]:
-                                            canBeMade = False
-                                            break
-                                    if canBeMade == True:
-                                        for i in Weltkarte.craftrecipes[key]:
-                                            Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
-                                        Weltkarte.inventory[key]+=1
+                         #       leveltoohigh=False
+                          #      if (event.key == 55 and int(character.Character.get_level(charakter))>=4):
+                           #         leveltoohigh=True
+                            #        print("Level zu hoch für Wiesensnack")
+                             #   if (event.key == 56 and int(character.Character.get_level(charakter))>=8):
+                              #      leveltoohigh=True
+                               #     print("Level zu hoch für Blättermischung")
+                                #if (Weltkarte.inventory[key]>=1 and leveltoohigh==False):
+                                 #   Weltkarte.inventory[key]-=1
+                                  #  print(character.Character.get_level(charakter))
+                                   # character.Character.LevelUp(charakter)
+                                    #print(character.Character.get_level(charakter))
+                        #for key in Weltkarte.controls:
+                        #    if (event.key == Weltkarte.controls[key]):
+                        #        if key in Weltkarte.craftrecipes:
+                        #            canBeMade = True
+                        #            for i in Weltkarte.craftrecipes[key]:
+                        #                if Weltkarte.craftrecipes[key][i] > Weltkarte.inventory[i]:
+                         #                   canBeMade = False
+                          #                  break
+                          #          if canBeMade == True:
+                           #             for i in Weltkarte.craftrecipes[key]:
+                            #                Weltkarte.inventory[i] -= Weltkarte.craftrecipes[key][i]
+                             #           Weltkarte.inventory[key]+=1
 
     def draw(self, charakter):
         BG = pygame.Rect(55, 75, 500, 500) #BACKGROUND

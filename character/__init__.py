@@ -154,6 +154,10 @@ class Character:
                 return getattr(self.abilities, ability.id).value
 
     def LevelUp(self):
+        self.temp_status=self.status
+        self.exp+=1
+        if self.level>6:
+            self.exp+=1
         self.level = self.level+1
 
     def randomize_name(self):
