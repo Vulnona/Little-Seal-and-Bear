@@ -160,15 +160,13 @@ class Menu(object):
         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, Background)
         Position=250
         for y in Weltkarte.craftrecipes[item]:
-            print(y, ':', Weltkarte.craftrecipes[item][y])
-            print(Weltkarte.craftrecipes[item][y])
             snippetObjekt = Weltkarte.snippets[y]
-            self.screen.blit(snippetObjekt, (Position, 400))
+            self.screen.blit(snippetObjekt, (Position, 405))
             textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
                 Weltkarte.craftrecipes[item][y]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
             Position+=50
             self.screen.blit(
-                textObjekt, (Position, 400))
+                textObjekt, (Position, 405))
             Position+=30
 
         pygame.display.update()
