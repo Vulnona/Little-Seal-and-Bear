@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Foinaim
+  - Name: Che
   - Tierart: Robbe
-  - Farbe: Grau
+  - Farbe: Weiss
 
 ## Statuswerte
 

@@ -93,6 +93,11 @@ class Spiel(object):
                 'yes': Helfer.load_image('buttons/yes.png'),
                 'refresh': Helfer.load_image('buttons/refresh.png'),
                 'exit': Helfer.load_image('buttons/exit.png'),
+            },
+            'stats': {
+                'health': Helfer.load_image('stats/health.png'),
+                'endurance': Helfer.load_image('stats/endurance.png'),
+                'magic': Helfer.load_image('stats/magic.png')
             }
         }
 
@@ -308,6 +313,34 @@ class Spiel(object):
                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                     an_enemy = Enemies.get_Enemy(enemy)
                     an_enemy.show_Icon(self.window)
+
+                #Character Stats Showing
+                health=self.images['stats']['health']
+                health=pygame.transform.scale(health, (15,15))
+                endurance=self.images['stats']['endurance']
+                endurance=pygame.transform.scale(endurance, (15,15))
+                magic=self.images['stats']['magic']
+                magic=pygame.transform.scale(magic, (15,15))
+                stats=(health, endurance, magic)
+                stats_string=("health","endu","magic")
+                placePosition=400
+                for stat in range(3):
+                    self.window.blit(
+                        stats[stat], (0, placePosition))
+                    #placePosition += 10
+                    textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
+                        self.Charakter.get_status_temp(stats_string[stat])), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+                    abgrenzungObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str("/"), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+                    textObjekt2 = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
+                        self.Charakter.get_status_max(stats_string[stat])), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+                    self.window.blit(
+                        textObjekt, (15, placePosition))
+                    self.window.blit(
+                        abgrenzungObjekt, (30, placePosition))
+                    self.window.blit(
+                        textObjekt2, (35, placePosition))
+
+                    placePosition += 15
 
                 # Snippets Showing
                 Weltkarte.clsTileMap.drawSnippets(self.window)
