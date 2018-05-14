@@ -53,7 +53,7 @@ class Star(object):
 
 # six inverse
 # pointlist = [(45, 80), (25, 20), (80, 60), (20, 60), (65, 20)]
-# pygame.draw.lines(screen, darkred, 1, pointlist, 3)
+# pygame.draw_MainMenu.lines(screen, darkred, 1, pointlist, 3)
 
 
 # pygame.display.update()

@@ -230,6 +230,8 @@ class cls_Enemy(object):
             pass
         elif act == "stay":
             pass
+        elif act == "flee":
+            pass
         elif act == "attack":
             amount=1
             if self.Art=="Vogel":
@@ -273,6 +275,9 @@ class cls_Enemy(object):
 
     def add_Verhalten(self, Verhalten):
         self.Verhalten.append(Verhalten)
+
+    def delete_Verhalten(self, Verhalten):
+        self.Verhalten.remove(Verhalten)
 
     def damage_and_death_player(self, screen, Tilemap, damage_or_death, player_direction, player_position, Charakter):
 

@@ -371,7 +371,7 @@ class Spiel(object):
                     if 'click' in events:
                         Charaktermenu = Interaktion.Menu(
                             self.window, self.Charakter)
-                        Charaktermenu.draw(self.Charakter)
+                        Charaktermenu.draw_MainMenu(self.Charakter)
 
                     if event.type == KEYDOWN:
                         if (event.key == K_ESCAPE):
@@ -1165,9 +1165,9 @@ class Spiel(object):
                                     self.Charakter.change_status_temp('magic', '+')
                                     self.Charakter.change_status_temp('health', '+')
                                 self.stats_showing()
-                            # STAR = pygame.draw.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
+                            # STAR = pygame.draw_MainMenu.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
                             # self.window.blit(STAR, (CharakterForm.POSITION[0]*Weltkarte.py.TILESIZE,CharakterForm.POSITION[1]*Weltkarte.py.TILESIZE))
-                            # pygame.draw.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
+                            # pygame.draw_MainMenu.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
                             #print(self.Charakter.get_status_max('health'))
                             #print(self.Charakter.get_status_temp('health'))
                             #print(self.Charakter.get_status_max('endu'))

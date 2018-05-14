@@ -1,16 +1,16 @@
 ## Charakter Bogen
 
-  - Name: Ob
+  - Name: Ar
   - Tierart: Robbe
-  - Farbe: Weiss
+  - Farbe: Braun
 
 ## Statuswerte
 
   - Stärke: 0
   - Ausdauer: 0
-  - Geschicklichkeit: 0
-  - Intelligenz: 0
+  - Geschicklichkeit: 4
+  - Intelligenz: 5
 
 ## Fähigkeiten
 
-Keine Fähigkeiten verfügbar.
+  - Schleichen

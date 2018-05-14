@@ -8,17 +8,24 @@ from . import animaltypes
 class Character:
     abilities = abilities.CharacterAbilities()
 
-    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=0, exp=10, skills=[], status=[], temp_status=[], stealth=False):
+    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=0, build_points=10, skills=[], status=[], temp_status=[], erfahrung=0, stealth=False):
         self.name = name
         self.animaltype = animaltype
         self.animalsubtype = animalsubtype
         self.level = level
-        self.exp = exp
+        self.build_points = build_points
         self.skills = skills
         self.update_skills(self.skills)
         self.status = status
         self.temp_status = temp_status
+        self.erfahrung = erfahrung
         self.stealth=stealth
+
+    def get_experience(self):
+        return self.erfahrung
+
+    def gain_experience(self, amount):
+        self.erfahrung += amount
 
     def get_status_max(self, input_string):
         # Gesundheit
@@ -124,13 +131,13 @@ class Character:
         return self.animalsubtype
 
     def get_exp(self):
-        return self.exp
+        return self.build_points
 
     def gain_exp(self, points):
-        self.exp += points
+        self.build_points += points
 
     def lower_exp(self, points):
-        self.exp -= points
+        self.build_points -= points
 
     def spend_ability_points(self, input_ability):
         for ability in abilities.ALL:
@@ -155,9 +162,9 @@ class Character:
 
     def LevelUp(self):
         self.temp_status=self.status
-        self.exp+=1
+        self.build_points+=1
         if self.level>6:
-            self.exp+=1
+            self.build_points+=1
         self.level = self.level+1
 
     def randomize_name(self):

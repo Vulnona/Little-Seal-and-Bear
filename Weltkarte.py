@@ -248,20 +248,6 @@ inventory={
     PUSTEBLUMENDESSERT:0
 }
 
-#controls for crafting
-#controls = {
-#    WIESENSNACK:49,
-#    BLÄTTERMISCHUNG:50,
-#    PUSTEBLUMENDESSERT:51
-#}
-
-#controls for feeding
-#feedcontrols = {
-#    WIESENSNACK:55,
-#    BLÄTTERMISCHUNG:56,
-#    PUSTEBLUMENDESSERT:57
-#}
-
 #recipes for crafting
 craftrecipes={
     LOWGRASS : {GRASSLAND : 5},
@@ -269,6 +255,15 @@ craftrecipes={
     WIESENSNACK : {MOREGRASS : 2},
     BLÄTTERMISCHUNG: {LOWGRASS : 2, WIESENSNACK: 1},
     PUSTEBLUMENDESSERT: {GRASSLAND : 1, MOREGRASS : 2, BLÄTTERMISCHUNG : 1}
+}
+
+#exp per component
+experience_crafts={
+    LOWGRASS: 50,
+    MOREGRASS: 150,
+    WIESENSNACK: 300,
+    BLÄTTERMISCHUNG: 450,
+    PUSTEBLUMENDESSERT: 600
 }
 
 class clsInventory(object):

@@ -173,7 +173,7 @@ class PygButton(object):
             self.surfaceNormal = pygame.Surface(self._rect.size)
             self.surfaceDown = pygame.Surface(self._rect.size)
             self.surfaceHighlight = pygame.Surface(self._rect.size)
-            self._update() # draw the initial button images
+            self._update() # draw_MainMenu the initial button images
         else:
             # create the surfaces for a custom image button
             self.setSurfaces(normal, down, highlight)
@@ -264,13 +264,13 @@ class PygButton(object):
         self.surfaceNormal.fill(self.bgcolor)
         self.surfaceDown.fill(self.bgcolor)
         self.surfaceHighlight.fill(self.bgcolor)
-        # draw caption text for all buttons
+        # draw_MainMenu caption text for all buttons
         captionSurf = self._font.render(self._caption, True, self.fgcolor, self.bgcolor)
         captionRect = captionSurf.get_rect()
         captionRect.center = int(w / 2), int(h / 2)
         self.surfaceNormal.blit(captionSurf, captionRect)
         self.surfaceDown.blit(captionSurf, captionRect)
-        # draw border for normal button
+        # draw_MainMenu border for normal button
         pygame.draw.rect(self.surfaceNormal, BLACK, pygame.Rect((0, 0, w, h)), 1) # black border around everything
         pygame.draw.line(self.surfaceNormal, WHITE, (1, 1), (w - 2, 1))
         pygame.draw.line(self.surfaceNormal, WHITE, (1, 1), (1, h - 2))
@@ -278,7 +278,7 @@ class PygButton(object):
         pygame.draw.line(self.surfaceNormal, DARKGRAY, (w - 1, 1), (w - 1, h - 1))
         pygame.draw.line(self.surfaceNormal, GRAY, (2, h - 2), (w - 2, h - 2))
         pygame.draw.line(self.surfaceNormal, GRAY, (w - 2, 2), (w - 2, h - 2))
-        # draw border for down button
+        # draw_MainMenu border for down button
         pygame.draw.rect(self.surfaceDown, BLACK, pygame.Rect((0, 0, w, h)), 1) # black border around everything
         pygame.draw.line(self.surfaceDown, WHITE, (1, 1), (w - 2, 1))
         pygame.draw.line(self.surfaceDown, WHITE, (1, 1), (1, h - 2))
@@ -286,7 +286,7 @@ class PygButton(object):
         pygame.draw.line(self.surfaceDown, DARKGRAY, (1, 1), (w - 2, 1))
         pygame.draw.line(self.surfaceDown, GRAY, (2, h - 3), (2, 2))
         pygame.draw.line(self.surfaceDown, GRAY, (2, 2), (w - 3, 2))
-        # draw border for highlight button
+        # draw_MainMenu border for highlight button
         self.surfaceHighlight = self.surfaceNormal
 
     def mouseClick(self, event):
