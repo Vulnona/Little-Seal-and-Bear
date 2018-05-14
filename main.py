@@ -20,7 +20,7 @@ import Interact
 import Percentages
 # import LevelupForm
 from resources import Farben, Koordinaten
-import run
+import runCharacterBuilder
 import character
 import Helper
 
@@ -182,14 +182,14 @@ class Spiel(object):
         elif MODE == "NEWGAME":
             logging.info('Initializing new game')
             self.window.fill(Farben.clsFarben.BLACK)
-            self.Charakter = run.run()
+            self.Charakter = runCharacterBuilder.run_Character_Builder()
             pygame.display.update()
             MODE = "GAME"
             return MODE
 
         elif MODE == "GAMEOVER":
             self.window.fill(Farben.clsFarben.BLACK)
-            GameOverAnim = pyganim.PygAnimation('gameover.gif')
+            GameOverAnim = pyganim.PygAnimation('./resources/gameover.gif')
             GameOverAnim.scale((600,450))
             GameOverAnim.play()
             mainClock = pygame.time.Clock()
