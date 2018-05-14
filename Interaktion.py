@@ -179,7 +179,6 @@ class Menu(object):
                 if 'click' in events:
                     proceed = False
 
-
                 CharakterAussehen.showAnimal(self.charakter, self.screen)
                 actuallevel = self.fonts['big'].render("Level: " + str(self.charakter.get_level()), 0,
                                                        Farben.clsFarben.WHITE)
@@ -198,7 +197,6 @@ class Menu(object):
                 self.screen.blit(wiesen.image, wiesen.rect)
                 self.screen.blit(blaetter.image, blaetter.rect)
                 self.screen.blit(blumen.image, blumen.rect)
-
 
                 exitButton.draw(self.screen)
                 if canbeMade:
