@@ -9,7 +9,7 @@ import CharacterAppearance
 import Helper
 
 class Bubble(object):
-    #SO nicht mehr notwendig, lieber unten in die anzeige blitten
+    #So nicht mehr notwendig, lieber unten in die anzeige blitten
     def __init__(self, screen, player_Icon_Position, bubble_position_x, bubble_position_y, attack_form, active):
         self.screen=screen
         self.bubble_position_x = bubble_position_x
