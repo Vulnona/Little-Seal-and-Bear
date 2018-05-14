@@ -50,6 +50,7 @@ class cls_Enemy(object):
         ][self.Position[0]]
         currentEnvironment = Tilemap.getEnvironment()[self.Position[1]
         ][self.Position[0]]
+        #evaluate 'flee'
 
         #evaluate 'eat'
         if "fressen" in self.Verhalten:
@@ -231,6 +232,7 @@ class cls_Enemy(object):
         elif act == "stay":
             pass
         elif act == "flee":
+            #needs handling
             pass
         elif act == "attack":
             amount=1
@@ -268,8 +270,10 @@ class cls_Enemy(object):
         if self.Art == "Käfer":
             self.add_Verhalten("fressen")
         if self.Art == "Vogel":
+            self.add_Verhalten("feindlich")
             self.add_Verhalten("obst")
         if self.Art == "Kettensägenmensch":
+            self.add_Verhalten("feindlich")
             self.add_Verhalten("angriff")
 
 
