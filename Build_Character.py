@@ -262,8 +262,8 @@ class Editor:
 
     def save_character_sheet(self):
         if self.character.get_Name() is not None:
-            if self.character.get_type() is not None:
-                if self.character.get_subtype() is not None:
+            if self.character.get_Type() is not None:
+                if self.character.get_Subtype() is not None:
                     logging.info('Saving character')
                     with open(settings.CHARACTER_SHEET_FILE_NAME, 'w', encoding='utf-8') as f:
                         f.write(str(self.character))
@@ -310,59 +310,59 @@ class Editor:
         sys.exit()
 
     def _click_lesser_attribute_strength_button(self, element):
-        valuetocheck = self.character.ability_value("strength")
+        valuetocheck = self.character.Build_Point_Value("strength")
         if int(valuetocheck) > 0:
-            self.character.lost_ability_points("strength")
-            self.character.gain_exp(1)
+            self.character.lose_Build_Points("strength")
+            self.character.gain_Build_Points(1)
             self.character.set_status_initial()
 
     def _click_more_attribute_strength_button(self, element):
-        if int(self.character.get_exp()) > 0:
-            self.character.lower_exp(1)
-            self.character.spend_ability_points("strength")
+        if int(self.character.get_Build_Points()) > 0:
+            self.character.lower_Build_Points(1)
+            self.character.spend_Build_Points("strength")
             self.character.set_status_initial()
 
     def _click_lesser_attribute_resistance_button(self, element):
-        valuetocheck = self.character.ability_value("resistance")
+        valuetocheck = self.character.Build_Point_Value("resistance")
         if int(valuetocheck) > 0:
-            self.character.lost_ability_points("resistance")
-            self.character.gain_exp(1)
+            self.character.lose_Build_Points("resistance")
+            self.character.gain_Build_Points(1)
             self.character.set_status_initial()
 
     def _click_more_attribute_resistance_button(self, element):
-        if int(self.character.get_exp()) > 0:
-            self.character.lower_exp(1)
-            self.character.spend_ability_points("resistance")
+        if int(self.character.get_Build_Points()) > 0:
+            self.character.lower_Build_Points(1)
+            self.character.spend_Build_Points("resistance")
             self.character.set_status_initial()
 
     def _click_lesser_attribute_dexterity_button(self, element):
-        valuetocheck = self.character.ability_value("dexterity")
+        valuetocheck = self.character.Build_Point_Value("dexterity")
         if int(valuetocheck) > 0:
-            self.character.lost_ability_points("dexterity")
-            self.character.gain_exp(1)
+            self.character.lose_Build_Points("dexterity")
+            self.character.gain_Build_Points(1)
             self.character.set_status_initial()
 
     def _click_more_attribute_dexterity_button(self, element):
-        if int(self.character.get_exp()) > 0:
-            self.character.lower_exp(1)
-            self.character.spend_ability_points("dexterity")
+        if int(self.character.get_Build_Points()) > 0:
+            self.character.lower_Build_Points(1)
+            self.character.spend_Build_Points("dexterity")
             self.character.set_status_initial()
 
     def _click_lesser_attribute_intelligence_button(self, element):
-        valuetocheck = self.character.ability_value("intelligence")
+        valuetocheck = self.character.Build_Point_Value("intelligence")
         if int(valuetocheck) > 0:
-            self.character.lost_ability_points("intelligence")
-            self.character.gain_exp(1)
+            self.character.lose_Build_Points("intelligence")
+            self.character.gain_Build_Points(1)
             self.character.set_status_initial()
 
     def _click_more_attribute_intelligence_button(self, element):
-        if int(self.character.get_exp()) > 0:
-            self.character.lower_exp(1)
-            self.character.spend_ability_points("intelligence")
+        if int(self.character.get_Build_Points()) > 0:
+            self.character.lower_Build_Points(1)
+            self.character.spend_Build_Points("intelligence")
             self.character.set_status_initial()
 
     def _click_randomize_name_button(self, element):
-        self.character.randomize_name()
+        self.character.randomize_Name()
 
     # def _click_randomize_all_button(self, element):
     #    self.character.randomize_all()
@@ -371,22 +371,22 @@ class Editor:
         self.save_character_sheet()
 
     def _click_animaltype_button(self, element):
-        self.character.set_type(element.value)
+        self.character.set_Type(element.value)
         self.character.set_status_initial()
 
     def _click_animalsubtype_button(self, element):
-        self.character.set_subtype(element.value)
+        self.character.set_Subtype(element.value)
 
     # --------------------------------------------------------------------------
     # Drawing handlers
     def draw_avatar(self):
-        if (isinstance(self.character.get_type(), character.animaltypes.clsRobbe)):
+        if (isinstance(self.character.get_Type(), character.animaltypes.clsRobbe)):
             seal = pygame.image.load(
                 './resources/images/sealavatar.jpg').convert()
             # seal=self.images('sealavatar')
             seal = pygame.transform.scale(seal, (155, 150))
             self.window.blit(seal, (50, 42))
-        elif (isinstance(self.character.get_type(), character.animaltypes.clsBaer)):
+        elif (isinstance(self.character.get_Type(), character.animaltypes.clsBaer)):
             bear = pygame.image.load(
                 './resources/images/bearavatar.jpg').convert()
             bear = pygame.transform.scale(bear, (155, 150))

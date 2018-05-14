@@ -288,15 +288,15 @@ class cls_Enemy(object):
         # a x b pixels of spritesheet
         a = 576 / 12
         b = 384 / 8
-        if (isinstance(Charakter.get_type(), character.animaltypes.clsBaer)):
+        if (isinstance(Charakter.get_Type(), character.animaltypes.clsBaer)):
             player_Sprite = self.spritesheets['bearsprites']
-            if (isinstance(Charakter.get_subtype(), character.animalsubtypes.White)):
+            if (isinstance(Charakter.get_Subtype(), character.animalsubtypes.White)):
                 amod = 3
                 bmod = 0
-            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Grey)):
+            elif (isinstance(Charakter.get_Subtype(), character.animalsubtypes.Grey)):
                 amod = 3
                 bmod = 4
-            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Brown)):
+            elif (isinstance(Charakter.get_Subtype(), character.animalsubtypes.Brown)):
                 amod = 0
                 bmod = 4
             if player_direction == "right":
@@ -307,16 +307,16 @@ class cls_Enemy(object):
                 player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
             else:
                 player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
-        elif (isinstance(Charakter.get_type(), character.animaltypes.clsRobbe)):
+        elif (isinstance(Charakter.get_Type(), character.animaltypes.clsRobbe)):
             player_Sprite = self.spritesheets['sealsprites']
-            if (isinstance(Charakter.get_subtype(), character.animalsubtypes.White)):
+            if (isinstance(Charakter.get_Subtype(), character.animalsubtypes.White)):
                 amod = 0
                 bmod = 0
-            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Grey)):
+            elif (isinstance(Charakter.get_Subtype(), character.animalsubtypes.Grey)):
                 player_Sprite = self.spritesheets['sealsprites2']
                 amod = 0
                 bmod = 0
-            elif (isinstance(Charakter.get_subtype(), character.animalsubtypes.Brown)):
+            elif (isinstance(Charakter.get_Subtype(), character.animalsubtypes.Brown)):
                 amod = 0
                 bmod = 4
             if player_direction == "right":

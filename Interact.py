@@ -60,10 +60,14 @@ class Bubble(object):
         pygame.display.update()
         return circle
 
-class Menu(object):
-    def __init__(self, screen, charakter):
+class clsInteract(object):
+    def __init__(self, screen, Charakter):
         self.screen=screen
-        self.charakter=charakter
+        self.Charakter=Charakter
+        self._load_fonts()
+        self._load_images()
+
+    def _load_fonts(self):
         self.fonts = {
             'normal': Helper.load_font('celtic_gaelige.ttf', 19),
             'big': Helper.load_font('celtic_gaelige.ttf', 23),
@@ -71,12 +75,56 @@ class Menu(object):
             'custom': Helper.load_font('customfont.ttf', 19)
         }
 
+    def _load_images(self):
+        self.images = {
+            'stats': {
+                'health': Helper.load_image('stats/health.png'),
+                'endurance': Helper.load_image('stats/endurance.png'),
+                'magic': Helper.load_image('stats/magic.png')
+            }
+        }
+
+    def stats_showing(self):
+        background=pygame.Rect(0, 400, 50, 50)
+        pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, background)
+        health = self.images['stats']['health']
+        health = pygame.transform.scale(health, (15, 15))
+        endurance = self.images['stats']['endurance']
+        endurance = pygame.transform.scale(endurance, (15, 15))
+        magic = self.images['stats']['magic']
+        magic = pygame.transform.scale(magic, (15, 15))
+        stats = (health, endurance, magic)
+        stats_string = ("health", "endu", "magic")
+        placePosition = 400
+        for stat in range(3):
+            self.screen.blit(
+                stats[stat], (0, placePosition))
+            # placePosition += 10
+            textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
+                self.Charakter.get_status_temp(stats_string[stat])), True, Farben.clsFarben.WHITE,
+                Farben.clsFarben.BLACK)
+            abgrenzungObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str("/"), True,
+                                                                                                 Farben.clsFarben.WHITE,
+                                                                                                 Farben.clsFarben.BLACK)
+            textObjekt2 = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
+                self.Charakter.get_status_max(stats_string[stat])), True, Farben.clsFarben.WHITE,
+                Farben.clsFarben.BLACK)
+            self.screen.blit(
+                textObjekt, (15, placePosition))
+            self.screen.blit(
+                abgrenzungObjekt, (30, placePosition))
+            self.screen.blit(
+                textObjekt2, (35, placePosition))
+
+            placePosition += 15
+
+
     def interaktionen(self):
         Background = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART + 60,
                                  Koordinaten.clsKoordinaten.BLACKBAREND,
                                  (WorldMap.MAPWIDTH * WorldMap.TILESIZE) - 185,
                                  WorldMap.MAPHEIGHT * WorldMap.TILESIZE)
-        TextBackground = pygame.Rect(55, 125, 150, 280)
+        TextBackground = pygame.Rect(55, 100, 150, 280)
         exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
                                     Koordinaten.clsKoordinaten.BUTTONPOSY,
                                     Koordinaten.clsKoordinaten.BUTTONWIDTH,
@@ -96,7 +144,7 @@ class Menu(object):
                                       'Erschaffen',
                                       bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
         produceButton.font = self.fonts['small']
-        Position=157
+        Position=187
         low_grass = pygame.sprite.Sprite()
         low_grass.image = WorldMap.snippets[1].convert_alpha()
         low_grass.rect = low_grass.image.get_rect()
@@ -169,7 +217,7 @@ class Menu(object):
                     if 'click' in events:
                         WorldMap.inventory[temp_Component] -= 1
                         amount_exp=WorldMap.experience_crafts[temp_Component]
-                        self.charakter.gain_experience(amount_exp)
+                        self.Charakter.gain_experience(amount_exp)
 
                         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, Background)
                         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, TextBackground)
@@ -179,12 +227,18 @@ class Menu(object):
                 if 'click' in events:
                     proceed = False
 
-                CharacterAppearance.showAnimal(self.charakter, self.screen)
-                actuallevel = self.fonts['big'].render("Level: " + str(self.charakter.get_level()), 0,
+                CharacterAppearance.showAnimal(self.Charakter, self.screen)
+                actuallevel = self.fonts['big'].render("Level: " + str(self.Charakter.get_Level()), 0,
                                                        Farben.clsFarben.WHITE)
                 self.screen.blit(actuallevel,
                                  (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
-                Position = 157
+                exp_bar = self.fonts['normal'].render(str(self.Charakter.get_experience()) + "/" + str(self.Charakter.exp_needed_for_Level_Up()),
+                                                      0, Farben.clsFarben.WHITE)
+                self.screen.blit(exp_bar,
+                                 (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY+25))
+
+                #craft items and their number available
+                Position = 187
                 for item in WorldMap.craftables:
                     textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
                         WorldMap.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
@@ -203,6 +257,8 @@ class Menu(object):
                     produceButton.draw(self.screen)
                 if feed:
                     feedButton.draw(self.screen)
+
+                self.stats_showing()
                 pygame.display.update()
 
     def check_Recipe_components(self, item):
@@ -256,7 +312,7 @@ class Menu(object):
                                    bgcolor=Farben.clsFarben.DARKRED, fgcolor=Farben.clsFarben.BRIGHT)
         feedButton.font = self.fonts['normal']
 
-        interaktion=False
+        interaction=False
         proceed = True
         visMode = True
         while proceed:
@@ -271,15 +327,15 @@ class Menu(object):
                 events = feedButton.handleEvent(event)
                 if 'click' in events:
                     visMode = not visMode
-                    interaktion=True
+                    interaction=True
                 else:
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, BG)
                     feedButton.draw(self.screen)
                     exitButton.draw(self.screen)
                     CharacterAppearance.showAnimal(charakter, self.screen)
-                    if interaktion:
+                    if interaction:
                         self.interaktionen()
                         visMode=True
-                        interaktion=False
+                        interaction=False
 
                 pygame.display.update()

@@ -1,16 +1,16 @@
 ## Charakter Bogen
 
-  - Name: Ar
+  - Name: Aescae
   - Tierart: Robbe
-  - Farbe: Braun
+  - Farbe: Grau
 
 ## Statuswerte
 
   - Stärke: 0
   - Ausdauer: 0
-  - Geschicklichkeit: 4
-  - Intelligenz: 5
+  - Geschicklichkeit: 0
+  - Intelligenz: 0
 
 ## Fähigkeiten
 
-  - Schleichen
+Keine Fähigkeiten verfügbar.

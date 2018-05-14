@@ -3,29 +3,40 @@ from . import abilities
 from . import animalsubtypes
 from . import skills
 from . import animaltypes
+import math
 
 
 class Character:
     abilities = abilities.CharacterAbilities()
 
-    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=0, build_points=10, skills=[], status=[], temp_status=[], erfahrung=0, stealth=False):
+    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=1, build_points=10, skills=[], status=[], temp_status=[], erfahrung=0, stealth=False):
         self.name = name
         self.animaltype = animaltype
         self.animalsubtype = animalsubtype
         self.level = level
         self.build_points = build_points
         self.skills = skills
-        self.update_skills(self.skills)
+        self.update_Skills(self.skills)
         self.status = status
         self.temp_status = temp_status
         self.erfahrung = erfahrung
         self.stealth=stealth
+
+    def exp_needed_for_Level_Up(self):
+        constant = 40
+        exp_needed = int(round((constant * self.level) * math.sqrt(constant)))
+        return exp_needed
+
+    def level_up_check(self):
+        if self.get_experience() >= self.exp_needed_for_Level_Up():
+            self.LevelUp()
 
     def get_experience(self):
         return self.erfahrung
 
     def gain_experience(self, amount):
         self.erfahrung += amount
+        self.level_up_check()
 
     def get_status_max(self, input_string):
         # Gesundheit
@@ -80,11 +91,11 @@ class Character:
         magicmodifier=(self.get_int())
         if isinstance(self.animaltype, animaltypes.clsBaer):
             self.status = [20, 40+endurancemodifier, 5+magicmodifier]
-            if self.has_skill(skills.EnduranceCharacterSkill):
+            if self.has_Skill(skills.EnduranceCharacterSkill):
                 self.status[1] *= 2
         elif isinstance(self.animaltype, animaltypes.clsRobbe):
             self.status = [10, 35+endurancemodifier, 15+magicmodifier]
-            if self.has_skill(skills.EnduranceCharacterSkill):
+            if self.has_Skill(skills.EnduranceCharacterSkill):
                 self.status[1] *= 20
         self.temp_status = self.status[:]
 
@@ -106,72 +117,80 @@ class Character:
     def set_Name(self, name):
         self.name = str(name)
 
-    def get_skills(self):
+    def get_Skills(self):
         return self.skills
 
-    def set_skill(self, input_skill):
+    def set_Skill(self, input_skill):
         self.skills.append(input_skill)
 
-    def get_level(self):
+    def get_Level(self):
         level = str(self.level)
         return level
 
-    def set_type(self, type):
+    def set_Type(self, type):
         self.animaltype = type()
 
-    def get_type(self):
+    def get_Type(self):
         return self.animaltype
 
-    def set_subtype(self, animalsubtype):
+    def set_Subtype(self, animalsubtype):
         self.animalsubtype = animalsubtype()
-        self.update_applicable_skills()
-        self.update_skills(self.skills)
+        self.update_applicable_Skills()
+        self.update_Skills(self.skills)
 
-    def get_subtype(self):
+    def get_Subtype(self):
         return self.animalsubtype
 
-    def get_exp(self):
+    def get_Build_Points(self):
         return self.build_points
 
-    def gain_exp(self, points):
+    def gain_Build_Points(self, points):
         self.build_points += points
 
-    def lower_exp(self, points):
+    def lower_Build_Points(self, points):
         self.build_points -= points
 
-    def spend_ability_points(self, input_ability):
+    def spend_Build_Points(self, input_ability):
         for ability in abilities.ALL:
             if str(ability.id) == input_ability:
                 getattr(self.abilities, ability.id).value += 1
-                self.update_applicable_skills()
-                self.update_skills(self.skills)
+                self.update_applicable_Skills()
+                self.update_Skills(self.skills)
                 break
 
-    def lost_ability_points(self, input_ability):
+    def lose_Build_Points(self, input_ability):
         for ability in abilities.ALL:
             if str(ability.id) == input_ability:
                 getattr(self.abilities, ability.id).value -= 1
-                self.update_applicable_skills()
-                self.update_skills(self.skills)
+                self.update_applicable_Skills()
+                self.update_Skills(self.skills)
                 break
 
-    def ability_value(self, input_ability):
+    def Build_Point_Value(self, input_ability):
         for ability in abilities.ALL:
             if str(ability.id) == input_ability:
                 return getattr(self.abilities, ability.id).value
 
     def LevelUp(self):
-        self.temp_status=self.status
+        num_redo=self.get_status_max("health")-self.get_status_temp("health")
+        for i in range(num_redo):
+            self.change_status_temp("health", "+")
+        num_redo = self.get_status_max("endu") - self.get_status_temp("endu")
+        for i in range(num_redo):
+            self.change_status_temp("endu", "+")
+        for i in range(num_redo):
+            self.change_status_temp("magic", "+")
+
         self.build_points+=1
         if self.level>6:
             self.build_points+=1
         self.level = self.level+1
 
-    def randomize_name(self):
+    def randomize_Name(self):
         name = NameGenerator.generate_name(2, 5)
         self.set_Name(name)
 
-    def update_applicable_skills(self):
+    def update_applicable_Skills(self):
         self.skills = []
         for skill in skills.ALL:
             continues = True
@@ -191,10 +210,10 @@ class Character:
                 continue
             self.skills.append(skill)
 
-    def update_skills(self, Liste):
+    def update_Skills(self, Liste):
         self.skills = Liste[:]
 
-    def has_skill(self, input_skill):
+    def has_Skill(self, input_skill):
         for skill in self.skills:
             if skill == input_skill:
                 return True
