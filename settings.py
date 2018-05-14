@@ -1,4 +1,4 @@
-import Weltkarte
+import WorldMap
 
 # ----------------------------------------------------------------------
 # Editable settings

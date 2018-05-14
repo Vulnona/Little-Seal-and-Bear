@@ -5,7 +5,7 @@ import character.skills
 import character.animaltypes
 import settings
 import logging
-import Helfer
+import Helper
 import pygame
 import sys
 import gui
@@ -32,38 +32,38 @@ class Editor:
     def _load_fonts(self):
         logging.info('Loading fonts')
         self.fonts = {
-            'normal': Helfer.load_font('celtic_gaelige.ttf', 21)
+            'normal': Helper.load_font('celtic_gaelige.ttf', 21)
         }
 
     def _load_images(self):
         logging.info('Loading images')
 
         self.images = {
-            'window': Helfer.load_image('window.png'),
-            'validatewindow': Helfer.load_image('validatewindow.png'),
-            'bearavatar': Helfer.load_image('bearavatar.jpg'),
-            'sealavatar': Helfer.load_image('sealavatar.jpg'),
-            'unknown': Helfer.load_image('unknown.png'),
-            'bearicon': Helfer.load_image('bearicon.png'),
-            'sealicon': Helfer.load_image('sealicon.png'),
-            'abilities': {ability.id: Helfer.load_image('abilities/' + ability.id + '.png') for ability in character.abilities.ALL},
-            'skills': {skill.id: Helfer.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL},
+            'window': Helper.load_image('window.png'),
+            'validatewindow': Helper.load_image('validatewindow.png'),
+            'bearavatar': Helper.load_image('bearavatar.jpg'),
+            'sealavatar': Helper.load_image('sealavatar.jpg'),
+            'unknown': Helper.load_image('unknown.png'),
+            'bearicon': Helper.load_image('bearicon.png'),
+            'sealicon': Helper.load_image('sealicon.png'),
+            'abilities': {ability.id: Helper.load_image('abilities/' + ability.id + '.png') for ability in character.abilities.ALL},
+            'skills': {skill.id: Helper.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL},
             'animaltypes': {
-                'normal': {animaltype.id: Helfer.load_image('animaltypes/' + animaltype.id + '.png') for animaltype in character.animaltypes.ALL},
-                'active': {animaltype.id: Helfer.load_image('animaltypes/' + animaltype.id + '_active.png') for animaltype in character.animaltypes.ALL}
+                'normal': {animaltype.id: Helper.load_image('animaltypes/' + animaltype.id + '.png') for animaltype in character.animaltypes.ALL},
+                'active': {animaltype.id: Helper.load_image('animaltypes/' + animaltype.id + '_active.png') for animaltype in character.animaltypes.ALL}
             },
             'animalsubtypes': {
-                'normal': {animalsubtype_.id: Helfer.load_image('animalsubtypes/' + animalsubtype_.id + '.png') for animalsubtype_ in character.animalsubtypes.ALL},
-                'active': {animalsubtype_.id: Helfer.load_image('animalsubtypes/' + animalsubtype_.id + '_active.png') for animalsubtype_ in character.animalsubtypes.ALL}
+                'normal': {animalsubtype_.id: Helper.load_image('animalsubtypes/' + animalsubtype_.id + '.png') for animalsubtype_ in character.animalsubtypes.ALL},
+                'active': {animalsubtype_.id: Helper.load_image('animalsubtypes/' + animalsubtype_.id + '_active.png') for animalsubtype_ in character.animalsubtypes.ALL}
             },
             'buttons': {
-                'yes': Helfer.load_image('buttons/yes.png'),
-                'refresh': Helfer.load_image('buttons/refresh.png'),
-                'exit': Helfer.load_image('buttons/exit.png'),
-                'randomize': Helfer.load_image('buttons/randomize.png'),
-                'save': Helfer.load_image('buttons/save.png'),
-                'less': Helfer.load_image('buttons/links.png'),
-                'more': Helfer.load_image('buttons/rechts.png')
+                'yes': Helper.load_image('buttons/yes.png'),
+                'refresh': Helper.load_image('buttons/refresh.png'),
+                'exit': Helper.load_image('buttons/exit.png'),
+                'randomize': Helper.load_image('buttons/randomize.png'),
+                'save': Helper.load_image('buttons/save.png'),
+                'less': Helper.load_image('buttons/links.png'),
+                'more': Helper.load_image('buttons/rechts.png')
             }
         }
 

@@ -1,5 +1,5 @@
 import main
-import Weltkarte
+import WorldMap
 import random
 
 # sollte später integriert werden in das Objekt character
@@ -24,8 +24,8 @@ class Star(object):
     def set_koordinaten(self):
         loc
 
-    centerptx = Weltkarte.TILESIZE / 2
-    centerpty = Weltkarte.TILESIZE / 2
+    centerptx = WorldMap.TILESIZE / 2
+    centerpty = WorldMap.TILESIZE / 2
     startpunktx = centerptx + (centerptx / 2)
     startpunkty = centerpty + (centerpty / 2)
     winkel = zackzahl / 360                       # wtf to get zackenzahl?
@@ -41,8 +41,8 @@ class Star(object):
         # stern bewegt sich nach oben/unten
         Posy += 1
 
-        if Posy > Weltkarte.MAPWIDTH*Weltkarte.TILESIZE:
-            Posx = random.randint(0, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE)
+        if Posy > WorldMap.MAPWIDTH*WorldMap.TILESIZE:
+            Posx = random.randint(0, WorldMap.MAPHEIGHT * WorldMap.TILESIZE)
             Posy = -200
 # pygame.display.set_caption("Screentitle")
 

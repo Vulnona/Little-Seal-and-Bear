@@ -1,7 +1,7 @@
 import pygame, sys
 from pygame.locals import *
-import Weltkarte
-import Helfer
+import WorldMap
+import Helper
 import os.path
 import gui
 from resources import Farben
@@ -13,11 +13,11 @@ class clsStartScreen(object):
         self.MODE=MODE
         self.Status=Status
         self.fonts = {
-            'normal': Helfer.load_font('celtic_gaelige.ttf', 19)
+            'normal': Helper.load_font('celtic_gaelige.ttf', 19)
         }
 
     def draw(self):
-        background=pygame.Rect(Weltkarte.MAPWIDTH*Weltkarte.TILESIZE, Weltkarte.MAPHEIGHT*Weltkarte.TILESIZE+50, 400,400)
+        background=pygame.Rect(WorldMap.MAPWIDTH * WorldMap.TILESIZE, WorldMap.MAPHEIGHT * WorldMap.TILESIZE + 50, 400, 400)
 
         returnButton = gui.PygButton((10, 100, 80, 20),
                                      'Weiter',

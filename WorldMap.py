@@ -2,7 +2,7 @@
 import pygame
 import pyganim
 import random
-import Helfer
+import Helper
 from resources import Farben
 from resources import Koordinaten
 
@@ -60,10 +60,10 @@ CAVE4 = 43
 FRUIT1 = 44
 FRUIT2 = 45
 
-fruit_Sprite = Helfer.spritesheet('fruits.png')
-tiles_Sprite = Helfer.spritesheet('tileset_32_32.png')
-borders_Sprite = Helfer.spritesheet('borders.png')
-craft_Sprites = Helfer.spritesheet('flowers.png')
+fruit_Sprite = Helper.spritesheet('fruits.png')
+tiles_Sprite = Helper.spritesheet('tileset_32_32.png')
+borders_Sprite = Helper.spritesheet('borders.png')
+craft_Sprites = Helper.spritesheet('flowers.png')
 grass_tile = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0,0,0))
 grass_tile = pygame.transform.scale(grass_tile, (40, 40))
 stone_tile = tiles_Sprite.image_at((33, 8577, 30, 30), colorkey=(0,0,0))

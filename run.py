@@ -1,6 +1,6 @@
 import logging
 import pygame
-import charaktereditor
+import Build_Character
 import sys
 import os
 import character
@@ -9,7 +9,7 @@ import character
 def run():
     pygame.init()
     logging.info('Initializing editor')
-    g = charaktereditor.Editor()
+    g = Build_Character.Editor()
     logging.info('Running editor')
 
     while g.get_Mode() == "CREATE":
