@@ -141,6 +141,11 @@ class SaversCharacterSkill(WhiteSkill):
         abilities.ResistanceCharacterAbility: 7
     }
 
+FIGHT = [
+    TailCharacterSkill,
+    EarthquakeCharacterSkill,
+    BiteCharacterSkill
+]
 
 ALL = [
     SwimmingCharacterSkill,  # included functionality

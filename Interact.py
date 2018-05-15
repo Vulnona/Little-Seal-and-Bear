@@ -9,56 +9,46 @@ import CharacterAppearance
 import Helper
 
 class Bubble(object):
-    #So nicht mehr notwendig, lieber unten in die anzeige blitten
-    def __init__(self, screen, player_Icon_Position, bubble_position_x, bubble_position_y, attack_form, active):
-        self.screen=screen
-        self.bubble_position_x = bubble_position_x
-        self.bubble_position_y = bubble_position_y
-        self.bubble_size = 20
-        self.player_Icon_Position=player_Icon_Position
+
+    def __init__(self, screen, attack_form, Position, active):
+        self.screen = screen
+        self.Position = Position #Starting with '0', max is 3 (because there are 4 skills avaliable overall)
+        self.bubble_size = 18
         self.attack_form=attack_form
         self.active=active #in near of an enemy
         self._load_images()
 
     def _load_images(self):
         self.images = {
-            'standard': Helper.load_image('unknown.png'),
-            'skills': {skill.id: Helper.load_image('skills/' + skill.id + '.png') for skill in character.skills.ALL}
+            'standard_active': Helper.load_image('skills/standard_active.png'),
+            'standard_inactive': Helper.load_image('skills/standard_inactive.png'),
+            'skills_active': {skill.id: Helper.load_image('skills/' + skill.id + '_active.png') for skill in character.skills.FIGHT},
+            'skills_inactive': {skill.id: Helper.load_image('skills/' + skill.id + '_inactive.png') for skill in character.skills.FIGHT}
         }
 
     def draw_bubble(self):
-    #BENÖTIGT ÜBERARBEITUNG
-        circle_x= (self.player_Icon_Position[0] + self.bubble_position_x) * WorldMap.TILESIZE
-        circle_y= (self.player_Icon_Position[1] + self.bubble_position_y) * WorldMap.TILESIZE
+        circle_x= 320 + (self.Position * WorldMap.TILESIZE)
+        circle_y= WorldMap.MAPHEIGHT * WorldMap.TILESIZE + 26
+        circle=pygame.draw.circle(self.screen, Farben.clsFarben.BLACK,[circle_x,circle_y], self.bubble_size)
 
-        if self.active==True:
-            circle=pygame.draw.circle(self.screen, Farben.clsFarben.LIGHTGREY,[circle_x,circle_y], self.bubble_size)
-        else: #not near an enemy
-            circle=pygame.draw.circle(self.screen, Farben.clsFarben.DARKGREY, [circle_x, circle_y], self.bubble_size)
-
-        if self.attack_form!="standard":
-            icon = self.images['skills'][self.attack_form]
+        if self.active:
+            if self.attack_form!='standard':
+                icon = self.images['skills_active'][self.attack_form]
+            else:
+                icon = self.images['standard_active']
         else:
-            icon = self.images['standard']
-            icon=pygame.transform.scale(
+            if self.attack_form!='standard':
+                icon = self.images['skills_inactive'][self.attack_form]
+            else:
+                icon = self.images['standard_inactive']
+
+        icon=pygame.transform.scale(
                     icon, (WorldMap.TILESIZE, WorldMap.TILESIZE))
 
-        #Positioning of the skill image on circle
-        if self.bubble_position_x>0:
-            blit_icon_x=circle_x-10
-        else:
-            blit_icon_x=circle_x-12
-        if self.bubble_position_y>0:
-            blit_icon_y=circle_y-10
-        else:
-            blit_icon_y=circle_y-8
+        blit_icon_x=circle_x-20
+        blit_icon_y=circle_y-20
 
-        self.screen.blit(
-            icon, (
-                blit_icon_x, blit_icon_y
-                )
-        )
-        pygame.display.update()
+        self.screen.blit(icon, (blit_icon_x, blit_icon_y))
         return circle
 
 class clsInteract(object):
@@ -85,6 +75,9 @@ class clsInteract(object):
             }
         }
 
+    def fight_Skills_showing(self):
+        pass
+
     def stats_showing(self):
         background=pygame.Rect(0, 400, 50, 50)
         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, background)
@@ -101,19 +94,19 @@ class clsInteract(object):
             self.screen.blit(
                 stats[stat], (0, placePosition))
             # placePosition += 10
-            textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
+            amountStats = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
                 self.Charakter.get_status_temp(stats_string[stat])), True, Farben.clsFarben.WHITE,
                 Farben.clsFarben.BLACK)
-            abgrenzungObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str("/"), True,
+            slash = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str("/"), True,
                                                                                                  Farben.clsFarben.WHITE,
                                                                                                  Farben.clsFarben.BLACK)
             textObjekt2 = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 15).render(str(
                 self.Charakter.get_status_max(stats_string[stat])), True, Farben.clsFarben.WHITE,
                 Farben.clsFarben.BLACK)
             self.screen.blit(
-                textObjekt, (15, placePosition))
+                amountStats, (15, placePosition))
             self.screen.blit(
-                abgrenzungObjekt, (30, placePosition))
+                slash, (30, placePosition))
             self.screen.blit(
                 textObjekt2, (35, placePosition))
 

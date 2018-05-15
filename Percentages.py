@@ -9,6 +9,6 @@ def haelftehaelfte(object):
         return True
 
 
-def wuerfel(Wuerfelseiten):
+def dice(Wuerfelseiten):
     rand_int = randint(1, Wuerfelseiten)
     return rand_int

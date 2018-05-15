@@ -27,12 +27,12 @@ class clsSawblade(BaseType):
 
 class cls_Enemy(object):
 
-    def __init__(self, Art=None, Gesundheit=1, Position=[0, 0]):
-        self.Art = Art
-        self.Gesundheit = Gesundheit
+    def __init__(self, Type=None, Health=1, Position=[0, 0]):
+        self.Type = Type
+        self.Health = Health
         self.Position = Position
-        self.Verhalten = []
-        self.init_Verhalten()
+        self.Behaviour = []
+        self.init_Behaviour()
         self._load_images()
 
     def _load_images(self):
@@ -50,11 +50,11 @@ class cls_Enemy(object):
         }
 
     def show_Icon(self, screen):
-        if isinstance(self.Art, clsBug):
+        if isinstance(self.Type, clsBug):
             enemy_Icon=self.images['enemies']['bug']
-        elif isinstance(self.Art, clsBird):
+        elif isinstance(self.Type, clsBird):
             enemy_Icon=self.images['enemies']['bird']
-        elif isinstance(self.Art, clsSawblade):
+        elif isinstance(self.Type, clsSawblade):
             enemy_Icon=self.images['enemies']['sawblade']
         enemy_Icon = pygame.transform.scale(
             enemy_Icon, (WorldMap.TILESIZE, WorldMap.TILESIZE))
@@ -70,14 +70,14 @@ class cls_Enemy(object):
         currentEnvironment = Tilemap.getEnvironment()[self.Position[1]
         ][self.Position[0]]
         #evaluate 'flee'
-        if "flee" in self.Verhalten:
+        if "flee" in self.Behaviour:
             pass
 
         #evaluate 'eat'
-        if "grassfood" in self.Verhalten:
+        if "grassfood" in self.Behaviour:
             if currentTile == WorldMap.GRASSLAND or currentEnvironment == WorldMap.LOWGRASS or currentEnvironment == WorldMap.MOREGRASS:
                 return "eat"
-        if "vegetables" in self.Verhalten:
+        if "vegetables" in self.Behaviour:
             if currentEnvironment==WorldMap.FRUIT1 or currentEnvironment==WorldMap.FRUIT2:
                 return "eat"
 
@@ -108,16 +108,16 @@ class cls_Enemy(object):
                 if env == tile_env:
                     PossibleTiles.remove(tile)
             if tile == Player_Position:
-                if "aggressive" in self.Verhalten or "hostile" in self.Verhalten:
+                if "aggressive" in self.Behaviour or "hostile" in self.Behaviour:
                     if Charakter.get_stealth_mode()==False:
                         return "attack"
                     else:
                         PossibleTiles.remove(tile)
             if tile_env == WorldMap.LOWGRASS or tile_env == WorldMap.MOREGRASS:
-                if "grassfood" in self.Verhalten:
+                if "grassfood" in self.Behaviour:
                     PreferedTiles.append(tile)
             elif tile_env == WorldMap.FRUIT1 or tile_env == WorldMap.FRUIT2:
-                if "vegetables" in self.Verhalten:
+                if "vegetables" in self.Behaviour:
                     PreferedTiles.append(tile)
 
         if not PreferedTiles:
@@ -126,14 +126,14 @@ class cls_Enemy(object):
             else:
                 anzahl = len(PossibleTiles)
                 if anzahl >1:
-                    rand_int = Percentages.wuerfel(anzahl)
+                    rand_int = Percentages.dice(anzahl)
                     self.Position=PossibleTiles[rand_int-1]
                 else:
                     self.Position=PossibleTiles[0]
                 return "bewegt"
         else:
             anzahl = len(PreferedTiles)
-            rand_int = Percentages.wuerfel(anzahl)
+            rand_int = Percentages.dice(anzahl)
             self.Position=PreferedTiles[rand_int-1]
             return "bewegt"
 
@@ -257,10 +257,10 @@ class cls_Enemy(object):
             pass
         elif act == "attack":
             amount=1
-            if isinstance(self.Art, clsBird):
-                amount=Percentages.wuerfel(2)
-            elif isinstance(self.Art, clsSawblade):
-                amount=Percentages.wuerfel(5)
+            if isinstance(self.Type, clsBird):
+                amount=Percentages.dice(2)
+            elif isinstance(self.Type, clsSawblade):
+                amount=Percentages.dice(5)
             for i in range (amount):
                 Charakter.change_status_temp('health', '-')
             if Charakter.get_status_temp('health')>0:
@@ -286,23 +286,23 @@ class cls_Enemy(object):
                 ][self.Position[0]]=WorldMap.DIRT
 
 
-    def init_Verhalten(self):
+    def init_Behaviour(self):
 
-        if isinstance(self.Art, clsBug):
-            self.add_Verhalten("grassfood")
-        if isinstance(self.Art, clsBird):
-            self.add_Verhalten("hostile")
-            self.add_Verhalten("vegetables")
-        if isinstance(self.Art, clsSawblade):
-            self.add_Verhalten("hostile")
-            self.add_Verhalten("aggressive")
+        if isinstance(self.Type, clsBug):
+            self.add_Behaviour("grassfood")
+        if isinstance(self.Type, clsBird):
+            self.add_Behaviour("hostile")
+            self.add_Behaviour("vegetables")
+        if isinstance(self.Type, clsSawblade):
+            self.add_Behaviour("hostile")
+            self.add_Behaviour("aggressive")
 
 
-    def add_Verhalten(self, Verhalten):
-        self.Verhalten.append(Verhalten)
+    def add_Behaviour(self, Verhalten):
+        self.Behaviour.append(Verhalten)
 
-    def delete_Verhalten(self, Verhalten):
-        self.Verhalten.remove(Verhalten)
+    def delete_Behaviour(self, Verhalten):
+        self.Behaviour.remove(Verhalten)
 
     def damage_and_death_player(self, screen, Tilemap, damage_or_death, player_direction, player_position, Charakter):
 
@@ -393,12 +393,12 @@ class cls_Enemy(object):
 
     def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art, enemy_environment=WorldMap.NOTHING):
         mainClock = pygame.time.Clock()
-        if isinstance(self.Art, clsBug):
-            first = Helper.load_image('enemies/bug.png')
-        elif isinstance(self.Art, clsBird):
-            first = Helper.load_image('enemies/bird.png')
-        elif isinstance(self.Art, clsSawblade):
-            first = Helper.load_image('enemies/sawblade.png')
+        if isinstance(self.Type, clsBug):
+            first = self.images['enemies']['bug']
+        elif isinstance(self.Type, clsBird):
+            first = self.images['enemies']['bird']
+        elif isinstance(self.Type, clsSawblade):
+            first = self.images['enemies']['sawblade']
         first = pygame.transform.scale(
             first, (WorldMap.TILESIZE, WorldMap.TILESIZE))
 
@@ -441,19 +441,19 @@ class cls_Enemy(object):
                 first, (self.Position[0] * WorldMap.TILESIZE, self.Position[1] * WorldMap.TILESIZE))
 
     def generate_Enemy(self, Tilemap):
-        rand_int = Percentages.wuerfel(10)
+        rand_int = Percentages.dice(10)
         if rand_int <= 5:
             Art = clsBug()
-            healthmodifier=Percentages.wuerfel(6)
-            Gesundheit = 5+healthmodifier
+            healthmodifier=Percentages.dice(6)
+            health = 5+healthmodifier
         elif (rand_int >= 5 and rand_int <= 9):
             Art = clsBird()
-            healthmodifier=Percentages.wuerfel(12)
-            Gesundheit = 10+healthmodifier
+            healthmodifier=Percentages.dice(12)
+            health = 10+healthmodifier
         elif rand_int == 10:
             Art = clsSawblade()
-            healthmodifier=Percentages.wuerfel(30)
-            Gesundheit = 30+healthmodifier
+            healthmodifier=Percentages.dice(30)
+            health = 30+healthmodifier
 
         Position=self.generatePosition()
         # Can just spawn on Dirt, Grassland and Stone:
@@ -465,20 +465,20 @@ class cls_Enemy(object):
             else:
                 Position=self.generatePosition()
 
-        enemy = cls_Enemy(Art, Gesundheit, Position)
+        enemy = cls_Enemy(Art, health, Position)
         return enemy
 
     def generatePosition(self):
         # Can't spawn at [0,0], starting with '1'
-        Position = [int((Percentages.wuerfel(WorldMap.MAPWIDTH - 1))),
-                    int((Percentages.wuerfel(WorldMap.MAPHEIGHT - 1)))]
+        Position = [int((Percentages.dice(WorldMap.MAPWIDTH - 1))),
+                    int((Percentages.dice(WorldMap.MAPHEIGHT - 1)))]
         return Position
 
     def __del__(self):
         pass
 
-    def lower_Gesundheit(self, Anzahl):
-        self.Gesundheit -= Anzahl
+    def lower_Health(self, amount):
+        self.Health -= amount
 
 
 class cls_Enemies(object):
@@ -488,7 +488,7 @@ class cls_Enemies(object):
 
     def fill_Enemies_list(self, Tilemap):
         # Max Enemies: 6
-        rand_int = Percentages.wuerfel(Wuerfelseiten=5)
+        rand_int = Percentages.dice(Wuerfelseiten=5)
         start_int = 0
         while rand_int >= start_int:
             new_enemy = cls_Enemy()

@@ -176,6 +176,10 @@ class Spiel(object):
             Charaktermenu = Interact.clsInteract(
                 self.window, self.Charakter)
 
+            self.Charakter.set_Skill(character.skills.TailCharacterSkill)
+            self.Charakter.set_Skill(character.skills.EarthquakeCharacterSkill)
+            self.Charakter.set_Skill(character.skills.BiteCharacterSkill)
+
             while True:
 
                 if self.Charakter.get_status_temp('health')<=0:
@@ -857,41 +861,66 @@ class Spiel(object):
 
                         elif(event.key == K_f):
                             # fighting skills
-                            biteSkill = False  # MAGIC!
-                            tailSkill = False
-                            earthSkill = False
-                            active = False
-                            if(self.Charakter.has_Skill(character.skills.BiteCharacterSkill)):
-                                biteSkill = True
-                            if(self.Charakter.has_Skill(character.skills.TailCharacterSkill)):
-                                tailSkill = True
-                            if(self.Charakter.has_Skill(character.skills.EarthquakeCharacterSkill)):
-                                earthSkill = True
-                            # Liste, in der alle den Spieler umgebenden Felder gespeichert sind, abhängig von dessen Position
-                            Liste = []
+                            Skills=[]
+
+                            Surrounding_Tiles = []
                             Enemies_in_range = []
                             for tile_x in range(player_Icon_Position[0]-1, player_Icon_Position[0]+2):
                                 for tile_y in range(player_Icon_Position[1] - 1, player_Icon_Position[1] + 2):
                                     to_append = [tile_x, tile_y]
-                                    Liste.append(to_append)
-                            for element in Liste:
+                                    Surrounding_Tiles.append(to_append)
+                            for element in Surrounding_Tiles:
                                 for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                                     an_enemy = Enemies.get_Enemy(enemy)
                                     if element == an_enemy.Position:
-                                        active = True
                                         Enemies_in_range.append(an_enemy)
 
+                            standardSkill = True
+                            if self.Charakter.get_status_temp('endu')>=1 and Enemies_in_range:
+                                standard_attack_active = True
+                            else:
+                                standard_attack_active = False
+                            Skills.append('standard')
+
+                            if (self.Charakter.has_Skill(character.skills.BiteCharacterSkill)):
+                                biteSkill = True
+                                if self.Charakter.get_status_temp('magic')>=1 and Enemies_in_range:
+                                    bite_attack_active = True
+                                else:
+                                    bite_attack_active = False
+                                Skills.append('bite')
+                            else:
+                                biteSkill = False
+                            if (self.Charakter.has_Skill(character.skills.TailCharacterSkill)):
+                                tailSkill = True
+                                if self.Charakter.get_status_temp('endu')>=1 and Enemies_in_range:
+                                    tail_attack_active = True
+                                else:
+                                    tail_attack_active = False
+                                Skills.append('tail')
+                            else:
+                                tailSkill = False
+                            if (self.Charakter.has_Skill(character.skills.EarthquakeCharacterSkill)):
+                                earthSkill = True
+                                if self.Charakter.get_status_temp('endu')>=1 and Enemies_in_range:
+                                    earth_attack_active = True
+                                else:
+                                    earth_attack_active = False
+                                Skills.append('earthquake')
+                            else:
+                                earthSkill = False
+
                             wait_for_click = True
+                            clicked = False
                             while wait_for_click:
+                                pygame.display.update()
                                 for event in pygame.event.get():
                                     if event.type == QUIT:
                                         pygame.quit()
                                         sys.exit()
                                     elif event.type == MOUSEBUTTONDOWN:
-                                        if active == False:
-                                            break
-                                        elif active == True:
-                                            mousepos = event.pos
+                                        mousepos = event.pos
+                                        if standard_attack_active:
                                             if standardbubble.collidepoint(mousepos):
                                                 for enemy in Enemies_in_range:
                                                     enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
@@ -900,34 +929,14 @@ class Spiel(object):
                                                     ][enemy.Position[0]]
                                                     mod=int(self.Charakter.get_str())
                                                     if mod>0:
-                                                        attackmodifier=Percentages.wuerfel(mod)
+                                                        attackmodifier=Percentages.dice(mod)
                                                     else:
                                                         attackmodifier=0
-                                                    enemy.lower_Gesundheit(1+attackmodifier)
-                                                    enemy.damage_and_death_anim(
-                                                        self.window, "damage", enemy_tile, enemy_environment)
-                                                    self.Charakter.change_status_temp(
-                                                        'endu', '-')
-                                                    Charaktermenu.stats_showing()
-
-                                                    if not "hostile" in enemy.Verhalten:
-                                                        enemy.add_Verhalten("hostile")
-
-                                                    if enemy.Gesundheit <= 0:
-                                                        enemy.damage_and_death_anim(
-                                                            self.window, "death", enemy_tile, enemy_environment)
-                                                        Enemies.delete_from_list(
-                                                            enemy)
-                                                        Enemies_in_range.remove(
-                                                            enemy)
-                                                        enemy.__del__
-                                                        if not Enemies_in_range:
-                                                            active = False
-                                                        break
-                                                for enemy in Enemies.get_Enemies_Liste():
-                                                    enemy.Agieren(self.window, NewTilemap, direction,
-                                                                  player_Icon_Position, self.Charakter)
-                                            if biteSkill:
+                                                    enemy.lower_Health(1 + attackmodifier)
+                                                    self.Charakter.change_status_temp('endu', '-')
+                                                    clicked = True
+                                        if biteSkill:
+                                            if bite_attack_active:
                                                 if bitebubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
                                                         enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
@@ -936,35 +945,15 @@ class Spiel(object):
                                                         ][enemy.Position[0]]
                                                         mod = int(self.Charakter.get_str())
                                                         if mod > 0:
-                                                            attackmodifier = Percentages.wuerfel(mod)
+                                                            attackmodifier = Percentages.dice(mod)
                                                         else:
                                                             attackmodifier = 0
-                                                        enemy.lower_Gesundheit(
+                                                        enemy.lower_Health(
                                                             2+attackmodifier)
-                                                        enemy.damage_and_death_anim(
-                                                            self.window, "damage", enemy_tile, enemy_environment)
-
-                                                        if not "hostile" in enemy.Verhalten:
-                                                            enemy.add_Verhalten("hostile")
-
-                                                        if enemy.Gesundheit <= 0:
-                                                            enemy.damage_and_death_anim(
-                                                                self.window, "death", enemy_tile, enemy_environment)
-                                                            Enemies.delete_from_list(
-                                                                enemy)
-                                                            Enemies_in_range.remove(
-                                                                enemy)
-                                                            enemy.__del__
-                                                            if not Enemies_in_range:
-                                                                active = False
-                                                            break
-                                                    self.Charakter.change_status_temp(
-                                                        'magic', '-')
-                                                    for enemy in Enemies.get_Enemies_Liste():
-                                                        enemy.Agieren(self.window, NewTilemap, direction,
-                                                                      player_Icon_Position, self.Charakter)
-                                                    Charaktermenu.stats_showing()
-                                            if tailSkill:
+                                                        self.Charakter.change_status_temp('magic', '-')
+                                                        clicked = True
+                                        if tailSkill:
+                                            if tail_attack_active:
                                                 if tailbubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
                                                         enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
@@ -973,36 +962,17 @@ class Spiel(object):
                                                         ][enemy.Position[0]]
                                                         mod = int(self.Charakter.get_str())
                                                         if mod > 0:
-                                                            attackmodifier = Percentages.wuerfel(mod)
+                                                            attackmodifier = Percentages.dice(mod)
                                                         else:
                                                             attackmodifier = 0
-                                                        enemy.lower_Gesundheit(
+                                                        enemy.lower_Health(
                                                             2+attackmodifier)
-                                                        enemy.damage_and_death_anim(
-                                                            self.window, "damage", enemy_tile, enemy_environment)
-
-                                                        if not "hostile" in enemy.Verhalten:
-                                                            enemy.add_Verhalten("hostile")
-
-                                                        if enemy.Gesundheit <= 0:
-                                                            enemy.damage_and_death_anim(
-                                                                self.window, "death", enemy_tile, enemy_environment)
-                                                            Enemies.delete_from_list(
-                                                                enemy)
-                                                            Enemies_in_range.remove(
-                                                                enemy)
-                                                            enemy.__del__
-                                                            if not Enemies_in_range:
-                                                                active = False
-
-                                                    self.Charakter.change_status_temp(
-                                                        'endu', '-')
-                                                    for enemy in Enemies.get_Enemies_Liste():
-                                                        enemy.Agieren(self.window, NewTilemap, direction,
-                                                                      player_Icon_Position, self.Charakter)
-                                                    Charaktermenu.stats_showing()
-                                            if earthSkill:
+                                                        self.Charakter.change_status_temp('endu', '-')
+                                                        clicked = True
+                                        if earthSkill:
+                                            if earth_attack_active:
                                                 if earthbubble.collidepoint(mousepos):
+                                                    #needed for blitting late
                                                     tiles_Sprite = Helper.spritesheet('tileset_32_32.png')
                                                     dirt_tile = tiles_Sprite.image_at((15, 2545, 64, 64),
                                                                                       colorkey=(0, 0, 0))
@@ -1010,7 +980,7 @@ class Spiel(object):
 
                                                     #stores just Gras tiles around character
                                                     Surrounding = []
-                                                    for tile in Liste:
+                                                    for tile in Surrounding_Tiles:
                                                         if tile[0] >= 0 and tile[1] >= 0:
                                                             tile_art= NewTilemap.getTilemap()[tile[1]][tile[0]]
                                                             if tile_art == WorldMap.GRASSLAND or tile_art == WorldMap.DIRT:
@@ -1034,9 +1004,11 @@ class Spiel(object):
                                                         self.window.blit(dirt_tile,
                                                                          (tile[0] * WorldMap.TILESIZE,
                                                                           tile[1] * WorldMap.TILESIZE))
+
                                                         if collide:
                                                             self.window.blit(WorldMap.environment[environment],
                                                                              (tile[0] * WorldMap.TILESIZE, tile[1] * WorldMap.TILESIZE))
+
                                                         self.window.blit(player_Icon, (
                                                             player_Icon_Position[0] * WorldMap.TILESIZE,
                                                             player_Icon_Position[1] * WorldMap.TILESIZE))
@@ -1044,7 +1016,6 @@ class Spiel(object):
                                                         for enemy in range(0, Enemies.get_Enemies_Anzahl()):
                                                             an_enemy = Enemies.get_Enemy(enemy)
                                                             an_enemy.show_Icon(self.window)
-
                                                         pygame.display.update()
                                                         fpsClock.tick(FPS)
 
@@ -1057,54 +1028,60 @@ class Spiel(object):
                                                         if enemy.Position in Surrounding:
                                                             mod = int(self.Charakter.get_str())
                                                             if mod > 0:
-                                                                attackmodifier = Percentages.wuerfel(mod)
+                                                                attackmodifier = Percentages.dice(mod)
                                                             else:
                                                                 attackmodifier = 0
-                                                            enemy.lower_Gesundheit(
-                                                                Percentages.wuerfel(5 + attackmodifier))
-                                                            enemy.damage_and_death_anim(
-                                                                self.window, "damage", enemy_tile, enemy_environment)
-                                                            if not "hostile" in enemy.Verhalten:
-                                                                enemy.add_Verhalten("hostile")
-                                                            if enemy.Gesundheit <= 0:
-                                                                enemy.damage_and_death_anim(
-                                                                    self.window, "death", enemy_tile, enemy_environment)
-                                                                Enemies.delete_from_list(
-                                                                    enemy)
-                                                                Enemies_in_range.remove(
-                                                                    enemy)
-                                                                enemy.__del__
-                                                                if not Enemies_in_range:
-                                                                    active = False
+                                                            enemy.lower_Health(
+                                                                Percentages.dice(5 + attackmodifier))
+                                                            self.Charakter.change_status_temp(
+                                                                'endu', '-')
+                                                            self.Charakter.change_status_temp(
+                                                                'health', '-')
+                                                            clicked = True
 
-                                                self.Charakter.change_status_temp(
-                                                    'endu', '-')
-                                                self.Charakter.change_status_temp(
-                                                    'health', '-')
-                                                for enemy in Enemies.get_Enemies_Liste():
-                                                    enemy.Agieren(self.window, NewTilemap, direction,
-                                                                  player_Icon_Position, self.Charakter)
-                                                Charaktermenu.stats_showing()
+                                        if clicked:
+                                            enemy.damage_and_death_anim(
+                                                self.window, "damage", enemy_tile, enemy_environment)
+                                            if not "hostile" in enemy.Behaviour:
+                                                enemy.add_Behaviour("hostile")
+                                            if enemy.Health <= 0:
+                                                enemy.damage_and_death_anim(
+                                                    self.window, "death", enemy_tile, enemy_environment)
+                                                Enemies.delete_from_list(
+                                                    enemy)
+                                                Enemies_in_range.remove(
+                                                    enemy)
+                                                enemy.__del__
+                                                if not Enemies_in_range:
+                                                    active = False
+                                            clicked = False
+
+                                        for enemy in Enemies.get_Enemies_Liste():
+                                            enemy.Agieren(self.window, NewTilemap, direction,
+                                                          player_Icon_Position, self.Charakter)
+                                            Charaktermenu.stats_showing()
                                     elif event.type == KEYDOWN:
                                         if event.key == K_f:
                                             wait_for_click = False
 
-                                    bubble = Interact.Bubble(self.window, player_Icon_Position, -1,
-                                                             -1, "standard", active)
+                                    #Drawing the Skills
+                                    bubble = Interact.Bubble(self.window, 'standard', 0, standard_attack_active)
                                     standardbubble = bubble.draw_bubble()
-                                    if biteSkill == True:
-                                        bubble = Interact.Bubble(self.window, player_Icon_Position, 2,
-                                                                 -1, "bite", active)
+                                    if biteSkill:
+                                        for i in [i for i, x in enumerate(Skills) if x == 'bite']:
+                                            bubble = Interact.Bubble(self.window, 'bite', i, bite_attack_active)
                                         bitebubble = bubble.draw_bubble()
-                                    if tailSkill == True:
-                                        bubble = Interact.Bubble(self.window, player_Icon_Position, -1,
-                                                                 2, "tail", active)
+                                    if tailSkill:
+                                        for i in [i for i, x in enumerate(Skills) if x == 'tail']:
+                                            bubble = Interact.Bubble(self.window, 'tail', i, tail_attack_active)
                                         tailbubble = bubble.draw_bubble()
-                                    if earthSkill == True:
-                                        bubble = Interact.Bubble(self.window, player_Icon_Position, 2,
-                                                                 2, "earthquake", active)
+                                    if earthSkill:
+                                        for i in [i for i, x in enumerate(Skills) if x == 'earthquake']:
+                                            bubble = Interact.Bubble(self.window, 'earthquake', i, earth_attack_active)
                                         earthbubble = bubble.draw_bubble()
+
                         elif (event.key == K_e):
+                            #collect fruits and vegetables
                             currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
                             ][player_Icon_Position[0]]
                             if currentEnvironment==WorldMap.FRUIT1 or currentEnvironment==WorldMap.FRUIT2:
@@ -1114,13 +1091,6 @@ class Spiel(object):
                                     self.Charakter.change_status_temp('magic', '+')
                                     self.Charakter.change_status_temp('health', '+')
                                 Charaktermenu.stats_showing()
-                            # STAR = pygame.draw_MainMenu.lines(self.window, Farben.clsFarben.GOLD, 1, LevelupForm.Star, 3)
-                            # self.window.blit(STAR, (CharakterForm.POSITION[0]*WorldMap.py.TILESIZE,CharakterForm.POSITION[1]*WorldMap.py.TILESIZE))
-                            # pygame.draw_MainMenu.rect(self.window, Farben.clsFarben.BLACK, STAR, 2)
-                            #print(self.Charakter.get_status_max('health'))
-                            #print(self.Charakter.get_status_temp('health'))
-                            #print(self.Charakter.get_status_max('endu'))
-                            #print(self.Charakter.get_status_temp('endu'))
 
 
 NeuesSpiel = Spiel(MODE, Charakter)
