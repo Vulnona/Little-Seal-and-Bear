@@ -10,20 +10,20 @@ import Helper
 
 class Bubble(object):
 
-    def __init__(self, screen, attack_form, Position, active):
+    def __init__(self, screen, skill, Position, active):
         self.screen = screen
-        self.Position = Position #Starting with '0', max is 3 (because there are 4 skills avaliable overall)
+        self.Position = Position #Starting with '0', max is 3 (because there are 4 fighting and 4 passive skills available overall)
         self.bubble_size = 18
-        self.attack_form=attack_form
-        self.active=active #in near of an enemy
+        self.skill=skill
+        self.active=active #in near of an enemy for fighting, enough temp values for fighting and non-fighting skills
         self._load_images()
 
     def _load_images(self):
         self.images = {
             'standard_active': Helper.load_image('skills/standard_active.png'),
             'standard_inactive': Helper.load_image('skills/standard_inactive.png'),
-            'skills_active': {skill.id: Helper.load_image('skills/' + skill.id + '_active.png') for skill in character.skills.FIGHT},
-            'skills_inactive': {skill.id: Helper.load_image('skills/' + skill.id + '_inactive.png') for skill in character.skills.FIGHT}
+            'skills_active': {skill.id: Helper.load_image('skills/' + skill.id + '_active.png') for skill in character.skills.ACTIVE},
+            'skills_inactive': {skill.id: Helper.load_image('skills/' + skill.id + '_inactive.png') for skill in character.skills.ACTIVE}
         }
 
     def draw_bubble(self):
@@ -32,13 +32,13 @@ class Bubble(object):
         circle=pygame.draw.circle(self.screen, Farben.clsFarben.BLACK,[circle_x,circle_y], self.bubble_size)
 
         if self.active:
-            if self.attack_form!='standard':
-                icon = self.images['skills_active'][self.attack_form]
+            if self.skill!= 'standard':
+                icon = self.images['skills_active'][self.skill]
             else:
                 icon = self.images['standard_active']
         else:
-            if self.attack_form!='standard':
-                icon = self.images['skills_inactive'][self.attack_form]
+            if self.skill!= 'standard':
+                icon = self.images['skills_inactive'][self.skill]
             else:
                 icon = self.images['standard_inactive']
 

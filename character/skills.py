@@ -141,10 +141,14 @@ class SaversCharacterSkill(WhiteSkill):
         abilities.ResistanceCharacterAbility: 7
     }
 
-FIGHT = [
+ACTIVE = [   #Active, usable skills
     TailCharacterSkill,
     EarthquakeCharacterSkill,
-    BiteCharacterSkill
+    BiteCharacterSkill,
+    StealthCharacterSkill,
+    MagicalHealCharacterSkill,
+    SaversCharacterSkill,
+    PlantingCharacterSkill
 ]
 
 ALL = [

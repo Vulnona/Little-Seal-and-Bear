@@ -1,6 +1,6 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# TODO: produceableres überarbeiten, bubbles überarbeiten, "MAX" Schriftzug
+# TODO: produceableres überarbeiten, bubbles überarbeiten, "MAX" Schriftzug, using magic -> correct blitting
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
 
 
@@ -176,9 +176,9 @@ class Spiel(object):
             Charaktermenu = Interact.clsInteract(
                 self.window, self.Charakter)
 
-            self.Charakter.set_Skill(character.skills.TailCharacterSkill)
+            self.Charakter.set_Skill(character.skills.PlantingCharacterSkill)
             self.Charakter.set_Skill(character.skills.EarthquakeCharacterSkill)
-            self.Charakter.set_Skill(character.skills.BiteCharacterSkill)
+            self.Charakter.set_Skill(character.skills.StealthCharacterSkill)
 
             while True:
 
@@ -714,6 +714,7 @@ class Spiel(object):
                                                             ][player_Icon_Position[0]] = WorldMap.DIRT
                                 Charaktermenu.stats_showing()
                         elif (event.key == K_m):
+                            Skills = []
                             # non-fighting skills
                             stealthSkill = False
                             healSkill = False
@@ -721,70 +722,33 @@ class Spiel(object):
                             saverSkill = False
                             if (self.Charakter.has_Skill(character.skills.StealthCharacterSkill)):
                                 stealthSkill = True
+                                Skills.append('stealth')
                             if (self.Charakter.has_Skill(character.skills.MagicalHealCharacterSkill)):
                                 healSkill = True
+                                Skills.append('magical_heal')
                             if (self.Charakter.has_Skill(character.skills.PlantingCharacterSkill)):
                                 plantingSkill = True
+                                Skills.append('plant')
                             if (self.Charakter.has_Skill(character.skills.SaversCharacterSkill)):
                                 saverSkill = True
-                            if stealthSkill == True:
-                                enough_temp_value = False
-                                if self.Charakter.get_status_temp('magic') > 1:
-                                    enough_temp_value = True
-                                bubble = Interact.Bubble(self.window, player_Icon_Position, -1,
-                                                         -1, "stealth", enough_temp_value)
-                                stealthbubble = bubble.draw_bubble()
-                            if healSkill == True:
-                                enough_temp_value = False
-                                if self.Charakter.get_status_temp('magic') > 1:
-                                    enough_temp_value = True
-                                bubble = Interact.Bubble(self.window, player_Icon_Position, 2,
-                                                         -1, "magical_heal", enough_temp_value)
-                                healbubble = bubble.draw_bubble()
-                            if plantingSkill == True:
-                                enough_temp_value = False
-                                if self.Charakter.get_status_temp('magic') > 1:
-                                    currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                                          ][player_Icon_Position[0]]
-                                    currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                          ][player_Icon_Position[0]]
-                                    hasenv = False
-                                    for grass in WorldMap.grasses:
-                                        if grass == currentEnvironment:
-                                            hasenv = True
-                                    # Skill möglich, wenn Dirt ohne Gras vorhanden ist
-                                    if currentTile == WorldMap.DIRT and hasenv == False:
-                                        enough_temp_value = True
-                                    # Skill möglich, wenn Grassland vorhanden ist, auf dem kein hohes Gras wächst
-                                    elif currentTile == WorldMap.GRASSLAND and currentEnvironment != WorldMap.MOREGRASS:
-                                        if currentEnvironment == WorldMap.LOWGRASS or currentEnvironment == WorldMap.DEADGRASS \
-                                                or currentEnvironment == WorldMap.GRASSDECO:
-                                            enough_temp_value = True
-                                    bubble = Interact.Bubble(self.window, player_Icon_Position, -1,
-                                                             2, "plant", enough_temp_value)
-                                    plantbubble = bubble.draw_bubble()
-                            if saverSkill == True:
-                                enough_temp_value = False
-                                if self.Charakter.get_status_temp('endu') > 1:
-                                    enough_temp_value = True
-                                bubble = Interact.Bubble(self.window, player_Icon_Position, 2,
-                                                         2, "robe", enough_temp_value)
-                                saverbubble = bubble.draw_bubble()
+                                Skills.append('robe')
 
                             if stealthSkill or healSkill or plantingSkill or saverSkill:
                                 wait_for_click = True
                             else:
                                 wait_for_click = False
+                            clicked = False
                             # if character has one of the passive skills:
                             while wait_for_click:
+                                pygame.display.update()
                                 for event in pygame.event.get():
                                     if event.type == QUIT:
                                         pygame.quit()
                                         sys.exit()
                                     elif event.type == MOUSEBUTTONDOWN:
-                                        if enough_temp_value == False:
+                                        if not enough_temp_value:
                                             break
-                                        elif enough_temp_value == True:
+                                        elif enough_temp_value:
                                             mousepos = event.pos
                                             if stealthSkill:
                                                 if stealthbubble.collidepoint(mousepos):
@@ -794,10 +758,7 @@ class Spiel(object):
                                                         self.Charakter.set_stealth_mode(True)
                                                     else:
                                                         self.Charakter.set_stealth_mode(False)
-                                                    for enemy in Enemies.get_Enemies_Liste():
-                                                        enemy.Agieren(self.window, NewTilemap, direction,
-                                                                      player_Icon_Position, self.Charakter)
-                                                    Charaktermenu.stats_showing()
+                                                    clicked = True
                                             if healSkill:
                                                 if healbubble.collidepoint(mousepos):
                                                     self.Charakter.change_status_temp(
@@ -806,15 +767,9 @@ class Spiel(object):
                                                         'endurance', '+')
                                                     self.Charakter.change_status_temp(
                                                         'health', '+')
-                                                    for enemy in Enemies.get_Enemies_Liste():
-                                                        enemy.Agieren(self.window, NewTilemap, direction,
-                                                                      player_Icon_Position, self.Charakter)
-                                                    Charaktermenu.stats_showing()
+                                                    clicked = True
                                             if plantingSkill:
                                                 if plantbubble.collidepoint(mousepos):
-                                                    for enemy in Enemies.get_Enemies_Liste():
-                                                        enemy.Agieren(self.window, NewTilemap, direction,
-                                                                      player_Icon_Position, self.Charakter)
                                                     currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
                                                                                           ][player_Icon_Position[0]]
                                                     currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
@@ -831,6 +786,7 @@ class Spiel(object):
                                                                                         ][player_Icon_Position[0]]=WorldMap.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
+                                                        clicked = True
                                                         break
                                                     elif currentTile == WorldMap.GRASSLAND:
                                                         if currentEnvironment == WorldMap.LOWGRASS:
@@ -844,20 +800,67 @@ class Spiel(object):
                                                             ][player_Icon_Position[0]] = WorldMap.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
-                                                    Charaktermenu.stats_showing()
+                                                    clicked = True
                                                     break
 
                                             if saverSkill:
                                                 if saverbubble.collidepoint(mousepos):
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
-                                                    for enemy in Enemies.get_Enemies_Liste():
-                                                        enemy.Agieren(self.window, NewTilemap, direction,
-                                                                      player_Icon_Position, self.Charakter)
-                                                    Charaktermenu.stats_showing()
+                                                    clicked = True
+                                            if clicked:
+                                                for enemy in Enemies.get_Enemies_Liste():
+                                                    enemy.Agieren(self.window, NewTilemap, direction,
+                                                                  player_Icon_Position, self.Charakter)
+                                                Charaktermenu.stats_showing()
+                                                clicked = False
                                     elif event.type == KEYDOWN:
                                         if event.key == K_m:
                                             wait_for_click = False
+
+                                    if stealthSkill:
+                                        enough_temp_value = False
+                                        if self.Charakter.get_status_temp('magic') > 1:
+                                            enough_temp_value = True
+                                        for i in [i for i, x in enumerate(Skills) if x == 'stealth']:
+                                            bubble = Interact.Bubble(self.window, 'stealth', i, enough_temp_value)
+                                        stealthbubble = bubble.draw_bubble()
+                                    if healSkill:
+                                        enough_temp_value = False
+                                        if self.Charakter.get_status_temp('magic') > 1:
+                                            enough_temp_value = True
+                                        for i in [i for i, x in enumerate(Skills) if x == 'magical_heal']:
+                                            bubble = Interact.Bubble(self.window, 'magical_heal', i, enough_temp_value)
+                                        healbubble = bubble.draw_bubble()
+                                    if plantingSkill:
+                                        enough_temp_value = False
+                                        if self.Charakter.get_status_temp('magic') > 1:
+                                            currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
+                                            ][player_Icon_Position[0]]
+                                            currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
+                                            ][player_Icon_Position[0]]
+                                            hasenv = False
+                                            for grass in WorldMap.grasses:
+                                                if grass == currentEnvironment:
+                                                    hasenv = True
+                                            # Skill möglich, wenn Dirt ohne Gras vorhanden ist
+                                            if currentTile == WorldMap.DIRT and hasenv == False:
+                                                enough_temp_value = True
+                                            # Skill möglich, wenn Grassland vorhanden ist, auf dem kein hohes Gras wächst
+                                            elif currentTile == WorldMap.GRASSLAND and currentEnvironment != WorldMap.MOREGRASS:
+                                                if currentEnvironment == WorldMap.LOWGRASS or currentEnvironment == WorldMap.DEADGRASS \
+                                                        or currentEnvironment == WorldMap.GRASSDECO:
+                                                    enough_temp_value = True
+                                            for i in [i for i, x in enumerate(Skills) if x == 'plant']:
+                                                bubble = Interact.Bubble(self.window, 'plant', i, enough_temp_value)
+                                            plantbubble = bubble.draw_bubble()
+                                    if saverSkill:
+                                        enough_temp_value = False
+                                        if self.Charakter.get_status_temp('endu') > 1:
+                                            enough_temp_value = True
+                                        for i in [i for i, x in enumerate(Skills) if x == 'robe']:
+                                            bubble = Interact.Bubble(self.window, 'robe', i, enough_temp_value)
+                                        saverbubble = bubble.draw_bubble()
 
                         elif(event.key == K_f):
                             # fighting skills
