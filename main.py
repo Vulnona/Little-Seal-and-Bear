@@ -1,6 +1,6 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# TODO: produceableres überarbeiten, bubbles überarbeiten
+# TODO: produceableres überarbeiten, bubbles überarbeiten, "MAX" Schriftzug
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
 
 
@@ -175,8 +175,6 @@ class Spiel(object):
 
             Charaktermenu = Interact.clsInteract(
                 self.window, self.Charakter)
-            ######
-            #self.Charakter.set_Skill(character.skills.StealthCharacterSkill)
 
             while True:
 
@@ -912,8 +910,8 @@ class Spiel(object):
                                                         'endu', '-')
                                                     Charaktermenu.stats_showing()
 
-                                                    if not "feindlich" in enemy.Verhalten:
-                                                        enemy.add_Verhalten("feindlich")
+                                                    if not "hostile" in enemy.Verhalten:
+                                                        enemy.add_Verhalten("hostile")
 
                                                     if enemy.Gesundheit <= 0:
                                                         enemy.damage_and_death_anim(
@@ -946,8 +944,8 @@ class Spiel(object):
                                                         enemy.damage_and_death_anim(
                                                             self.window, "damage", enemy_tile, enemy_environment)
 
-                                                        if not "feindlich" in enemy.Verhalten:
-                                                            enemy.add_Verhalten("feindlich")
+                                                        if not "hostile" in enemy.Verhalten:
+                                                            enemy.add_Verhalten("hostile")
 
                                                         if enemy.Gesundheit <= 0:
                                                             enemy.damage_and_death_anim(
@@ -983,8 +981,8 @@ class Spiel(object):
                                                         enemy.damage_and_death_anim(
                                                             self.window, "damage", enemy_tile, enemy_environment)
 
-                                                        if not "feindlich" in enemy.Verhalten:
-                                                            enemy.add_Verhalten("feindlich")
+                                                        if not "hostile" in enemy.Verhalten:
+                                                            enemy.add_Verhalten("hostile")
 
                                                         if enemy.Gesundheit <= 0:
                                                             enemy.damage_and_death_anim(
@@ -1066,8 +1064,8 @@ class Spiel(object):
                                                                 Percentages.wuerfel(5 + attackmodifier))
                                                             enemy.damage_and_death_anim(
                                                                 self.window, "damage", enemy_tile, enemy_environment)
-                                                            if not "feindlich" in enemy.Verhalten:
-                                                                enemy.add_Verhalten("feindlich")
+                                                            if not "hostile" in enemy.Verhalten:
+                                                                enemy.add_Verhalten("hostile")
                                                             if enemy.Gesundheit <= 0:
                                                                 enemy.damage_and_death_anim(
                                                                     self.window, "death", enemy_tile, enemy_environment)

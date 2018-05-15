@@ -5,10 +5,29 @@ import pyganim
 import Helper
 import character
 
+class BaseType:
+    def __str__(self):
+        return self.name
+
+
+class clsBug(BaseType):
+    id = 'bug'
+    name = 'Käfer'
+
+
+class clsBird(BaseType):
+    id = 'bird'
+    name = 'Vogel'
+
+class clsSawblade(BaseType):
+    id = 'sawblade'
+    name = "Kettensägenmensch"
+
+
 
 class cls_Enemy(object):
 
-    def __init__(self, Art="Unbekannt", Gesundheit=1, Position=[0, 0]):
+    def __init__(self, Art=None, Gesundheit=1, Position=[0, 0]):
         self.Art = Art
         self.Gesundheit = Gesundheit
         self.Position = Position
@@ -31,11 +50,11 @@ class cls_Enemy(object):
         }
 
     def show_Icon(self, screen):
-        if self.Art == "Käfer":
+        if isinstance(self.Art, clsBug):
             enemy_Icon=self.images['enemies']['bug']
-        elif self.Art == "Vogel":
+        elif isinstance(self.Art, clsBird):
             enemy_Icon=self.images['enemies']['bird']
-        elif self.Art == "Kettensägenmensch":
+        elif isinstance(self.Art, clsSawblade):
             enemy_Icon=self.images['enemies']['sawblade']
         enemy_Icon = pygame.transform.scale(
             enemy_Icon, (WorldMap.TILESIZE, WorldMap.TILESIZE))
@@ -51,12 +70,14 @@ class cls_Enemy(object):
         currentEnvironment = Tilemap.getEnvironment()[self.Position[1]
         ][self.Position[0]]
         #evaluate 'flee'
+        if "flee" in self.Verhalten:
+            pass
 
         #evaluate 'eat'
-        if "fressen" in self.Verhalten:
+        if "grassfood" in self.Verhalten:
             if currentTile == WorldMap.GRASSLAND or currentEnvironment == WorldMap.LOWGRASS or currentEnvironment == WorldMap.MOREGRASS:
                 return "eat"
-        if "obst" in self.Verhalten:
+        if "vegetables" in self.Verhalten:
             if currentEnvironment==WorldMap.FRUIT1 or currentEnvironment==WorldMap.FRUIT2:
                 return "eat"
 
@@ -87,16 +108,16 @@ class cls_Enemy(object):
                 if env == tile_env:
                     PossibleTiles.remove(tile)
             if tile == Player_Position:
-                if "angriff" in self.Verhalten or "feindlich" in self.Verhalten:
+                if "aggressive" in self.Verhalten or "hostile" in self.Verhalten:
                     if Charakter.get_stealth_mode()==False:
                         return "attack"
                     else:
                         PossibleTiles.remove(tile)
             if tile_env == WorldMap.LOWGRASS or tile_env == WorldMap.MOREGRASS:
-                if "fressen" in self.Verhalten:
+                if "grassfood" in self.Verhalten:
                     PreferedTiles.append(tile)
             elif tile_env == WorldMap.FRUIT1 or tile_env == WorldMap.FRUIT2:
-                if "obst" in self.Verhalten:
+                if "vegetables" in self.Verhalten:
                     PreferedTiles.append(tile)
 
         if not PreferedTiles:
@@ -236,9 +257,9 @@ class cls_Enemy(object):
             pass
         elif act == "attack":
             amount=1
-            if self.Art=="Vogel":
+            if isinstance(self.Art, clsBird):
                 amount=Percentages.wuerfel(2)
-            elif self.Art=="Kettensägenmensch":
+            elif isinstance(self.Art, clsSawblade):
                 amount=Percentages.wuerfel(5)
             for i in range (amount):
                 Charakter.change_status_temp('health', '-')
@@ -267,14 +288,14 @@ class cls_Enemy(object):
 
     def init_Verhalten(self):
 
-        if self.Art == "Käfer":
-            self.add_Verhalten("fressen")
-        if self.Art == "Vogel":
-            self.add_Verhalten("feindlich")
-            self.add_Verhalten("obst")
-        if self.Art == "Kettensägenmensch":
-            self.add_Verhalten("feindlich")
-            self.add_Verhalten("angriff")
+        if isinstance(self.Art, clsBug):
+            self.add_Verhalten("grassfood")
+        if isinstance(self.Art, clsBird):
+            self.add_Verhalten("hostile")
+            self.add_Verhalten("vegetables")
+        if isinstance(self.Art, clsSawblade):
+            self.add_Verhalten("hostile")
+            self.add_Verhalten("aggressive")
 
 
     def add_Verhalten(self, Verhalten):
@@ -372,11 +393,11 @@ class cls_Enemy(object):
 
     def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art, enemy_environment=WorldMap.NOTHING):
         mainClock = pygame.time.Clock()
-        if self.Art == "Käfer":
+        if isinstance(self.Art, clsBug):
             first = Helper.load_image('enemies/bug.png')
-        if self.Art == "Vogel":
+        elif isinstance(self.Art, clsBird):
             first = Helper.load_image('enemies/bird.png')
-        if self.Art == "Kettensägenmensch":
+        elif isinstance(self.Art, clsSawblade):
             first = Helper.load_image('enemies/sawblade.png')
         first = pygame.transform.scale(
             first, (WorldMap.TILESIZE, WorldMap.TILESIZE))
@@ -422,15 +443,15 @@ class cls_Enemy(object):
     def generate_Enemy(self, Tilemap):
         rand_int = Percentages.wuerfel(10)
         if rand_int <= 5:
-            Art = "Käfer"
+            Art = clsBug()
             healthmodifier=Percentages.wuerfel(6)
             Gesundheit = 5+healthmodifier
         elif (rand_int >= 5 and rand_int <= 9):
-            Art = "Vogel"
+            Art = clsBird()
             healthmodifier=Percentages.wuerfel(12)
             Gesundheit = 10+healthmodifier
         elif rand_int == 10:
-            Art = "Kettensägenmensch"
+            Art = clsSawblade()
             healthmodifier=Percentages.wuerfel(30)
             Gesundheit = 30+healthmodifier
 

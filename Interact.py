@@ -233,6 +233,9 @@ class clsInteract(object):
                                                        Farben.clsFarben.WHITE)
                 self.screen.blit(actuallevel,
                                  (Koordinaten.clsKoordinaten.ACTLVLPOSX, Koordinaten.clsKoordinaten.ACTLVLPOSY))
+                # for max level characters: "MAX" schräg
+                #still have to implement it
+
                 exp_bar = self.fonts['normal'].render(str(self.Charakter.get_experience()) + "/" + str(self.Charakter.exp_needed_for_Level_Up()),
                                                       0, Farben.clsFarben.WHITE)
                 self.screen.blit(exp_bar,

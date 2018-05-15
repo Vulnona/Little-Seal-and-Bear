@@ -7,12 +7,12 @@ class BaseType:
 
 
 class clsBaer(BaseType):
-    id = 'baer'
+    id = 'bear'
     name = 'Bär'
 
 
 class clsRobbe(BaseType):
-    id = 'robbe'
+    id = 'seal'
     name = 'Robbe'
 
 
