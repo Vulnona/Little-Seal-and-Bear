@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Aescae
-  - Tierart: Robbe
-  - Farbe: Grau
+  - Name: Idickou
+  - Tierart: Bär
+  - Farbe: Weiss
 
 ## Statuswerte
 

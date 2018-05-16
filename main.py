@@ -1,6 +1,8 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# TODO: produceableres überarbeiten, bubbles überarbeiten, "MAX" Schriftzug, using magic -> correct blitting
+# TODO: "MAX" Schriftzug, using magic -> correct blitting
+# TODO: magic -> animation
+# IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
 
 
@@ -48,14 +50,7 @@ FPS = 60
 fpsClock = pygame.time.Clock()
 Charakter = character.Character()
 MODE = "UNKNOWN"
-player_Icon_Position = [0, 0]
-BackgroundTilemap = WorldMap.clsTileMap()
-NewTilemap = WorldMap.clsTileMap()
-# NewTilemap.randomTilemap()
-NewTilemap.customTilemap()
-NewTilemap.environment_customTilemap()
-Enemies = ObjectsEnemies.cls_Enemies()
-Enemies.fill_Enemies_list(NewTilemap)
+
 
 
 class Spiel(object):
@@ -67,6 +62,17 @@ class Spiel(object):
         self._load_fonts()
         self._load_images()
         self._load_spritesheets()
+
+        self.BackgroundTilemap = WorldMap.clsTileMap()
+        self.NewTilemap = WorldMap.clsTileMap()
+        # NewTilemap.randomTilemap()
+        self.NewTilemap.customTilemap()
+        self.NewTilemap.environment_customTilemap()
+        self.Enemies = ObjectsEnemies.cls_Enemies()
+        self.Enemies.fill_Enemies_list(self.NewTilemap)
+
+        self.player_Icon_Position = [0, 0]
+
 
     def _load_fonts(self):
         logging.info('Loading fonts')
@@ -117,7 +123,7 @@ class Spiel(object):
 
         elif MODE == "SAVE":
             with open('savefile.dat', 'wb') as f:
-                pickle.dump([self.Charakter, WorldMap.inventory],
+                pickle.dump([self.Charakter, WorldMap.inventory, self.NewTilemap, self.player_Icon_Position],
                             f, protocol=2)
             logging.info('Game saved')
             MODE = "GAME"
@@ -125,7 +131,7 @@ class Spiel(object):
 
         elif MODE == "LOAD":
             with open('savefile.dat', 'rb') as f:
-                self.Charakter, WorldMap.inventory = pickle.load(f)
+                self.Charakter, WorldMap.inventory, self.NewTilemap, self.player_Icon_Position = pickle.load(f)
             logging.info('Game loaded')
             MODE = "GAME"
             return MODE
@@ -189,11 +195,11 @@ class Spiel(object):
                 pygame.display.update()
                 for row in range(WorldMap.MAPHEIGHT):
                     for column in range(WorldMap.MAPWIDTH):
-                        self.window.blit(WorldMap.textures[BackgroundTilemap.getTilemap()[row][column]],
+                        self.window.blit(WorldMap.textures[self.BackgroundTilemap.getTilemap()[row][column]],
                                          (column * WorldMap.TILESIZE, row * WorldMap.TILESIZE))
-                        self.window.blit(WorldMap.textures[NewTilemap.getTilemap()[row][column]],
+                        self.window.blit(WorldMap.textures[self.NewTilemap.getTilemap()[row][column]],
                                          (column * WorldMap.TILESIZE, row * WorldMap.TILESIZE))
-                        self.window.blit(WorldMap.environment[NewTilemap.getEnvironment()[row][column]],
+                        self.window.blit(WorldMap.environment[self.NewTilemap.getEnvironment()[row][column]],
                                          (column * WorldMap.TILESIZE, row * WorldMap.TILESIZE))
                 pygame.draw.rect(
                     self.window, Farben.clsFarben.BLACK, blackbar)
@@ -295,12 +301,12 @@ class Spiel(object):
 
                 self.window.blit(
                     player_Icon, (
-                        player_Icon_Position[0] * WorldMap.TILESIZE,
-                        (player_Icon_Position[1] * WorldMap.TILESIZE)))
+                        self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                        (self.player_Icon_Position[1] * WorldMap.TILESIZE)))
 
                 # Generating and placing enemies
-                for enemy in range(0, Enemies.get_Enemies_Anzahl()):
-                    an_enemy = Enemies.get_Enemy(enemy)
+                for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                    an_enemy = self.Enemies.get_Enemy(enemy)
                     an_enemy.show_Icon(self.window)
 
                 # Character Stats Showing
@@ -330,108 +336,34 @@ class Spiel(object):
                         if (event.key == K_ESCAPE):
                             MODE = "STARTSCREEN"
                             return MODE
-                        elif (event.key == K_RIGHT and player_Icon_Position[0] < WorldMap.MAPWIDTH - 1):
-                            if self.Charakter.get_status_temp('endu') <= 0:
-                                print('Keine Energie mehr verfügbar')
-                            else:
-                                cont = True
-                                if self.Charakter.get_status_temp('magic') <= 0:
-                                    if self.Charakter.get_stealth_mode()==True:
-                                        self.Charakter.set_stealth_mode(False)
-                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                                   ][player_Icon_Position[0]+1]
-                                nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                              ][player_Icon_Position[0] + 1]
-                                nextPosition = [
-                                    player_Icon_Position[0]+1, player_Icon_Position[1]]
-                                for enemy in range(0, Enemies.get_Enemies_Anzahl()):
-                                    an_enemy = Enemies.get_Enemy(enemy)
-                                    if nextPosition == an_enemy.Position:
-                                        cont = False
-                                currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                                 ][player_Icon_Position[0]]
-                                for env in WorldMap.enterable:
-                                    if env == currentEnvironment:
-                                        cont = False
-                                if cont:
-                                    for tile in WorldMap.waterbehaviour:
-                                        if tile == nextTile:
-                                            if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
-                                                cont = True
-                                                break
-                                            else:
-                                                cont = False
-                                    if cont:
-                                        for env in WorldMap.enterable:
-                                            if env == currentEnvironment:
-                                                for env2 in WorldMap.enterable:
-                                                    if env2 == nextEnvironment:
-                                                        cont = True
-                                                        break
-                                                    else:
-                                                        cont = False
-                                        for env in WorldMap.collide:
-                                            if env == nextEnvironment:
-                                                cont = False
-                                                break
-                                        if cont:
-                                            for enemy in Enemies.get_Enemies_Liste():
-                                                enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position, self.Charakter)
-                                            if self.Charakter.get_status_temp('health')>0:
-                                                if(isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                                    images = player_Sprite.images_at(
-                                                        rects=sprites_bear_right, colorkey=[0, 0, 0])
-                                                elif(isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                                    images = player_Sprite.images_at(
-                                                        rects=sprites_seal_right, colorkey=[0, 0, 0])
-                                                WalkAnim = pyganim.PygAnimation(
-                                                    [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                                WalkAnim.scale((37, 37))
-                                                WalkAnim.play()
-                                                walk = 0.0
-                                                proceed = True
-                                                while proceed:
-                                                    Helper.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position, nextPosition, self.window)
-                                                    WalkAnim.blit(self.window,
-                                                                  (player_Icon_Position[0] * WorldMap.TILESIZE + walk,
-                                                                   (player_Icon_Position[1] * WorldMap.TILESIZE)))
-                                                    pygame.display.update()
-                                                    walk += 1
-                                                    fpsClock.tick(FPS)
-                                                    if player_Icon_Position[0]*WorldMap.TILESIZE + walk > (player_Icon_Position[0] + 1)*WorldMap.TILESIZE:
-                                                        proceed = False
-                                                direction = "right"
-                                                if self.Charakter.get_stealth_mode() == True:
-                                                    self.Charakter.change_status_temp(
-                                                        'magic', '-')
-                                                player_Icon_Position[0] += 1
-                                                self.Charakter.change_status_temp(
-                                                    'endu', '-')
-                                                if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                                    rand_int = Percentages.haelftehaelfte()
-                                                    if rand_int:
-                                                        self.Charakter.change_status_temp(
-                                                            'endu', '+')
-                        elif (event.key == K_LEFT and player_Icon_Position[0] > 0):
-                            if self.Charakter.get_status_temp('endu') <= 0:
-                                print('Keine Energie mehr verfügbar')
-                            else:
-                                cont = True
-                                if self.Charakter.get_status_temp('magic') <= 0:
-                                    if self.Charakter.get_stealth_mode()==True:
-                                        self.Charakter.set_stealth_mode(False)
-                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                                   ][player_Icon_Position[0] - 1]
-                                nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                              ][player_Icon_Position[0] - 1]
-                                currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                                 ][player_Icon_Position[0]]
-                                nextPosition = [
-                                    player_Icon_Position[0] - 1, player_Icon_Position[1]]
-                                for enemy in range(0, Enemies.get_Enemies_Anzahl()):
-                                    an_enemy = Enemies.get_Enemy(enemy)
-                                    if nextPosition == an_enemy.Position:
-                                        cont = False
+                        elif (event.key == K_RIGHT and self.player_Icon_Position[0] < WorldMap.MAPWIDTH - 1):
+                            cont = True
+                            if self.Charakter.get_status_temp('magic') <= 0:
+                                if self.Charakter.get_stealth_mode()==True:
+                                    self.Charakter.set_stealth_mode(False)
+                            nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                                               ][self.player_Icon_Position[0]+1]
+                            nextEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                          ][self.player_Icon_Position[0] + 1]
+                            nextPosition = [
+                                self.player_Icon_Position[0]+1, self.player_Icon_Position[1]]
+                            for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                                an_enemy = self.Enemies.get_Enemy(enemy)
+                                if nextPosition == an_enemy.Position:
+                                    cont = False
+                            currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                             ][self.player_Icon_Position[0]]
+                            for env in WorldMap.enterable:
+                                if env == currentEnvironment:
+                                    cont = False
+                            if cont:
+                                for tile in WorldMap.waterbehaviour:
+                                    if tile == nextTile:
+                                        if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
+                                            cont = True
+                                            break
+                                        else:
+                                            cont = False
                                 if cont:
                                     for env in WorldMap.enterable:
                                         if env == currentEnvironment:
@@ -441,167 +373,73 @@ class Spiel(object):
                                                     break
                                                 else:
                                                     cont = False
-                                    if cont:
-                                        for tile in WorldMap.waterbehaviour:
-                                            if tile == nextTile:
-                                                if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
-                                                    cont = True
-                                                    break
-                                                else:
-                                                    cont = False
-                                        if cont:
-                                            for env in WorldMap.collide:
-                                                if env == nextEnvironment:
-                                                    cont = False
-                                                    break
-                                            if cont:
-                                                for enemy in Enemies.get_Enemies_Liste():
-                                                    enemy.Agieren(self.window, NewTilemap, direction,
-                                                                  player_Icon_Position, self.Charakter)
-                                                if self.Charakter.get_status_temp('health') > 0:
-                                                    if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                                        images = player_Sprite.images_at(
-                                                            rects=sprites_bear_left, colorkey=[0, 0, 0])
-                                                    elif (
-                                                    isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                                        images = player_Sprite.images_at(
-                                                            rects=sprites_seal_left, colorkey=[0, 0, 0])
-                                                    WalkAnim = pyganim.PygAnimation(
-                                                        [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                                    WalkAnim.scale((37, 37))
-                                                    WalkAnim.play()
-                                                    walk = 0.0
-                                                    proceed = True
-                                                    while proceed:
-                                                        Helper.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
-                                                                       nextPosition, self.window)
-                                                        WalkAnim.blit(self.window,
-                                                                      (player_Icon_Position[0] * WorldMap.TILESIZE - walk,
-                                                                       (player_Icon_Position[1] * WorldMap.TILESIZE)))
-                                                        pygame.display.update()
-                                                        walk += 1
-                                                        fpsClock.tick(FPS)
-                                                        if player_Icon_Position[0] * WorldMap.TILESIZE - walk < (
-                                                                player_Icon_Position[0] - 1) * WorldMap.TILESIZE:
-                                                            proceed = False
-                                                    direction = "left"
-                                                    if self.Charakter.get_stealth_mode() == True:
-                                                        self.Charakter.change_status_temp(
-                                                            'magic', '-')
-                                                    player_Icon_Position[0] -= 1
-                                                    self.Charakter.change_status_temp(
-                                                        'endu', '-')
-                                                    if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                                        rand_int = Percentages.haelftehaelfte()
-                                                        if rand_int:
-                                                            self.Charakter.change_status_temp(
-                                                                'endu', '+')
-                                            else:
-                                                break
-                        elif (event.key == K_DOWN and player_Icon_Position[1] < WorldMap.MAPHEIGHT - 1):
-                            if self.Charakter.get_status_temp('endu') <= 0:
-                                print('Keine Energie mehr verfügbar')
-                            else:
-                                cont = True
-                                if self.Charakter.get_status_temp('magic') <= 0:
-                                    if self.Charakter.get_stealth_mode()==True:
-                                        self.Charakter.set_stealth_mode(False)
-                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]+1
-                                                                   ][player_Icon_Position[0]]
-                                nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1] + 1
-                                                                              ][player_Icon_Position[0]]
-                                nextPosition = [
-                                    player_Icon_Position[0], player_Icon_Position[1]+1]
-                                for enemy in range(0, Enemies.get_Enemies_Anzahl()):
-                                    an_enemy = Enemies.get_Enemy(enemy)
-                                    if nextPosition == an_enemy.Position:
-                                        cont = False
-                                for tile in WorldMap.waterbehaviour:
-                                    if tile == nextTile:
-                                        if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
-                                            cont = True
-                                            break
-                                        else:
-                                            cont = False
-                                for env in WorldMap.collide:
-                                    if env == nextEnvironment:
-                                        cont = False
-                                        break
-                                if cont:
-                                    for enemy in Enemies.get_Enemies_Liste():
-                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
-                                                      self.Charakter)
-                                    if self.Charakter.get_status_temp('health') > 0:
-                                        if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                            images = player_Sprite.images_at(
-                                                rects=sprites_bear_down, colorkey=[0, 0, 0])
-                                        elif (isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                            images = player_Sprite.images_at(
-                                                rects=sprites_seal_down, colorkey=[0, 0, 0])
-                                        WalkAnim = pyganim.PygAnimation(
-                                            [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                        WalkAnim.scale((37, 37))
-                                        WalkAnim.play()
-                                        walk = 0.0
-                                        proceed = True
-                                        while proceed:
-                                            Helper.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
-                                                           nextPosition, self.window)
-                                            WalkAnim.blit(self.window,
-                                                          (player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                           (player_Icon_Position[1] * WorldMap.TILESIZE) + walk))
-                                            pygame.display.update()
-                                            walk += 1
-                                            fpsClock.tick(FPS)
-                                            if player_Icon_Position[1] * WorldMap.TILESIZE + walk > (
-                                                    player_Icon_Position[1] + 1) * WorldMap.TILESIZE:
-                                                proceed = False
-                                        direction = "down"
-                                        if self.Charakter.get_stealth_mode() == True:
-                                            self.Charakter.change_status_temp(
-                                                'magic', '-')
-                                        player_Icon_Position[1] += 1
-                                        self.Charakter.change_status_temp(
-                                            'endu', '-')
-                                        if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                            rand_int = Percentages.haelftehaelfte()
-                                            if rand_int:
-                                                self.Charakter.change_status_temp(
-                                                    'endu', '+')
-                        elif (event.key == K_UP and player_Icon_Position[1] > 0):
-                            if self.Charakter.get_status_temp('endu') <= 0:
-                                print('Keine Energie mehr verfügbar')
-                            else:
-                                cont = True
-                                if self.Charakter.get_status_temp('magic') <= 0:
-                                    if self.Charakter.get_stealth_mode()==True:
-                                        self.Charakter.set_stealth_mode(False)
-                                nextTile = NewTilemap.getTilemap()[player_Icon_Position[1]-1
-                                                                   ][player_Icon_Position[0]]
-                                currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                                 ][player_Icon_Position[0]]
-                                nextEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]-1
-                                                                              ][player_Icon_Position[0]]
-                                nextPosition = [
-                                    player_Icon_Position[0], player_Icon_Position[1]-1]
-                                for enemy in range(0, Enemies.get_Enemies_Anzahl()):
-                                    an_enemy = Enemies.get_Enemy(enemy)
-                                    if nextPosition == an_enemy.Position:
-                                        cont = False
-                                for env in WorldMap.enterable:
-                                    if env == currentEnvironment:
-                                        cont = False
-                                if cont:
-                                    if nextEnvironment == WorldMap.STONEHOLE:
-                                        if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
-                                            cont = True
-                                            break
-                                        else:
-                                            cont = False
                                     for env in WorldMap.collide:
                                         if env == nextEnvironment:
                                             cont = False
                                             break
+                                    if cont:
+                                        for enemy in self.Enemies.get_Enemies_Liste():
+                                            enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position, self.Charakter)
+                                        if self.Charakter.get_status_temp('health')>0:
+                                            if(isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_bear_right, colorkey=[0, 0, 0])
+                                            elif(isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
+                                                images = player_Sprite.images_at(
+                                                    rects=sprites_seal_right, colorkey=[0, 0, 0])
+                                            WalkAnim = pyganim.PygAnimation(
+                                                [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                            WalkAnim.scale((37, 37))
+                                            WalkAnim.play()
+                                            walk = 0.0
+                                            proceed = True
+                                            while proceed:
+                                                Helper.repaint(self.BackgroundTilemap, self.NewTilemap, self.player_Icon_Position, nextPosition, self.window)
+                                                WalkAnim.blit(self.window,
+                                                              (self.player_Icon_Position[0] * WorldMap.TILESIZE + walk,
+                                                               (self.player_Icon_Position[1] * WorldMap.TILESIZE)))
+                                                pygame.display.update()
+                                                walk += 1
+                                                fpsClock.tick(FPS)
+                                                if self.player_Icon_Position[0]*WorldMap.TILESIZE + walk > (self.player_Icon_Position[0] + 1)*WorldMap.TILESIZE:
+                                                    proceed = False
+                                            direction = "right"
+                                            if self.Charakter.get_stealth_mode() == True:
+                                                self.Charakter.change_status_temp(
+                                                    'magic', '-')
+                                            self.player_Icon_Position[0] += 1
+                                            if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
+                                                rand_int = Percentages.haelftehaelfte()
+                                                if rand_int:
+                                                    self.Charakter.change_status_temp(
+                                                        'endu', '+')
+                        elif (event.key == K_LEFT and self.player_Icon_Position[0] > 0):
+                            cont = True
+                            if self.Charakter.get_status_temp('magic') <= 0:
+                                if self.Charakter.get_stealth_mode()==True:
+                                    self.Charakter.set_stealth_mode(False)
+                            nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                                               ][self.player_Icon_Position[0] - 1]
+                            nextEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                          ][self.player_Icon_Position[0] - 1]
+                            currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                             ][self.player_Icon_Position[0]]
+                            nextPosition = [
+                                self.player_Icon_Position[0] - 1, self.player_Icon_Position[1]]
+                            for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                                an_enemy = self.Enemies.get_Enemy(enemy)
+                                if nextPosition == an_enemy.Position:
+                                    cont = False
+                            if cont:
+                                for env in WorldMap.enterable:
+                                    if env == currentEnvironment:
+                                        for env2 in WorldMap.enterable:
+                                            if env2 == nextEnvironment:
+                                                cont = True
+                                                break
+                                            else:
+                                                cont = False
+                                if cont:
                                     for tile in WorldMap.waterbehaviour:
                                         if tile == nextTile:
                                             if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
@@ -610,88 +448,237 @@ class Spiel(object):
                                             else:
                                                 cont = False
                                     if cont:
-                                        for enemy in Enemies.get_Enemies_Liste():
-                                            enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
-                                                          self.Charakter)
-                                        if self.Charakter.get_status_temp('health') > 0:
-                                            if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                                images = player_Sprite.images_at(
-                                                    rects=sprites_bear_up, colorkey=[0, 0, 0])
-                                            elif (isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                                images = player_Sprite.images_at(
-                                                    rects=sprites_seal_up, colorkey=[0, 0, 0])
-                                            WalkAnim = pyganim.PygAnimation(
-                                                [(images[0], 150), (images[1], 150), (images[2], 150)])
-                                            WalkAnim.scale((37, 37))
-                                            WalkAnim.play()
-                                            walk = 0.0
-                                            proceed = True
-                                            while proceed:
-                                                Helper.repaint(BackgroundTilemap, NewTilemap, player_Icon_Position,
-                                                               nextPosition, self.window)
-                                                WalkAnim.blit(self.window,
-                                                              (player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                               (player_Icon_Position[1] * WorldMap.TILESIZE) + walk))
-                                                pygame.display.update()
-                                                walk -= 1
-                                                fpsClock.tick(FPS)
-                                                if player_Icon_Position[1] * WorldMap.TILESIZE + walk < (
-                                                        player_Icon_Position[1] - 1) * WorldMap.TILESIZE:
-                                                    proceed = False
-                                            direction = "up"
-                                            if self.Charakter.get_stealth_mode() == True:
-                                                self.Charakter.change_status_temp(
-                                                    'magic', '-')
-                                            player_Icon_Position[1] -= 1
-                                            self.Charakter.change_status_temp(
-                                                'endu', '-')
-                                            if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                                rand_int = Percentages.haelftehaelfte()
-                                                if rand_int:
+                                        for env in WorldMap.collide:
+                                            if env == nextEnvironment:
+                                                cont = False
+                                                break
+                                        if cont:
+                                            for enemy in self.Enemies.get_Enemies_Liste():
+                                                enemy.Agieren(self.window, self.NewTilemap, direction,
+                                                              self.player_Icon_Position, self.Charakter)
+                                            if self.Charakter.get_status_temp('health') > 0:
+                                                if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
+                                                    images = player_Sprite.images_at(
+                                                        rects=sprites_bear_left, colorkey=[0, 0, 0])
+                                                elif (
+                                                isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
+                                                    images = player_Sprite.images_at(
+                                                        rects=sprites_seal_left, colorkey=[0, 0, 0])
+                                                WalkAnim = pyganim.PygAnimation(
+                                                    [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                                WalkAnim.scale((37, 37))
+                                                WalkAnim.play()
+                                                walk = 0.0
+                                                proceed = True
+                                                while proceed:
+                                                    Helper.repaint(self.BackgroundTilemap, self.NewTilemap, self.player_Icon_Position,
+                                                                   nextPosition, self.window)
+                                                    WalkAnim.blit(self.window,
+                                                                  (self.player_Icon_Position[0] * WorldMap.TILESIZE - walk,
+                                                                   (self.player_Icon_Position[1] * WorldMap.TILESIZE)))
+                                                    pygame.display.update()
+                                                    walk += 1
+                                                    fpsClock.tick(FPS)
+                                                    if self.player_Icon_Position[0] * WorldMap.TILESIZE - walk < (
+                                                            self.player_Icon_Position[0] - 1) * WorldMap.TILESIZE:
+                                                        proceed = False
+                                                direction = "left"
+                                                if self.Charakter.get_stealth_mode() == True:
                                                     self.Charakter.change_status_temp(
-                                                        'endu', '+')
+                                                        'magic', '-')
+                                                self.player_Icon_Position[0] -= 1
+                                                if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
+                                                    rand_int = Percentages.haelftehaelfte()
+                                                    if rand_int:
+                                                        self.Charakter.change_status_temp(
+                                                            'endu', '+')
+                                        else:
+                                            break
+                        elif (event.key == K_DOWN and self.player_Icon_Position[1] < WorldMap.MAPHEIGHT - 1):
+                            cont = True
+                            if self.Charakter.get_status_temp('magic') <= 0:
+                                if self.Charakter.get_stealth_mode()==True:
+                                    self.Charakter.set_stealth_mode(False)
+                            nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]+1
+                                                               ][self.player_Icon_Position[0]]
+                            nextEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1] + 1
+                                                                          ][self.player_Icon_Position[0]]
+                            nextPosition = [
+                                self.player_Icon_Position[0], self.player_Icon_Position[1]+1]
+                            for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                                an_enemy = self.Enemies.get_Enemy(enemy)
+                                if nextPosition == an_enemy.Position:
+                                    cont = False
+                            for tile in WorldMap.waterbehaviour:
+                                if tile == nextTile:
+                                    if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
+                                        cont = True
+                                        break
+                                    else:
+                                        cont = False
+                            for env in WorldMap.collide:
+                                if env == nextEnvironment:
+                                    cont = False
+                                    break
+                            if cont:
+                                for enemy in self.Enemies.get_Enemies_Liste():
+                                    enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
+                                                  self.Charakter)
+                                if self.Charakter.get_status_temp('health') > 0:
+                                    if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
+                                        images = player_Sprite.images_at(
+                                            rects=sprites_bear_down, colorkey=[0, 0, 0])
+                                    elif (isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
+                                        images = player_Sprite.images_at(
+                                            rects=sprites_seal_down, colorkey=[0, 0, 0])
+                                    WalkAnim = pyganim.PygAnimation(
+                                        [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                    WalkAnim.scale((37, 37))
+                                    WalkAnim.play()
+                                    walk = 0.0
+                                    proceed = True
+                                    while proceed:
+                                        Helper.repaint(self.BackgroundTilemap, self.NewTilemap, self.player_Icon_Position,
+                                                       nextPosition, self.window)
+                                        WalkAnim.blit(self.window,
+                                                      (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                       (self.player_Icon_Position[1] * WorldMap.TILESIZE) + walk))
+                                        pygame.display.update()
+                                        walk += 1
+                                        fpsClock.tick(FPS)
+                                        if self.player_Icon_Position[1] * WorldMap.TILESIZE + walk > (
+                                                self.player_Icon_Position[1] + 1) * WorldMap.TILESIZE:
+                                            proceed = False
+                                    direction = "down"
+                                    if self.Charakter.get_stealth_mode() == True:
+                                        self.Charakter.change_status_temp(
+                                            'magic', '-')
+                                    self.player_Icon_Position[1] += 1
+                                    if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
+                                        rand_int = Percentages.haelftehaelfte()
+                                        if rand_int:
+                                            self.Charakter.change_status_temp(
+                                                'endu', '+')
+                        elif (event.key == K_UP and self.player_Icon_Position[1] > 0):
+                            cont = True
+                            if self.Charakter.get_status_temp('magic') <= 0:
+                                if self.Charakter.get_stealth_mode()==True:
+                                    self.Charakter.set_stealth_mode(False)
+                            nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]-1
+                                                               ][self.player_Icon_Position[0]]
+                            currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                             ][self.player_Icon_Position[0]]
+                            nextEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]-1
+                                                                          ][self.player_Icon_Position[0]]
+                            nextPosition = [
+                                self.player_Icon_Position[0], self.player_Icon_Position[1]-1]
+                            for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                                an_enemy = self.Enemies.get_Enemy(enemy)
+                                if nextPosition == an_enemy.Position:
+                                    cont = False
+                            for env in WorldMap.enterable:
+                                if env == currentEnvironment:
+                                    cont = False
+                            if cont:
+                                if nextEnvironment == WorldMap.STONEHOLE:
+                                    if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
+                                        cont = True
+                                        break
+                                    else:
+                                        cont = False
+                                for env in WorldMap.collide:
+                                    if env == nextEnvironment:
+                                        cont = False
+                                        break
+                                for tile in WorldMap.waterbehaviour:
+                                    if tile == nextTile:
+                                        if self.Charakter.has_Skill(character.skills.SwimmingCharacterSkill):
+                                            cont = True
+                                            break
+                                        else:
+                                            cont = False
+                                if cont:
+                                    for enemy in self.Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
+                                                      self.Charakter)
+                                    if self.Charakter.get_status_temp('health') > 0:
+                                        if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
+                                            images = player_Sprite.images_at(
+                                                rects=sprites_bear_up, colorkey=[0, 0, 0])
+                                        elif (isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
+                                            images = player_Sprite.images_at(
+                                                rects=sprites_seal_up, colorkey=[0, 0, 0])
+                                        WalkAnim = pyganim.PygAnimation(
+                                            [(images[0], 150), (images[1], 150), (images[2], 150)])
+                                        WalkAnim.scale((37, 37))
+                                        WalkAnim.play()
+                                        walk = 0.0
+                                        proceed = True
+                                        while proceed:
+                                            Helper.repaint(self.BackgroundTilemap, self.NewTilemap, self.player_Icon_Position,
+                                                           nextPosition, self.window)
+                                            WalkAnim.blit(self.window,
+                                                          (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                           (self.player_Icon_Position[1] * WorldMap.TILESIZE) + walk))
+                                            pygame.display.update()
+                                            walk -= 1
+                                            fpsClock.tick(FPS)
+                                            if self.player_Icon_Position[1] * WorldMap.TILESIZE + walk < (
+                                                    self.player_Icon_Position[1] - 1) * WorldMap.TILESIZE:
+                                                proceed = False
+                                        direction = "up"
+                                        if self.Charakter.get_stealth_mode() == True:
+                                            self.Charakter.change_status_temp(
+                                                'magic', '-')
+                                        self.player_Icon_Position[1] -= 1
+                                        if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
+                                            rand_int = Percentages.haelftehaelfte()
+                                            if rand_int:
+                                                self.Charakter.change_status_temp(
+                                                    'endu', '+')
                         elif (event.key == K_SPACE):
-                            currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                                  ][player_Icon_Position[0]]
-                            currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                    ][player_Icon_Position[0]]
+                            currentTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                                                  ][self.player_Icon_Position[0]]
+                            currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                    ][self.player_Icon_Position[0]]
 
                             #hasenv: True bei Gras, False wenn kein Gras
                             hasenv = False
                             for grass in WorldMap.grasses:
                                 if grass == currentEnvironment:
                                     hasenv = True
-                            if (currentTile == WorldMap.DIRT and self.Charakter.has_Skill(character.skills.PlantingCharacterSkill)):
+                            if (currentTile == WorldMap.DIRT and self.Charakter.has_Skill(character.skills.PlantingCharacterSkill) and self.Charakter.get_status_temp('magic')>0):
                                 # DIRT mit irgendeiner Grassorte [nur möglich nach Planting Skill..]
                                 if currentTile == WorldMap.DIRT and hasenv == True:
                                     WorldMap.inventory[currentEnvironment] += 1
-                                    NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                    ][player_Icon_Position[0]] = WorldMap.DEADGRASS
-                                    for enemy in Enemies.get_Enemies_Liste():
-                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                    self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                    ][self.player_Icon_Position[0]] = WorldMap.DEADGRASS
+                                    for enemy in self.Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                       self.Charakter)
                                 # DIRT ohne Gras, ohne totes Gras: wird wieder Grassland
                                 if currentEnvironment != WorldMap.DEADGRASS and hasenv == False:
-                                    NewTilemap.getTilemap()[player_Icon_Position[1]
-                                    ][player_Icon_Position[0]] = WorldMap.GRASSLAND
+                                    self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                    ][self.player_Icon_Position[0]] = WorldMap.GRASSLAND
                                     self.Charakter.change_status_temp(
                                         'magic', '-')
-                                    for enemy in Enemies.get_Enemies_Liste():
-                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                    for enemy in self.Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                       self.Charakter)
                                 # DIRT mit totem Gras: totes Gras wird niedriges Gras
                                 elif currentEnvironment == WorldMap.DEADGRASS:
-                                    NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                    ][player_Icon_Position[0]] = WorldMap.LOWGRASS
+                                    self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                    ][self.player_Icon_Position[0]] = WorldMap.LOWGRASS
                                     self.Charakter.change_status_temp(
                                         'magic', '-')
-                                    for enemy in Enemies.get_Enemies_Liste():
-                                        enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                    for enemy in self.Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                       self.Charakter)
+                                Charaktermenu.stats_showing()
                                 break
                             elif currentTile == WorldMap.GRASSLAND:
-                                for enemy in Enemies.get_Enemies_Liste():
-                                    enemy.Agieren(self.window, NewTilemap, direction, player_Icon_Position,
+                                for enemy in self.Enemies.get_Enemies_Liste():
+                                    enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                   self.Charakter)
                                 if hasenv:
                                     # Fähigkeit Grasschlitzer: Chance auf doppelte Ressourcen
@@ -701,8 +688,8 @@ class Spiel(object):
                                             WorldMap.inventory[currentEnvironment] += 1
                                     # Sammeln
                                     WorldMap.inventory[currentEnvironment]+=1
-                                    NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                    ][player_Icon_Position[0]] = WorldMap.DEADGRASS
+                                    self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                    ][self.player_Icon_Position[0]] = WorldMap.DEADGRASS
                                 #kein Gras drauf, wird Dirt:
                                 else:
                                     if self.Charakter.has_Skill(character.skills.GrasMovementCharacterSkill):
@@ -710,8 +697,9 @@ class Spiel(object):
                                         if rand_int:
                                             WorldMap.inventory[currentTile] += 1
                                     WorldMap.inventory[currentTile] += 1
-                                    NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                            ][player_Icon_Position[0]] = WorldMap.DIRT
+                                    self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                                            ][self.player_Icon_Position[0]] = WorldMap.DIRT
+                                self.Charakter.change_status_temp('endu', '-')
                                 Charaktermenu.stats_showing()
                         elif (event.key == K_m):
                             Skills = []
@@ -770,34 +758,34 @@ class Spiel(object):
                                                     clicked = True
                                             if plantingSkill:
                                                 if plantbubble.collidepoint(mousepos):
-                                                    currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                                                          ][player_Icon_Position[0]]
-                                                    currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                    ][player_Icon_Position[0]]
+                                                    currentTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                                                                          ][self.player_Icon_Position[0]]
+                                                    currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                    ][self.player_Icon_Position[0]]
 
                                                     if currentTile == WorldMap.DIRT:
                                                         if currentEnvironment != WorldMap.DEADGRASS:
-                                                            NewTilemap.getTilemap()[player_Icon_Position[1]
-                                                            ][player_Icon_Position[0]] = WorldMap.GRASSLAND
+                                                            self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                                            ][self.player_Icon_Position[0]] = WorldMap.GRASSLAND
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
                                                         elif currentEnvironment == WorldMap.DEADGRASS:
-                                                            NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                                        ][player_Icon_Position[0]]=WorldMap.LOWGRASS
+                                                            self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                                        ][self.player_Icon_Position[0]]=WorldMap.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
                                                         clicked = True
                                                         break
                                                     elif currentTile == WorldMap.GRASSLAND:
                                                         if currentEnvironment == WorldMap.LOWGRASS:
-                                                            NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                                                    ][player_Icon_Position[0]] = WorldMap.MOREGRASS
+                                                            self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                                                    ][self.player_Icon_Position[0]] = WorldMap.MOREGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
                                                         # auf dem Grassland ist entweder nichts oder ein Dekoitem
                                                         else:
-                                                            NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                                            ][player_Icon_Position[0]] = WorldMap.LOWGRASS
+                                                            self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                                            ][self.player_Icon_Position[0]] = WorldMap.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
                                                     clicked = True
@@ -809,9 +797,9 @@ class Spiel(object):
                                                         'endu', '-')
                                                     clicked = True
                                             if clicked:
-                                                for enemy in Enemies.get_Enemies_Liste():
-                                                    enemy.Agieren(self.window, NewTilemap, direction,
-                                                                  player_Icon_Position, self.Charakter)
+                                                for enemy in self.Enemies.get_Enemies_Liste():
+                                                    enemy.Agieren(self.window, self.NewTilemap, direction,
+                                                                  self.player_Icon_Position, self.Charakter)
                                                 Charaktermenu.stats_showing()
                                                 clicked = False
                                     elif event.type == KEYDOWN:
@@ -835,10 +823,10 @@ class Spiel(object):
                                     if plantingSkill:
                                         enough_temp_value = False
                                         if self.Charakter.get_status_temp('magic') > 1:
-                                            currentTile = NewTilemap.getTilemap()[player_Icon_Position[1]
-                                            ][player_Icon_Position[0]]
-                                            currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                            ][player_Icon_Position[0]]
+                                            currentTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
+                                            ][self.player_Icon_Position[0]]
+                                            currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                            ][self.player_Icon_Position[0]]
                                             hasenv = False
                                             for grass in WorldMap.grasses:
                                                 if grass == currentEnvironment:
@@ -868,13 +856,13 @@ class Spiel(object):
 
                             Surrounding_Tiles = []
                             Enemies_in_range = []
-                            for tile_x in range(player_Icon_Position[0]-1, player_Icon_Position[0]+2):
-                                for tile_y in range(player_Icon_Position[1] - 1, player_Icon_Position[1] + 2):
+                            for tile_x in range(self.player_Icon_Position[0]-1, self.player_Icon_Position[0]+2):
+                                for tile_y in range(self.player_Icon_Position[1] - 1, self.player_Icon_Position[1] + 2):
                                     to_append = [tile_x, tile_y]
                                     Surrounding_Tiles.append(to_append)
                             for element in Surrounding_Tiles:
-                                for enemy in range(0, Enemies.get_Enemies_Anzahl()):
-                                    an_enemy = Enemies.get_Enemy(enemy)
+                                for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                                    an_enemy = self.Enemies.get_Enemy(enemy)
                                     if element == an_enemy.Position:
                                         Enemies_in_range.append(an_enemy)
 
@@ -926,9 +914,9 @@ class Spiel(object):
                                         if standard_attack_active:
                                             if standardbubble.collidepoint(mousepos):
                                                 for enemy in Enemies_in_range:
-                                                    enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
+                                                    enemy_tile = self.NewTilemap.getTilemap()[enemy.Position[1]
                                                                                          ][enemy.Position[0]]
-                                                    enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                    enemy_environment = self.NewTilemap.getEnvironment()[enemy.Position[1]
                                                     ][enemy.Position[0]]
                                                     mod=int(self.Charakter.get_str())
                                                     if mod>0:
@@ -942,9 +930,9 @@ class Spiel(object):
                                             if bite_attack_active:
                                                 if bitebubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
-                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
+                                                        enemy_tile = self.NewTilemap.getTilemap()[enemy.Position[1]
                                                                                              ][enemy.Position[0]]
-                                                        enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                        enemy_environment = self.NewTilemap.getEnvironment()[enemy.Position[1]
                                                         ][enemy.Position[0]]
                                                         mod = int(self.Charakter.get_str())
                                                         if mod > 0:
@@ -959,9 +947,9 @@ class Spiel(object):
                                             if tail_attack_active:
                                                 if tailbubble.collidepoint(mousepos):
                                                     for enemy in Enemies_in_range:
-                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
+                                                        enemy_tile = self.NewTilemap.getTilemap()[enemy.Position[1]
                                                                                              ][enemy.Position[0]]
-                                                        enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                        enemy_environment = self.NewTilemap.getEnvironment()[enemy.Position[1]
                                                         ][enemy.Position[0]]
                                                         mod = int(self.Charakter.get_str())
                                                         if mod > 0:
@@ -985,14 +973,14 @@ class Spiel(object):
                                                     Surrounding = []
                                                     for tile in Surrounding_Tiles:
                                                         if tile[0] >= 0 and tile[1] >= 0:
-                                                            tile_art= NewTilemap.getTilemap()[tile[1]][tile[0]]
+                                                            tile_art= self.NewTilemap.getTilemap()[tile[1]][tile[0]]
                                                             if tile_art == WorldMap.GRASSLAND or tile_art == WorldMap.DIRT:
                                                                 Surrounding.append(tile)
 
                                                     for tile in Surrounding:
                                                         #GRAS to DIRT
-                                                        NewTilemap.getTilemap()[tile[1]][tile[0]] = WorldMap.DIRT
-                                                        environment = NewTilemap.getEnvironment()[tile[1]][tile[0]]
+                                                        self.NewTilemap.getTilemap()[tile[1]][tile[0]] = WorldMap.DIRT
+                                                        environment = self.NewTilemap.getEnvironment()[tile[1]][tile[0]]
                                                         collide=False
                                                         for env in WorldMap.collide:
                                                             if environment == env:
@@ -1002,7 +990,7 @@ class Spiel(object):
                                                                 collide=True
                                                         if collide==False:
                                                             #all non-collideables to NOTHING
-                                                            NewTilemap.getEnvironment()[tile[1]][tile[0]] = WorldMap.NOTHING
+                                                            self.NewTilemap.getEnvironment()[tile[1]][tile[0]] = WorldMap.NOTHING
 
                                                         self.window.blit(dirt_tile,
                                                                          (tile[0] * WorldMap.TILESIZE,
@@ -1013,19 +1001,19 @@ class Spiel(object):
                                                                              (tile[0] * WorldMap.TILESIZE, tile[1] * WorldMap.TILESIZE))
 
                                                         self.window.blit(player_Icon, (
-                                                            player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                            player_Icon_Position[1] * WorldMap.TILESIZE))
+                                                            self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                            self.player_Icon_Position[1] * WorldMap.TILESIZE))
                                                         #redraw all enemies on map:
-                                                        for enemy in range(0, Enemies.get_Enemies_Anzahl()):
-                                                            an_enemy = Enemies.get_Enemy(enemy)
+                                                        for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                                                            an_enemy = self.Enemies.get_Enemy(enemy)
                                                             an_enemy.show_Icon(self.window)
                                                         pygame.display.update()
                                                         fpsClock.tick(FPS)
 
                                                     for enemy in Enemies_in_range:
-                                                        enemy_tile = NewTilemap.getTilemap()[enemy.Position[1]
+                                                        enemy_tile = self.NewTilemap.getTilemap()[enemy.Position[1]
                                                                                              ][enemy.Position[0]]
-                                                        enemy_environment = NewTilemap.getEnvironment()[enemy.Position[1]
+                                                        enemy_environment = self.NewTilemap.getEnvironment()[enemy.Position[1]
                                                         ][enemy.Position[0]]
 
                                                         if enemy.Position in Surrounding:
@@ -1050,7 +1038,7 @@ class Spiel(object):
                                             if enemy.Health <= 0:
                                                 enemy.damage_and_death_anim(
                                                     self.window, "death", enemy_tile, enemy_environment)
-                                                Enemies.delete_from_list(
+                                                self.Enemies.delete_from_list(
                                                     enemy)
                                                 Enemies_in_range.remove(
                                                     enemy)
@@ -1059,9 +1047,9 @@ class Spiel(object):
                                                     active = False
                                             clicked = False
 
-                                        for enemy in Enemies.get_Enemies_Liste():
-                                            enemy.Agieren(self.window, NewTilemap, direction,
-                                                          player_Icon_Position, self.Charakter)
+                                        for enemy in self.Enemies.get_Enemies_Liste():
+                                            enemy.Agieren(self.window, self.NewTilemap, direction,
+                                                          self.player_Icon_Position, self.Charakter)
                                             Charaktermenu.stats_showing()
                                     elif event.type == KEYDOWN:
                                         if event.key == K_f:
@@ -1085,11 +1073,11 @@ class Spiel(object):
 
                         elif (event.key == K_e):
                             #collect fruits and vegetables
-                            currentEnvironment = NewTilemap.getEnvironment()[player_Icon_Position[1]
-                            ][player_Icon_Position[0]]
+                            currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                            ][self.player_Icon_Position[0]]
                             if currentEnvironment==WorldMap.FRUIT1 or currentEnvironment==WorldMap.FRUIT2:
-                                NewTilemap.getEnvironment()[player_Icon_Position[1]
-                                ][player_Icon_Position[0]]=WorldMap.NOTHING
+                                self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
+                                ][self.player_Icon_Position[0]]=WorldMap.NOTHING
                                 for i in range (10):
                                     self.Charakter.change_status_temp('magic', '+')
                                     self.Charakter.change_status_temp('health', '+')

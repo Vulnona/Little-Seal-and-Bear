@@ -285,9 +285,7 @@ class cls_Enemy(object):
                 Tilemap.getTilemap()[self.Position[1]
                 ][self.Position[0]]=WorldMap.DIRT
 
-
     def init_Behaviour(self):
-
         if isinstance(self.Type, clsBug):
             self.add_Behaviour("grassfood")
         if isinstance(self.Type, clsBird):
@@ -296,7 +294,6 @@ class cls_Enemy(object):
         if isinstance(self.Type, clsSawblade):
             self.add_Behaviour("hostile")
             self.add_Behaviour("aggressive")
-
 
     def add_Behaviour(self, Verhalten):
         self.Behaviour.append(Verhalten)

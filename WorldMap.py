@@ -285,6 +285,8 @@ class clsTileMap(object):
         return self.tilemap
     def getEnvironment(self):
         return self.environment
+    def getEnvironment(self):
+        return self.environment
     def randomTilemap(self):
         for k in range(MAPHEIGHT):
             for l in range(MAPWIDTH):
