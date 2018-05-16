@@ -5,15 +5,60 @@ import pyganim
 import Helper
 import character
 
+class clsAnimation(object):
+    def __init__(self, screen, player_position):
+        self.screen = screen
+        self._load_spritesheets()
+        self.player_position = player_position
+
+    def _load_spritesheets(self):
+        self.spritesheets={
+            'stealth': Helper.spritesheet('smokeSpritesheet.png'),
+            'savers': Helper.spritesheet('shield.png'),
+            'plant': Helper.spritesheet('planting.png'),
+            'heal': Helper.spritesheet('heal.png')
+        }
+
+    def magic_Anim(self, magic):
+
+        if magic == 'stealth':
+            self.stealth_Anim()
+
+
+    def stealth_Anim(self):
+        i1 = self.spritesheets['stealth'].image_at((0, 0, 96, 90), colorkey=(0,0,0))
+        i2 = self.spritesheets['stealth'].image_at((95, 0, 96, 90), colorkey=(0, 0, 0))
+        i3 = self.spritesheets['stealth'].image_at((190, 0, 96, 90), colorkey=(0, 0, 0))
+        i4 = self.spritesheets['stealth'].image_at((285, 0, 96, 90), colorkey=(0, 0, 0))
+        i5 = self.spritesheets['stealth'].image_at((385, 0, 96, 90), colorkey=(0, 0, 0))
+        i6 = self.spritesheets['stealth'].image_at((485, 0, 96, 90), colorkey=(0, 0, 0))
+        i7 = self.spritesheets['stealth'].image_at((580, 0, 96, 90), colorkey=(0, 0, 0))
+        i8 = self.spritesheets['stealth'].image_at((675, 0, 96, 90), colorkey=(0, 0, 0))
+        i9 = self.spritesheets['stealth'].image_at((770, 0, 96, 90), colorkey=(0, 0, 0))
+        i10 = self.spritesheets['stealth'].image_at((865, 0, 96, 90), colorkey=(0, 0, 0))
+
+        mainClock = pygame.time.Clock()
+        stealthAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10), (i5, 10), (i6, 10)
+                                                    , (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i9, 10)
+                                                    , (i8, 10), (i7, 10), (i6, 10), (i5, 10), (i4, 10)
+                                                    , (i3, 10), (i2, 10)])
+        stealthAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        stealthAnimation.play()
+
+        for i in range(10):
+            stealthAnimation.blit(
+                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+            pygame.display.update()
+            mainClock.tick(30)
+            i -= 1
+
 class BaseType:
     def __str__(self):
         return self.name
 
-
 class clsBug(BaseType):
     id = 'bug'
     name = 'Käfer'
-
 
 class clsBird(BaseType):
     id = 'bird'
@@ -22,7 +67,6 @@ class clsBird(BaseType):
 class clsSawblade(BaseType):
     id = 'sawblade'
     name = "Kettensägenmensch"
-
 
 
 class cls_Enemy(object):

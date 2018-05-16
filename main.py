@@ -2,6 +2,7 @@
 # Very nice: http://game-icons.net/
 # TODO: using magic -> correct blitting
 # TODO: magic -> animation
+# BUG: plant skill disappears completely when magic is empty
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
 
@@ -187,6 +188,8 @@ class Spiel(object):
             self.Charakter.set_Skill(character.skills.StealthCharacterSkill)
 
             while True:
+
+                MagicAnimator = ObjectsEnemies.clsAnimation(self.window, self.player_Icon_Position)
 
                 if self.Charakter.get_status_temp('health')<=0:
                     MODE = "GAMEOVER"
@@ -404,10 +407,11 @@ class Spiel(object):
                                                 if self.player_Icon_Position[0]*WorldMap.TILESIZE + walk > (self.player_Icon_Position[0] + 1)*WorldMap.TILESIZE:
                                                     proceed = False
                                             direction = "right"
+                                            self.player_Icon_Position[0] += 1
                                             if self.Charakter.get_stealth_mode() == True:
+                                                MagicAnimator.magic_Anim('stealth')
                                                 self.Charakter.change_status_temp(
                                                     'magic', '-')
-                                            self.player_Icon_Position[0] += 1
                                             if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                                 rand_int = Percentages.haelftehaelfte()
                                                 if rand_int:
@@ -483,10 +487,11 @@ class Spiel(object):
                                                             self.player_Icon_Position[0] - 1) * WorldMap.TILESIZE:
                                                         proceed = False
                                                 direction = "left"
+                                                self.player_Icon_Position[0] -= 1
                                                 if self.Charakter.get_stealth_mode() == True:
+                                                    MagicAnimator.magic_Anim('stealth')
                                                     self.Charakter.change_status_temp(
                                                         'magic', '-')
-                                                self.player_Icon_Position[0] -= 1
                                                 if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                                     rand_int = Percentages.haelftehaelfte()
                                                     if rand_int:
@@ -550,10 +555,11 @@ class Spiel(object):
                                                 self.player_Icon_Position[1] + 1) * WorldMap.TILESIZE:
                                             proceed = False
                                     direction = "down"
+                                    self.player_Icon_Position[1] += 1
                                     if self.Charakter.get_stealth_mode() == True:
+                                        MagicAnimator.magic_Anim('stealth')
                                         self.Charakter.change_status_temp(
                                             'magic', '-')
-                                    self.player_Icon_Position[1] += 1
                                     if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                         rand_int = Percentages.haelftehaelfte()
                                         if rand_int:
@@ -627,10 +633,11 @@ class Spiel(object):
                                                     self.player_Icon_Position[1] - 1) * WorldMap.TILESIZE:
                                                 proceed = False
                                         direction = "up"
+                                        self.player_Icon_Position[1] -= 1
                                         if self.Charakter.get_stealth_mode() == True:
+                                            MagicAnimator.magic_Anim('stealth')
                                             self.Charakter.change_status_temp(
                                                 'magic', '-')
-                                        self.player_Icon_Position[1] -= 1
                                         if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                             rand_int = Percentages.haelftehaelfte()
                                             if rand_int:
@@ -674,6 +681,10 @@ class Spiel(object):
                                     for enemy in self.Enemies.get_Enemies_Liste():
                                         enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                       self.Charakter)
+                                if self.Charakter.get_stealth_mode() == True:
+                                    MagicAnimator.magic_Anim('stealth')
+                                    self.Charakter.change_status_temp(
+                                        'magic', '-')
                                 Charaktermenu.stats_showing()
                                 break
                             elif currentTile == WorldMap.GRASSLAND:
@@ -699,6 +710,10 @@ class Spiel(object):
                                     WorldMap.inventory[currentTile] += 1
                                     self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                                             ][self.player_Icon_Position[0]] = WorldMap.DIRT
+                                if self.Charakter.get_stealth_mode() == True:
+                                    MagicAnimator.magic_Anim('stealth')
+                                    self.Charakter.change_status_temp(
+                                        'magic', '-')
                                 self.Charakter.change_status_temp('endu', '-')
                                 Charaktermenu.stats_showing()
                         elif (event.key == K_m):
@@ -744,6 +759,7 @@ class Spiel(object):
                                                         self.Charakter.change_status_temp(
                                                             'magic', '-')
                                                         self.Charakter.set_stealth_mode(True)
+                                                        MagicAnimator.magic_Anim('stealth')
                                                     else:
                                                         self.Charakter.set_stealth_mode(False)
                                                     clicked = True
