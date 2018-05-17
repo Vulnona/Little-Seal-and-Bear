@@ -9,7 +9,7 @@ import math
 class Character:
     abilities = abilities.CharacterAbilities()
 
-    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=1, build_points=10, skills=[], status=[], temp_status=[], erfahrung=0, stealth=False):
+    def __init__(self, name=None, animaltype=None, animalsubtype=None, level=1, build_points=10, skills=[], status=[], temp_status=[], erfahrung=0, stealth=False, savers=False):
         self.name = name
         self.animaltype = animaltype
         self.animalsubtype = animalsubtype
@@ -20,7 +20,8 @@ class Character:
         self.status = status
         self.temp_status = temp_status
         self.erfahrung = erfahrung
-        self.stealth=stealth
+        self.stealth = stealth
+        self.savers = savers
 
     def exp_needed_for_Level_Up(self):
         constant = 40
@@ -50,10 +51,16 @@ class Character:
             return self.status[2]
 
     def set_stealth_mode(self, Bool):
-        self.stealth=Bool
+        self.stealth = Bool
 
     def get_stealth_mode(self):
         return self.stealth
+
+    def set_savers_mode(self, Bool):
+        self.savers = Bool
+
+    def get_savers_mode(self):
+        return self.savers
 
     def get_status_temp(self, input_string):
         if input_string == 'health':

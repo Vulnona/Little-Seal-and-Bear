@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Idickou
+  - Name: Wamoust
   - Tierart: Bär
-  - Farbe: Weiss
+  - Farbe: Braun
 
 ## Statuswerte
 

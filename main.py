@@ -1,8 +1,9 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
 # TODO: using magic -> correct blitting
-# TODO: magic -> animation
+# TODO: magic -> animation, recolor stealth
 # BUG: plant skill disappears completely when magic is empty
+# BUG: entable cave: can enter from left side, cant switch if inside to left
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
 
@@ -186,6 +187,7 @@ class Spiel(object):
             self.Charakter.set_Skill(character.skills.PlantingCharacterSkill)
             self.Charakter.set_Skill(character.skills.EarthquakeCharacterSkill)
             self.Charakter.set_Skill(character.skills.StealthCharacterSkill)
+            self.Charakter.set_Skill(character.skills.SaversCharacterSkill)
 
             while True:
 
@@ -342,8 +344,12 @@ class Spiel(object):
                         elif (event.key == K_RIGHT and self.player_Icon_Position[0] < WorldMap.MAPWIDTH - 1):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
-                                if self.Charakter.get_stealth_mode()==True:
+                                if self.Charakter.get_stealth_mode():
                                     self.Charakter.set_stealth_mode(False)
+                            if self.Charakter.get_status_temp('endu') <= 0:
+                                if self.Charakter.get_savers_mode():
+                                    self.Charakter.set_savers_mode(False)
+
                             nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                                                ][self.player_Icon_Position[0]+1]
                             nextEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
@@ -408,10 +414,14 @@ class Spiel(object):
                                                     proceed = False
                                             direction = "right"
                                             self.player_Icon_Position[0] += 1
-                                            if self.Charakter.get_stealth_mode() == True:
+                                            if self.Charakter.get_stealth_mode():
                                                 MagicAnimator.magic_Anim('stealth')
                                                 self.Charakter.change_status_temp(
                                                     'magic', '-')
+                                            if self.Charakter.get_savers_mode():
+                                                MagicAnimator.magic_Anim('savers')
+                                                self.Charakter.change_status_temp(
+                                                    'endu', '-')
                                             if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                                 rand_int = Percentages.haelftehaelfte()
                                                 if rand_int:
@@ -420,8 +430,12 @@ class Spiel(object):
                         elif (event.key == K_LEFT and self.player_Icon_Position[0] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
-                                if self.Charakter.get_stealth_mode()==True:
+                                if self.Charakter.get_stealth_mode():
                                     self.Charakter.set_stealth_mode(False)
+                            if self.Charakter.get_status_temp('endu') <= 0:
+                                if self.Charakter.get_savers_mode():
+                                    self.Charakter.set_savers_mode(False)
+
                             nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                                                ][self.player_Icon_Position[0] - 1]
                             nextEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
@@ -488,10 +502,14 @@ class Spiel(object):
                                                         proceed = False
                                                 direction = "left"
                                                 self.player_Icon_Position[0] -= 1
-                                                if self.Charakter.get_stealth_mode() == True:
+                                                if self.Charakter.get_stealth_mode():
                                                     MagicAnimator.magic_Anim('stealth')
                                                     self.Charakter.change_status_temp(
                                                         'magic', '-')
+                                                if self.Charakter.get_savers_mode():
+                                                    MagicAnimator.magic_Anim('savers')
+                                                    self.Charakter.change_status_temp(
+                                                        'endu', '-')
                                                 if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                                     rand_int = Percentages.haelftehaelfte()
                                                     if rand_int:
@@ -502,8 +520,12 @@ class Spiel(object):
                         elif (event.key == K_DOWN and self.player_Icon_Position[1] < WorldMap.MAPHEIGHT - 1):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
-                                if self.Charakter.get_stealth_mode()==True:
+                                if self.Charakter.get_stealth_mode():
                                     self.Charakter.set_stealth_mode(False)
+                            if self.Charakter.get_status_temp('endu') <= 0:
+                                if self.Charakter.get_savers_mode():
+                                    self.Charakter.set_savers_mode(False)
+
                             nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]+1
                                                                ][self.player_Icon_Position[0]]
                             nextEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1] + 1
@@ -556,10 +578,14 @@ class Spiel(object):
                                             proceed = False
                                     direction = "down"
                                     self.player_Icon_Position[1] += 1
-                                    if self.Charakter.get_stealth_mode() == True:
+                                    if self.Charakter.get_stealth_mode():
                                         MagicAnimator.magic_Anim('stealth')
                                         self.Charakter.change_status_temp(
                                             'magic', '-')
+                                    if self.Charakter.get_savers_mode():
+                                        MagicAnimator.magic_Anim('savers')
+                                        self.Charakter.change_status_temp(
+                                            'endu', '-')
                                     if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                         rand_int = Percentages.haelftehaelfte()
                                         if rand_int:
@@ -568,8 +594,12 @@ class Spiel(object):
                         elif (event.key == K_UP and self.player_Icon_Position[1] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
-                                if self.Charakter.get_stealth_mode()==True:
+                                if self.Charakter.get_stealth_mode():
                                     self.Charakter.set_stealth_mode(False)
+                            if self.Charakter.get_status_temp('endu') <= 0:
+                                if self.Charakter.get_savers_mode():
+                                    self.Charakter.set_savers_mode(False)
+
                             nextTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]-1
                                                                ][self.player_Icon_Position[0]]
                             currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
@@ -638,6 +668,10 @@ class Spiel(object):
                                             MagicAnimator.magic_Anim('stealth')
                                             self.Charakter.change_status_temp(
                                                 'magic', '-')
+                                        if self.Charakter.get_savers_mode():
+                                            MagicAnimator.magic_Anim('savers')
+                                            self.Charakter.change_status_temp(
+                                                'endu', '-')
                                         if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
                                             rand_int = Percentages.haelftehaelfte()
                                             if rand_int:
@@ -681,10 +715,14 @@ class Spiel(object):
                                     for enemy in self.Enemies.get_Enemies_Liste():
                                         enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                       self.Charakter)
-                                if self.Charakter.get_stealth_mode() == True:
+                                if self.Charakter.get_stealth_mode():
                                     MagicAnimator.magic_Anim('stealth')
                                     self.Charakter.change_status_temp(
                                         'magic', '-')
+                                if self.Charakter.get_savers_mode():
+                                    MagicAnimator.magic_Anim('savers')
+                                    self.Charakter.change_status_temp(
+                                        'endu', '-')
                                 Charaktermenu.stats_showing()
                                 break
                             elif currentTile == WorldMap.GRASSLAND:
@@ -710,10 +748,14 @@ class Spiel(object):
                                     WorldMap.inventory[currentTile] += 1
                                     self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                                             ][self.player_Icon_Position[0]] = WorldMap.DIRT
-                                if self.Charakter.get_stealth_mode() == True:
+                                if self.Charakter.get_stealth_mode():
                                     MagicAnimator.magic_Anim('stealth')
                                     self.Charakter.change_status_temp(
                                         'magic', '-')
+                                if self.Charakter.get_savers_mode():
+                                    MagicAnimator.magic_Anim('savers')
+                                    self.Charakter.change_status_temp(
+                                        'endu', '-')
                                 self.Charakter.change_status_temp('endu', '-')
                                 Charaktermenu.stats_showing()
                         elif (event.key == K_m):
@@ -755,14 +797,14 @@ class Spiel(object):
                                             mousepos = event.pos
                                             if stealthSkill:
                                                 if stealthbubble.collidepoint(mousepos):
-                                                    if self.Charakter.get_stealth_mode()==False:
+                                                    if not self.Charakter.get_stealth_mode():
                                                         self.Charakter.change_status_temp(
                                                             'magic', '-')
                                                         self.Charakter.set_stealth_mode(True)
                                                         MagicAnimator.magic_Anim('stealth')
+                                                        clicked = True
                                                     else:
                                                         self.Charakter.set_stealth_mode(False)
-                                                    clicked = True
                                             if healSkill:
                                                 if healbubble.collidepoint(mousepos):
                                                     self.Charakter.change_status_temp(
@@ -809,9 +851,14 @@ class Spiel(object):
 
                                             if saverSkill:
                                                 if saverbubble.collidepoint(mousepos):
-                                                    self.Charakter.change_status_temp(
-                                                        'endu', '-')
-                                                    clicked = True
+                                                    if not self.Charakter.get_savers_mode():
+                                                        MagicAnimator.magic_Anim('savers')
+                                                        self.Charakter.change_status_temp(
+                                                            'endu', '-')
+                                                        self.Charakter.set_savers_mode(True)
+                                                        clicked = True
+                                                    else:
+                                                        self.Charakter.set_savers_mode(False)
                                             if clicked:
                                                 for enemy in self.Enemies.get_Enemies_Liste():
                                                     enemy.Agieren(self.window, self.NewTilemap, direction,

@@ -23,30 +23,54 @@ class clsAnimation(object):
 
         if magic == 'stealth':
             self.stealth_Anim()
+        if magic == 'savers':
+            self.savers_Anim()
 
 
     def stealth_Anim(self):
-        i1 = self.spritesheets['stealth'].image_at((0, 0, 96, 90), colorkey=(0,0,0))
-        i2 = self.spritesheets['stealth'].image_at((95, 0, 96, 90), colorkey=(0, 0, 0))
-        i3 = self.spritesheets['stealth'].image_at((190, 0, 96, 90), colorkey=(0, 0, 0))
-        i4 = self.spritesheets['stealth'].image_at((285, 0, 96, 90), colorkey=(0, 0, 0))
-        i5 = self.spritesheets['stealth'].image_at((385, 0, 96, 90), colorkey=(0, 0, 0))
-        i6 = self.spritesheets['stealth'].image_at((485, 0, 96, 90), colorkey=(0, 0, 0))
-        i7 = self.spritesheets['stealth'].image_at((580, 0, 96, 90), colorkey=(0, 0, 0))
-        i8 = self.spritesheets['stealth'].image_at((675, 0, 96, 90), colorkey=(0, 0, 0))
-        i9 = self.spritesheets['stealth'].image_at((770, 0, 96, 90), colorkey=(0, 0, 0))
-        i10 = self.spritesheets['stealth'].image_at((865, 0, 96, 90), colorkey=(0, 0, 0))
+        i1 = self.spritesheets['stealth'].image_at((0, 0, 231, 263), colorkey=(0,0,0))
+        i2 = self.spritesheets['stealth'].image_at((249, 0, 231, 263), colorkey=(0, 0, 0))
+        i3 = self.spritesheets['stealth'].image_at((509, 0, 231, 263), colorkey=(0, 0, 0))
+        i4 = self.spritesheets['stealth'].image_at((770, 0, 231, 263), colorkey=(0, 0, 0))
+        i5 = self.spritesheets['stealth'].image_at((1021, 0, 231, 263), colorkey=(0, 0, 0))
+        i6 = self.spritesheets['stealth'].image_at((1280, 0, 231, 263), colorkey=(0, 0, 0))
+        i7 = self.spritesheets['stealth'].image_at((0, 270, 231, 263), colorkey=(0, 0, 0))
+        i8 = self.spritesheets['stealth'].image_at((249, 270, 231, 263), colorkey=(0, 0, 0))
+        i9 = self.spritesheets['stealth'].image_at((509, 270, 231, 263), colorkey=(0, 0, 0))
+        i10 = self.spritesheets['stealth'].image_at((770, 270, 231, 263), colorkey=(0, 0, 0))
+        i11 = self.spritesheets['stealth'].image_at((1021, 270, 231, 263), colorkey=(0, 0, 0))
+        i12 = self.spritesheets['stealth'].image_at((1280, 270, 231, 263), colorkey=(0, 0, 0))
 
         mainClock = pygame.time.Clock()
-        stealthAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10), (i5, 10), (i6, 10)
-                                                    , (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i9, 10)
-                                                    , (i8, 10), (i7, 10), (i6, 10), (i5, 10), (i4, 10)
-                                                    , (i3, 10), (i2, 10)])
+        stealthAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10), (i5, 10), (i6, 10),
+                                                   # (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i11, 10),
+                                                 (i12, 10)])
+                                                    #, (i11, 10), (i10, 10), (i9, 10)
+                                                    #, (i8, 10), (i7, 10), (i6, 10), (i5, 10), (i4, 10)
+                                                    #, (i3, 10), (i2, 10)])
         stealthAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
         stealthAnimation.play()
 
         for i in range(10):
             stealthAnimation.blit(
+                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+            pygame.display.update()
+            mainClock.tick(30)
+            i -= 1
+
+    def savers_Anim(self):
+        i1 = self.spritesheets['savers'].image_at((0, 0, 192, 192), colorkey=(0, 0, 0))
+        i2 = self.spritesheets['savers'].image_at((192, 0, 192, 192), colorkey=(0, 0, 0))
+        i3 = self.spritesheets['savers'].image_at((384, 0, 192, 192), colorkey=(0, 0, 0))
+        i4 = self.spritesheets['savers'].image_at((576, 0, 192, 192), colorkey=(0, 0, 0))
+        mainClock = pygame.time.Clock()
+        saversAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10)])
+
+        saversAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        saversAnimation.play()
+
+        for i in range(10):
+            saversAnimation.blit(
                 self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)
