@@ -25,6 +25,8 @@ class clsAnimation(object):
             self.stealth_Anim()
         if magic == 'savers':
             self.savers_Anim()
+        if magic == 'heal':
+            self.heal_Anim()
 
 
     def stealth_Anim(self):
@@ -63,14 +65,57 @@ class clsAnimation(object):
         i2 = self.spritesheets['savers'].image_at((192, 0, 192, 192), colorkey=(0, 0, 0))
         i3 = self.spritesheets['savers'].image_at((384, 0, 192, 192), colorkey=(0, 0, 0))
         i4 = self.spritesheets['savers'].image_at((576, 0, 192, 192), colorkey=(0, 0, 0))
+        i5 = self.spritesheets['savers'].image_at((771, 0, 192, 192), colorkey=(0, 0, 0))
+        i6 = self.spritesheets['savers'].image_at((0, 192, 192, 192), colorkey=(0, 0, 0))
+        i7 = self.spritesheets['savers'].image_at((192, 192, 192, 192), colorkey=(0, 0, 0))
+        i8 = self.spritesheets['savers'].image_at((384, 192, 192, 192), colorkey=(0, 0, 0))
+        i9 = self.spritesheets['savers'].image_at((576, 192, 192, 192), colorkey=(0, 0, 0))
+        i10 = self.spritesheets['savers'].image_at((771, 192, 192, 192), colorkey=(0, 0, 0))
+        i11 = self.spritesheets['savers'].image_at((0, 384, 192, 192), colorkey=(0, 0, 0))
+        i12 = self.spritesheets['savers'].image_at((192, 384, 192, 192), colorkey=(0, 0, 0))
+        i13 = self.spritesheets['savers'].image_at((384, 384, 192, 192), colorkey=(0, 0, 0))
+        i14 = self.spritesheets['savers'].image_at((576, 384, 192, 192), colorkey=(0, 0, 0))
+        i15 = self.spritesheets['savers'].image_at((771, 384, 192, 192), colorkey=(0, 0, 0))
         mainClock = pygame.time.Clock()
-        saversAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10)])
+        saversAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10), (i5, 10), (i6, 10),
+                                                (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i11, 10), (i12, 10),
+                                                (i13, 10), (i14, 10), (i15, 10)])
 
         saversAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
         saversAnimation.play()
 
         for i in range(10):
             saversAnimation.blit(
+                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+            pygame.display.update()
+            mainClock.tick(30)
+            i -= 1
+
+    def heal_Anim(self):
+        i1 = self.spritesheets['heal'].image_at((0, 0, 192, 192), colorkey=(0, 0, 0))
+        i2 = self.spritesheets['heal'].image_at((192, 0, 192, 192), colorkey=(0, 0, 0))
+        i3 = self.spritesheets['heal'].image_at((384, 0, 192, 192), colorkey=(0, 0, 0))
+        i4 = self.spritesheets['heal'].image_at((576, 0, 192, 192), colorkey=(0, 0, 0))
+        i5 = self.spritesheets['heal'].image_at((771, 0, 192, 192), colorkey=(0, 0, 0))
+        i6 = self.spritesheets['heal'].image_at((0, 192, 192, 192), colorkey=(0, 0, 0))
+        i7 = self.spritesheets['heal'].image_at((192, 192, 192, 192), colorkey=(0, 0, 0))
+        i8 = self.spritesheets['heal'].image_at((384, 192, 192, 192), colorkey=(0, 0, 0))
+        i9 = self.spritesheets['heal'].image_at((576, 192, 192, 192), colorkey=(0, 0, 0))
+        i10 = self.spritesheets['heal'].image_at((771, 192, 192, 192), colorkey=(0, 0, 0))
+        i11 = self.spritesheets['heal'].image_at((0, 384, 192, 192), colorkey=(0, 0, 0))
+        i12 = self.spritesheets['heal'].image_at((192, 384, 192, 192), colorkey=(0, 0, 0))
+        i13 = self.spritesheets['heal'].image_at((384, 384, 192, 192), colorkey=(0, 0, 0))
+
+        mainClock = pygame.time.Clock()
+        healAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10), (i5, 10), (i6, 10),
+                                                (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i11, 10), (i12, 10),
+                                                (i13, 10)])
+
+        healAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        healAnimation.play()
+
+        for i in range(10):
+            healAnimation.blit(
                 self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)

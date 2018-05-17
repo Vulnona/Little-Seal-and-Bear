@@ -188,6 +188,7 @@ class Spiel(object):
             self.Charakter.set_Skill(character.skills.EarthquakeCharacterSkill)
             self.Charakter.set_Skill(character.skills.StealthCharacterSkill)
             self.Charakter.set_Skill(character.skills.SaversCharacterSkill)
+            self.Charakter.set_Skill(character.skills.MagicalHealCharacterSkill)
 
             while True:
 
@@ -807,6 +808,7 @@ class Spiel(object):
                                                         self.Charakter.set_stealth_mode(False)
                                             if healSkill:
                                                 if healbubble.collidepoint(mousepos):
+                                                    MagicAnimator.magic_Anim('heal')
                                                     self.Charakter.change_status_temp(
                                                         'magic', '-')
                                                     self.Charakter.change_status_temp(
