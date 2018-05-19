@@ -27,6 +27,8 @@ class clsAnimation(object):
             self.savers_Anim()
         if magic == 'heal':
             self.heal_Anim()
+        if magic == 'plant':
+            self.plant_Anim()
 
 
     def stealth_Anim(self):
@@ -76,10 +78,24 @@ class clsAnimation(object):
         i13 = self.spritesheets['savers'].image_at((384, 384, 192, 192), colorkey=(0, 0, 0))
         i14 = self.spritesheets['savers'].image_at((576, 384, 192, 192), colorkey=(0, 0, 0))
         i15 = self.spritesheets['savers'].image_at((771, 384, 192, 192), colorkey=(0, 0, 0))
+        i16 = self.spritesheets['savers'].image_at((0, 576, 192, 192), colorkey=(0, 0, 0))
+        i17 = self.spritesheets['savers'].image_at((192, 576, 192, 192), colorkey=(0, 0, 0))
+        i18 = self.spritesheets['savers'].image_at((384, 576, 192, 192), colorkey=(0, 0, 0))
+        i19 = self.spritesheets['savers'].image_at((576, 576, 192, 192), colorkey=(0, 0, 0))
+        i20 = self.spritesheets['savers'].image_at((771, 576, 192, 192), colorkey=(0, 0, 0))
+        i21 = self.spritesheets['savers'].image_at((0, 771, 192, 192), colorkey=(0, 0, 0))
+        i22 = self.spritesheets['savers'].image_at((192, 771, 192, 192), colorkey=(0, 0, 0))
+        i23 = self.spritesheets['savers'].image_at((384, 771, 192, 192), colorkey=(0, 0, 0))
+        i24 = self.spritesheets['savers'].image_at((576, 771, 192, 192), colorkey=(0, 0, 0))
+        i25 = self.spritesheets['savers'].image_at((771, 771, 192, 192), colorkey=(0, 0, 0))
+
+
         mainClock = pygame.time.Clock()
         saversAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10), (i5, 10), (i6, 10),
-                                                (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i11, 10), (i12, 10),
-                                                (i13, 10), (i14, 10), (i15, 10)])
+                                                (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i11, 10), (i12, 10)
+                                                   , (i13, 10), (i14, 10), (i15, 10), (i16, 10),
+                                                (i17, 10), (i18, 10), (i19, 10), (i20, 10), (i21, 10), (i22, 10)
+                                                   , (i23, 10), (i24, 10), (i25, 10)])
 
         saversAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
         saversAnimation.play()
@@ -120,6 +136,9 @@ class clsAnimation(object):
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
+
+    def plant_Anim(self):
+        pass
 
 class BaseType:
     def __str__(self):
@@ -374,6 +393,14 @@ class cls_Enemy(object):
                 amount=Percentages.dice(2)
             elif isinstance(self.Type, clsSawblade):
                 amount=Percentages.dice(5)
+            if Charakter.savers:
+                if amount > 1:
+                    loweramount = Percentages.dice(amount)
+                    amount -= loweramount
+                else:
+                    check = Percentages.haelftehaelfte()
+                    if check:
+                        amount = 0
             for i in range (amount):
                 Charakter.change_status_temp('health', '-')
             if Charakter.get_status_temp('health')>0:

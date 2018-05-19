@@ -1,8 +1,7 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
 # TODO: using magic -> correct blitting
-# TODO: magic -> animation, recolor stealth
-# BUG: plant skill disappears completely when magic is empty
+# TODO: magic -> animation, recoloration!
 # BUG: entable cave: can enter from left side, cant switch if inside to left
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
@@ -834,6 +833,7 @@ class Spiel(object):
                                                                                         ][self.player_Icon_Position[0]]=WorldMap.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
+                                                        self.window.blit(currentTile, (self.player_Icon_Position[1], self.player_Icon_Position[0]))
                                                         clicked = True
                                                         break
                                                     elif currentTile == WorldMap.GRASSLAND:
@@ -865,7 +865,10 @@ class Spiel(object):
                                                 for enemy in self.Enemies.get_Enemies_Liste():
                                                     enemy.Agieren(self.window, self.NewTilemap, direction,
                                                                   self.player_Icon_Position, self.Charakter)
+                                                #TODO repainting of current tile!
                                                 Charaktermenu.stats_showing()
+                                                pygame.display.update()
+                                                fpsClock.tick(FPS)
                                                 clicked = False
                                     elif event.type == KEYDOWN:
                                         if event.key == K_m:
@@ -873,21 +876,21 @@ class Spiel(object):
 
                                     if stealthSkill:
                                         enough_temp_value = False
-                                        if self.Charakter.get_status_temp('magic') > 1:
+                                        if self.Charakter.get_status_temp('magic') >= 1:
                                             enough_temp_value = True
                                         for i in [i for i, x in enumerate(Skills) if x == 'stealth']:
                                             bubble = Interact.Bubble(self.window, 'stealth', i, enough_temp_value)
                                         stealthbubble = bubble.draw_bubble()
                                     if healSkill:
                                         enough_temp_value = False
-                                        if self.Charakter.get_status_temp('magic') > 1:
+                                        if self.Charakter.get_status_temp('magic') >= 1:
                                             enough_temp_value = True
                                         for i in [i for i, x in enumerate(Skills) if x == 'magical_heal']:
                                             bubble = Interact.Bubble(self.window, 'magical_heal', i, enough_temp_value)
                                         healbubble = bubble.draw_bubble()
                                     if plantingSkill:
                                         enough_temp_value = False
-                                        if self.Charakter.get_status_temp('magic') > 1:
+                                        if self.Charakter.get_status_temp('magic') >= 1:
                                             currentTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                             ][self.player_Icon_Position[0]]
                                             currentEnvironment = self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
@@ -904,12 +907,12 @@ class Spiel(object):
                                                 if currentEnvironment == WorldMap.LOWGRASS or currentEnvironment == WorldMap.DEADGRASS \
                                                         or currentEnvironment == WorldMap.GRASSDECO:
                                                     enough_temp_value = True
-                                            for i in [i for i, x in enumerate(Skills) if x == 'plant']:
-                                                bubble = Interact.Bubble(self.window, 'plant', i, enough_temp_value)
-                                            plantbubble = bubble.draw_bubble()
+                                        for i in [i for i, x in enumerate(Skills) if x == 'plant']:
+                                            bubble = Interact.Bubble(self.window, 'plant', i, enough_temp_value)
+                                        plantbubble = bubble.draw_bubble()
                                     if saverSkill:
                                         enough_temp_value = False
-                                        if self.Charakter.get_status_temp('endu') > 1:
+                                        if self.Charakter.get_status_temp('endu') >= 1:
                                             enough_temp_value = True
                                         for i in [i for i, x in enumerate(Skills) if x == 'robe']:
                                             bubble = Interact.Bubble(self.window, 'robe', i, enough_temp_value)
