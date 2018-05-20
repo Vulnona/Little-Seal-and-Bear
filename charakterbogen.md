@@ -1,6 +1,6 @@
 ## Charakter Bogen
 
-  - Name: Wamoust
+  - Name: Oofreaup
   - Tierart: Bär
   - Farbe: Braun
 

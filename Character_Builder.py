@@ -1,9 +1,6 @@
 import logging
 import pygame
 import Build_Character
-import sys
-import os
-import character
 
 
 def run_Character_Builder():
@@ -16,6 +13,3 @@ def run_Character_Builder():
         g.update()
     return g.character
 
-
-if __name__ == '__main__':
-    run_Character_Builder()

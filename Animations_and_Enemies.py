@@ -1,5 +1,5 @@
 import Percentages
-import WorldMap
+import World_Map
 import pygame
 import pyganim
 import Helper
@@ -116,8 +116,8 @@ class clsIconShowing(object):
 
         self.window.blit(
             player_Icon, (
-                player_Icon_Position[0] * WorldMap.TILESIZE,
-                (player_Icon_Position[1] * WorldMap.TILESIZE)))
+                player_Icon_Position[0] * World_Map.TILESIZE,
+                (player_Icon_Position[1] * World_Map.TILESIZE)))
 
 
     def get_walk_Images(self, direction):
@@ -202,12 +202,12 @@ class clsAnimation(object):
                                                     #, (i11, 10), (i10, 10), (i9, 10)
                                                     #, (i8, 10), (i7, 10), (i6, 10), (i5, 10), (i4, 10)
                                                     #, (i3, 10), (i2, 10)])
-        stealthAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        stealthAnimation.scale((World_Map.TILESIZE, World_Map.TILESIZE))
         stealthAnimation.play()
 
         for i in range(10):
             stealthAnimation.blit(
-                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+                self.screen, (self.player_position[0] * World_Map.TILESIZE, self.player_position[1] * World_Map.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
@@ -247,12 +247,12 @@ class clsAnimation(object):
                                                 (i17, 10), (i18, 10), (i19, 10), (i20, 10), (i21, 10), (i22, 10)
                                                    , (i23, 10), (i24, 10), (i25, 10)])
 
-        saversAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        saversAnimation.scale((World_Map.TILESIZE, World_Map.TILESIZE))
         saversAnimation.play()
 
         for i in range(10):
             saversAnimation.blit(
-                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+                self.screen, (self.player_position[0] * World_Map.TILESIZE, self.player_position[1] * World_Map.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
@@ -277,12 +277,12 @@ class clsAnimation(object):
                                                 (i7, 10), (i8, 10), (i9, 10), (i10, 10), (i11, 10), (i12, 10),
                                                 (i13, 10)])
 
-        healAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        healAnimation.scale((World_Map.TILESIZE, World_Map.TILESIZE))
         healAnimation.play()
 
         for i in range(10):
             healAnimation.blit(
-                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+                self.screen, (self.player_position[0] * World_Map.TILESIZE, self.player_position[1] * World_Map.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
@@ -291,11 +291,11 @@ class clsAnimation(object):
 
         currentTile = Tilemap.getTilemap()[self.player_position[1]][self.player_position[0]]
         if currentTile == 0:
-            currentTile = WorldMap.grass_tile
+            currentTile = World_Map.grass_tile
         else:
-            currentTile = WorldMap.dirt_tile
+            currentTile = World_Map.dirt_tile
         currentEnvironment = Tilemap.getEnvironment()[self.player_position[1]][self.player_position[0]]
-        currentEnvironment = WorldMap.environment[currentEnvironment]
+        currentEnvironment = World_Map.environment[currentEnvironment]
 
         i1 = self.spritesheets['plant'].image_at((0, 0, 192, 192), colorkey=(0, 0, 0))
         i2 = self.spritesheets['plant'].image_at((192, 0, 192, 192), colorkey=(0, 0, 0))
@@ -332,12 +332,12 @@ class clsAnimation(object):
                                                (i20, 10), (i21, 10), (i22, 10), (currentTile, 10), (currentEnvironment, 10), (i23, 10), (i24, 10),
                                                (i25, 10), (currentTile, 10), (currentEnvironment, 10)])
 
-        plantAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        plantAnimation.scale((World_Map.TILESIZE, World_Map.TILESIZE))
         plantAnimation.play()
 
         for i in range(10):
             plantAnimation.blit(
-                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+                self.screen, (self.player_position[0] * World_Map.TILESIZE, self.player_position[1] * World_Map.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
@@ -391,11 +391,11 @@ class cls_Enemy(object):
         elif isinstance(self.Type, clsSawblade):
             enemy_Icon=self.images['enemies']['sawblade']
         enemy_Icon = pygame.transform.scale(
-            enemy_Icon, (WorldMap.TILESIZE, WorldMap.TILESIZE))
+            enemy_Icon, (World_Map.TILESIZE, World_Map.TILESIZE))
         enemy_Icon_Position = self.Position
         screen.blit(
             enemy_Icon, (
-                enemy_Icon_Position[0] * WorldMap.TILESIZE, enemy_Icon_Position[1] * WorldMap.TILESIZE))
+                enemy_Icon_Position[0] * World_Map.TILESIZE, enemy_Icon_Position[1] * World_Map.TILESIZE))
 
     def choose_action(self, Tilemap, Player_Position, Charakter):
 
@@ -409,10 +409,10 @@ class cls_Enemy(object):
 
         #evaluate 'eat'
         if "grassfood" in self.Behaviour:
-            if currentTile == WorldMap.GRASSLAND or currentEnvironment == WorldMap.LOWGRASS or currentEnvironment == WorldMap.MOREGRASS:
+            if currentTile == World_Map.GRASSLAND or currentEnvironment == World_Map.LOWGRASS or currentEnvironment == World_Map.MOREGRASS:
                 return "eat"
         if "vegetables" in self.Behaviour:
-            if currentEnvironment==WorldMap.FRUIT1 or currentEnvironment==WorldMap.FRUIT2:
+            if currentEnvironment==World_Map.FRUIT1 or currentEnvironment==World_Map.FRUIT2:
                 return "eat"
 
         #Liste aller umliegenden Tiles# Liste aller benachbarten Tiles, keine 'negativen' Tilewerte (out of range der Map)
@@ -420,14 +420,14 @@ class cls_Enemy(object):
         for tile_x in range(self.Position[0] - 1, self.Position[0] + 2):
             for tile_y in range(self.Position[1] - 1, self.Position[1] + 2):
                 if tile_x >= 0 and tile_y >= 0:
-                    if tile_x < WorldMap.MAPWIDTH and tile_y < WorldMap.MAPHEIGHT:
+                    if tile_x < World_Map.MAPWIDTH and tile_y < World_Map.MAPHEIGHT:
                         to_append = [tile_x, tile_y]
                         Liste.append(to_append)
 
         Surrounding = []
         for tile in Liste:
             tile_art = Tilemap.getTilemap()[tile[1]][tile[0]]
-            if tile_art == WorldMap.GRASSLAND or tile_art == WorldMap.DIRT or tile_art == WorldMap.STONE:
+            if tile_art == World_Map.GRASSLAND or tile_art == World_Map.DIRT or tile_art == World_Map.STONE:
                 Surrounding.append(tile)
 
         # Possible Tiles berücksichtigt die Environment
@@ -435,10 +435,10 @@ class cls_Enemy(object):
         PreferedTiles = []
         for tile in Surrounding:
             tile_env = Tilemap.getEnvironment()[tile[1]][tile[0]]
-            for env in WorldMap.collide:
+            for env in World_Map.collide:
                 if env == tile_env:
                     PossibleTiles.remove(tile)
-            for env in WorldMap.enterable:
+            for env in World_Map.enterable:
                 if env == tile_env:
                     PossibleTiles.remove(tile)
             if tile == Player_Position:
@@ -447,10 +447,10 @@ class cls_Enemy(object):
                         return "attack"
                     else:
                         PossibleTiles.remove(tile)
-            if tile_env == WorldMap.LOWGRASS or tile_env == WorldMap.MOREGRASS:
+            if tile_env == World_Map.LOWGRASS or tile_env == World_Map.MOREGRASS:
                 if "grassfood" in self.Behaviour:
                     PreferedTiles.append(tile)
-            elif tile_env == WorldMap.FRUIT1 or tile_env == WorldMap.FRUIT2:
+            elif tile_env == World_Map.FRUIT1 or tile_env == World_Map.FRUIT2:
                 if "vegetables" in self.Behaviour:
                     PreferedTiles.append(tile)
 
@@ -614,18 +614,18 @@ class cls_Enemy(object):
             ][self.Position[0]]
             currentenv=Tilemap.getEnvironment()[self.Position[1]
             ][self.Position[0]]
-            if currentenv==WorldMap.MOREGRASS:
+            if currentenv==World_Map.MOREGRASS:
                 Tilemap.getEnvironment()[self.Position[1]
-                ][self.Position[0]]=WorldMap.LOWGRASS
-            elif currentenv==WorldMap.LOWGRASS:
+                ][self.Position[0]]=World_Map.LOWGRASS
+            elif currentenv==World_Map.LOWGRASS:
                 Tilemap.getEnvironment()[self.Position[1]
-                ][self.Position[0]] = WorldMap.DEADGRASS
-            elif currentenv==WorldMap.FRUIT2 or currentenv==WorldMap.FRUIT1:
+                ][self.Position[0]] = World_Map.DEADGRASS
+            elif currentenv==World_Map.FRUIT2 or currentenv==World_Map.FRUIT1:
                 Tilemap.getEnvironment()[self.Position[1]
-                ][self.Position[0]] = WorldMap.NOTHING
-            elif currenttile==WorldMap.GRASSLAND:
+                ][self.Position[0]] = World_Map.NOTHING
+            elif currenttile==World_Map.GRASSLAND:
                 Tilemap.getTilemap()[self.Position[1]
-                ][self.Position[0]]=WorldMap.DIRT
+                ][self.Position[0]]=World_Map.DIRT
 
     def init_Behaviour(self):
         if isinstance(self.Type, clsBug):
@@ -691,19 +691,19 @@ class cls_Enemy(object):
                 player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
             else:
                 player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
-        player_Icon = pygame.transform.scale(player_Icon, (WorldMap.TILESIZE, WorldMap.TILESIZE))
+        player_Icon = pygame.transform.scale(player_Icon, (World_Map.TILESIZE, World_Map.TILESIZE))
         tiles_Sprite = Helper.spritesheet('tileset_32_32.png')
-        if Player_Tile == WorldMap.GRASSLAND:
+        if Player_Tile == World_Map.GRASSLAND:
             second = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0, 0, 0))
-        elif Player_Tile == WorldMap.STONE:
+        elif Player_Tile == World_Map.STONE:
             second = tiles_Sprite.image_at((33, 8577, 30, 30), colorkey=(0, 0, 0))
-        elif Player_Tile == WorldMap.DIRT:
+        elif Player_Tile == World_Map.DIRT:
             second = tiles_Sprite.image_at((15, 2545, 64, 64), colorkey=(0, 0, 0))
-        elif Player_Tile == WorldMap.WATER:
+        elif Player_Tile == World_Map.WATER:
             second = tiles_Sprite.image_at((26, 4701, 45, 45), colorkey=(0, 0, 0))
         second = pygame.transform.scale(
-            second, (WorldMap.TILESIZE, WorldMap.TILESIZE))
-        third = WorldMap.environment[Player_Environment]
+            second, (World_Map.TILESIZE, World_Map.TILESIZE))
+        third = World_Map.environment[Player_Environment]
         deathAnim = pyganim.PygAnimation([(player_Icon, 10), (second, 10), (third, 10)])
         i = 0
         if damage_or_death == "damage":
@@ -715,22 +715,22 @@ class cls_Enemy(object):
 
         for i in range(m):
             deathAnim.blit(
-                screen, (player_position[0] * WorldMap.TILESIZE, player_position[1] * WorldMap.TILESIZE))
+                screen, (player_position[0] * World_Map.TILESIZE, player_position[1] * World_Map.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
         if damage_or_death == "death":
             screen.blit(
-                second, (player_position[0] * WorldMap.TILESIZE, player_position[1] * WorldMap.TILESIZE))
+                second, (player_position[0] * World_Map.TILESIZE, player_position[1] * World_Map.TILESIZE))
             screen.blit(
-                third, (player_position[0] * WorldMap.TILESIZE, player_position[1] * WorldMap.TILESIZE))
+                third, (player_position[0] * World_Map.TILESIZE, player_position[1] * World_Map.TILESIZE))
         elif damage_or_death == "damage":
             screen.blit(
-                third, (player_position[0] * WorldMap.TILESIZE, player_position[1] * WorldMap.TILESIZE))
+                third, (player_position[0] * World_Map.TILESIZE, player_position[1] * World_Map.TILESIZE))
             screen.blit(
-                player_Icon, (player_position[0] * WorldMap.TILESIZE, player_position[1] * WorldMap.TILESIZE))
+                player_Icon, (player_position[0] * World_Map.TILESIZE, player_position[1] * World_Map.TILESIZE))
 
-    def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art, enemy_environment=WorldMap.NOTHING):
+    def damage_and_death_anim(self, screen, damage_or_death, enemy_tile_Art, enemy_environment=World_Map.NOTHING):
         mainClock = pygame.time.Clock()
         if isinstance(self.Type, clsBug):
             first = self.images['enemies']['bug']
@@ -739,20 +739,20 @@ class cls_Enemy(object):
         elif isinstance(self.Type, clsSawblade):
             first = self.images['enemies']['sawblade']
         first = pygame.transform.scale(
-            first, (WorldMap.TILESIZE, WorldMap.TILESIZE))
+            first, (World_Map.TILESIZE, World_Map.TILESIZE))
 
         tiles_Sprite = Helper.spritesheet('tileset_32_32.png')
-        if enemy_tile_Art == WorldMap.GRASSLAND:
+        if enemy_tile_Art == World_Map.GRASSLAND:
             second = tiles_Sprite.image_at((193, 5505, 30, 30), colorkey=(0, 0, 0))
-        elif enemy_tile_Art == WorldMap.STONE:
+        elif enemy_tile_Art == World_Map.STONE:
             second = tiles_Sprite.image_at((33, 8577, 30, 30), colorkey=(0,0,0))
-        elif enemy_tile_Art == WorldMap.DIRT:
+        elif enemy_tile_Art == World_Map.DIRT:
             second = tiles_Sprite.image_at((15, 2545, 64, 64), colorkey=(0,0,0))
-        elif enemy_tile_Art == WorldMap.WATER:
+        elif enemy_tile_Art == World_Map.WATER:
             second = tiles_Sprite.image_at((26, 4701, 45, 45), colorkey=(0,0,0))
         second = pygame.transform.scale(
-            second, (WorldMap.TILESIZE, WorldMap.TILESIZE))
-        third = WorldMap.environment[enemy_environment]
+            second, (World_Map.TILESIZE, World_Map.TILESIZE))
+        third = World_Map.environment[enemy_environment]
         deathAnim = pyganim.PygAnimation([(first, 10), (second, 10), (third, 10)])
         i = 0
         if damage_or_death == "damage":
@@ -764,20 +764,20 @@ class cls_Enemy(object):
 
         for i in range(m):
             deathAnim.blit(
-                screen, (self.Position[0] * WorldMap.TILESIZE, self.Position[1] * WorldMap.TILESIZE))
+                screen, (self.Position[0] * World_Map.TILESIZE, self.Position[1] * World_Map.TILESIZE))
             pygame.display.update()
             mainClock.tick(30)
             i -= 1
         if damage_or_death == "death":
             screen.blit(
-                second, (self.Position[0] * WorldMap.TILESIZE, self.Position[1] * WorldMap.TILESIZE))
+                second, (self.Position[0] * World_Map.TILESIZE, self.Position[1] * World_Map.TILESIZE))
             screen.blit(
-                third, (self.Position[0] * WorldMap.TILESIZE, self.Position[1] * WorldMap.TILESIZE))
+                third, (self.Position[0] * World_Map.TILESIZE, self.Position[1] * World_Map.TILESIZE))
         elif damage_or_death == "damage":
             screen.blit(
-                third, (self.Position[0] * WorldMap.TILESIZE, self.Position[1] * WorldMap.TILESIZE))
+                third, (self.Position[0] * World_Map.TILESIZE, self.Position[1] * World_Map.TILESIZE))
             screen.blit(
-                first, (self.Position[0] * WorldMap.TILESIZE, self.Position[1] * WorldMap.TILESIZE))
+                first, (self.Position[0] * World_Map.TILESIZE, self.Position[1] * World_Map.TILESIZE))
 
     def generate_Enemy(self, Tilemap):
         rand_int = Percentages.dice(10)
@@ -798,8 +798,8 @@ class cls_Enemy(object):
         # Can just spawn on Dirt, Grassland and Stone:
         acceptableValue=False
         while not acceptableValue:
-            if Tilemap.getTilemap()[Position[1]][Position[0]]== WorldMap.STONE or Tilemap.getTilemap()[Position[1]][Position[0]] == WorldMap.GRASSLAND\
-                    or Tilemap.getTilemap()[Position[1]][Position[0]]== WorldMap.DIRT:
+            if Tilemap.getTilemap()[Position[1]][Position[0]]== World_Map.STONE or Tilemap.getTilemap()[Position[1]][Position[0]] == World_Map.GRASSLAND\
+                    or Tilemap.getTilemap()[Position[1]][Position[0]]== World_Map.DIRT:
                 acceptableValue=True
             else:
                 Position=self.generatePosition()
@@ -809,8 +809,8 @@ class cls_Enemy(object):
 
     def generatePosition(self):
         # Can't spawn at [0,0], starting with '1'
-        Position = [int((Percentages.dice(WorldMap.MAPWIDTH - 1))),
-                    int((Percentages.dice(WorldMap.MAPHEIGHT - 1)))]
+        Position = [int((Percentages.dice(World_Map.MAPWIDTH - 1))),
+                    int((Percentages.dice(World_Map.MAPHEIGHT - 1)))]
         return Position
 
     def __del__(self):

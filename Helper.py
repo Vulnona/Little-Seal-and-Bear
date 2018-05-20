@@ -1,51 +1,51 @@
 import settings
-import WorldMap
+import World_Map
 import pygame
 import os
 
 #Repainting Tiles and Environment for Walking Animation
 
 def repaint(BackgroundTilemap, NewTilemap, player_Icon_Position, nextPosition, window):
-    toRepaintcurrentBG = WorldMap.textures[
+    toRepaintcurrentBG = World_Map.textures[
         BackgroundTilemap.getTilemap()[player_Icon_Position[1]][
             player_Icon_Position[0]]]
     toRepaintcurrentBG = pygame.transform.scale(toRepaintcurrentBG, (
-        WorldMap.TILESIZE, WorldMap.TILESIZE))
-    toRepaintcurrent = WorldMap.textures[
+        World_Map.TILESIZE, World_Map.TILESIZE))
+    toRepaintcurrent = World_Map.textures[
         NewTilemap.getTilemap()[player_Icon_Position[1]][player_Icon_Position[0]]]
     toRepaintcurrent = pygame.transform.scale(toRepaintcurrent, (
-        WorldMap.TILESIZE, WorldMap.TILESIZE))
-    toRepaintcurrentenvironment = WorldMap.environment[NewTilemap.getEnvironment(
+        World_Map.TILESIZE, World_Map.TILESIZE))
+    toRepaintcurrentenvironment = World_Map.environment[NewTilemap.getEnvironment(
     )[player_Icon_Position[1]][player_Icon_Position[0]]]
-    toRepaintnextBG = WorldMap.textures[
+    toRepaintnextBG = World_Map.textures[
         BackgroundTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
     toRepaintnextBG = pygame.transform.scale(toRepaintnextBG, (
-        WorldMap.TILESIZE, WorldMap.TILESIZE))
-    toRepaintnext = WorldMap.textures[
+        World_Map.TILESIZE, World_Map.TILESIZE))
+    toRepaintnext = World_Map.textures[
         NewTilemap.getTilemap()[nextPosition[1]][nextPosition[0]]]
     toRepaintnext = pygame.transform.scale(toRepaintnext, (
-        WorldMap.TILESIZE, WorldMap.TILESIZE))
-    toRepaintnextenvironment = WorldMap.environment[
+        World_Map.TILESIZE, World_Map.TILESIZE))
+    toRepaintnextenvironment = World_Map.environment[
         NewTilemap.getEnvironment()[nextPosition[1]][nextPosition[0]]]
 
     window.blit(toRepaintcurrentBG,
-                (player_Icon_Position[0] * WorldMap.TILESIZE,
-                 player_Icon_Position[1] * WorldMap.TILESIZE))
+                (player_Icon_Position[0] * World_Map.TILESIZE,
+                 player_Icon_Position[1] * World_Map.TILESIZE))
     window.blit(toRepaintcurrent,
-                (player_Icon_Position[0] * WorldMap.TILESIZE,
-                 player_Icon_Position[1] * WorldMap.TILESIZE))
+                (player_Icon_Position[0] * World_Map.TILESIZE,
+                 player_Icon_Position[1] * World_Map.TILESIZE))
     window.blit(toRepaintcurrentenvironment,
-                (player_Icon_Position[0] * WorldMap.TILESIZE,
-                 player_Icon_Position[1] * WorldMap.TILESIZE))
+                (player_Icon_Position[0] * World_Map.TILESIZE,
+                 player_Icon_Position[1] * World_Map.TILESIZE))
     window.blit(toRepaintnextBG,
-                (nextPosition[0] * WorldMap.TILESIZE,
-                 nextPosition[1] * WorldMap.TILESIZE))
+                (nextPosition[0] * World_Map.TILESIZE,
+                 nextPosition[1] * World_Map.TILESIZE))
     window.blit(toRepaintnext,
-                (nextPosition[0] * WorldMap.TILESIZE,
-                 nextPosition[1] * WorldMap.TILESIZE))
+                (nextPosition[0] * World_Map.TILESIZE,
+                 nextPosition[1] * World_Map.TILESIZE))
     window.blit(toRepaintnextenvironment,
-                (nextPosition[0] * WorldMap.TILESIZE,
-                 nextPosition[1] * WorldMap.TILESIZE))
+                (nextPosition[0] * World_Map.TILESIZE,
+                 nextPosition[1] * World_Map.TILESIZE))
 
 
 # Resources, Images, Fonts Loading

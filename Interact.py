@@ -3,9 +3,9 @@ import gui
 import sys
 from pygame.locals import *
 from resources import Farben, Koordinaten
-import WorldMap
+import World_Map
 import character
-import CharacterAppearance
+import Character_Appearance
 import Helper
 
 class Bubble(object):
@@ -27,8 +27,8 @@ class Bubble(object):
         }
 
     def draw_bubble(self):
-        circle_x= 320 + (self.Position * WorldMap.TILESIZE)
-        circle_y= WorldMap.MAPHEIGHT * WorldMap.TILESIZE + 26
+        circle_x= 320 + (self.Position * World_Map.TILESIZE)
+        circle_y= World_Map.MAPHEIGHT * World_Map.TILESIZE + 26
         circle=pygame.draw.circle(self.screen, Farben.clsFarben.BLACK,[circle_x,circle_y], self.bubble_size)
 
         if self.active:
@@ -43,7 +43,7 @@ class Bubble(object):
                 icon = self.images['standard_inactive']
 
         icon=pygame.transform.scale(
-                    icon, (WorldMap.TILESIZE, WorldMap.TILESIZE))
+                    icon, (World_Map.TILESIZE, World_Map.TILESIZE))
 
         blit_icon_x=circle_x-20
         blit_icon_y=circle_y-20
@@ -116,8 +116,8 @@ class clsInteract(object):
     def interaktionen(self):
         Background = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART + 60,
                                  Koordinaten.clsKoordinaten.BLACKBAREND,
-                                 (WorldMap.MAPWIDTH * WorldMap.TILESIZE) - 185,
-                                 WorldMap.MAPHEIGHT * WorldMap.TILESIZE)
+                                 (World_Map.MAPWIDTH * World_Map.TILESIZE) - 185,
+                                 World_Map.MAPHEIGHT * World_Map.TILESIZE)
         TextBackground = pygame.Rect(55, 100, 150, 280)
         exitButton = gui.PygButton((Koordinaten.clsKoordinaten.BUTTONPOSX,
                                     Koordinaten.clsKoordinaten.BUTTONPOSY,
@@ -140,27 +140,27 @@ class clsInteract(object):
         produceButton.font = self.fonts['small']
         Position=187
         low_grass = pygame.sprite.Sprite()
-        low_grass.image = WorldMap.snippets[1].convert_alpha()
+        low_grass.image = World_Map.snippets[1].convert_alpha()
         low_grass.rect = low_grass.image.get_rect()
         low_grass.rect.center = (134, Position)
         Position+=45
         high_grass = pygame.sprite.Sprite()
-        high_grass.image = WorldMap.snippets[2].convert_alpha()
+        high_grass.image = World_Map.snippets[2].convert_alpha()
         high_grass.rect = high_grass.image.get_rect()
         high_grass.rect.center = (134, Position)
         Position += 45
         wiesen = pygame.sprite.Sprite()
-        wiesen.image = WorldMap.snippets[3].convert_alpha()
+        wiesen.image = World_Map.snippets[3].convert_alpha()
         wiesen.rect = wiesen.image.get_rect()
         wiesen.rect.center = (134, Position)
         Position += 45
         blaetter = pygame.sprite.Sprite()
-        blaetter.image = WorldMap.snippets[4].convert_alpha()
+        blaetter.image = World_Map.snippets[4].convert_alpha()
         blaetter.rect = blaetter.image.get_rect()
         blaetter.rect.center = (134, Position)
         Position += 45
         blumen = pygame.sprite.Sprite()
-        blumen.image = WorldMap.snippets[5].convert_alpha()
+        blumen.image = World_Map.snippets[5].convert_alpha()
         blumen.rect = wiesen.image.get_rect()
         blumen.rect.center = (134, Position)
 
@@ -176,31 +176,31 @@ class clsInteract(object):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if low_grass.rect.collidepoint(mouse_pos):
-                        canbeMade=self.check_Recipe_components(WorldMap.LOWGRASS)
-                        feed=self.check_Available(WorldMap.LOWGRASS)
-                        temp_Component=WorldMap.LOWGRASS
+                        canbeMade=self.check_Recipe_components(World_Map.LOWGRASS)
+                        feed=self.check_Available(World_Map.LOWGRASS)
+                        temp_Component=World_Map.LOWGRASS
                     elif high_grass.rect.collidepoint(mouse_pos):
-                        canbeMade=self.check_Recipe_components(WorldMap.MOREGRASS)
-                        feed=self.check_Available(WorldMap.MOREGRASS)
-                        temp_Component = WorldMap.MOREGRASS
+                        canbeMade=self.check_Recipe_components(World_Map.MOREGRASS)
+                        feed=self.check_Available(World_Map.MOREGRASS)
+                        temp_Component = World_Map.MOREGRASS
                     elif wiesen.rect.collidepoint(mouse_pos):
-                        canbeMade=self.check_Recipe_components(WorldMap.WIESENSNACK)
-                        feed = self.check_Available(WorldMap.WIESENSNACK)
-                        temp_Component = WorldMap.WIESENSNACK
+                        canbeMade=self.check_Recipe_components(World_Map.WIESENSNACK)
+                        feed = self.check_Available(World_Map.WIESENSNACK)
+                        temp_Component = World_Map.WIESENSNACK
                     elif blaetter.rect.collidepoint(mouse_pos):
-                        canbeMade=self.check_Recipe_components(WorldMap.BLÄTTERMISCHUNG)
-                        feed = self.check_Available(WorldMap.BLÄTTERMISCHUNG)
-                        temp_Component = WorldMap.BLÄTTERMISCHUNG
+                        canbeMade=self.check_Recipe_components(World_Map.BLÄTTERMISCHUNG)
+                        feed = self.check_Available(World_Map.BLÄTTERMISCHUNG)
+                        temp_Component = World_Map.BLÄTTERMISCHUNG
                     elif blumen.rect.collidepoint(mouse_pos):
-                        canbeMade=self.check_Recipe_components(WorldMap.PUSTEBLUMENDESSERT)
-                        feed = self.check_Available(WorldMap.PUSTEBLUMENDESSERT)
-                        temp_Component = WorldMap.PUSTEBLUMENDESSERT
+                        canbeMade=self.check_Recipe_components(World_Map.PUSTEBLUMENDESSERT)
+                        feed = self.check_Available(World_Map.PUSTEBLUMENDESSERT)
+                        temp_Component = World_Map.PUSTEBLUMENDESSERT
                 if canbeMade:
                     events=produceButton.handleEvent(event)
                     if 'click' in events:
-                        for i in WorldMap.craftrecipes[temp_Component]:
-                            WorldMap.inventory[i] -= WorldMap.craftrecipes[temp_Component][i]
-                        WorldMap.inventory[temp_Component]+=1
+                        for i in World_Map.craftrecipes[temp_Component]:
+                            World_Map.inventory[i] -= World_Map.craftrecipes[temp_Component][i]
+                        World_Map.inventory[temp_Component]+=1
 
                         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, Background)
                         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, TextBackground)
@@ -209,8 +209,8 @@ class clsInteract(object):
                 if feed:
                     events=feedButton.handleEvent(event)
                     if 'click' in events:
-                        WorldMap.inventory[temp_Component] -= 1
-                        amount_exp=WorldMap.experience_crafts[temp_Component]
+                        World_Map.inventory[temp_Component] -= 1
+                        amount_exp=World_Map.experience_crafts[temp_Component]
                         self.Charakter.gain_experience(amount_exp)
 
                         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, Background)
@@ -221,7 +221,7 @@ class clsInteract(object):
                 if 'click' in events:
                     proceed = False
 
-                CharacterAppearance.showAnimal(self.Charakter, self.screen)
+                Character_Appearance.showAnimal(self.Charakter, self.screen)
                 actuallevel = self.fonts['big'].render("Level: " + str(self.Charakter.get_Level()), 0,
                                                        Farben.clsFarben.WHITE)
                 self.screen.blit(actuallevel,
@@ -234,9 +234,9 @@ class clsInteract(object):
 
                 #craft items and their number available
                 Position = 187
-                for item in WorldMap.craftables:
+                for item in World_Map.craftables:
                     textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
-                        WorldMap.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
+                        World_Map.inventory[item]), True, Farben.clsFarben.WHITE, Farben.clsFarben.BLACK)
                     self.screen.blit(
                         textObjekt, (134 + 25, Position - 20))
                     Position += 45
@@ -258,24 +258,24 @@ class clsInteract(object):
 
     def check_Recipe_components(self, item):
         Background = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART + 60, Koordinaten.clsKoordinaten.BLACKBAREND,
-                                 (WorldMap.MAPWIDTH * WorldMap.TILESIZE) - 185,
-                                 WorldMap.MAPHEIGHT * WorldMap.TILESIZE)
+                                 (World_Map.MAPWIDTH * World_Map.TILESIZE) - 185,
+                                 World_Map.MAPHEIGHT * World_Map.TILESIZE)
         pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, Background)
         canbeMade=True
         Position=250
-        for y in WorldMap.craftrecipes[item]:
+        for y in World_Map.craftrecipes[item]:
             #draws component needed
-            snippetObjekt = WorldMap.snippets[y]
+            snippetObjekt = World_Map.snippets[y]
             self.screen.blit(snippetObjekt, (Position, 405))
             #color indicated if player possesses the amount of ressources needed
-            if WorldMap.craftrecipes[item][y]<=WorldMap.inventory[y]:
+            if World_Map.craftrecipes[item][y]<=World_Map.inventory[y]:
                 Farbe=Farben.clsFarben.WHITE
             else:
                 canbeMade=False
                 Farbe=Farben.clsFarben.DARKRED
             #draws amount component needed
             textObjekt = pygame.font.Font('resources/fonts/celtic_gaelige.ttf', 19).render(str(
-                WorldMap.craftrecipes[item][y]), True, Farbe, Farben.clsFarben.BLACK)
+                World_Map.craftrecipes[item][y]), True, Farbe, Farben.clsFarben.BLACK)
             Position+=50
             self.screen.blit(
                 textObjekt, (Position, 405))
@@ -286,7 +286,7 @@ class clsInteract(object):
 
     def check_Available(self, item):
         feed=False
-        if WorldMap.inventory[item]>0:
+        if World_Map.inventory[item]>0:
             feed=True
         return feed
 
@@ -327,7 +327,7 @@ class clsInteract(object):
                     pygame.draw.rect(self.screen, Farben.clsFarben.BLACK, BG)
                     feedButton.draw(self.screen)
                     exitButton.draw(self.screen)
-                    CharacterAppearance.showAnimal(charakter, self.screen)
+                    Character_Appearance.showAnimal(charakter, self.screen)
                     if interaction:
                         self.interaktionen()
                         visMode=True

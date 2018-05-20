@@ -1,6 +1,6 @@
 import pygame, sys
 from pygame.locals import *
-import WorldMap
+import World_Map
 import Helper
 import os.path
 import gui
@@ -17,7 +17,7 @@ class clsStartScreen(object):
         }
 
     def draw(self):
-        background=pygame.Rect(WorldMap.MAPWIDTH * WorldMap.TILESIZE, WorldMap.MAPHEIGHT * WorldMap.TILESIZE + 50, 400, 400)
+        background=pygame.Rect(World_Map.MAPWIDTH * World_Map.TILESIZE, World_Map.MAPHEIGHT * World_Map.TILESIZE + 50, 400, 400)
 
         returnButton = gui.PygButton((10, 100, 80, 20),
                                      'Weiter',
