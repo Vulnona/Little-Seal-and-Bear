@@ -2,6 +2,7 @@
 # Very nice: http://game-icons.net/
 # TODO: using magic -> correct blitting
 # TODO: magic -> animation, recoloration!
+# TODO: rework player icon, maybe in character.__init__, updating it there
 # BUG: entable cave: can enter from left side, cant switch if inside to left
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
@@ -18,7 +19,7 @@ import inspect
 import pyganim
 import StartScreen
 import WorldMap
-import ObjectsEnemies
+import Animations
 import Interact
 import Percentages
 # import LevelupForm
@@ -69,7 +70,7 @@ class Spiel(object):
         # NewTilemap.randomTilemap()
         self.NewTilemap.customTilemap()
         self.NewTilemap.environment_customTilemap()
-        self.Enemies = ObjectsEnemies.cls_Enemies()
+        self.Enemies = Animations.cls_Enemies()
         self.Enemies.fill_Enemies_list(self.NewTilemap)
 
         self.player_Icon_Position = [0, 0]
@@ -208,107 +209,11 @@ class Spiel(object):
                     self.window, Farben.clsFarben.BLACK, blackbar)
                 characterButton.draw(self.window)
 
-                # a x b pixels of spritesheet
-                a = 576 / 12
-                b = 384 / 8
-                if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                    player_Sprite = self.spritesheets['bearsprites']
-                    if(isinstance(self.Charakter.get_Subtype(), character.animalsubtypes.White)):
-                        amod = 3
-                        bmod = 0
-                    elif(isinstance(self.Charakter.get_Subtype(), character.animalsubtypes.Grey)):
-                        amod = 3
-                        bmod = 4
-                    elif(isinstance(self.Charakter.get_Subtype(), character.animalsubtypes.Brown)):
-                        amod = 0
-                        bmod = 4
-                    if direction == "right":
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
-                    elif direction == "left":
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
-                    elif direction == "up":
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
-                    else:
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
-
-                    sprites_bear_right = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        bear_right = ((a * amod) + (sprite_pos * a), b * (bmod + 2), a, b)
-                        sprites_bear_right.append((bear_right))
-
-                    sprites_bear_left = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        bear_left = ((a * amod) + (sprite_pos * a), b * (bmod + 1), a, b)
-                        sprites_bear_left.append((bear_left))
-
-                    sprites_bear_up = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        bear_up = ((a * amod) + (sprite_pos * a), b * (bmod + 3), a, b)
-                        sprites_bear_up.append((bear_up))
-
-                    sprites_bear_down = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        bear_down = ((a * amod) + (sprite_pos * a), b * (bmod + 0), a, b)
-                        sprites_bear_down.append((bear_down))
-
-
-                elif(isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                    player_Sprite = self.spritesheets['sealsprites']
-                    if (isinstance(self.Charakter.get_Subtype(), character.animalsubtypes.White)):
-                        amod = 0
-                        bmod = 0
-                    elif (isinstance(self.Charakter.get_Subtype(), character.animalsubtypes.Grey)):
-                        player_Sprite = self.spritesheets['sealsprites2']
-                        amod = 0
-                        bmod = 0
-                    elif (isinstance(self.Charakter.get_Subtype(), character.animalsubtypes.Brown)):
-                        amod = 0
-                        bmod = 4
-                    if direction == "right":
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
-                    elif direction == "left":
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
-                    elif direction == "up":
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
-                    else:
-                        player_Icon = player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
-
-                    sprites_seal_right = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        seal_right = (a*amod + (sprite_pos*a), b*(bmod+2), a, b)
-                        sprites_seal_right.append((seal_right))
-
-                    sprites_seal_left = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        seal_left = (a *amod + (sprite_pos*a), b*(bmod+1), a, b)
-                        sprites_seal_left.append((seal_left))
-
-                    sprites_seal_down = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        seal_down = (a*amod +(sprite_pos*a), b*(bmod+0), a, b)
-                        sprites_seal_down.append((seal_down))
-
-                    sprites_seal_up = []
-                    sprite_pos = 0
-                    for sprite_pos in range(3):
-                        seal_up = (a*amod +(sprite_pos*a), b *(bmod+3), a, b)
-                        sprites_seal_up.append((seal_up))
-                player_Icon = pygame.transform.scale(player_Icon, (37,37))
-
-                self.window.blit(
-                    player_Icon, (
-                        self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                        (self.player_Icon_Position[1] * WorldMap.TILESIZE)))
-
+                #icon showing
+                Player_Icon=Animations.clsIconShowing(self.window, self.Charakter)
+                Player_Icon.draw(direction, self.player_Icon_Position)
                 # For animating magic
-                MagicAnimator = ObjectsEnemies.clsAnimation(self.window, self.player_Icon_Position)
+                MagicAnimator = Animations.clsAnimation(self.window, self.player_Icon_Position)
 
                 # Generating and placing enemies
                 for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
@@ -391,12 +296,7 @@ class Spiel(object):
                                         for enemy in self.Enemies.get_Enemies_Liste():
                                             enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position, self.Charakter)
                                         if self.Charakter.get_status_temp('health')>0:
-                                            if(isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                                images = player_Sprite.images_at(
-                                                    rects=sprites_bear_right, colorkey=[0, 0, 0])
-                                            elif(isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                                images = player_Sprite.images_at(
-                                                    rects=sprites_seal_right, colorkey=[0, 0, 0])
+                                            images = Player_Icon.get_walk_Images('right')
                                             WalkAnim = pyganim.PygAnimation(
                                                 [(images[0], 150), (images[1], 150), (images[2], 150)])
                                             WalkAnim.scale((37, 37))
@@ -428,10 +328,7 @@ class Spiel(object):
                                                 if rand_int:
                                                     self.Charakter.change_status_temp(
                                                         'endu', '+')
-                                            self.window.blit(player_Icon,
-                                                             (self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                              self.player_Icon_Position[1] * WorldMap.TILESIZE))
-
+                                            Player_Icon.draw(direction, self.player_Icon_Position)
                         elif (event.key == K_LEFT and self.player_Icon_Position[0] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -480,13 +377,7 @@ class Spiel(object):
                                                 enemy.Agieren(self.window, self.NewTilemap, direction,
                                                               self.player_Icon_Position, self.Charakter)
                                             if self.Charakter.get_status_temp('health') > 0:
-                                                if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                                    images = player_Sprite.images_at(
-                                                        rects=sprites_bear_left, colorkey=[0, 0, 0])
-                                                elif (
-                                                isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                                    images = player_Sprite.images_at(
-                                                        rects=sprites_seal_left, colorkey=[0, 0, 0])
+                                                images = Player_Icon.get_walk_Images('left')
                                                 WalkAnim = pyganim.PygAnimation(
                                                     [(images[0], 150), (images[1], 150), (images[2], 150)])
                                                 WalkAnim.scale((37, 37))
@@ -520,10 +411,7 @@ class Spiel(object):
                                                     if rand_int:
                                                         self.Charakter.change_status_temp(
                                                             'endu', '+')
-                                                self.window.blit(player_Icon,
-                                                                 (self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                                  self.player_Icon_Position[1] * WorldMap.TILESIZE))
-
+                                                Player_Icon.draw(direction, self.player_Icon_Position)
                         elif (event.key == K_DOWN and self.player_Icon_Position[1] < WorldMap.MAPHEIGHT - 1):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -559,12 +447,7 @@ class Spiel(object):
                                     enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                   self.Charakter)
                                 if self.Charakter.get_status_temp('health') > 0:
-                                    if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                        images = player_Sprite.images_at(
-                                            rects=sprites_bear_down, colorkey=[0, 0, 0])
-                                    elif (isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                        images = player_Sprite.images_at(
-                                            rects=sprites_seal_down, colorkey=[0, 0, 0])
+                                    images = Player_Icon.get_walk_Images('down')
                                     WalkAnim = pyganim.PygAnimation(
                                         [(images[0], 150), (images[1], 150), (images[2], 150)])
                                     WalkAnim.scale((37, 37))
@@ -598,10 +481,7 @@ class Spiel(object):
                                         if rand_int:
                                             self.Charakter.change_status_temp(
                                                 'endu', '+')
-                                    self.window.blit(player_Icon,
-                                                     (self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                      self.player_Icon_Position[1] * WorldMap.TILESIZE))
-
+                                    Player_Icon.draw(direction, self.player_Icon_Position)
                         elif (event.key == K_UP and self.player_Icon_Position[1] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -649,12 +529,7 @@ class Spiel(object):
                                         enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                       self.Charakter)
                                     if self.Charakter.get_status_temp('health') > 0:
-                                        if (isinstance(self.Charakter.get_Type(), character.animaltypes.clsBaer)):
-                                            images = player_Sprite.images_at(
-                                                rects=sprites_bear_up, colorkey=[0, 0, 0])
-                                        elif (isinstance(self.Charakter.get_Type(), character.animaltypes.clsRobbe)):
-                                            images = player_Sprite.images_at(
-                                                rects=sprites_seal_up, colorkey=[0, 0, 0])
+                                        images = Player_Icon.get_walk_Images('up')
                                         WalkAnim = pyganim.PygAnimation(
                                             [(images[0], 150), (images[1], 150), (images[2], 150)])
                                         WalkAnim.scale((37, 37))
@@ -688,10 +563,7 @@ class Spiel(object):
                                             if rand_int:
                                                 self.Charakter.change_status_temp(
                                                     'endu', '+')
-                                        self.window.blit(player_Icon,
-                                                         (self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                          self.player_Icon_Position[1] * WorldMap.TILESIZE))
-
+                                        Player_Icon.draw(direction, self.player_Icon_Position)
                         elif (event.key == K_SPACE):
                             currentTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                                                   ][self.player_Icon_Position[0]]
@@ -773,9 +645,7 @@ class Spiel(object):
                                     self.Charakter.change_status_temp(
                                         'endu', '-')
                                 self.Charakter.change_status_temp('endu', '-')
-                                self.window.blit(player_Icon,
-                                                 (self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                  self.player_Icon_Position[1] * WorldMap.TILESIZE))
+                                Player_Icon.draw(direction, self.player_Icon_Position)
                                 Charaktermenu.stats_showing()
                         elif (event.key == K_m):
                             Skills = []
@@ -883,9 +753,7 @@ class Spiel(object):
                                                 for enemy in self.Enemies.get_Enemies_Liste():
                                                     enemy.Agieren(self.window, self.NewTilemap, direction,
                                                                   self.player_Icon_Position, self.Charakter)
-                                                self.window.blit(player_Icon,
-                                                                 (self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                                  self.player_Icon_Position[1] * WorldMap.TILESIZE))
+                                                Player_Icon.draw(direction, self.player_Icon_Position)
                                                 Charaktermenu.stats_showing()
                                                 pygame.display.update()
                                                 fpsClock.tick(FPS)
@@ -1087,10 +955,7 @@ class Spiel(object):
                                                         if collide:
                                                             self.window.blit(WorldMap.environment[environment],
                                                                              (tile[0] * WorldMap.TILESIZE, tile[1] * WorldMap.TILESIZE))
-
-                                                        self.window.blit(player_Icon, (
-                                                            self.player_Icon_Position[0] * WorldMap.TILESIZE,
-                                                            self.player_Icon_Position[1] * WorldMap.TILESIZE))
+                                                        Player_Icon.draw(direction, self.player_Icon_Position)
                                                         #redraw all enemies on map:
                                                         for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
                                                             an_enemy = self.Enemies.get_Enemy(enemy)

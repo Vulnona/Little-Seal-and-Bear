@@ -5,6 +5,153 @@ import pyganim
 import Helper
 import character
 
+
+class clsIconShowing(object):
+    def __init__(self, window, Character):
+        self.window = window
+        self.Character = Character
+        self._load_spritesheets()
+
+    def _load_spritesheets(self):
+        self.spritesheets = {
+            'sealsprites': Helper.spritesheet('seal2.png'),
+            'sealsprites2': Helper.spritesheet('seal.png'),
+            'bearsprites': Helper.spritesheet('bear.png')
+        }
+
+    def draw(self, direction, player_Icon_Position):
+        # a x b pixels of spritesheet
+        a = 576 / 12
+        b = 384 / 8
+        if (isinstance(self.Character.get_Type(), character.animaltypes.clsBaer)):
+            self.player_Sprite = self.spritesheets['bearsprites']
+            if (isinstance(self.Character.get_Subtype(), character.animalsubtypes.White)):
+                amod = 3
+                bmod = 0
+            elif (isinstance(self.Character.get_Subtype(), character.animalsubtypes.Grey)):
+                amod = 3
+                bmod = 4
+            elif (isinstance(self.Character.get_Subtype(), character.animalsubtypes.Brown)):
+                amod = 0
+                bmod = 4
+            if direction == "right":
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
+            elif direction == "left":
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
+            elif direction == "up":
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
+            else:
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
+
+            self.sprites_bear_right = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                bear_right = ((a * amod) + (sprite_pos * a), b * (bmod + 2), a, b)
+                self.sprites_bear_right.append((bear_right))
+
+            self.sprites_bear_left = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                bear_left = ((a * amod) + (sprite_pos * a), b * (bmod + 1), a, b)
+                self.sprites_bear_left.append((bear_left))
+
+            self.sprites_bear_up = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                bear_up = ((a * amod) + (sprite_pos * a), b * (bmod + 3), a, b)
+                self.sprites_bear_up.append((bear_up))
+
+            self.sprites_bear_down = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                bear_down = ((a * amod) + (sprite_pos * a), b * (bmod + 0), a, b)
+                self.sprites_bear_down.append((bear_down))
+
+
+        elif (isinstance(self.Character.get_Type(), character.animaltypes.clsRobbe)):
+            self.player_Sprite = self.spritesheets['sealsprites']
+            if (isinstance(self.Character.get_Subtype(), character.animalsubtypes.White)):
+                amod = 0
+                bmod = 0
+            elif (isinstance(self.Character.get_Subtype(), character.animalsubtypes.Grey)):
+                self.player_Sprite = self.spritesheets['sealsprites2']
+                amod = 0
+                bmod = 0
+            elif (isinstance(self.Character.get_Subtype(), character.animalsubtypes.Brown)):
+                amod = 0
+                bmod = 4
+            if direction == "right":
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 2), a, b), colorkey=(0, 0, 0))
+            elif direction == "left":
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 1), a, b), colorkey=(0, 0, 0))
+            elif direction == "up":
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 3), a, b), colorkey=(0, 0, 0))
+            else:
+                player_Icon = self.player_Sprite.image_at((a * amod, b * (bmod + 0), a, b), colorkey=(0, 0, 0))
+
+            self.sprites_seal_right = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                seal_right = (a * amod + (sprite_pos * a), b * (bmod + 2), a, b)
+                self.sprites_seal_right.append((seal_right))
+
+            self.sprites_seal_left = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                seal_left = (a * amod + (sprite_pos * a), b * (bmod + 1), a, b)
+                self.sprites_seal_left.append((seal_left))
+
+            self.sprites_seal_down = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                seal_down = (a * amod + (sprite_pos * a), b * (bmod + 0), a, b)
+                self.sprites_seal_down.append((seal_down))
+
+            self.sprites_seal_up = []
+            sprite_pos = 0
+            for sprite_pos in range(3):
+                seal_up = (a * amod + (sprite_pos * a), b * (bmod + 3), a, b)
+                self.sprites_seal_up.append((seal_up))
+        player_Icon = pygame.transform.scale(player_Icon, (37, 37))
+
+        self.window.blit(
+            player_Icon, (
+                player_Icon_Position[0] * WorldMap.TILESIZE,
+                (player_Icon_Position[1] * WorldMap.TILESIZE)))
+
+
+    def get_walk_Images(self, direction):
+        if direction == 'right':
+            if (isinstance(self.Character.get_Type(), character.animaltypes.clsBaer)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_bear_right, colorkey=[0, 0, 0])
+            elif (isinstance(self.Character.get_Type(), character.animaltypes.clsRobbe)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_seal_right, colorkey=[0, 0, 0])
+        elif direction == 'left':
+            if (isinstance(self.Character.get_Type(), character.animaltypes.clsBaer)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_bear_left, colorkey=[0, 0, 0])
+            elif (isinstance(self.Character.get_Type(), character.animaltypes.clsRobbe)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_seal_left, colorkey=[0, 0, 0])
+        elif direction == 'down':
+            if (isinstance(self.Character.get_Type(), character.animaltypes.clsBaer)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_bear_down, colorkey=[0, 0, 0])
+            elif (isinstance(self.Character.get_Type(), character.animaltypes.clsRobbe)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_seal_down, colorkey=[0, 0, 0])
+        elif direction == 'up':
+            if (isinstance(self.Character.get_Type(), character.animaltypes.clsBaer)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_bear_up, colorkey=[0, 0, 0])
+            elif (isinstance(self.Character.get_Type(), character.animaltypes.clsRobbe)):
+                images = self.player_Sprite.images_at(
+                    rects=self.sprites_seal_up, colorkey=[0, 0, 0])
+
+        return images
+
 class clsAnimation(object):
     def __init__(self, screen, player_position):
         self.screen = screen
