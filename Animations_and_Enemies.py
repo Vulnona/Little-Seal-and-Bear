@@ -553,122 +553,16 @@ class cls_Enemy(object):
             return "bewegt"
 
 
-        #action = "down"
-        #return action
-        # Spieler steht auf einem Feld, auf dem er angegriffen werden kann und befindet sich in Reichweite
-
-        #evaluate 'right'
-        #right_value = 0
-        #nextTile = Tilemap.getTilemap()[self.Position[1]
-        #][self.Position[0] + 1]
-        #nextEnvironment = Tilemap.getEnvironment()[self.Position[1]
-        #][self.Position[0] + 1]
-        #if self.Position < Weltkarte.MAPWIDTH - 1:
-        #    right_value = -1
-        #for env in Weltkarte.collide:
-        #    if env == nextEnvironment:
-        #        right_value = -1
-        #for env in Weltkarte.enterable:
-        #    if env == nextEnvironment:
-        #        right_value = -1
-        #for tile in Weltkarte.waterbehaviour:
-        #    # Enemy ist bereits im Wasser:
-        #    if currentTile == tile:
-        #        if nextTile == Weltkarte.GRASSLAND or Weltkarte.DIRT or Weltkarte.STONE:
-        #            right_value = 99
-        #        else:
-        #            right_value = 50
-        #        break
-        #    else:
-        #        if nextTile == tile:
-        #            right_value = -1
-        #keine Ausschlusskriterien zugetroffen:
-        #if right_value >= 0:
-        #    if "fressen" in self.Verhalten:
-        #        if nextTile == Weltkarte.GRASSLAND or nextEnvironment == Weltkarte.LOWGRASS or nextEnvironment == Weltkarte.MOREGRASS:
-        #            right_value += 49
-        #        else:
-         #           right_value += 0
-          #  if "obst" in self.Verhalten:
-           #     Obst_Liste=[]
-            #    for row in range(Weltkarte.MAPHEIGHT):
-             #       for column in range(Weltkarte.MAPWIDTH):
-              #          if Tilemap.getEnvironment[row][column]==Weltkarte.MOREGRASS:
-               #             Koordinaten=[row][column]
-                #            Obst_Liste.append(Koordinaten)
-                ##kein 'Obst' auf der Map
-                #if not Obst_Liste:
-                 #   right_value += 25
-                #else:
-                #Vergleich Liste: self.Position mit gespeicherten Koordinaten
-                  #  Diff=[]
-                 #   for obst in Obst_Liste:
-                   #     if self.Position[0]>obst[0]:
-                    #        xdiff = self.Position[0]-obst[0]
-                     #       if self.Position[1]>obst[1]:
-                      #          ydiff = self.Position[1]-obst[1]
-                       #     else:
-                        #        ydiff = obst[1] - self.Position[1]
-                        #else:
-                         #   xdiff = obst[0]-self.Position[0]
-                          #  if self.Position[1]>obst[1]:
-                           #     ydiff = self.Position[1]-obst[1]
-                            #else:
-                             #   ydiff = obst[1] - self.Position[1]
-                        #diff=[xdiff, ydiff]
-                        #Diff.append(diff)
-
-                   # print(sorted(Diff))
-                   # Diff = sorted(Diff)
-                   # destination = Diff[0] #lowest value
-                   # print(destination)
-                    #if (destination[0] destination[0]+=1):
-                    #    pass
-
-        #else:
-         #   PossibleAction.remove("r")
-
-
-        #evaluate 'left'
-        #nextTile = Tilemap.getTilemap()[self.Position[1]
-        #][self.Position[0] - 1]
-        #nextEnvironment = Tilemap.getEnvironment()[self.Position[1]
-        #][self.Position[0] - 1]
-
-        #evaluate 'down'
-        #nextTile = Tilemap.getTilemap()[self.Position[1] + 1
-        #                                ][self.Position[0]]
-        #nextEnvironment = Tilemap.getEnvironment()[self.Position[1] + 1
-        #                                           ][self.Position[0]]
-
-        #evaluate 'up':
-        #nextTile = Tilemap.getTilemap()[self.Position[1] - 1
-        #                                ][self.Position[0]]
-        #nextEnvironment = Tilemap.getEnvironment()[self.Position[1] - 1
-        #                                           ][self.Position[0]]
-
-    # Movement
-    # if act == "right":
-    #    self.Position[0] += 1
-    # elif act == "left":
-    #    self.Position[0] -= 1
-    # elif act == "down":
-    #    self.Position[1] += 1
-    # elif act == "up":
-    #    self.Position[1] -= 1
-
-
     def Agieren(self, screen, Tilemap, Player_Direction, Player_Position, Charakter):
 
         #Decide action
         act=self.choose_action(Tilemap, Player_Position, Charakter)
 
         if act == "bewegt":
+            #handled before
             pass
         elif act == "stay":
-            pass
-        elif act == "flee":
-            #needs handling
+            # nothing happens
             pass
         elif act == "attack":
             amount=1

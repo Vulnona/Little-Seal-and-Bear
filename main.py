@@ -1,7 +1,6 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
 # TODO: enemies correct walking
-# BUG: enemy can walk on player position
 # TODO: magic -> animation, recoloration!
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
