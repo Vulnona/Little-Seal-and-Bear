@@ -989,8 +989,13 @@ class Spiel(object):
                                         if clicked:
                                             enemy.damage_and_death_anim(
                                                 self.window, "damage", enemy_tile, enemy_environment)
-                                            if not "hostile" in enemy.Behaviour:
+                                            if not "hostile" in enemy.Behaviour and enemy.Health > 5:
                                                 enemy.add_Behaviour("hostile")
+                                            if enemy.Health <= 5 and not isinstance(enemy.Type, Animations_and_Enemies.clsSawblade):
+                                                if "hostile" in enemy.Behaviour:
+                                                    enemy.delete_Behaviour("hostile")
+                                                if not "flee" in enemy.Behaviour:
+                                                    enemy.add_Behaviour("flee")
                                             if enemy.Health <= 0:
                                                 enemy.damage_and_death_anim(
                                                     self.window, "death", enemy_tile, enemy_environment)
