@@ -19,17 +19,20 @@ class clsAnimation(object):
             'heal': Helper.spritesheet('heal.png')
         }
 
-    def magic_Anim(self, magic):
+
+    def magic_Anim(self, magic, Tilemap = None):
 
         if magic == 'stealth':
             self.stealth_Anim()
-        if magic == 'savers':
-            self.savers_Anim()
-        if magic == 'heal':
-            self.heal_Anim()
-        if magic == 'plant':
-            self.plant_Anim()
 
+        elif magic == 'savers':
+            self.savers_Anim()
+
+        elif magic == 'heal':
+            self.heal_Anim()
+
+        elif magic == 'plant':
+            self.plant_Anim(Tilemap)
 
     def stealth_Anim(self):
         i1 = self.spritesheets['stealth'].image_at((0, 0, 231, 263), colorkey=(0,0,0))
@@ -137,8 +140,60 @@ class clsAnimation(object):
             mainClock.tick(30)
             i -= 1
 
-    def plant_Anim(self):
-        pass
+    def plant_Anim(self, Tilemap):
+
+        currentTile = Tilemap.getTilemap()[self.player_position[1]][self.player_position[0]]
+        if currentTile == 0:
+            currentTile = WorldMap.grass_tile
+        else:
+            currentTile = WorldMap.dirt_tile
+        currentEnvironment = Tilemap.getEnvironment()[self.player_position[1]][self.player_position[0]]
+        currentEnvironment = WorldMap.environment[currentEnvironment]
+
+        i1 = self.spritesheets['plant'].image_at((0, 0, 192, 192), colorkey=(0, 0, 0))
+        i2 = self.spritesheets['plant'].image_at((192, 0, 192, 192), colorkey=(0, 0, 0))
+        i3 = self.spritesheets['plant'].image_at((384, 0, 192, 192), colorkey=(0, 0, 0))
+        i4 = self.spritesheets['plant'].image_at((576, 0, 192, 192), colorkey=(0, 0, 0))
+        i5 = self.spritesheets['plant'].image_at((771, 0, 192, 192), colorkey=(0, 0, 0))
+        i6 = self.spritesheets['plant'].image_at((0, 192, 192, 192), colorkey=(0, 0, 0))
+        i7 = self.spritesheets['plant'].image_at((192, 192, 192, 192), colorkey=(0, 0, 0))
+        i8 = self.spritesheets['plant'].image_at((384, 192, 192, 192), colorkey=(0, 0, 0))
+        i9 = self.spritesheets['plant'].image_at((576, 192, 192, 192), colorkey=(0, 0, 0))
+        i10 = self.spritesheets['plant'].image_at((771, 192, 192, 192), colorkey=(0, 0, 0))
+        i11 = self.spritesheets['plant'].image_at((0, 384, 192, 192), colorkey=(0, 0, 0))
+        i12 = self.spritesheets['plant'].image_at((192, 384, 192, 192), colorkey=(0, 0, 0))
+        i13 = self.spritesheets['plant'].image_at((384, 384, 192, 192), colorkey=(0, 0, 0))
+        i14 = self.spritesheets['plant'].image_at((576, 384, 192, 192), colorkey=(0, 0, 0))
+        i15 = self.spritesheets['plant'].image_at((771, 384, 192, 192), colorkey=(0, 0, 0))
+        i16 = self.spritesheets['plant'].image_at((0, 576, 192, 192), colorkey=(0, 0, 0))
+        i17 = self.spritesheets['plant'].image_at((192, 576, 192, 192), colorkey=(0, 0, 0))
+        i18 = self.spritesheets['plant'].image_at((384, 576, 192, 192), colorkey=(0, 0, 0))
+        i19 = self.spritesheets['plant'].image_at((576, 576, 192, 192), colorkey=(0, 0, 0))
+        i20 = self.spritesheets['plant'].image_at((771, 576, 192, 192), colorkey=(0, 0, 0))
+        i21 = self.spritesheets['plant'].image_at((0, 771, 192, 192), colorkey=(0, 0, 0))
+        i22 = self.spritesheets['plant'].image_at((192, 771, 192, 192), colorkey=(0, 0, 0))
+        i23 = self.spritesheets['plant'].image_at((384, 771, 192, 192), colorkey=(0, 0, 0))
+        i24 = self.spritesheets['plant'].image_at((576, 771, 192, 192), colorkey=(0, 0, 0))
+        i25 = self.spritesheets['plant'].image_at((771, 771, 192, 192), colorkey=(0, 0, 0))
+
+
+        mainClock = pygame.time.Clock()
+        plantAnimation = pyganim.PygAnimation([(i1, 10), (i2, 10), (i3, 10), (i4, 10), (i5, 10), (currentTile, 10), (i6, 10),
+                                              (i7, 10), (i8, 10), (currentTile, 10), (i9, 10), (i10, 10), (i11, 10), (currentTile, 10),
+                                               (i12, 10), (i13, 10), (i14, 10), (currentTile, 10), (i15, 10), (i16, 10), (i17, 10),
+                                               (currentEnvironment, 10), (i18, 10), (i19, 10), (currentTile, 10), (currentEnvironment, 10),
+                                               (i20, 10), (i21, 10), (i22, 10), (currentTile, 10), (currentEnvironment, 10), (i23, 10), (i24, 10),
+                                               (i25, 10), (currentTile, 10), (currentEnvironment, 10)])
+
+        plantAnimation.scale((WorldMap.TILESIZE, WorldMap.TILESIZE))
+        plantAnimation.play()
+
+        for i in range(10):
+            plantAnimation.blit(
+                self.screen, (self.player_position[0] * WorldMap.TILESIZE, self.player_position[1] * WorldMap.TILESIZE))
+            pygame.display.update()
+            mainClock.tick(30)
+            i -= 1
 
 class BaseType:
     def __str__(self):
@@ -398,7 +453,7 @@ class cls_Enemy(object):
                     loweramount = Percentages.dice(amount)
                     amount -= loweramount
                 else:
-                    check = Percentages.haelftehaelfte()
+                    check = Percentages.halfhalf()
                     if check:
                         amount = 0
             for i in range (amount):

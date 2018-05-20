@@ -191,8 +191,6 @@ class Spiel(object):
 
             while True:
 
-                MagicAnimator = ObjectsEnemies.clsAnimation(self.window, self.player_Icon_Position)
-
                 if self.Charakter.get_status_temp('health')<=0:
                     MODE = "GAMEOVER"
                     return MODE
@@ -309,6 +307,9 @@ class Spiel(object):
                         self.player_Icon_Position[0] * WorldMap.TILESIZE,
                         (self.player_Icon_Position[1] * WorldMap.TILESIZE)))
 
+                # For animating magic
+                MagicAnimator = ObjectsEnemies.clsAnimation(self.window, self.player_Icon_Position)
+
                 # Generating and placing enemies
                 for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
                     an_enemy = self.Enemies.get_Enemy(enemy)
@@ -423,10 +424,14 @@ class Spiel(object):
                                                 self.Charakter.change_status_temp(
                                                     'endu', '-')
                                             if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                                rand_int = Percentages.haelftehaelfte()
+                                                rand_int = Percentages.halfhalf()
                                                 if rand_int:
                                                     self.Charakter.change_status_temp(
                                                         'endu', '+')
+                                            self.window.blit(player_Icon,
+                                                             (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                              self.player_Icon_Position[1] * WorldMap.TILESIZE))
+
                         elif (event.key == K_LEFT and self.player_Icon_Position[0] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -511,12 +516,14 @@ class Spiel(object):
                                                     self.Charakter.change_status_temp(
                                                         'endu', '-')
                                                 if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                                    rand_int = Percentages.haelftehaelfte()
+                                                    rand_int = Percentages.halfhalf()
                                                     if rand_int:
                                                         self.Charakter.change_status_temp(
                                                             'endu', '+')
-                                        else:
-                                            break
+                                                self.window.blit(player_Icon,
+                                                                 (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                                  self.player_Icon_Position[1] * WorldMap.TILESIZE))
+
                         elif (event.key == K_DOWN and self.player_Icon_Position[1] < WorldMap.MAPHEIGHT - 1):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -587,10 +594,14 @@ class Spiel(object):
                                         self.Charakter.change_status_temp(
                                             'endu', '-')
                                     if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                        rand_int = Percentages.haelftehaelfte()
+                                        rand_int = Percentages.halfhalf()
                                         if rand_int:
                                             self.Charakter.change_status_temp(
                                                 'endu', '+')
+                                    self.window.blit(player_Icon,
+                                                     (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                      self.player_Icon_Position[1] * WorldMap.TILESIZE))
+
                         elif (event.key == K_UP and self.player_Icon_Position[1] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -673,10 +684,14 @@ class Spiel(object):
                                             self.Charakter.change_status_temp(
                                                 'endu', '-')
                                         if self.Charakter.has_Skill(character.skills.RunnerCharacterSkill):
-                                            rand_int = Percentages.haelftehaelfte()
+                                            rand_int = Percentages.halfhalf()
                                             if rand_int:
                                                 self.Charakter.change_status_temp(
                                                     'endu', '+')
+                                        self.window.blit(player_Icon,
+                                                         (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                          self.player_Icon_Position[1] * WorldMap.TILESIZE))
+
                         elif (event.key == K_SPACE):
                             currentTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                                                   ][self.player_Icon_Position[0]]
@@ -723,6 +738,7 @@ class Spiel(object):
                                     MagicAnimator.magic_Anim('savers')
                                     self.Charakter.change_status_temp(
                                         'endu', '-')
+                                MagicAnimator.magic_Anim('plant', self.NewTilemap)
                                 Charaktermenu.stats_showing()
                                 break
                             elif currentTile == WorldMap.GRASSLAND:
@@ -732,7 +748,7 @@ class Spiel(object):
                                 if hasenv:
                                     # Fähigkeit Grasschlitzer: Chance auf doppelte Ressourcen
                                     if self.Charakter.has_Skill(character.skills.GrasMovementCharacterSkill):
-                                        rand_int = Percentages.haelftehaelfte()
+                                        rand_int = Percentages.halfhalf()
                                         if rand_int:
                                             WorldMap.inventory[currentEnvironment] += 1
                                     # Sammeln
@@ -742,7 +758,7 @@ class Spiel(object):
                                 #kein Gras drauf, wird Dirt:
                                 else:
                                     if self.Charakter.has_Skill(character.skills.GrasMovementCharacterSkill):
-                                        rand_int = Percentages.haelftehaelfte()
+                                        rand_int = Percentages.halfhalf()
                                         if rand_int:
                                             WorldMap.inventory[currentTile] += 1
                                     WorldMap.inventory[currentTile] += 1
@@ -757,6 +773,9 @@ class Spiel(object):
                                     self.Charakter.change_status_temp(
                                         'endu', '-')
                                 self.Charakter.change_status_temp('endu', '-')
+                                self.window.blit(player_Icon,
+                                                 (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                  self.player_Icon_Position[1] * WorldMap.TILESIZE))
                                 Charaktermenu.stats_showing()
                         elif (event.key == K_m):
                             Skills = []
@@ -830,12 +849,11 @@ class Spiel(object):
                                                                 'magic', '-')
                                                         elif currentEnvironment == WorldMap.DEADGRASS:
                                                             self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
-                                                                                        ][self.player_Icon_Position[0]]=WorldMap.LOWGRASS
+                                                                                        ][self.player_Icon_Position[0]] = WorldMap.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
-                                                        self.window.blit(currentTile, (self.player_Icon_Position[1], self.player_Icon_Position[0]))
                                                         clicked = True
-                                                        break
+
                                                     elif currentTile == WorldMap.GRASSLAND:
                                                         if currentEnvironment == WorldMap.LOWGRASS:
                                                             self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
@@ -848,8 +866,8 @@ class Spiel(object):
                                                             ][self.player_Icon_Position[0]] = WorldMap.LOWGRASS
                                                             self.Charakter.change_status_temp(
                                                                 'magic', '-')
+                                                    MagicAnimator.magic_Anim('plant', self.NewTilemap)
                                                     clicked = True
-                                                    break
 
                                             if saverSkill:
                                                 if saverbubble.collidepoint(mousepos):
@@ -865,7 +883,9 @@ class Spiel(object):
                                                 for enemy in self.Enemies.get_Enemies_Liste():
                                                     enemy.Agieren(self.window, self.NewTilemap, direction,
                                                                   self.player_Icon_Position, self.Charakter)
-                                                #TODO repainting of current tile!
+                                                self.window.blit(player_Icon,
+                                                                 (self.player_Icon_Position[0] * WorldMap.TILESIZE,
+                                                                  self.player_Icon_Position[1] * WorldMap.TILESIZE))
                                                 Charaktermenu.stats_showing()
                                                 pygame.display.update()
                                                 fpsClock.tick(FPS)

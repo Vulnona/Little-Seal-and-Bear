@@ -156,18 +156,18 @@ fruit_2 = fruit_Sprite.image_at((195, 11, 57, 59), colorkey=(0,0,0))
 fruit_2 = pygame.transform.scale(fruit_2, (20,20))
 
 
-textures={
-    GRASSLAND : grass_tile,
+textures = {
+    GRASSLAND: grass_tile,
     STONE: stone_tile,
-    DIRT : dirt_tile,
-    WATER : water_tile,
+    DIRT: dirt_tile,
+    WATER: water_tile,
     LAKE1: lake_1,
     LAKE2: lake_2,
     LAKE3: lake_3,
     LAKE4: lake_4
 }
 
-environment={
+environment = {
     NOTHING: empty,
     MINISTONE1: mini_stone_1,
     MINISTONE2: mini_stone_2,
@@ -277,14 +277,12 @@ class clsInventory(object):
 
 class clsTileMap(object):
     def __init__(self):
-        self.tilemap= [[GRASSLAND for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
+        self.tilemap = [[GRASSLAND for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
         self.environment = [[NOTHING for i in range(MAPWIDTH)] for j in range(MAPHEIGHT)]
     def showTilemap(self):
         print(self.tilemap)
     def getTilemap(self):
         return self.tilemap
-    def getEnvironment(self):
-        return self.environment
     def getEnvironment(self):
         return self.environment
     def randomTilemap(self):

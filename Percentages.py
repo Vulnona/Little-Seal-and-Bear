@@ -1,7 +1,7 @@
 from random import randint
 
 
-def haelftehaelfte(object):
+def halfhalf():
     rand_int = randint(0, 1)
     if rand_int == 0:
         return False
