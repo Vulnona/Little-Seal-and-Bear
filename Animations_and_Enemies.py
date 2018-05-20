@@ -503,7 +503,7 @@ class cls_Enemy(object):
                 if currentEnvironment == World_Map.FRUIT1 or currentEnvironment == World_Map.FRUIT2:
                     return "eat"
             # evaluate route
-            if "aggressive" in self.Behaviour:
+            if "aggressive" in self.Behaviour and not Charakter.get_stealth_mode():
 
                 if Player_Position[0] > self.Position[0]:
                     x_Coord = self.Position[0] + 1
