@@ -3,7 +3,6 @@
 # TODO: enemies correct walking
 # BUG: enemy can walk on player position
 # TODO: magic -> animation, recoloration!
-# BUG: entable cave: can enter from left side, cant switch if inside to left
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
 
@@ -270,7 +269,14 @@ class Spiel(object):
                                                                              ][self.player_Icon_Position[0]]
                             for env in WorldMap.enterable:
                                 if env == currentEnvironment:
-                                    cont = False
+                                    for env2 in WorldMap.enterable:
+                                        if env2 == nextEnvironment:
+                                            cont = True
+                                            break
+                                        else:
+                                            cont = False
+                            if nextEnvironment == WorldMap.CAVE4:
+                                cont = False
                             if cont:
                                 for tile in WorldMap.waterbehaviour:
                                     if tile == nextTile:
@@ -359,6 +365,9 @@ class Spiel(object):
                                                 break
                                             else:
                                                 cont = False
+                                if nextEnvironment == WorldMap.CAVE3:
+                                    cont = False
+
                                 if cont:
                                     for tile in WorldMap.waterbehaviour:
                                         if tile == nextTile:
