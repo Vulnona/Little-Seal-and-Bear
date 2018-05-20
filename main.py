@@ -53,7 +53,6 @@ Charakter = character.Character()
 MODE = "UNKNOWN"
 
 
-
 class Spiel(object):
 
     def __init__(self, MODE, Charakter):
@@ -63,7 +62,6 @@ class Spiel(object):
         self._load_fonts()
         self._load_images()
         self._load_spritesheets()
-
         self.BackgroundTilemap = WorldMap.clsTileMap()
         self.NewTilemap = WorldMap.clsTileMap()
         # NewTilemap.randomTilemap()
@@ -71,9 +69,7 @@ class Spiel(object):
         self.NewTilemap.environment_customTilemap()
         self.Enemies = Animations.cls_Enemies()
         self.Enemies.fill_Enemies_list(self.NewTilemap)
-
         self.player_Icon_Position = [0, 0]
-
 
     def _load_fonts(self):
         logging.info('Loading fonts')
@@ -102,7 +98,7 @@ class Spiel(object):
             'bearsprites': Helper.spritesheet('bear.png')
         }
 
-    def spielen(self, MODE):
+    def play(self, MODE):
         if MODE == "STARTSCREEN":
             if self.Charakter.get_Name() is None:
                 NewStartingScreen = StartScreen.clsStartScreen(
@@ -161,8 +157,6 @@ class Spiel(object):
                 mainClock.tick(FPS)
                 pygame.display.update()
 
-            #return MODE
-
         elif MODE == "GAME":
             global direction
             blackbar = pygame.Rect(Koordinaten.clsKoordinaten.BLACKBARSTART, Koordinaten.clsKoordinaten.BLACKBAREND,
@@ -183,6 +177,7 @@ class Spiel(object):
             Charaktermenu = Interact.clsInteract(
                 self.window, self.Charakter)
 
+            #for testing purposes
             self.Charakter.set_Skill(character.skills.PlantingCharacterSkill)
             self.Charakter.set_Skill(character.skills.EarthquakeCharacterSkill)
             self.Charakter.set_Skill(character.skills.StealthCharacterSkill)
@@ -194,7 +189,6 @@ class Spiel(object):
                 if self.Charakter.get_status_temp('health')<=0:
                     MODE = "GAMEOVER"
                     return MODE
-
                 pygame.display.update()
                 for row in range(WorldMap.MAPHEIGHT):
                     for column in range(WorldMap.MAPWIDTH):
@@ -1046,6 +1040,6 @@ class Spiel(object):
                                 Charaktermenu.stats_showing()
 
 
-NeuesSpiel = Spiel(MODE, Charakter)
+NewGame = Spiel(MODE, Charakter)
 while True:
-    MODE = NeuesSpiel.spielen(MODE)
+    MODE = NewGame.play(MODE)
