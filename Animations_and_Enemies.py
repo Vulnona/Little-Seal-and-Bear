@@ -403,17 +403,6 @@ class cls_Enemy(object):
         ][self.Position[0]]
         currentEnvironment = Tilemap.getEnvironment()[self.Position[1]
         ][self.Position[0]]
-        #evaluate 'flee'
-        if "flee" in self.Behaviour:
-            pass
-
-        #evaluate 'eat'
-        if "grassfood" in self.Behaviour:
-            if currentTile == World_Map.GRASSLAND or currentEnvironment == World_Map.LOWGRASS or currentEnvironment == World_Map.MOREGRASS:
-                return "eat"
-        if "vegetables" in self.Behaviour:
-            if currentEnvironment==World_Map.FRUIT1 or currentEnvironment==World_Map.FRUIT2:
-                return "eat"
 
         #Liste aller umliegenden Tiles# Liste aller benachbarten Tiles, keine 'negativen' Tilewerte (out of range der Map)
         Liste = []
@@ -433,6 +422,8 @@ class cls_Enemy(object):
         # Possible Tiles berücksichtigt die Environment
         PossibleTiles = Surrounding[:]
         PreferedTiles = []
+        markedTile =[]
+
         for tile in Surrounding:
             tile_env = Tilemap.getEnvironment()[tile[1]][tile[0]]
             for env in World_Map.collide:
@@ -447,6 +438,12 @@ class cls_Enemy(object):
                         return "attack"
                     else:
                         PossibleTiles.remove(tile)
+                elif "flee" in self.Behaviour:
+                    if Charakter.get_stealth_mode()==False:
+                        markedTile = tile
+                    PossibleTiles.remove(tile)
+                else:
+                    PossibleTiles.remove(tile)
             if tile_env == World_Map.LOWGRASS or tile_env == World_Map.MOREGRASS:
                 if "grassfood" in self.Behaviour:
                     if tile in PossibleTiles:
@@ -455,6 +452,88 @@ class cls_Enemy(object):
                 if "vegetables" in self.Behaviour:
                     if tile in PossibleTiles:
                         PreferedTiles.append(tile)
+
+        if markedTile != []: #enemy recognized player and will try to flee
+
+            PreferedTiles.clear()
+
+            x_Coord=markedTile[0]
+            y_Coord=markedTile[1]
+
+            checkTile = [x_Coord + 2, y_Coord + 2]
+            if checkTile in PossibleTiles:
+                PreferedTiles.append(checkTile)
+            checkTile = [x_Coord - 2, y_Coord - 2]
+            if checkTile in PossibleTiles:
+                PreferedTiles.append(checkTile)
+
+            if not PreferedTiles:
+                checkTile = [x_Coord, y_Coord + 2]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+                checkTile = [x_Coord, y_Coord - 2]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+                checkTile = [x_Coord + 2, y_Coord]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+                checkTile = [x_Coord - 2, y_Coord]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+
+            if not PreferedTiles:
+                checkTile = [x_Coord + 1, y_Coord + 2]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+                checkTile = [x_Coord - 1, y_Coord - 2]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+                checkTile = [x_Coord + 2, y_Coord + 1]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+                checkTile = [x_Coord - 2, y_Coord - 1]
+                if checkTile in PossibleTiles:
+                    PreferedTiles.append(checkTile)
+        else:
+            # evaluate 'eat'
+            if "grassfood" in self.Behaviour:
+                if currentTile == World_Map.GRASSLAND or currentEnvironment == World_Map.LOWGRASS or currentEnvironment == World_Map.MOREGRASS:
+                    return "eat"
+            if "vegetables" in self.Behaviour:
+                if currentEnvironment == World_Map.FRUIT1 or currentEnvironment == World_Map.FRUIT2:
+                    return "eat"
+            # evaluate route
+            if "aggressive" in self.Behaviour:
+
+                if Player_Position[0] > self.Position[0]:
+                    x_Coord = self.Position[0] + 1
+                elif Player_Position[0] < self.Position[0]:
+                    x_Coord = self.Position[0] - 1
+                else:
+                    x_Coord = self.Position[0]
+                if Player_Position[1] > self.Position[1]:
+                    y_Coord = self.Position[1] + 1
+                elif Player_Position[1] < self.Position[1]:
+                    y_Coord = self.Position[1] - 1
+                else:
+                    y_Coord = self.Position[1]
+
+                CheckTile = [x_Coord, y_Coord]
+                if CheckTile in PossibleTiles:
+                    PreferedTiles.append(CheckTile)
+                else:
+                    CheckTile = [x_Coord-1, y_Coord]
+                    if CheckTile in PossibleTiles:
+                        PreferedTiles.append(CheckTile)
+                    CheckTile = [x_Coord, y_Coord -1]
+                    if CheckTile in PossibleTiles:
+                        PreferedTiles.append(CheckTile)
+                    CheckTile = [x_Coord + 1, y_Coord]
+                    if CheckTile in PossibleTiles:
+                        PreferedTiles.append(CheckTile)
+                    CheckTile = [x_Coord, y_Coord + 1]
+                    if CheckTile in PossibleTiles:
+                        PreferedTiles.append(CheckTile)
 
         if not PreferedTiles:
             if not PossibleTiles:
@@ -631,6 +710,9 @@ class cls_Enemy(object):
 
     def init_Behaviour(self):
         if isinstance(self.Type, clsBug):
+            #for testing purposes
+            self.add_Behaviour("flee")
+            #####
             self.add_Behaviour("grassfood")
         if isinstance(self.Type, clsBird):
             self.add_Behaviour("hostile")
