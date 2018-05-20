@@ -1,8 +1,8 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# TODO: using magic -> correct blitting
+# TODO: enemies correct walking
+# BUG: enemy can walk on player position
 # TODO: magic -> animation, recoloration!
-# TODO: rework player icon, maybe in character.__init__, updating it there
 # BUG: entable cave: can enter from left side, cant switch if inside to left
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
