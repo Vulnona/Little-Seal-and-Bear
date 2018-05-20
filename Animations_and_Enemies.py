@@ -449,10 +449,12 @@ class cls_Enemy(object):
                         PossibleTiles.remove(tile)
             if tile_env == World_Map.LOWGRASS or tile_env == World_Map.MOREGRASS:
                 if "grassfood" in self.Behaviour:
-                    PreferedTiles.append(tile)
+                    if tile in PossibleTiles:
+                        PreferedTiles.append(tile)
             elif tile_env == World_Map.FRUIT1 or tile_env == World_Map.FRUIT2:
                 if "vegetables" in self.Behaviour:
-                    PreferedTiles.append(tile)
+                    if tile in PossibleTiles:
+                        PreferedTiles.append(tile)
 
         if not PreferedTiles:
             if not PossibleTiles:

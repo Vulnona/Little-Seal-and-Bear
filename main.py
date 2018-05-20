@@ -292,8 +292,6 @@ class Spiel(object):
                                             cont = False
                                             break
                                     if cont:
-                                        for enemy in self.Enemies.get_Enemies_Liste():
-                                            enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position, self.Charakter)
                                         if self.Charakter.get_status_temp('health')>0:
                                             images = Player_Icon.get_walk_Images('right')
                                             WalkAnim = pyganim.PygAnimation(
@@ -328,6 +326,9 @@ class Spiel(object):
                                                     self.Charakter.change_status_temp(
                                                         'endu', '+')
                                             Player_Icon.draw(direction, self.player_Icon_Position)
+                                            for enemy in self.Enemies.get_Enemies_Liste():
+                                                enemy.Agieren(self.window, self.NewTilemap, direction,
+                                                              self.player_Icon_Position, self.Charakter)
                         elif (event.key == K_LEFT and self.player_Icon_Position[0] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -375,9 +376,6 @@ class Spiel(object):
                                                 cont = False
                                                 break
                                         if cont:
-                                            for enemy in self.Enemies.get_Enemies_Liste():
-                                                enemy.Agieren(self.window, self.NewTilemap, direction,
-                                                              self.player_Icon_Position, self.Charakter)
                                             if self.Charakter.get_status_temp('health') > 0:
                                                 images = Player_Icon.get_walk_Images('left')
                                                 WalkAnim = pyganim.PygAnimation(
@@ -414,6 +412,10 @@ class Spiel(object):
                                                         self.Charakter.change_status_temp(
                                                             'endu', '+')
                                                 Player_Icon.draw(direction, self.player_Icon_Position)
+                                                for enemy in self.Enemies.get_Enemies_Liste():
+                                                    enemy.Agieren(self.window, self.NewTilemap, direction,
+                                                                  self.player_Icon_Position, self.Charakter)
+
                         elif (event.key == K_DOWN and self.player_Icon_Position[1] < World_Map.MAPHEIGHT - 1):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -445,9 +447,6 @@ class Spiel(object):
                                     cont = False
                                     break
                             if cont:
-                                for enemy in self.Enemies.get_Enemies_Liste():
-                                    enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
-                                                  self.Charakter)
                                 if self.Charakter.get_status_temp('health') > 0:
                                     images = Player_Icon.get_walk_Images('down')
                                     WalkAnim = pyganim.PygAnimation(
@@ -484,6 +483,9 @@ class Spiel(object):
                                             self.Charakter.change_status_temp(
                                                 'endu', '+')
                                     Player_Icon.draw(direction, self.player_Icon_Position)
+                                    for enemy in self.Enemies.get_Enemies_Liste():
+                                        enemy.Agieren(self.window, self.NewTilemap, direction,
+                                                      self.player_Icon_Position, self.Charakter)
                         elif (event.key == K_UP and self.player_Icon_Position[1] > 0):
                             cont = True
                             if self.Charakter.get_status_temp('magic') <= 0:
@@ -527,9 +529,6 @@ class Spiel(object):
                                         else:
                                             cont = False
                                 if cont:
-                                    for enemy in self.Enemies.get_Enemies_Liste():
-                                        enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
-                                                      self.Charakter)
                                     if self.Charakter.get_status_temp('health') > 0:
                                         images = Player_Icon.get_walk_Images('up')
                                         WalkAnim = pyganim.PygAnimation(
@@ -566,6 +565,9 @@ class Spiel(object):
                                                 self.Charakter.change_status_temp(
                                                     'endu', '+')
                                         Player_Icon.draw(direction, self.player_Icon_Position)
+                                        for enemy in self.Enemies.get_Enemies_Liste():
+                                            enemy.Agieren(self.window, self.NewTilemap, direction,
+                                                          self.player_Icon_Position, self.Charakter)
                         elif (event.key == K_SPACE):
                             currentTile = self.NewTilemap.getTilemap()[self.player_Icon_Position[1]
                                                                   ][self.player_Icon_Position[0]]
@@ -592,9 +594,6 @@ class Spiel(object):
                                     ][self.player_Icon_Position[0]] = World_Map.GRASSLAND
                                     self.Charakter.change_status_temp(
                                         'magic', '-')
-                                    for enemy in self.Enemies.get_Enemies_Liste():
-                                        enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
-                                                      self.Charakter)
                                 # DIRT mit totem Gras: totes Gras wird niedriges Gras
                                 elif currentEnvironment == World_Map.DEADGRASS:
                                     self.NewTilemap.getEnvironment()[self.player_Icon_Position[1]
@@ -614,11 +613,11 @@ class Spiel(object):
                                         'endu', '-')
                                 MagicAnimator.magic_Anim('plant', self.NewTilemap)
                                 Charaktermenu.stats_showing()
-                                break
-                            elif currentTile == World_Map.GRASSLAND:
                                 for enemy in self.Enemies.get_Enemies_Liste():
                                     enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
                                                   self.Charakter)
+                                break
+                            elif currentTile == World_Map.GRASSLAND:
                                 if hasenv:
                                     # Fähigkeit Grasschlitzer: Chance auf doppelte Ressourcen
                                     if self.Charakter.has_Skill(character.skills.GrasMovementCharacterSkill):
@@ -649,6 +648,9 @@ class Spiel(object):
                                 self.Charakter.change_status_temp('endu', '-')
                                 Player_Icon.draw(direction, self.player_Icon_Position)
                                 Charaktermenu.stats_showing()
+                                for enemy in self.Enemies.get_Enemies_Liste():
+                                    enemy.Agieren(self.window, self.NewTilemap, direction, self.player_Icon_Position,
+                                                  self.Charakter)
                         elif (event.key == K_m):
                             Skills = []
                             # non-fighting skills

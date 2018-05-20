@@ -1,8 +1,8 @@
 ## Charakter Bogen
 
-  - Name: Oofreaup
-  - Tierart: Bär
-  - Farbe: Braun
+  - Name: Oukreaufrio
+  - Tierart: Robbe
+  - Farbe: Weiss
 
 ## Statuswerte
 
