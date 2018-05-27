@@ -1,6 +1,6 @@
 # Robbie likes: https://medium.com/@yvanscher/making-a-game-ai-with-deep-learning-963bb549b3d5
 # Very nice: http://game-icons.net/
-# TODO: enemies correct walking
+# TODO: enemies correct walking, tried to implement -> now teisting
 # TODO: magic -> animation, recoloration!
 # IDEA: Winterschlafvorbereitung treffen
 # @ANDRE: Seal images (animalstages) without logo, spritesheets transparent
@@ -863,7 +863,23 @@ class Spiel(object):
                             wait_for_click = True
                             clicked = False
                             while wait_for_click:
+                            # updated display: tiles, player, enemies
+                                for row in range(World_Map.MAPHEIGHT):
+                                    for column in range(World_Map.MAPWIDTH):
+                                        self.window.blit(
+                                            World_Map.textures[self.BackgroundTilemap.getTilemap()[row][column]],
+                                            (column * World_Map.TILESIZE, row * World_Map.TILESIZE))
+                                        self.window.blit(World_Map.textures[self.NewTilemap.getTilemap()[row][column]],
+                                                         (column * World_Map.TILESIZE, row * World_Map.TILESIZE))
+                                        self.window.blit(
+                                            World_Map.environment[self.NewTilemap.getEnvironment()[row][column]],
+                                            (column * World_Map.TILESIZE, row * World_Map.TILESIZE))
+                                Player_Icon.draw(direction, self.player_Icon_Position)
+                                for enemy in range(0, self.Enemies.get_Enemies_Anzahl()):
+                                    an_enemy = self.Enemies.get_Enemy(enemy)
+                                    an_enemy.show_Icon(self.window)
                                 pygame.display.update()
+
                                 for event in pygame.event.get():
                                     if event.type == QUIT:
                                         pygame.quit()
